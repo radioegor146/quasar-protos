@@ -1,0 +1,231 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "HeatingVentilationAirConditioningCapabilitiesProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/hvac;hvacpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message THeatingVentilationAirConditioningCapability {
+  message TParameters {
+    reserved "SeatHeating";
+    reserved 1;
+    message TPropertyConfigParameters {
+      .NAlice.THeatingVentilationAirConditioningCapability.EPropertyId PropertyId = 1;
+      repeated .NAlice.THeatingVentilationAirConditioningCapability.TVehicleArea SupportedAreas = 2;
+      .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyValueBounds PropertyValueBounds = 3;
+    }
+
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TParameters.TPropertyConfigParameters PropertyConfigParameters = 2;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TInfoProperty InfoProperties = 3;
+  }
+
+  message TState {
+    reserved "SeatHeating";
+    reserved 1;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyState VehiclePropertyStates = 2;
+  }
+
+  message TInfoPropertyValue {
+    oneof ValueType {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaSeat Seat = 1;
+    }
+  }
+
+  message TInfoProperty {
+    .NAlice.THeatingVentilationAirConditioningCapability.EInfoPropertyId InfoPropertyId = 1;
+    .NAlice.THeatingVentilationAirConditioningCapability.TInfoPropertyValue InfoPropertyValue = 2;
+  }
+
+  message TVehicleArea {
+    oneof VehicleArea {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaSeat Seat = 1;
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaWindow Window = 2;
+    }
+  }
+
+  message TVehiclePropertyValueBounds {
+    message IntValueBounds {
+      int32 Min = 1;
+      int32 Max = 2;
+    }
+
+    oneof ValueType {
+      .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyValueBounds.IntValueBounds IntValue = 1;
+    }
+  }
+
+  message TVehiclePropertyValue {
+    message TIntValue {
+      int32 Value = 1;
+    }
+
+    message TBoolValue {
+      bool Value = 1;
+    }
+
+    oneof ValueType {
+      .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyValue.TIntValue IntValue = 1;
+      .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyValue.TBoolValue BoolValue = 2;
+    }
+  }
+
+  message TVehiclePropertyState {
+    message TStateByArea {
+      .NAlice.THeatingVentilationAirConditioningCapability.TVehicleArea Area = 1;
+      .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyValue Value = 2;
+    }
+
+    .NAlice.THeatingVentilationAirConditioningCapability.EPropertyId PropertyId = 1;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyState.TStateByArea StateByAreas = 2;
+    .NAlice.THeatingVentilationAirConditioningCapability.TVehiclePropertyValue GlobalStateValue = 3;
+  }
+
+  message TSetHvacSeatTemperatureDirective {
+    message TSeatTemperatureState {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaSeat Seat = 1;
+      int32 TemperatureValue = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TSetHvacSeatTemperatureDirective.TSeatTemperatureState SeatTemperatureState = 1;
+  }
+
+  message TSetHvacRecirculationStateDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message THvacTemperatureSetDirective {
+    message TTemperatureState {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaSeat Seat = 1;
+      int32 TemperatureValue = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.THvacTemperatureSetDirective.TTemperatureState TemperatureState = 1;
+  }
+
+  message TSetConditioningSystemStateDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message TSetCoolingSystemStateDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message TSetAutoConditioningSystemStateDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message TSetHvacDefrosterStateDirective {
+    message TDefrosterState {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaWindow Window = 1;
+      bool Enabled = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TSetHvacDefrosterStateDirective.TDefrosterState DefrosterState = 1;
+  }
+
+  message TSetSteeringWheelHeatingStateDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message TSetFanDirectionDirective {
+    message TFanDirection {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaSeat Seat = 1;
+      .NAlice.THeatingVentilationAirConditioningCapability.ECarHvacFanDirection FanDirection = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TSetFanDirectionDirective.TFanDirection FanDirections = 1;
+  }
+
+  message TSetHvacFanSpeedDirective {
+    message TFanSpeedState {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaSeat Seat = 1;
+      int32 FanSpeedValue = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TSetHvacFanSpeedDirective.TFanSpeedState FanSpeed = 1;
+  }
+
+  message TSetHvacSeatVentilationDirective {
+    message TSeatVentilationState {
+      .NAlice.THeatingVentilationAirConditioningCapability.EVehicleAreaSeat Seat = 1;
+      bool Enabled = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.THeatingVentilationAirConditioningCapability.TSetHvacSeatVentilationDirective.TSeatVentilationState SeatVentilations = 1;
+  }
+
+  enum EInfoPropertyId {
+    INFO_PROPERTY_UNKNOWN = 0;
+    INFO_DRIVER_SEAT = 1;
+  }
+
+  enum EPropertyId {
+    PROPERTY_UNKNOWN = 0;
+    HVAC_SEAT_TEMPERATURE = 1;
+    HVAC_RECIRC_ON = 2;
+    HVAC_TEMPERATURE_SET = 3;
+    HVAC_DEFROSTER = 4;
+    HVAC_FAN_DIRECTION = 5;
+    HVAC_FAN_SPEED = 6;
+    HVAC_SEAT_VENTILATION = 7;
+    HVAC_TEMPERATURE_CURRENT = 8;
+  }
+
+  enum EVehicleAreaSeat {
+    SEAT_UNKNOWN = 0;
+    SEAT_ROW_1_LEFT = 1;
+    SEAT_ROW_1_CENTER = 2;
+    SEAT_ROW_1_RIGHT = 3;
+    SEAT_ROW_2_LEFT = 4;
+    SEAT_ROW_2_CENTER = 5;
+    SEAT_ROW_2_RIGHT = 6;
+    SEAT_ROW_3_LEFT = 7;
+    SEAT_ROW_3_CENTER = 8;
+    SEAT_ROW_3_RIGHT = 9;
+  }
+
+  enum EVehicleAreaWindow {
+    WINDOW_UNKNOWN = 0;
+    WINDOW_FRONT_WINDSHIELD = 1;
+    WINDOW_REAR_WINDSHIELD = 2;
+    WINDOW_ROW_1_LEFT = 3;
+    WINDOW_ROW_1_RIGHT = 4;
+    WINDOW_ROW_2_LEFT = 5;
+    WINDOW_ROW_2_RIGHT = 6;
+    WINDOW_ROW_3_LEFT = 7;
+    WINDOW_ROW_3_RIGHT = 8;
+    WINDOW_ROOF_TOP_1 = 9;
+    WINDOW_ROOF_TOP_2 = 10;
+  }
+
+  enum ECarHvacFanDirection {
+    FAN_DIRECTION_UNKNOWN = 0;
+    FAN_DIRECTION_FACE = 1;
+    FAN_DIRECTION_FLOOR = 2;
+    FAN_DIRECTION_FACE_AND_FLOOR = 3;
+    FAN_DIRECTION_DEFROST = 4;
+    FAN_DIRECTION_FACE_AND_DEFROST = 5;
+    FAN_DIRECTION_DEFROST_AND_FLOOR = 6;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.THeatingVentilationAirConditioningCapability.TParameters Parameters = 2;
+  .NAlice.THeatingVentilationAirConditioningCapability.TState State = 3;
+}
+

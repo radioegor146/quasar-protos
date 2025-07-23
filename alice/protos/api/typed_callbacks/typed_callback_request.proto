@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks";
+option java_outer_classname = "TypedCallbackRequestProto";
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks";
+
+import "alice/protos/api/request_parts/atm.proto";
+import "alice/protos/api/request_parts/origin.proto";
+import "alice/protos/api/request_parts/request_params.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+
+message TTypedCallbackRequest {
+  reserved "TypedCallbackStructSerialized";
+  reserved 5;
+  message TStructSerialization {
+    string TypedCallbackName = 1;
+    .google.protobuf.Struct Payload = 2;
+  }
+
+  .NAlice.TAnalyticsTrackingModule Analytics = 2;
+  .NAlice.TOrigin Origin = 3;
+  .NAlice.TRequestParams RequestParams = 4;
+  oneof CallbackPayload {
+    bytes TypedCallbackSerialized = 1;
+    .NAlice.TTypedCallbackRequest.TStructSerialization TypedCallbackStruct = 6;
+  }
+}
+

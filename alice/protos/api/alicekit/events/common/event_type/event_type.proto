@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.common.event_type";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/common/event_type";
+
+enum EEventType {
+  TextInput = 0;
+  VoiceInput = 1;
+  MusicInput = 2;
+  AliceResponse = 3;
+  SynchronizeStateRequest = 4;
+  StreamControl = 5;
+  DeferredAliceResponse = 6;
+  GoAway = 7;
+  LogSpotter = 8;
+  Push = 9;
+  MatchVoicePrint = 10;
+  UpdateVoicePrints = 11;
+  MatchedUser = 12;
+  EventException = 13;
+  Ack = 14;
+  SyncPush = 15;
+  SyncPushResponse = 16;
+  InputStartAck = 17;
+  LogAck = 18;
+  Ping = 19;
+  AsrResult = 20;
+  TtsSpeak = 21;
+  ContinueRequest = 22;
+  ServerRequestReady = 23;
+  CancelRequest = 24;
+  SpotterValidation = 25;
+  AsrRecognize = 26;
+  InvalidAuth = 27;
+  TtsTimings = 28;
+  TtsGenerate = 29;
+  AsrMusicResult = 30;
+  DataProxyConnectRequest = 31;
+  DataProxyConnectResponse = 32;
+  DataProxyInput = 33;
+  DataProxyOutput = 34;
+  DataProxyRequest = 35;
+  FileUploadRequest = 36;
+  FileUploadResponse = 37;
+  SynchronizeStateResponse = 38;
+  CapabilityUpdateState = 39;
+  SpeechInput = 40;
+  SpeechControl = 41;
+  TtsUpdateState = 42;
+  IotCloudTechnicalPushResponse = 43;
+  IotCloudEventsBatchResponse = 44;
+  RecordInput = 45;
+}
+

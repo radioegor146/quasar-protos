@@ -1,0 +1,616 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "RemotingProto";
+
+import "yandex_io/protos/alice_state.proto";
+import "yandex_io/protos/alice_event/alice_event.proto";
+import "yandex_io/protos/fast_command.proto";
+import "yandex_io/protos/model_objects.proto";
+import "yandex_io/protos/capabilities/device_state_capability.proto";
+import "yandex_io/sdk/private/endpoint_storage/protos/endpoint.proto";
+import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
+import "alice/library/restriction_level/protos/content_settings.proto";
+import "alice/protos/api/alicekit/common/device_state/device_state.proto";
+import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
+import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
+import "alice/protos/api/alicekit/events/alice_response/alice_response.proto";
+import "alice/protos/data/dialog_type/dialog_type.proto";
+import "alice/protos/api/biometry/options.proto";
+import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
+import "alice/protos/endpoint/capabilities/alice/capability.proto";
+import "alice/protos/endpoint/capabilities/audio_file_player/capability.proto";
+import "alice/protos/endpoint/capabilities/all/all.proto";
+import "alice/protos/endpoint/events/events.proto";
+import "alice/protos/endpoint/endpoint.proto";
+import "alice/protos/data/event_source/event_source.proto";
+import "alice/protos/data/external_entity_description.proto";
+import "alice/protos/data/scenario/reminders/device_state.proto";
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "alice/megamind/protos/guest/enrollment_headers/enrollment_headers.proto";
+import "google/protobuf/struct.proto";
+
+message SoundFormat {
+  enum Type {
+    UNKNOWN = 0;
+    PCM = 1;
+    OPUS = 2;
+    RAW = 3;
+    HEADERLESS_OPUS_STREAM = 4;
+  }
+
+}
+
+message SoundQuality {
+  enum Quality {
+    UNKNOWN = 0;
+    LOW = 1;
+    HIGH = 2;
+    ULTRAHIGH = 3;
+  }
+
+}
+
+message VocalizerSettings {
+  optional string language = 1;
+  optional string voice = 2;
+  optional string emotion = 3;
+  optional double speed = 4;
+  optional .quasar.proto.SoundFormat.Type sound_type = 5;
+  optional .quasar.proto.SoundQuality.Quality quality = 6;
+  optional bool decode_sound = 7;
+  optional bool auto_play = 8;
+  optional int64 request_timeout_ms = 9;
+  optional int64 chunk_timeout_ms = 10;
+  optional string uniproxy_url = 11;
+  optional string effect = 12;
+}
+
+message RecognizerSettings {
+  optional string language = 1;
+  optional string model = 2;
+  optional bool vad_enabled = 3;
+  optional bool enable_punctuation = 4;
+}
+
+message VoiceServiceSettings {
+  optional .quasar.proto.VocalizerSettings vocalizer_settings = 1;
+  optional .quasar.proto.RecognizerSettings recognizer_settings = 2;
+}
+
+message Remoting {
+  reserved 4;
+  reserved 11;
+  reserved 26;
+  reserved 27;
+  message DirectiveHandlerMethod {
+    enum Method {
+      HANDLE = 0;
+      CANCEL = 1;
+      PREFETCH = 2;
+    }
+
+    optional .quasar.proto.Remoting.DirectiveHandlerMethod.Method method = 1;
+    optional .quasar.proto.Directive directive = 2;
+    optional string handler_name = 3;
+    optional string endpoint_id = 4;
+  }
+
+  message CapabilityStateChangedMethod {
+    optional .quasar.proto.Capability capability = 2;
+  }
+
+  message CapabilityAddListenerMethod {
+    optional string capability_id = 1;
+  }
+
+  message CapabilityEventsMethod {
+    repeated .NAlice.TCapabilityEvent events = 1;
+  }
+
+  message EndpointStorageMethod {
+    enum Method {
+      ADD_ENDPOINT = 0;
+      REMOVE_ENDPOINT = 1;
+      SYNC_ENDPOINTS = 2;
+    }
+
+    optional string storage_name = 4;
+    optional string id = 1;
+    optional .quasar.proto.Remoting.EndpointStorageMethod.Method method = 2;
+    repeated .quasar.proto.Endpoint endpoints = 3;
+  }
+
+  message EndpointMethod {
+    enum Method {
+      ADD_CAPABILITY = 0;
+      REMOVE_CAPABILITY = 1;
+      SYNC_STATE = 2;
+    }
+
+    optional .quasar.proto.Remoting.EndpointMethod.Method method = 2;
+    optional .quasar.proto.Capability capability = 3;
+    optional .NAlice.TEndpoint state = 4;
+    optional string id = 5;
+    optional string storage_name = 6;
+  }
+
+  message AliceCapabilityMethod {
+    enum Method {
+      START_REQUEST = 0;
+      CANCEL_DIALOG = 1;
+      START_CONVERSATION = 2;
+      STOP_CONVERSATION = 3;
+      TOGGLE_CONVERSATION = 4;
+      FINISH_CONVERSATION_VOICE_INPUT = 5;
+      CANCEL_DIALOG_AND_CLEAR_QUEUE = 6;
+      BLOCK = 7;
+      UNBLOCK = 8;
+      SET_UUID = 9;
+      CONNECT = 10;
+      DISCONNECT = 11;
+      SET_MEGAMIND_COOKIES = 12;
+      CLEAR_REQUEST_SEQUENCE = 13;
+      STOP_TTS = 14;
+      RESET_PREV_REQ_ID = 15;
+      SET_UNI_PROXY_URL = 16;
+      SET_ICOOKIE = 17;
+      START_VOCALIZE = 18;
+      START_RECOGNIZE = 19;
+      SET_DIALOG_ID = 20;
+      SET_DIALOG_TYPE = 21;
+      SET_ALICE_2_SETTINGS = 22;
+      START_DATA_INPUT = 23;
+      SET_VINS_URL = 24;
+      SET_FOLDER_ID = 25;
+      START_SPEECH_INPUT = 26;
+    }
+
+    optional .quasar.proto.Remoting.AliceCapabilityMethod.Method method = 1;
+    optional .quasar.proto.VinsRequest vins_request = 2;
+    optional bool events = 3;
+    optional string source_id = 4;
+    optional .NAlice.TAudioFilePlayerCapability.EStoredSound error_sound = 5;
+    optional .quasar.proto.VoiceServiceSettings voice_service_settings = 6;
+    optional bool silent = 7;
+    optional string uuid = 8;
+    optional string cookies = 9;
+    optional string request_id = 10;
+    optional string uni_proxy_url = 11;
+    optional string icookie = 12;
+    optional .NAlice.TAliceCapability.TVocalizeDirective vocalize_directive = 13;
+    optional string dialog_id = 14;
+    optional .NAlice.NData.EDialogType dialog_type = 15;
+    optional .NAlice.NApi.NAlice2Mode.TAlice2ModeInfo alice_2_settings = 16;
+    optional .NAlice.TAliceCapability.TStartDataInputDirective start_data_input_directive = 17;
+    optional string vins_url = 18;
+    optional string folder_id = 19;
+  }
+
+  message AliceCapabilityListenerMethod {
+    reserved 7;
+    enum Method {
+      STATE_CHANGED = 0;
+      TTS_COMPLETED = 1;
+      ON_ALICE_REQUEST = 2;
+      ON_ALICE_RESPONSE = 3;
+      ON_ALICE_ERROR = 4;
+      ALL_STARTUP_SETTINGS_CHANGED = 5;
+      TTS_STARTED = 6;
+      RECOGNITION_COMPLETED = 7;
+      ON_ALICE_EVENT = 8;
+    }
+
+    optional .quasar.proto.Remoting.AliceCapabilityListenerMethod.Method method = 1;
+    optional .quasar.proto.AliceState state = 2;
+    optional .quasar.proto.VinsRequest alice_request = 3;
+    optional .quasar.proto.Directive alice_response = 4;
+    optional .quasar.proto.AliceState.Error error_code = 5;
+    optional string error_text = 6;
+    optional .quasar.proto.AllStartupSettings all_startup_settings = 8;
+    repeated string blocker_ids = 9;
+    optional int64 speech_duration_ms = 10;
+    optional string request_id = 11;
+    optional .quasar.proto.TAliceEvent alice_event = 12;
+  }
+
+  message AliceRequestEventsMethod {
+    enum Method {
+      ALICE_REQUEST_COMPLETED = 0;
+      ALICE_REQUEST_ERROR = 1;
+      ALICE_REQUEST_STARTED = 2;
+    }
+
+    optional .quasar.proto.Remoting.AliceRequestEventsMethod.Method method = 1;
+    optional string request_id = 2;
+    optional .quasar.proto.AliceState.Error error_code = 4;
+    optional string error_text = 5;
+    oneof vins_response {
+      string vins_response_json = 3;
+      .NAlice.NAliceApi.TAliceResponseProto vins_response_proto = 6;
+    }
+  }
+
+  message FastCommandRequesterMethod {
+    enum Method {
+      SEND_REQUEST = 0;
+    }
+
+    optional .quasar.proto.Remoting.FastCommandRequesterMethod.Method method = 1;
+    optional .NAlice.TEventSource event_source = 4;
+    oneof command {
+      string string_command = 2;
+      .quasar.proto.FastCommand fast_command = 3;
+    }
+  }
+
+  message FastCommandRequesterListenerMethod {
+    enum Method {
+      ON_REQUEST_STARTED = 0;
+      ON_REQUEST_BLOCKED = 1;
+    }
+
+    optional .quasar.proto.Remoting.FastCommandRequesterListenerMethod.Method method = 1;
+    optional string states = 4;
+    optional string request_id = 5;
+    optional bool passed = 6;
+    optional string disabled_reason = 7;
+    oneof command {
+      string string_command = 2;
+      .quasar.proto.FastCommand fast_command = 3;
+    }
+  }
+
+  message FilePlayerCapabilityMethod {
+    message FilePlayerPlayParams {
+      optional bool play_looped = 1;
+      optional uint32 play_times = 2;
+      optional string request_id = 4;
+      optional string parent_request_id = 3;
+    }
+
+    enum Method {
+      PLAY_SOUND_FILE = 0;
+      STOP_SOUND_FILE = 1;
+      HANDSHAKE_REQUEST = 2;
+    }
+
+    optional .quasar.proto.Remoting.FilePlayerCapabilityMethod.Method method = 1;
+    optional .quasar.proto.AudioChannel channel = 3;
+    optional .quasar.proto.Remoting.FilePlayerCapabilityMethod.FilePlayerPlayParams play_params = 4;
+    optional bool send_events = 5;
+    oneof sound {
+      string file_path = 2;
+      string file_name = 7;
+      .NAlice.TAudioFilePlayerCapability.EStoredSound stored_sound = 6;
+    }
+  }
+
+  message FilePlayerCapabilityEventsMethod {
+    optional .quasar.proto.DirectiveEvent directive_event = 1;
+    optional .quasar.proto.EmptyMessage handshake_response = 2;
+  }
+
+  message PlaybackControlCapabilityMethod {
+    enum Method {
+      PLAY = 0;
+      PAUSE = 1;
+      TOGGLE_PLAY_PAUSE = 2;
+      REWIND = 3;
+      LIKE = 4;
+      DISLIKE = 5;
+      NEXT = 6;
+      PREV = 7;
+      UNLIKE = 8;
+      UNDISLIKE = 9;
+      REPEAT_ONE = 10;
+      REPEAT_ALL = 11;
+      UNREPEAT = 12;
+      SHUFFLE = 13;
+      UNSHUFFLE = 14;
+      ENABLE_KARAOKE_MODE = 15;
+      DISABLE_KARAOKE_MODE = 16;
+    }
+
+    optional .quasar.proto.Remoting.PlaybackControlCapabilityMethod.Method method = 1;
+    optional bool can_request_music = 2;
+    optional uint32 rewind_amount_ms = 3;
+    optional .quasar.proto.MediaRequest.RewindType rewind_type = 4;
+    optional .NAlice.TEventSource event_source = 5;
+    optional string track_id = 6;
+    optional bool disable_animation = 7;
+  }
+
+  message SpotterCapabilityMethod {
+    message ModelPath {
+      optional string type = 1;
+      optional string path = 2;
+    }
+
+    enum Method {
+      SET_MODEL_PATHS = 0;
+      SET_SPOTTER_WORD = 1;
+      START = 2;
+      STOP = 3;
+      ENABLE = 4;
+      DISABLE = 5;
+    }
+
+    optional .quasar.proto.Remoting.SpotterCapabilityMethod.Method method = 1;
+    repeated .quasar.proto.Remoting.SpotterCapabilityMethod.ModelPath model_path = 2;
+    optional string spotter_word = 3;
+  }
+
+  message SpotterCapabilityListenerMethod {
+    enum Method {
+      ON_MODEL_ERROR = 0;
+      ON_MODEL_SET = 1;
+      ON_PHRASE_SPOTTED = 2;
+    }
+
+    optional .quasar.proto.Remoting.SpotterCapabilityListenerMethod.Method method = 1;
+    repeated string spotter_type = 2;
+    optional string spotted_phrase = 3;
+  }
+
+  message DeviceStateCapabilityMethod {
+    reserved 29;
+    reserved 2;
+    reserved 18;
+    reserved 19;
+    reserved 20;
+    reserved 30;
+    message SupportedFeatures {
+      repeated string values = 1;
+    }
+
+    message UnsupportedFeatures {
+      repeated string values = 1;
+    }
+
+    message VolumeState {
+      optional bool sound_muted = 1;
+      optional int32 sound_level = 2;
+      optional int32 sound_max_level = 3;
+    }
+
+    message DeviceConfigContentSettings {
+      optional .NAlice.EContentSettings value = 1;
+    }
+
+    message Permissions {
+      repeated .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions.TPermission values = 1;
+    }
+
+    message ExternalEntityDescriptions {
+      repeated .NAlice.NData.TExternalEntityDescription values = 1;
+    }
+
+    message ActiveActionsWithEntities {
+      optional .NAlice.NAliceApi.TDeviceState.TActiveActions actions = 1;
+      repeated .NAlice.NData.TExternalEntityDescription entities = 2;
+    }
+
+    message InternetConnectionState {
+      optional .NAlice.NAliceApi.TDeviceState.TInternetConnection internet_connection = 1;
+      optional .NAlice.TDeviceStateCapability.TState.TInternetConnectionStatus status = 2;
+    }
+
+    oneof value {
+      .NAlice.NAliceApi.TDeviceState.TBluetooth bluetooth_state = 1;
+      .NAlice.NAliceApi.TDeviceState.TMusic music_state = 3;
+      .google.protobuf.Struct radio_state = 4;
+      .NAlice.NAliceApi.TDeviceState.TLastWatched last_watched = 5;
+      string add_supported_feature = 6;
+      string remove_supported_feature = 46;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.SupportedFeatures supported_features = 7;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.UnsupportedFeatures unsupported_features = 8;
+      .NAlice.NAliceApi.TDeviceState.TVideo video_state = 9;
+      .NAlice.NAliceApi.TDeviceState.TRcuState rcu_state = 10;
+      .NAlice.NAliceApi.TDeviceState.TScreen screen_state = 11;
+      .NAlice.NAliceApi.TDeviceState.TMultiroom multiroom_state = 12;
+      .NAlice.NAliceApi.TDeviceState.TPackagesState packages_state = 13;
+      .NAlice.TExperimentsProto experiments = 14;
+      .NAlice.TEnrollmentHeaders enrollment_headers = 15;
+      .NAlice.NAliceApi.TEnvironmentDeviceInfo environment_device_info = 16;
+      bool is_tv_plugged_in = 17;
+      bool mics_muted = 21;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.VolumeState volume_state = 22;
+      .NAlice.NAliceApi.TDeviceState.TBattery battery = 23;
+      .NAlice.NAliceApi.TDeviceState.TClockDisplayState clock_display_state = 24;
+      .NAlice.NAliceApi.TDeviceState.TMessengerCall messenger_call = 25;
+      .NAlice.NAliceApi.TDeviceState.TDeviceConfig device_config = 26;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.DeviceConfigContentSettings device_config_content_settings = 27;
+      string device_config_spotter = 28;
+      .NAlice.NAliceApi.TDeviceState.TAppScreenInfo app_screen_info = 31;
+      .NAlice.NData.NReminders.TDeviceRemindersState reminders_state = 32;
+      bool is_default_assistant = 33;
+      .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions.TBassOptions bass_options = 34;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.Permissions permissions = 35;
+      .NAlice.NAliceApi.TDeviceState device_state = 36;
+      string device_id = 37;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.InternetConnectionState internet_connection_state = 38;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.ExternalEntityDescriptions external_entity_descriptions = 39;
+      .NAlice.NAliceApi.TDeviceState.TActiveActions active_actions = 40;
+      .NAlice.TOndeviceBiometryOptions biometry_options = 41;
+      .NAlice.TDeviceStateCapability.TState.TConfigurationStatus configuration_status = 42;
+      .NAlice.TDeviceStateCapability.TState.TUpdateStatus update_status = 43;
+      .NAlice.TDeviceStateCapability.TState.TScreensaverState screensaver_state = 44;
+      .quasar.proto.Remoting.DeviceStateCapabilityMethod.ActiveActionsWithEntities active_actions_with_entities = 45;
+    }
+  }
+
+  message VocalizerCapabilityMethod {
+    enum Method {
+      SYNTHESIZE = 0;
+      PLAY = 1;
+      PAUSE = 2;
+      CANCEL = 3;
+      PREPARE = 4;
+      SET_SETTINGS = 5;
+    }
+
+    enum SynthesizeMode {
+      TEXT_SYNTHESIZING_MODE_APPEND = 0;
+      TEXT_SYNTHESIZING_MODE_INTERRUPT = 1;
+    }
+
+    optional .quasar.proto.Remoting.VocalizerCapabilityMethod.Method method = 1;
+    optional string text = 2;
+    optional .quasar.proto.Remoting.VocalizerCapabilityMethod.SynthesizeMode mode = 3;
+    optional string tag = 4;
+    optional .quasar.proto.VocalizerSettings settings = 5;
+  }
+
+  message VocalizerCapabilityListenerMethod {
+    message SoundInfo {
+      optional int64 channel_count = 1;
+      optional int64 sample_rate = 2;
+      optional int64 sample_size = 3;
+      optional .quasar.proto.SoundFormat.Type type = 4;
+    }
+
+    enum Method {
+      ON_PLAYING_BEGIN = 0;
+      ON_PLAYING_DONE = 1;
+      ON_VOCALIZER_ERROR = 2;
+      ON_SYNTHESIS_DONE = 3;
+      ON_PARTIAL_SYNTHESIS = 4;
+    }
+
+    optional .quasar.proto.Remoting.VocalizerCapabilityListenerMethod.Method method = 1;
+    optional int32 error_code = 2;
+    optional string error_message = 3;
+    optional .quasar.proto.Remoting.VocalizerCapabilityListenerMethod.SoundInfo sound_info = 4;
+    optional bytes buffer = 5;
+  }
+
+  message DirectiveSequencerMethod {
+    enum Method {
+      ADD_DIRECTIVES = 0;
+      ON_HANDLE_DIRECTIVE_STARTED = 1;
+      ON_HANDLE_DIRECTIVE_COMPLETED = 2;
+      ADD_LISTENER = 3;
+      ADD_DIRECTIVE_HANDLER = 4;
+      REMOVE_DIRECTIVE_HANDLER = 5;
+    }
+
+    optional .quasar.proto.Remoting.DirectiveSequencerMethod.Method method = 1;
+    optional .quasar.proto.Directive directive = 2;
+    repeated .quasar.proto.Directive directives = 3;
+    optional .quasar.proto.DirectiveEvent.Result result = 4;
+    optional .quasar.proto.DirectiveHandler directive_handler = 5;
+    optional string meta_data = 6;
+  }
+
+  message DirectiveSequencerListenerMethod {
+    enum Method {
+      ON_DIRECTIVE_HANDLED = 0;
+      ON_DIRECTIVE_UNHANDLED = 4;
+      ON_DIRECTIVE_STARTED = 1;
+      ON_DIRECTIVE_COMPLETED = 2;
+      ON_DIRECTIVES_SEQUENCE_STARTED = 3;
+    }
+
+    optional .quasar.proto.Remoting.DirectiveSequencerListenerMethod.Method method = 1;
+    optional .quasar.proto.Directive directive = 2;
+    optional .quasar.proto.DirectiveEvent.Result result = 3;
+    repeated .quasar.proto.Directive directives = 4;
+  }
+
+  message StereoPairCapabilityMethod {
+    enum Method {
+      ON_USER_EVENT = 0;
+    }
+
+    optional .quasar.proto.Remoting.StereoPairCapabilityMethod.Method method = 1;
+    optional string id = 2;
+    optional string payload_json = 3;
+  }
+
+  message LyricsCapabilityMethod {
+    enum Method {
+      SET_ENABLED = 0;
+    }
+
+    optional .quasar.proto.Remoting.LyricsCapabilityMethod.Method method = 1;
+    optional bool enabled_lyrics = 2;
+  }
+
+  message TandemCapabilityListenerMethod {
+    enum Method {
+      STATE_CHANGED = 0;
+    }
+
+    optional .quasar.proto.Remoting.TandemCapabilityListenerMethod.Method method = 1;
+    optional .NAlice.TDeviceStateCapability.TState state = 2;
+  }
+
+  message ClockStorageMethod {
+    enum Method {
+      UPDATE_CLOCKS = 0;
+      ADD_CLOCK = 1;
+      DUMP_CLOCK_OBSERVATIONS = 2;
+    }
+
+    optional .quasar.proto.Remoting.ClockStorageMethod.Method method = 1;
+    repeated .quasar.proto.Clock clocks = 2;
+    optional string clock_id = 3;
+  }
+
+  message TimingsManagerMethod {
+    message Event {
+      optional string name = 1;
+      optional uint64 time = 2;
+    }
+
+    message Meta {
+      optional string key = 1;
+      optional string value = 2;
+    }
+
+    enum Method {
+      PUT_EVENT = 0;
+      ADD_META = 1;
+    }
+
+    optional .quasar.proto.Remoting.TimingsManagerMethod.Method method = 1;
+    optional string log_id = 2;
+    optional .quasar.proto.Remoting.TimingsManagerMethod.Event event = 3;
+    optional .quasar.proto.Remoting.TimingsManagerMethod.Meta meta = 4;
+  }
+
+  optional string remote_object_id = 7;
+  optional string process_id = 25;
+  oneof method {
+    .quasar.proto.Remoting.EndpointStorageMethod endpoint_storage_method = 1;
+    .quasar.proto.Remoting.DirectiveHandlerMethod directive_handler_method = 2;
+    .quasar.proto.Remoting.CapabilityStateChangedMethod capability_state_changed_method = 3;
+    .quasar.proto.Remoting.CapabilityEventsMethod capability_events_method = 10;
+    .quasar.proto.Remoting.CapabilityAddListenerMethod capability_add_listener_method = 20;
+    .quasar.proto.Remoting.EndpointMethod endpoint_method = 6;
+    .quasar.proto.Remoting.AliceCapabilityMethod alice_capability_method = 8;
+    .quasar.proto.Remoting.AliceRequestEventsMethod alice_request_events_method = 9;
+    .quasar.proto.Remoting.FilePlayerCapabilityMethod file_player_capability_method = 12;
+    .quasar.proto.Remoting.FilePlayerCapabilityEventsMethod file_player_capability_events_method = 17;
+    .quasar.proto.Remoting.PlaybackControlCapabilityMethod playback_control_capability_method = 13;
+    .quasar.proto.Remoting.SpotterCapabilityMethod spotter_capability_method = 14;
+    .quasar.proto.Remoting.SpotterCapabilityListenerMethod spotter_capability_listener_method = 15;
+    .quasar.proto.Remoting.DeviceStateCapabilityMethod device_state_capability_method = 16;
+    .quasar.proto.Remoting.AliceCapabilityListenerMethod alice_capability_listener_method = 18;
+    .quasar.proto.Remoting.VocalizerCapabilityMethod vocalizer_capability_method = 21;
+    .quasar.proto.Remoting.VocalizerCapabilityListenerMethod vocalizer_capability_listener_method = 22;
+    .quasar.proto.Remoting.DirectiveSequencerMethod directive_sequencer_method = 23;
+    .quasar.proto.Remoting.DirectiveSequencerListenerMethod directive_sequencer_listener_method = 24;
+    .quasar.proto.Remoting.StereoPairCapabilityMethod stereo_pair_capability_method = 28;
+    .quasar.proto.Remoting.LyricsCapabilityMethod lyrics_capability_method = 29;
+    .quasar.proto.Remoting.TandemCapabilityListenerMethod tandem_capability_listener_method = 30;
+    .quasar.proto.Remoting.ClockStorageMethod clock_storage_method = 31;
+    .quasar.proto.Remoting.FastCommandRequesterMethod fast_command_requester_method = 32;
+    .quasar.proto.Remoting.FastCommandRequesterListenerMethod fast_command_requester_listener_method = 33;
+    .quasar.proto.Remoting.TimingsManagerMethod timings_manager_method = 34;
+  }
+}
+

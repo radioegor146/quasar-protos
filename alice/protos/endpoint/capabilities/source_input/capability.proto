@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "SourceInputCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/source_input;srcinput";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSourceInputCapability {
+  message TParameters {
+  }
+
+  message TSourceInput {
+    reserved "InputId";
+    reserved 1;
+    enum ESourceType {
+      Unknown = 0;
+      TV = 1;
+      HDMI = 2;
+      USB = 3;
+      Composite = 4;
+      VGA = 5;
+      YPbPr = 6;
+      AV = 7;
+    }
+
+    enum EDeviceType {
+      Empty = 0;
+      SonyPlaystation = 1;
+      Chromecast = 2;
+      Joystick = 3;
+      Xbox = 4;
+      Soundbar = 5;
+      YandexModule = 6;
+      YandexStation = 7;
+      NintendoSwitch = 8;
+    }
+
+    bool IsConnected = 2;
+    .NAlice.TSourceInputCapability.TSourceInput.ESourceType SourceType = 3;
+    string DeviceName = 4;
+    .NAlice.TSourceInputCapability.TSourceInput.EDeviceType DeviceType = 5;
+    string SourceInputId = 6;
+    string InputName = 7;
+    bool IsActive = 8;
+  }
+
+  message TState {
+    repeated .NAlice.TSourceInputCapability.TSourceInput SourceInputs = 1;
+  }
+
+  message TOpenSourceInputDirective {
+    .NAlice.TSourceInputCapability.TSourceInput SourceInput = 1;
+    string Name = 2;
+  }
+
+  message TOpenSourceInputsListDirective {
+    string Name = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TSourceInputCapability.TParameters Parameters = 2;
+  .NAlice.TSourceInputCapability.TState State = 3;
+}
+

@@ -1,0 +1,25 @@
+syntax = "proto2";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.common";
+option java_outer_classname = "LocationProto";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/common";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLocation {
+  optional double Lat = 1;
+  optional double Lon = 2;
+  optional double Accuracy = 3;
+  optional double Recency = 4;
+  optional double Speed = 5;
+}
+
+message TFavouriteLocation {
+  optional double Lat = 1;
+  optional double Lon = 2;
+  optional string Title = 3;
+  optional string SubTitle = 4;
+}
+

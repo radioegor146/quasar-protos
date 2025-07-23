@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package yandex_io.mts;
+
+import "google/protobuf/struct.proto";
+
+message TEvent {
+  string Id = 1;
+  .yandex_io.mts.EEventType Type = 2;
+  .yandex_io.mts.EMethod Method = 3;
+  uint32 Code = 4;
+  string Description = 5;
+  .google.protobuf.Struct Data = 6;
+}
+
+message TCallMediaAnswer {
+  string CallId = 1;
+  string Sdp = 2;
+}
+
+message TCallMediaOffer {
+  string CallId = 1;
+  string Sdp = 2;
+}
+
+message TCallOffer {
+  string CallId = 1;
+  string From = 2;
+  string To = 3;
+  string Sdp = 4;
+}
+
+enum EEventType {
+  unknown_type = 0;
+  request = 1;
+  response = 2;
+}
+
+enum EMethod {
+  unknown_method = 0;
+  config_get = 1;
+  call_offer = 2;
+  call_answer = 3;
+  call_media_offer = 4;
+  call_media_offer_required = 5;
+  call_media_answer = 6;
+  call_end = 7;
+  geo_send = 8;
+}
+

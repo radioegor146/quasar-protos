@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.speech_control";
+option java_outer_classname = "SpeechControl";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/speech_control";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSpeechControl {
+  message TBegin {
+  }
+
+  message TResult {
+    bool EndOfUtt = 1;
+  }
+
+  oneof Message {
+    .NAlice.NAliceApi.TSpeechControl.TBegin Begin = 1;
+    .NAlice.NAliceApi.TSpeechControl.TResult Result = 2;
+  }
+}
+

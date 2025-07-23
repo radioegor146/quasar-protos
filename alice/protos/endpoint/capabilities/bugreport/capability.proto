@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "BugreportCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/bugreport;bugreportpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TBugreportCapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TSendBugReport {
+    message TAnalytics {
+    }
+
+    string UserMessage = 1;
+    string BugreportId = 2;
+    .NAlice.TBugreportCapability.TSendBugReport.TAnalytics Analytics = 999;
+    string Name = 1000;
+  }
+
+  message TLegacySendBugReport {
+    string Name = 1;
+    string RequestId = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TBugreportCapability.TParameters Parameters = 2;
+  .NAlice.TBugreportCapability.TState State = 3;
+}
+

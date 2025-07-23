@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package quasar.proto;
+
+import "alice/protos/api/alicekit/analytics/scenario_analytics_info/scenario_analytics_info.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "alice/protos/data/counteractivation/scenario_counteractivation_features.proto";
+
+message TLocalScenarioResponse {
+  repeated .NAlice.NAliceApi.TDirective Directives = 2;
+  .NAlice.NAliceApi.TScenarioAnalyticsInfo ScenarioAnalyticsInfo = 3;
+  .NAlice.NData.TScenarioCounteractivationFeatures ScenarioCounteractivationFeatures = 4;
+  optional string OutputSpeech = 1;
+}
+

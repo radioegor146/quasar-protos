@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.endpoint_events_frame";
+option java_outer_classname = "FrameEndpointEvents";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/endpoint_events_frame;endpointeventsframe";
+
+import "alice/protos/endpoint/events/events.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TEndpointEventsBatchSlot {
+  oneof Value {
+    .NAlice.TEndpointEventsBatch BatchValue = 1;
+  }
+}
+
+message TEndpointEventsBatchSemanticFrame {
+  .NAlice.TEndpointEventsBatchSlot Batch = 1;
+}
+

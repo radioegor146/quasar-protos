@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package NAlice.NData.NReminders;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.reminders";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/reminders";
+
+import "alice/protos/data/scenario/reminders/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDeviceRemindersState {
+  reserved "Cancelled";
+  reserved 2;
+  message TItem {
+    reserved "Opaque";
+    reserved 6;
+    string Id = 1;
+    string Text = 2;
+    string Epoch = 3;
+    string TimeZone = 4;
+    string Origin = 5;
+    .NAlice.NData.NReminders.TReminderExtensions Extensions = 7;
+  }
+
+  repeated .NAlice.NData.NReminders.TDeviceRemindersState.TItem List = 1;
+  .NAlice.NData.NReminders.ERemindersSyncState SyncState = 3;
+}
+

@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.common.experiments";
+option java_outer_classname = "ExperimentsProto";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/common/experiments;experimentspb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TExperimentsProto {
+  reserved 56788;
+  message TValue {
+    oneof Value {
+      string String = 1;
+      double Number = 2;
+      bool Boolean = 3;
+      int32 Integer = 4;
+    }
+  }
+
+  message StorageEntry {
+    optional string key = 1;
+    optional .NAlice.TExperimentsProto.TValue value = 2;
+  }
+
+  repeated .NAlice.TExperimentsProto.StorageEntry Storage = 1;
+}
+

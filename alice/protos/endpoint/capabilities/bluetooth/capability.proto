@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "BluetoothCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/bluetooth;bluetoothpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TBluetoothCapability {
+  message TConnectedDevice {
+    .NAlice.TBluetoothCapability.ERole Role = 1;
+    string Name = 2;
+    string Address = 3;
+    uint64 ConnectionTime = 4;
+  }
+
+  message TParameters {
+  }
+
+  message TState {
+    reserved "ConnectedDevice";
+    reserved 1;
+    repeated .NAlice.TBluetoothCapability.TConnectedDevice ConnectedDevices = 2;
+    bool Playing = 3;
+    bool Discoverable = 4;
+    optional uint32 Volume = 5;
+  }
+
+  message TConnectBluetoothDirective {
+    string Name = 1000;
+    string Address = 1;
+  }
+
+  message TDisconnectBluetoothDirective {
+    string Name = 1000;
+  }
+
+  message TForgetPairedDevicesDirective {
+  }
+
+  enum ERole {
+    ROLE_NONE = 0;
+    ROLE_SINK = 1;
+    ROLE_SOURCE = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TBluetoothCapability.TParameters Parameters = 2;
+  .NAlice.TBluetoothCapability.TState State = 3;
+}
+

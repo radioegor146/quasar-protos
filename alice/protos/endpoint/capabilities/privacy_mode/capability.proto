@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "PrivacyModeCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/privacy_mode;privacymodepb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TPrivacyModeCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TPrivacyModeCapability.EMode Mode = 1;
+  }
+
+  message TSetPrivacyModeDirective {
+    string Name = 1000;
+    .NAlice.TPrivacyModeCapability.ESource Source = 1;
+    bool Enabled = 2;
+  }
+
+  message TTogglePrivacyModeDirective {
+    string Name = 1000;
+    .NAlice.TPrivacyModeCapability.ESource Source = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TPrivacyModeCapability Capability = 1;
+  }
+
+  enum EMode {
+    NoneMode = 0;
+    DisabledMode = 1;
+    AllEnabledMode = 2;
+    SoftwareEnabledMode = 3;
+    HardwareEnabledMode = 4;
+  }
+
+  enum ESource {
+    NoneSource = 0;
+    SoftwareSource = 1;
+    HardwareSource = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TPrivacyModeCapability.TParameters Parameters = 2;
+  .NAlice.TPrivacyModeCapability.TState State = 3;
+}
+

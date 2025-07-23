@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "VoiceActivityDetectorCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/voice_activity_detector;voiceactivitydetectorpb";
+
+import "alice/protos/api/typed_callbacks/typed_callback_request.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TVoiceActivityDetectorCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Enabled = 1;
+  }
+
+  message TSetVadActionDirective {
+    string Name = 1000;
+    string Id = 1;
+    .NAlice.TCapability.EEventType EventToDetect = 2;
+    oneof Action {
+      .NAlice.TTypedCallbackRequest TypedCallbackOnDetection = 4;
+    }
+    optional uint64 TtlSeconds = 3;
+  }
+
+  message TSpeechFinishedEvent {
+  }
+
+  message TSpeechStartedRawEvent {
+  }
+
+  message TSpeechFinishedRawEvent {
+  }
+
+  message TCondition {
+    repeated .NAlice.TCapability.EEventType Events = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TVoiceActivityDetectorCapability.TParameters Parameters = 2;
+  .NAlice.TVoiceActivityDetectorCapability.TState State = 3;
+}
+

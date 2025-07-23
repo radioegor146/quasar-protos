@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.channel";
+option java_outer_classname = "DirectiveChannel";
+option go_package = "a.yandex-team.ru/alice/protos/data/channel";
+
+enum EDirectiveChannel {
+  UnknownDirectiveChannel = 0;
+  Dialog = 1;
+  Content = 2;
+}
+

@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "TIotZoneCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_zone;zonepb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/iot/geometry.proto";
+
+message TIotZoneCapability {
+  message TZone {
+    uint32 ID = 1;
+    bool Enabled = 2;
+    bool Mutable = 5;
+    .NAlice.TIotZoneCapability.EZoneType Type = 3;
+    .NAlice.NIot.TZoneShape Shape = 4;
+  }
+
+  message TParameters {
+    optional uint32 MaxPresenceOccupancyZonesCount = 1;
+    optional uint32 MaxPresenceNoiseZonesCount = 2;
+  }
+
+  message TState {
+    repeated .NAlice.TIotZoneCapability.TZone Zones = 1;
+  }
+
+  message TIotCreateZoneDirective {
+    .NAlice.TIotZoneCapability.EZoneType Type = 1;
+    .NAlice.NIot.TZoneShape Shape = 2;
+    bool Enabled = 3;
+  }
+
+  message TIotUpdateZoneDirective {
+    uint32 ID = 1;
+    .NAlice.NIot.TZoneShape Shape = 2;
+  }
+
+  message TIotDeleteZoneDirective {
+    uint32 ID = 1;
+  }
+
+  message TIotToggleZoneDirective {
+    uint32 ID = 1;
+    bool Enabled = 2;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotZoneCapability Capability = 1;
+  }
+
+  enum EZoneType {
+    UnknownZoneType = 0;
+    PresenceOccupancyZoneType = 1;
+    PresenceNoiseZoneType = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotZoneCapability.TParameters Parameters = 2;
+  .NAlice.TIotZoneCapability.TState State = 3;
+}
+

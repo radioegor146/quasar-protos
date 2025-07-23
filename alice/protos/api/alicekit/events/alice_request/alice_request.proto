@@ -1,0 +1,265 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.alice_request";
+option java_outer_classname = "AliceRequestProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/alice_request";
+
+import "alice/megamind/protos/common/events.proto";
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "alice/megamind/protos/common/location.proto";
+import "alice/megamind/protos/guest/enrollment_headers/enrollment_headers.proto";
+import "alice/megamind/protos/guest/guest_options.proto";
+import "alice/megamind/protos/quasar/auxiliary_config.proto";
+import "alice/megamind/protos/user/options.proto";
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/client/protos/client_info.proto";
+import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
+import "alice/protos/api/alicekit/common/device_state/device_state.proto";
+import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
+import "alice/protos/api/biometry/options.proto";
+import "alice/protos/api/files/file_info.proto";
+import "alice/protos/data/dialog_type/dialog_type.proto";
+import "alice/protos/data/event_source/event_source.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAliceRequestProto {
+  reserved "Session";
+  reserved "MementoData";
+  reserved "IoTUserInfoData";
+  reserved "Contacts";
+  reserved "ContactsProto";
+  reserved "GuestData";
+  reserved "GuestUserData";
+  reserved "OnlineDevices";
+  reserved "QuasarDeviceConfigs";
+  reserved "BlackBoxUserInfo";
+  reserved "EmergencyContacts";
+  reserved "SubscriptionsInfo";
+  reserved "ActiveUserData";
+  reserved "Alice2Mode";
+  reserved 4;
+  reserved 5;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  reserved 9;
+  reserved 10;
+  reserved 26;
+  reserved 27;
+  reserved 28;
+  reserved 29;
+  reserved 31;
+  reserved 32;
+  reserved 33;
+  message THeader {
+    reserved "RefMessageId";
+    reserved "SessionId";
+    reserved "RandomSeed";
+    reserved 5;
+    reserved 6;
+    reserved 7;
+    optional string RequestId = 1;
+    optional string PrevReqId = 2;
+    optional uint32 SequenceNumber = 3;
+    optional string DialogId = 4;
+    optional string FolderId = 10;
+    optional .NAlice.NData.EDialogType DialogType = 8;
+    optional string DialogShareId = 9;
+  }
+
+  message TRequest {
+    reserved "TestIDs";
+    reserved "LaasRegion";
+    reserved "RawPersonalData";
+    reserved "SmartHomeInfo";
+    reserved "NotificationState";
+    reserved "AsrOptions";
+    reserved 8;
+    reserved 9;
+    reserved 10;
+    reserved 11;
+    reserved 12;
+    reserved 20;
+    message TAdditionalOptions {
+      reserved "YandexUID";
+      reserved "ServerTimeMs";
+      reserved "RadioStations";
+      reserved "AppInfo";
+      reserved "DoNotUseUserLogs";
+      reserved "Puid";
+      reserved "Expboxes";
+      reserved "FavouriteLocations";
+      reserved "GuestOptions";
+      reserved "SourceScreenId";
+      reserved "SessionIdCookie";
+      reserved "SpotterRms";
+      reserved "ActiveUserOptions";
+      reserved 2;
+      reserved 7;
+      reserved 8;
+      reserved 9;
+      reserved 10;
+      reserved 12;
+      reserved 13;
+      reserved 16;
+      reserved 17;
+      reserved 18;
+      reserved 20;
+      reserved 21;
+      reserved 22;
+      reserved 27;
+      message TBassOptions {
+        reserved "ClientIP";
+        reserved "MegamindCgi";
+        reserved "ProcessId";
+        reserved "VideoGalleryLimit";
+        reserved "SessionIdCookie";
+        reserved "Origin";
+        reserved 3;
+        reserved 6;
+        reserved 7;
+        reserved 8;
+        reserved 10;
+        reserved 11;
+        repeated string Cookies = 4;
+        optional string UserAgent = 1;
+        optional uint32 FiltrationLevel = 2;
+        optional double ScreenScaleFactor = 5;
+        optional int32 RegionId = 9;
+        optional string SearchRegion = 12;
+      }
+
+      message TPermission {
+        reserved 56788;
+        oneof PermissionStatus {
+          bool Granted = 1;
+          bool Status = 3;
+        }
+        optional string Name = 2;
+      }
+
+      .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions.TBassOptions BassOptions = 3;
+      repeated string SupportedFeatures = 4;
+      repeated string UnsupportedFeatures = 5;
+      .NAlice.NQuasarAuxiliaryConfig.TAuxiliaryConfig QuasarAuxiliaryConfig = 11;
+      repeated .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions.TPermission Permissions = 14;
+      .NAlice.TGuestOptions GuestUserOptions = 19;
+      repeated .NAlice.TUserOptions UsersOptions = 28;
+      optional string OAuthToken = 1;
+      optional string DivKitVersion = 6;
+      optional string ICookie = 15;
+      optional int32 SpeakersCount = 23;
+    }
+
+    message TUniproxyOptions {
+      reserved "GuestContextLoadOptions";
+      reserved "LastChunksInfo";
+      reserved "FirstEventServerTimestamp";
+      reserved 3;
+      reserved 6;
+      reserved 7;
+      message TContextLoadOptions {
+        bool UseBlackbox = 1;
+        bool UseCachalotMMSession = 2;
+        bool UseContacts = 3;
+        bool UseDatasync = 4;
+        bool UseFlagsJson = 5;
+        bool UseIotUserInfo = 6;
+        bool UseLaas = 7;
+        bool UseMemento = 8;
+        bool UseNotifications = 9;
+      }
+
+      message TCapabilityUpdatesOptions {
+        message TCapabilityUpdateInfo {
+          .NAlice.TCapability.ECapabilityType CapabilityType = 1;
+        }
+
+        repeated .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions.TCapabilityUpdatesOptions.TCapabilityUpdateInfo WaitClientCapabilityUpdates = 1;
+      }
+
+      .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions.TContextLoadOptions OwnerContextLoadOptions = 2;
+      .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions.TCapabilityUpdatesOptions CapabilityUpdatesOptions = 8;
+      optional string MegamindUrl = 1;
+      optional bool WaitClientApproval = 4;
+    }
+
+    .NAlice.TEvent Event = 1;
+    .NAlice.TLocation Location = 2;
+    .NAlice.TExperimentsProto Experiments = 3;
+    .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions AdditionalOptions = 5;
+    bool ResetSession = 7;
+    .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions UniproxyOptions = 17;
+    .NAlice.TOndeviceBiometryOptions BiometryOptions = 21;
+    oneof DeviceStateType {
+      .NAlice.NAliceApi.TDeviceState DeviceState = 4;
+      bytes DeviceStateRaw = 18;
+    }
+    oneof EnvironmentStateType {
+      .NAlice.NAliceApi.TEnvironmentState EnvironmentState = 16;
+      bytes EnvironmentStateRaw = 19;
+    }
+    optional bool VoiceSession = 6;
+    optional string ActivationType = 14;
+    optional string MegamindCookies = 15;
+  }
+
+  message TAdvancedAsrOptions {
+    reserved "BiometryGroup";
+    reserved 7;
+    repeated string Grammar = 4;
+    optional bool PartialResults = 1;
+    optional bool ManualPunctuation = 2;
+    optional bool Capitalize = 3;
+    optional uint64 UtteranceSilence = 5;
+    optional string Biometry = 6;
+  }
+
+  message TDialogHistoryBlock {
+    reserved "ChatDialogTurns";
+    reserved 1;
+    message TFileDescription {
+      reserved "Extension";
+      reserved 2;
+      optional string Title = 1;
+      optional string Guid = 3;
+      optional .NAlice.NApi.NFiles.TFileInfo.EFileServiceStatus Status = 4;
+      optional uint64 UploadTimestamp = 5;
+      optional string ProcessedContent = 6;
+      optional string PreviewUrl = 7;
+      optional uint64 SizeBytes = 8;
+      optional string MimeType = 9;
+      optional .NAlice.NApi.NFiles.TFileInfo.EFileType FileType = 10;
+      optional .NAlice.NApi.NFiles.TFileInfo.TSource Source = 12;
+      optional .NAlice.NApi.NFiles.TFileInfo.TSource Result = 13;
+    }
+
+    repeated .NAlice.TAliceRequestProto.TDialogHistoryBlock.TFileDescription ChatFiles = 2;
+  }
+
+  .NAlice.TAliceRequestProto.THeader Header = 1;
+  .NAlice.TClientInfoProto Application = 2;
+  .NAlice.TAliceRequestProto.TRequest Request = 3;
+  .NAlice.TEventSource EventSource = 11;
+  .NAlice.TEnrollmentHeaders EnrollmentHeaders = 12;
+  bool EnableSpotterValidation = 15;
+  .NAlice.TAliceRequestProto.TAdvancedAsrOptions AdvancedAsrOptions = 25;
+  .NAlice.TAliceRequestProto.TDialogHistoryBlock DialogHistoryBlock = 30;
+  .NAlice.NApi.NAlice2Mode.TAlice2ModeInfo Alice2Settings = 34;
+  optional string Firmware = 13;
+  optional string VoiceInputMessageId = 14;
+  optional string SpotterPhrase = 16;
+  optional string EmbeddedSpotterInfo = 17;
+  optional string Lang = 18;
+  optional string Topic = 19;
+  optional bool DisableAntimat = 20;
+  optional bool Punctuation = 21;
+  optional string Format = 22;
+  optional bool RecognizeMusicOnly = 23;
+  optional string Tags = 24;
+}
+

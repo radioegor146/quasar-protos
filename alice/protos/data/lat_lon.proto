@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data";
+option go_package = "a.yandex-team.ru/alice/protos/data";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLatLon {
+  double Latitude = 1;
+  double Longitude = 2;
+  double Accuracy = 3;
+}
+

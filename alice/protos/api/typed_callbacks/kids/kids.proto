@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks.kids";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks/kids";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TKidsAwakeningTypedCallback {
+  .NAlice.EKidsAwakeningCallbackReason Reason = 1;
+}
+
+enum EKidsAwakeningCallbackReason {
+  KACR_UNKNOWN = 0;
+  KACR_TRACK_FAILURE = 1;
+  KACR_TIMEOUT = 2;
+}
+

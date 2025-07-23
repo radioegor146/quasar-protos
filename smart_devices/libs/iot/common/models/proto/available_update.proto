@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+message AvailableUpdate {
+  .google.protobuf.Timestamp scheduledAt = 2;
+  optional uint32 targetVersion = 1;
+  optional string tag = 3;
+}
+

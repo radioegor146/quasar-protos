@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.request_parts";
+option java_outer_classname = "ContextLoadOptions";
+option go_package = "a.yandex-team.ru/alice/protos/api/request_parts";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TContextLoadOptions {
+  optional bool UseBlackbox = 1;
+  optional bool UseCachalotMMSession = 2;
+  optional bool UseContacts = 3;
+  optional bool UseDatasync = 4;
+  optional bool UseFlagsJson = 5;
+  optional bool UseIotUserInfo = 6;
+  optional bool UseLaas = 7;
+  optional bool UseMemento = 8;
+  optional bool UseNotifications = 9;
+  optional bool UseMatrixOnlineDevices = 10;
+  optional bool UseDatumAddresses = 11;
+}
+

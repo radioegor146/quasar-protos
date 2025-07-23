@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.serialnavigator";
+option java_outer_classname = "SerialNavigatorPositionProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/serial_navigator";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSerialNavigatorPosition {
+  uint32 SeasonNumber = 1;
+  uint32 EpisodeNumber = 2;
+}
+

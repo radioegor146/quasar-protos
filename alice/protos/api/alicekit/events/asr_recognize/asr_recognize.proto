@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.asr_recognize";
+option java_outer_classname = "AsrRecognize";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/asr_recognize";
+
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAsrRecognize {
+  message TAdvancedAsrOptions {
+    optional bool PartialResults = 1;
+    optional bool ManualPunctuation = 2;
+    optional bool Capitalize = 3;
+    optional bool EnableE2eEou = 4;
+    optional bool AllowMultiUtt = 5;
+  }
+
+  message TMusicRequest {
+    message HeadersEntry {
+      string key = 1;
+      string value = 2;
+    }
+
+    repeated .NAlice.NAliceApi.TAsrRecognize.TMusicRequest.HeadersEntry Headers = 1;
+  }
+
+  .NAlice.TExperimentsProto Experiments = 6;
+  .NAlice.NAliceApi.TAsrRecognize.TAdvancedAsrOptions AdvancedAsrOptions = 7;
+  .NAlice.NAliceApi.TAsrRecognize.TMusicRequest MusicRequest = 8;
+  optional string Lang = 1;
+  optional string Topic = 2;
+  optional string Format = 3;
+  optional bool DisableAntimat = 4;
+  optional bool Punctuation = 5;
+  optional bool RecognizeMusicOnly = 9;
+}
+

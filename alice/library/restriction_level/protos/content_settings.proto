@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package NAlice;
+
+option go_package = "a.yandex-team.ru/alice/library/restriction_level/protos";
+
+enum EContentSettings {
+  medium = 0;
+  children = 1;
+  without = 2;
+  safe = 3;
+}
+

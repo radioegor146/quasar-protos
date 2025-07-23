@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "FirmwareProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/firmware;firmware";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TFirmwareCapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TCheckFirmwareUpdateDirective {
+    string Name = 1000;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TFirmwareCapability.TParameters Parameters = 2;
+  .NAlice.TFirmwareCapability.TState State = 3;
+}
+

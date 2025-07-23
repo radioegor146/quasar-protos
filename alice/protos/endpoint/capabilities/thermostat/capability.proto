@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "ThermostatCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/thermostat;thermostat";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TThermostatCapability {
+  message TParameters {
+    repeated .NAlice.TThermostatCapability.EMode SupportedModes = 1;
+    .NAlice.TRange LocalTemperatureRange = 2;
+    .NAlice.EUnit LocalTemperatureUnit = 3;
+    .NAlice.TRange SetpointTemperatureRange = 4;
+    .NAlice.EUnit SetpointTemperatureUnit = 5;
+  }
+
+  message TState {
+    .NAlice.TThermostatCapability.EMode Mode = 1;
+    double LocalTemperatureLevel = 2;
+    double SetpointTemperatureLevel = 3;
+  }
+
+  message TSetModeDirective {
+    string Name = 1000;
+    .NAlice.TThermostatCapability.EMode Mode = 1;
+  }
+
+  message TSetAbsoluteSetpointDirective {
+    string Name = 1000;
+    double TargetSetpointTemperatureLevel = 1;
+  }
+
+  message TSetRelativeSetpointDirective {
+    string Name = 1000;
+    double RelativeSetpointTemperatureLevel = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TThermostatCapability Capability = 1;
+  }
+
+  enum EMode {
+    OFF = 0;
+    AUTO = 1;
+    COOL = 2;
+    DRY = 3;
+    FAN_ONLY = 4;
+    HEAT = 5;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TThermostatCapability.TParameters Parameters = 2;
+  .NAlice.TThermostatCapability.TState State = 3;
+}
+

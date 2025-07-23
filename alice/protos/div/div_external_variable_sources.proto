@@ -1,0 +1,146 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.div";
+option go_package = "a.yandex-team.ru/alice/protos/div";
+
+import "alice/protos/endpoint/capabilities/level/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/descriptor.proto";
+
+message TDivExternalVariable {
+  message TStartValue {
+    oneof Value {
+      int64 Integer = 1;
+      string String = 2;
+      double Double = 3;
+      bool Boolean = 4;
+    }
+  }
+
+  enum ESourceType {
+    Unknown = 0;
+    ClockTime = 1;
+    TimerState = 2;
+    TimerRemainingFormatted = 3;
+    IotOnOff = 4;
+    IotLevel = 5;
+    IotBatteryPercentage = 6;
+    IotBatteryVoltage = 7;
+    IotMotion = 8;
+    IotButtonEvent = 9;
+    IotButtonEventTime = 10;
+    IotWaterLeakSensorEvent = 11;
+    IotWaterLeakSensorEventTime = 12;
+    IotOpenSensorEvent = 13;
+    IotOpenSensorEventTime = 14;
+    IotOpeningSensorEvent = 15;
+    IotOpeningSensorEventTime = 16;
+    IotMotionEvent = 17;
+    IotMotionEventTime = 18;
+  }
+
+  string Name = 1;
+  .NAlice.TDivExternalVariable.TStartValue StartValue = 2;
+  oneof Source {
+    .NAlice.TClockTimeDivExternalSource ClockTimeSource = 3;
+    .NAlice.TTimerStateDivExternalSource TimerStateSource = 4;
+    .NAlice.TTimerRemainingFormattedDivExternalSource TimerRemainingFormattedSource = 5;
+    .NAlice.TIotOnOffDivExternalSource IotOnOffSource = 6;
+    .NAlice.TIotLevelDivExternalSource IotLevelSource = 7;
+    .NAlice.TIotBatteryPercentageDivExternalSource IotBatteryPercentageSource = 8;
+    .NAlice.TIotBatteryVoltageDivExternalSource IotBatteryVoltageSource = 9;
+    .NAlice.TIotMotionExternalSource IotMotionSource = 10;
+    .NAlice.TIotButtonEventExternalSource IotButtonEventSource = 11;
+    .NAlice.TIotButtonEventTimeExternalSource IotButtonEventTimeSource = 12;
+    .NAlice.TIotWaterLeakSensorEventExternalSource IotWaterLeakSensorEventSource = 13;
+    .NAlice.TIotWaterLeakSensorEventTimeExternalSource IotWaterLeakSensorEventTimeSource = 14;
+    .NAlice.TIotOpenSensorEventExternalSource IotOpenSensorEventSource = 15;
+    .NAlice.TIotOpenSensorEventTimeExternalSource IotOpenSensorEventTimeSource = 16;
+    .NAlice.TIotOpeningSensorEventExternalSource IotOpeningSensorEventSource = 17;
+    .NAlice.TIotOpeningSensorEventTimeExternalSource IotOpeningSensorEventTimeSource = 18;
+    .NAlice.TIotMotionEventExternalSource IotMotionEventSource = 19;
+    .NAlice.TIotMotionEventTimeExternalSource IotMotionEventTimeSource = 20;
+  }
+}
+
+message TClockTimeDivExternalSource {
+  string Pattern = 2;
+}
+
+message TTimerStateDivExternalSource {
+  enum EState {
+    Idle = 0;
+    Active = 1;
+    Paused = 2;
+  }
+
+  string TimerId = 2;
+}
+
+message TTimerRemainingFormattedDivExternalSource {
+  string TimerId = 2;
+}
+
+message TIotOnOffDivExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotLevelDivExternalSource {
+  string EndpointId = 1;
+  .NAlice.TLevelCapability.EInstance Instance = 2;
+}
+
+message TIotBatteryPercentageDivExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotBatteryVoltageDivExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotMotionExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotMotionEventExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotMotionEventTimeExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotButtonEventExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotButtonEventTimeExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotWaterLeakSensorEventExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotWaterLeakSensorEventTimeExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotOpenSensorEventExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotOpenSensorEventTimeExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotOpeningSensorEventExternalSource {
+  string EndpointId = 1;
+}
+
+message TIotOpeningSensorEventTimeExternalSource {
+  string EndpointId = 1;
+}
+

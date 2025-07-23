@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AppLaunchCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/app_launch;applaunchpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAppLaunchCapability {
+  message TApp {
+    string AppName = 1;
+    string PackageName = 2;
+  }
+
+  message TParameters {
+    bool SupportsActivateOwnApp = 1;
+  }
+
+  message TState {
+    repeated .NAlice.TAppLaunchCapability.TApp InstalledAppsList = 1;
+    bool SupportsExtendedParametersSet = 2;
+  }
+
+  message TLaunchAppDirective {
+    message TAnalytics {
+      message AppLaunchAnalyticsData {
+        string PackageName = 1;
+        string VisibleName = 2;
+        string OpenFrom = 3;
+      }
+
+      oneof Value {
+        .NAlice.TAppLaunchCapability.TLaunchAppDirective.TAnalytics.AppLaunchAnalyticsData AppLaunch = 1;
+      }
+    }
+
+    string PackageToLaunch = 1;
+    string IntentAction = 2;
+    string IntentData = 3;
+    string IntentExtrasJson = 4;
+    string ActivityToLaunch = 7;
+    string IntentCategory = 8;
+    string IntentType = 9;
+    .NAlice.TAppLaunchCapability.TLaunchAppDirective.TAnalytics Analytics = 6;
+    string Name = 5;
+  }
+
+  message TActivateOwnAppDirective {
+    string Name = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAppLaunchCapability.TParameters Parameters = 2;
+  .NAlice.TAppLaunchCapability.TState State = 3;
+}
+

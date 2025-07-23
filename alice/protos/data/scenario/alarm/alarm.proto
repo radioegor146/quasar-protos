@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.alarm";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/alarm";
+
+import "alice/protos/data/timezone.proto";
+import "google/protobuf/struct.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDefaultSound {
+  enum ESoundType {
+    DEFAULT = 0;
+    EXPERIMENTAL = 1;
+    BIRDS = 2;
+    KIDS = 3;
+  }
+
+  .NAlice.NData.TDefaultSound.ESoundType SoundType = 1;
+}
+
+message TAlarmSoundSettings {
+  message TMediaSettings {
+    reserved "MediaType";
+    reserved 3;
+    message TServerAction {
+      string Name = 1;
+      .google.protobuf.Struct Payload = 2;
+      bool NotPrefetchable = 3;
+    }
+
+    .google.protobuf.Struct RawInfo = 1;
+    oneof Media {
+      .NAlice.NData.TAlarmSoundSettings.TMediaSettings.TServerAction ServerAction = 2;
+      .NAlice.NData.TDefaultSound DefaultSound = 4;
+    }
+  }
+
+  message TSoundLevelInfo {
+    uint32 MinSoundLevel = 1;
+    uint32 MaxSoundLevel = 2;
+    uint32 VolumeStepMs = 3;
+    float MinPercentSoundLevel = 4;
+    float MaxPercentSoundLevel = 5;
+  }
+
+  .NAlice.NData.TAlarmSoundSettings.TSoundLevelInfo SoundLevelInfo = 1;
+  .NAlice.NData.TAlarmSoundSettings.TMediaSettings MediaSettings = 2;
+}
+
+message TAlarm {
+  reserved "Enabled";
+  reserved 4;
+  message TDate {
+    uint32 Year = 1;
+    uint32 Month = 2;
+    uint32 Day = 3;
+  }
+
+  message TTime {
+    uint32 Hours = 1;
+    uint32 Minutes = 2;
+    uint32 Seconds = 3;
+  }
+
+  message TActivationDay {
+    oneof ActivationDay {
+      .NAlice.NData.TAlarm.EWeekday Weekday = 1;
+      .NAlice.NData.TAlarm.TDate Date = 2;
+    }
+  }
+
+  message TAlarmAction {
+    enum EExecutionMode {
+      ALWAYS = 0;
+      NON_MEDIA = 1;
+    }
+
+    string SerializedAction = 1;
+    .NAlice.NData.TAlarm.TAlarmAction.EExecutionMode ExecutionMode = 2;
+    optional uint32 OffsetSeconds = 3;
+  }
+
+  enum EWeekday {
+    NONE = 0;
+    MONDAY = 1;
+    TUESDAY = 2;
+    WEDNESDAY = 3;
+    THURSDAY = 4;
+    FRIDAY = 5;
+    SATURDAY = 6;
+    SUNDAY = 7;
+  }
+
+  string AlarmId = 1;
+  .NAlice.NData.TAlarm.TTime LocalTime = 2;
+  .NAlice.NData.TTimezone Timezone = 7;
+  bool CurrentlyPlaying = 3;
+  repeated .NAlice.NData.TAlarm.TActivationDay ActivationDays = 5;
+  repeated .NAlice.NData.TAlarm.TAlarmAction AlarmActions = 6;
+  .NAlice.NData.TAlarmSoundSettings AlarmSoundSettings = 8;
+  bool Disabled = 9;
+  string Title = 10;
+  uint64 EditTimestamp = 11;
+}
+

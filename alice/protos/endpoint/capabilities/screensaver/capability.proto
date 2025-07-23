@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "ScreensaverCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/screensaver;screensaverpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/api/voice_control/voice_control.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "alice/protos/div/div_extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/div/div2card.proto";
+
+message TScreensaverCapability {
+  message TParameters {
+    .NAlice.TScreensaverCapability.EResolution Resolution = 1;
+    .NAlice.TDivExtensions SupportedDivExtensions = 2;
+  }
+
+  message TScreensaverContentMeta {
+    string Description = 1;
+  }
+
+  message TState {
+    reserved "Resolution";
+    reserved 2;
+    enum EScreensaverState {
+      UnknownState = 0;
+      Inactive = 1;
+      VideoScreensaver = 2;
+    }
+
+    enum EScreensaverStatus {
+      UnknownStatus = 0;
+      Shown = 1;
+      NotShown = 2;
+    }
+
+    .NAlice.TScreensaverCapability.TState.EScreensaverState ScreensaverState = 1;
+    .NAlice.TScreensaverCapability.TState.EScreensaverStatus ScreensaverStatus = 3;
+    .NAlice.TScreensaverCapability.TScreensaverContentMeta CurrentScreensaverMeta = 4;
+  }
+
+  message TOpenScreensaverDirective {
+    string Name = 1;
+  }
+
+  message TLoadScreensaversDirective {
+    message TMediaItem {
+      string Url = 1;
+      .NAlice.TScreensaverCapability.EMediaType MediaType = 2;
+      string Id = 3;
+    }
+
+    message TScreensaverItem {
+      .NAlice.TDiv2Card Overlay = 1;
+      .NAlice.TScreensaverCapability.TLoadScreensaversDirective.TMediaItem MediaItem = 2;
+      repeated .NAlice.TVoiceControl VoiceControls = 3;
+      .NAlice.TScreensaverCapability.TScreensaverContentMeta ContentMeta = 4;
+    }
+
+    string Name = 1;
+    repeated .NAlice.TScreensaverCapability.TLoadScreensaversDirective.TScreensaverItem ScreensaverItems = 2;
+    .NAlice.TScreensaverCapability.EResolution Resolution = 3;
+    int32 NewHighlight = 4;
+  }
+
+  message TCloseScreensaverDirective {
+    string Name = 1;
+  }
+
+  enum EResolution {
+    UnknownRes = 0;
+    HD = 1;
+    FHD = 2;
+    QHD = 3;
+    UHD = 4;
+  }
+
+  enum EMediaType {
+    UnknownType = 0;
+    Image = 1;
+    Video = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TScreensaverCapability.TParameters Parameters = 2;
+  .NAlice.TScreensaverCapability.TState State = 3;
+}
+

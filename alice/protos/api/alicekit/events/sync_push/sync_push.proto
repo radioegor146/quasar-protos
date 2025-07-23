@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push";
+option java_outer_classname = "SyncPush";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push";
+
+import "alice/protos/api/alicekit/events/sync_push/sync_request/sync_request.proto";
+import "alice/protos/api/matrix/common/analytics_meta_info.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSyncPush {
+  string PushId = 1;
+  .NAlice.NAliceApi.TSyncRequest SyncRequest = 3;
+  .NMatrix.NApi.TAnalyticsMetaInfo AnalyticsMetaInfo = 4;
+  optional string DeduplicationPushId = 2;
+}
+

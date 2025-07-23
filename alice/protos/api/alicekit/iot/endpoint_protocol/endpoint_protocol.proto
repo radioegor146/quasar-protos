@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.iot.endpoint_protocol";
+option java_outer_classname = "EndpointsProtocolProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/iot/endpoint_protocol;endpointprotocolpb";
+
+import "alice/protos/endpoint/endpoint.proto";
+import "google/protobuf/any.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSubscriptionStatus {
+  enum EStatus {
+    UNKNOWN = 0;
+    OK = 1;
+    FAIL = 2;
+  }
+
+  string EndpointId = 1;
+  .NAlice.NAliceApi.TSubscriptionStatus.EStatus Status = 2;
+  string Message = 3;
+}
+
+message TEndpointSubscription {
+  message TCapability {
+    reserved "Id";
+    reserved 1;
+    .google.protobuf.Any Capability = 2;
+  }
+
+  string EndpointId = 1;
+  repeated .NAlice.NAliceApi.TEndpointSubscription.TCapability Capabilities = 2;
+}
+
+message TUniversalEndpointSubscription {
+  message TCapability {
+    string Id = 1;
+    .google.protobuf.Any Capability = 2;
+  }
+
+  string EndpointId = 1;
+  repeated .NAlice.NAliceApi.TUniversalEndpointSubscription.TCapability Capabilities = 2;
+}
+
+message TEndpointState {
+  .NAlice.TEndpoint Endpoint = 1;
+}
+
+message TEndpointsStateChanged {
+  repeated .NAlice.NAliceApi.TEndpointState EndpointsState = 1;
+}
+
+message TEndpointsRemoved {
+  repeated string EndpointIds = 1;
+}
+
+message TSubscriptionResponse {
+  message TCapabilityStatus {
+    string CapabilityId = 1;
+    .NAlice.NAliceApi.TSubscriptionResponse.EClientStatus ClientStatus = 2;
+  }
+
+  message TEndpointStatus {
+    string EndpointId = 1;
+    .NAlice.NAliceApi.TSubscriptionStatus.EStatus BackendStatus = 2;
+    repeated .NAlice.NAliceApi.TSubscriptionResponse.TCapabilityStatus Capabilities = 3;
+  }
+
+  enum EClientStatus {
+    UNKNOWN = 0;
+    OK = 1;
+    FAIL = 2;
+  }
+
+  repeated .NAlice.NAliceApi.TSubscriptionResponse.TEndpointStatus Endpoints = 1;
+}
+

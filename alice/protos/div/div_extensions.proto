@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.div";
+option java_outer_classname = "DivExtensionsProto";
+option go_package = "a.yandex-team.ru/alice/protos/div";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TScrollableGalleryExtension {
+}
+
+message TFocusExtension {
+}
+
+message TClockTimeExtension {
+}
+
+message TExpiringViewExtension {
+}
+
+message TTextWithShadowExtension {
+}
+
+message TDivExtensions {
+  .NAlice.TScrollableGalleryExtension ScrollableGalleryExtension = 1;
+  .NAlice.TFocusExtension FocusExtension = 2;
+  .NAlice.TClockTimeExtension ClockTimeExtension = 3;
+  .NAlice.TExpiringViewExtension ExpiringViewExtension = 4;
+  .NAlice.TTextWithShadowExtension TextWithShadowExtension = 5;
+}
+

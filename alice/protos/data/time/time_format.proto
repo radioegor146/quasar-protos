@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.time";
+option go_package = "a.yandex-team.ru/alice/protos/data/time";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTimeFormat {
+  enum EFormat {
+    Undefined = 0;
+    Hours12 = 1;
+    Hours24 = 2;
+  }
+
+  .NAlice.NData.TTimeFormat.EFormat Format = 1;
+}
+

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.asr_result.common";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/asr_result/common";
+
+enum EAsrResponseCode {
+  OK = 0;
+  InternalError = 1;
+}
+

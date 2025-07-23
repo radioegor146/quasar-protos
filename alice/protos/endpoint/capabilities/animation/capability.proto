@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AnimationCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/animation;animationpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAnimationCapability {
+  message TParameters {
+    repeated .NAlice.TAnimationCapability.EFormat SupportedFormats = 1;
+    repeated .NAlice.TAnimationCapability.TScreen Screens = 2;
+    repeated .NAlice.TAnimationCapability.EAnimationType SupportedTypes = 3;
+    bool SupportsStreaming = 4;
+  }
+
+  message TScreen {
+    enum EScreenType {
+      UnknownScreenType = 0;
+      Oknix = 1;
+      Panel = 2;
+      LedScreen = 3;
+      Ring = 4;
+      ScledScreen = 5;
+      BatteryLed = 6;
+    }
+
+    enum EFamily {
+      UnknownFamily = 0;
+      Mini2 = 1;
+      Cucumber = 2;
+      Chiron = 3;
+      Plum = 4;
+      Bergamot = 5;
+      Pickle = 6;
+      Mango = 7;
+    }
+
+    string Guid = 1;
+    .NAlice.TAnimationCapability.TScreen.EScreenType ScreenType = 2;
+    .NAlice.TAnimationCapability.TScreen.EFamily Family = 3;
+  }
+
+  message TAnimation {
+    enum EAnimationType {
+      UnknownAnimationType = 0;
+      Nothing = 1;
+      Idle = 2;
+      Notification = 3;
+      TimerCountdown = 4;
+    }
+
+    .NAlice.TAnimationCapability.TAnimation.EAnimationType AnimationType = 1;
+  }
+
+  message TState {
+    reserved "ScreenStates";
+    reserved 1;
+    message TScreenState {
+      reserved "Screen";
+      reserved 1;
+      bool Enabled = 2;
+      .NAlice.TAnimationCapability.TAnimation Animation = 3;
+    }
+
+    message ScreenStatesMapEntry {
+      string key = 1;
+      .NAlice.TAnimationCapability.TState.TScreenState value = 2;
+    }
+
+    repeated .NAlice.TAnimationCapability.TState.ScreenStatesMapEntry ScreenStatesMap = 2;
+  }
+
+  message TDrawAnimationDirective {
+    message TAnimation {
+      message TS3Directory {
+        string Bucket = 1;
+        string Path = 2;
+      }
+
+      message TBinaryAnimation {
+        enum ECompressionType {
+          Unknown = 0;
+          None = 1;
+          Gzip = 2;
+        }
+
+        .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimation.TBinaryAnimation.ECompressionType Compression = 1;
+        string Base64EncodedValue = 2;
+      }
+
+      message TTypedAnimation {
+        .NAlice.TAnimationCapability.EAnimationType Type = 1;
+      }
+
+      oneof Value {
+        .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimation.TBinaryAnimation BinaryAnimation = 1;
+        .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimation.TS3Directory S3Directory = 2;
+        .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimation.TTypedAnimation TypedAnimation = 3;
+      }
+    }
+
+    message TAnimationOptions {
+      enum ESubstitutionType {
+        Unknown = 0;
+        Background = 1;
+        Foreground = 2;
+        Substitution = 3;
+      }
+
+      .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimationOptions.ESubstitutionType SubstitutionType = 1;
+      optional uint64 MinDurationMs = 2;
+      optional uint64 MaxDurationMs = 3;
+    }
+
+    enum EAnimationStopPolicy {
+      Unknown = 0;
+      PlayOnce = 1;
+      PlayOnceTillEndOfTTS = 2;
+      RepeatLastTillEndOfTTS = 3;
+      RepeatLastTillNextDirective = 4;
+      RepeatTillScreenAlive = 5;
+    }
+
+    enum ESpeakingAnimationPolicy {
+      Default = 0;
+      PlaySpeakingEndOfTts = 1;
+      SkipSpeakingAnimation = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimation Animations = 1;
+    .NAlice.TAnimationCapability.TDrawAnimationDirective.EAnimationStopPolicy AnimationStopPolicy = 2;
+    .NAlice.TAnimationCapability.TDrawAnimationDirective.ESpeakingAnimationPolicy SpeakingAnimationPolicy = 3;
+    .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimationOptions AnimationOptions = 4;
+    repeated .NAlice.TAnimationCapability.TDrawAnimationDirective.TAnimation FadeOutAnimations = 5;
+  }
+
+  message TEnableScreenDirective {
+    reserved "Screen";
+    reserved 1;
+    string Name = 1000;
+    string Guid = 2;
+  }
+
+  message TDisableScreenDirective {
+    reserved "Screen";
+    reserved 1;
+    string Name = 1000;
+    string Guid = 2;
+  }
+
+  enum EFormat {
+    S3Url = 0;
+    Binary = 1;
+    Typed = 2;
+  }
+
+  enum EAnimationType {
+    Unknown = 0;
+    ShowBatteryLevel = 1;
+    EmotionalSadness = 2;
+    EmotionalSmile = 3;
+    EmotionalJoy = 4;
+    EmotionalAngry = 5;
+    EmotionalWow = 6;
+    PlayerPause = 7;
+    ShowCO2Level = 8;
+    ShowHumidityLevel = 9;
+    ShowTemperatureLevel = 10;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAnimationCapability.TParameters Parameters = 2;
+  .NAlice.TAnimationCapability.TState State = 3;
+}
+

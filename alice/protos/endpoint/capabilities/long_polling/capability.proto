@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "LongPollingProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/long_polling;longpollingpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLongPollingCapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TLongPollingJobDirective {
+    message TFilesPolling {
+      message TFile {
+        string Guid = 1;
+      }
+
+      repeated .NAlice.TLongPollingCapability.TLongPollingJobDirective.TFilesPolling.TFile Files = 1;
+    }
+
+    string Name = 1000;
+    oneof LongPollingJob {
+      .NAlice.TLongPollingCapability.TLongPollingJobDirective.TFilesPolling FilesPolling = 1;
+    }
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TLongPollingCapability.TParameters Parameters = 2;
+  .NAlice.TLongPollingCapability.TState State = 3;
+}
+

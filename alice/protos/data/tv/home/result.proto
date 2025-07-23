@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.home";
+option java_outer_classname = "TvHomeResultProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/home";
+
+import "alice/protos/extensions/extensions.proto";
+import "alice/protos/data/tv/carousel.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+
+message TTtlInfo {
+  bool HasTtl = 1;
+  uint64 TtlMillis = 2;
+}
+
+message THomeCarouselWrapper {
+  .NAlice.NTv.TTtlInfo TtlInfo = 1;
+  .google.protobuf.Struct AnalyticsInfoPayload = 2;
+  int32 Offset = 3;
+  oneof Carousel {
+    .NAlice.NTv.TEmptyCarousel EmptyCarousel = 1001;
+    .NAlice.NTv.TCarousel HomeCarousel = 1002;
+    .NAlice.NTv.TDivCarousel DivCarousel = 1003;
+  }
+}
+
+message TTvCarouselResultData {
+  reserved "CacheHash";
+  reserved 3;
+  .NAlice.NTv.TTtlInfo TtlInfo = 1;
+  .NAlice.NTv.THomeCarouselWrapper Carousel = 2;
+}
+
+message TCentaurCarouselResultData {
+  .NAlice.NTv.TTtlInfo TtlInfo = 1;
+  .NAlice.NTv.THomeCarouselWrapper Carousel = 2;
+}
+
+message TTvFeedResultData {
+  .NAlice.NTv.TTtlInfo TtlInfo = 1;
+  repeated .NAlice.NTv.THomeCarouselWrapper Carousels = 2;
+  string CacheHash = 3;
+  bool HasMore = 4;
+  int32 Offset = 5;
+}
+
+message TCentaurFeedResultData {
+  .NAlice.NTv.TTtlInfo TtlInfo = 1;
+  repeated .NAlice.NTv.THomeCarouselWrapper Carousels = 2;
+  string CacheHash = 3;
+  bool HasMore = 4;
+  int32 Offset = 5;
+}
+
+message TWhatsNewCompleteWatchResponse {
+  message TSuccess {
+  }
+
+  message TError {
+    string ErrorMessage = 1;
+  }
+
+  oneof Resp {
+    .NAlice.NTv.TWhatsNewCompleteWatchResponse.TSuccess Success = 1;
+    .NAlice.NTv.TWhatsNewCompleteWatchResponse.TError Error = 2;
+  }
+}
+
+message TDeleteDelayedItemResponse {
+}
+

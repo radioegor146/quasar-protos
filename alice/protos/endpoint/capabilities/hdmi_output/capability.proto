@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "HdmiOutputCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/hdmi_output;hdmi_outputpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message THdmiOutputCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool IsHdmiConnected = 1;
+    bool IsHdmiAudioOn = 2;
+  }
+
+  message TCecVolumeUpDirective {
+    string Name = 1000;
+  }
+
+  message TCecVolumeDownDirective {
+    string Name = 1000;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.THdmiOutputCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.THdmiOutputCapability.TParameters Parameters = 2;
+  .NAlice.THdmiOutputCapability.TState State = 3;
+}
+

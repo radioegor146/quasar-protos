@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "TIotVideoStreamCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_video_stream;videostreampb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotVideoStreamCapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TStartWHIPVideoStreamDirective {
+    reserved "Jwt";
+    reserved 2;
+    string Name = 1000;
+    string WhipUrl = 1;
+    string RoomID = 3;
+    repeated .NAlice.TIotVideoStreamCapability.IceServer IceServers = 4;
+  }
+
+  message IceServer {
+    string Hostname = 1;
+    uint32 Port = 2;
+    .NAlice.TIotVideoStreamCapability.IceServerType Type = 3;
+    string Username = 4;
+    string Password = 5;
+    .NAlice.TIotVideoStreamCapability.RelayType RelayType = 6;
+  }
+
+  message TStopVideoStreamDirective {
+    string Name = 1000;
+  }
+
+  message TSetVideoStreamResolutionDirective {
+    string Name = 1000;
+    .NAlice.TIotVideoStreamCapability.EVideoResolution VideoResolution = 1;
+  }
+
+  message TSetVideoStreamKeepaliveModeDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  enum IceServerType {
+    ICE_SERVER_TYPE_UNKNOWN = 0;
+    STUN = 1;
+    TURN = 2;
+  }
+
+  enum RelayType {
+    RELAY_TYPE_UNKNOWN = 0;
+    TURN_UDP = 1;
+    TURN_TCP = 2;
+    TURN_TLS = 3;
+  }
+
+  enum EVideoResolution {
+    VIDEO_RESOLUTION_UNKNOWN = 0;
+    VIDEO_RESOLUTION_480 = 1;
+    VIDEO_RESOLUTION_1080 = 2;
+    VIDEO_RESOLUTION_1440 = 3;
+    VIDEO_RESOLUTION_AUTO = 4;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotVideoStreamCapability.TParameters Parameters = 2;
+  .NAlice.TIotVideoStreamCapability.TState State = 3;
+}
+

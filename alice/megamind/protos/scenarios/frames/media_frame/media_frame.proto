@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.media_frame";
+option java_outer_classname = "FrameMedia";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/media_frame;mediaframe";
+
+import "alice/megamind/protos/scenarios/frames/common/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TPlayerTypeSlot {
+  enum EValue {
+    unknown = 0;
+    music = 1;
+    video = 2;
+    radio = 3;
+  }
+
+  oneof Value {
+    .NAlice.TPlayerTypeSlot.EValue PlayerTypeValue = 1;
+  }
+}
+
+message TPlayerNextTrackSemanticFrame {
+  .NAlice.TBoolSlot SetPause = 1;
+  .NAlice.TBoolSlot DisableAnimation = 2;
+}
+
+message TPlayerPrevTrackSemanticFrame {
+  .NAlice.TBoolSlot SetPause = 1;
+  .NAlice.TBoolSlot DisableAnimation = 2;
+}
+
+message TPlayerPauseSemanticFrame {
+  repeated .NAlice.TLocationSlot LocationRoom = 1;
+  repeated .NAlice.TLocationSlot LocationGroup = 2;
+  repeated .NAlice.TLocationSlot LocationDevice = 3;
+  .NAlice.TLocationSlot LocationEverywhere = 4;
+}
+
+message TPlayerContinueSemanticFrame {
+  .NAlice.TBoolSlot DisableNlg = 1;
+  .NAlice.TPlayerTypeSlot PlayerType = 2;
+  .NAlice.TBoolSlot DisableAnimation = 3;
+}
+
+message TPlayerShuffleSemanticFrame {
+  .NAlice.TBoolSlot DisableNlg = 1;
+}
+
+message TPlayerUnshuffleSemanticFrame {
+  .NAlice.TBoolSlot DisableNlg = 1;
+}
+
+message TPlayerReplaySemanticFrame {
+}
+
+message TRepeatModeSlot {
+  enum EValue {
+    Unknown = 0;
+    None = 1;
+    One = 2;
+    All = 3;
+  }
+
+  oneof Value {
+    .NAlice.TRepeatModeSlot.EValue EnumValue = 1;
+  }
+}
+
+message TPlayerRepeatSemanticFrame {
+  .NAlice.TBoolSlot DisableNlg = 1;
+  .NAlice.TRepeatModeSlot Mode = 2;
+}
+

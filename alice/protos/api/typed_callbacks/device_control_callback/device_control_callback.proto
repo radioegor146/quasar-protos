@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks.device_control_callback";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks/device_control_callback";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDeviceControlTimesyncTypedCallback {
+  message TSyncTimezone {
+  }
+
+  message TSyncGmt {
+  }
+
+  message TSyncLocation {
+  }
+
+  .NAlice.TDeviceControlTimesyncTypedCallback.TSyncTimezone SyncTimezone = 1;
+  .NAlice.TDeviceControlTimesyncTypedCallback.TSyncGmt SyncGmt = 2;
+  .NAlice.TDeviceControlTimesyncTypedCallback.TSyncLocation SyncLocation = 3;
+}
+

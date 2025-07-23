@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "LocalIotProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/local_iot;localiotpb";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "alice/protos/api/alicekit/iot/endpoint_protocol/endpoint_protocol.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLocalIoTCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bytes IoTUserInfoSerialized = 1;
+    .NAlice.TLocalIoTCapability.TIoTAccountSettings IoTAccountSettings = 2;
+  }
+
+  message TIoTAccountSettings {
+    enum EReactionType {
+      SOUND = 0;
+      NLG = 1;
+    }
+
+    .NAlice.TLocalIoTCapability.TIoTAccountSettings.EReactionType ResponseReactionType = 1;
+  }
+
+  message TSyncIoTUserInfoDirective {
+    string Name = 1;
+  }
+
+  message TSetIoTUserInfoDirective {
+    string Name = 1;
+    bytes IoTUserInfoSerialized = 2;
+  }
+
+  message TSetIoTAccountSettingsDirective {
+    string Name = 1;
+    .NAlice.TLocalIoTCapability.TIoTAccountSettings IoTAccountSettings = 2;
+  }
+
+  message TRouteDirective {
+    string Name = 1;
+    .NAlice.NAliceApi.TDirective Directive = 2;
+    .NAlice.NAliceApi.TDirective FallbackDirective = 3;
+  }
+
+  message TScenarioVoiceTriggerDirective {
+    string Name = 1;
+    string ScenarioID = 2;
+  }
+
+  message TAction {
+    string ID = 1;
+    repeated .NAlice.NAliceApi.TDirective Directives = 2;
+    uint64 DelayMs = 3;
+  }
+
+  message TScheduledAction {
+    .NAlice.TLocalIoTCapability.TAction Action = 1;
+    .google.protobuf.Timestamp ScheduledTimestamp = 2;
+  }
+
+  message TScheduleActionDirective {
+    string Name = 1;
+    .NAlice.TLocalIoTCapability.TAction Action = 2;
+    .NAlice.NAliceApi.TDirective OnScheduledActionCallback = 3;
+  }
+
+  message TCancelScheduledActionDirective {
+    message TCancelAllPolicy {
+    }
+
+    message TCancelLastPolicy {
+    }
+
+    message TCancelExactPolicy {
+      string ActionID = 1;
+    }
+
+    string Name = 1;
+    oneof Policy {
+      .NAlice.TLocalIoTCapability.TCancelScheduledActionDirective.TCancelAllPolicy CancelAllPolicy = 2;
+      .NAlice.TLocalIoTCapability.TCancelScheduledActionDirective.TCancelLastPolicy CancelLastPolicy = 3;
+      .NAlice.TLocalIoTCapability.TCancelScheduledActionDirective.TCancelExactPolicy CancelExactPolicy = 4;
+    }
+  }
+
+  message TIoTEndpointsStateChangedDirective {
+    string Name = 1;
+    .NAlice.NAliceApi.TEndpointsStateChanged EndpointsStateChanged = 2;
+  }
+
+  message TIoTEndpointsRemovedDirective {
+    string Name = 1;
+    .NAlice.NAliceApi.TEndpointsRemoved EndpointsRemoved = 2;
+  }
+
+  message TSubscribeIoTEndpointsDirective {
+    string Name = 1;
+    repeated .NAlice.NAliceApi.TUniversalEndpointSubscription Subscriptions = 2;
+  }
+
+  message TUnsubscribeIoTEndpointsDirective {
+    string Name = 1;
+    repeated .NAlice.NAliceApi.TUniversalEndpointSubscription Subscriptions = 2;
+  }
+
+  message TSyncIoTUserInfoEvent {
+  }
+
+  message TScenarioVoiceTriggerEvent {
+    string ScenarioID = 1;
+  }
+
+  message TCondition {
+    repeated .NAlice.TCapability.EEventType Events = 1;
+  }
+
+  message TScheduledActionEvent {
+    .NAlice.TLocalIoTCapability.TScheduledAction ScheduledAction = 1;
+  }
+
+  message TCancelScheduledActionsEvent {
+    repeated string ActionIDs = 1;
+  }
+
+  message TCompleteScheduledActionEvent {
+    enum EStatus {
+      SUCCESS = 0;
+      FAIL = 1;
+    }
+
+    string ActionID = 1;
+    .NAlice.TLocalIoTCapability.TCompleteScheduledActionEvent.EStatus Status = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TLocalIoTCapability.TParameters Parameters = 2;
+  .NAlice.TLocalIoTCapability.TState State = 3;
+}
+

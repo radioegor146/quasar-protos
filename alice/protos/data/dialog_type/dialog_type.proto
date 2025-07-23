@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.dialog_type";
+option go_package = "a.yandex-team.ru/alice/protos/data/dialog_type";
+
+enum EDialogType {
+  UNKNOWN = 0;
+  EXTERNAL_SKILL = 1;
+  DEDICATED_CHAT = 2;
+  ENGLISH_TUTOR = 3;
+  EXTERNAL_MODEL_PROXY = 4;
+}
+

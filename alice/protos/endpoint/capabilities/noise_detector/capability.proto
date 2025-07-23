@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "NoiseDetectorCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/noise_detector;noisedetectorpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TNoiseDetectorCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Enabled = 1;
+  }
+
+  message TNoiseDetectedEvent {
+    .NAlice.TNoiseDetectorCapability.ENoiseEventType NoiseEventType = 1;
+    optional string EventId = 2;
+  }
+
+  message TCondition {
+    repeated .NAlice.TCapability.EEventType Events = 1;
+    repeated .NAlice.TNoiseDetectorCapability.ENoiseEventType NoiseEventTypes = 2;
+  }
+
+  enum ENoiseEventType {
+    UNKNOWN = 0;
+    CLAP = 1;
+    SNAP = 2;
+    FALL = 3;
+    STOMP = 4;
+    CHILD_CRY = 5;
+    WATER_SOUND = 6;
+    ALARM = 7;
+    BREAK_GLASS = 8;
+    DOG_BARK = 9;
+    MEOW = 10;
+    SNEEZING = 11;
+    UNIDENTIFIED = 12;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TNoiseDetectorCapability.TParameters Parameters = 2;
+  .NAlice.TNoiseDetectorCapability.TState State = 3;
+}
+

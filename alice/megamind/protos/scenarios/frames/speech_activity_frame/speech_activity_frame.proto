@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.speech_activity_frame";
+option java_outer_classname = "FrameSpeechActivity";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/speech_activity_frame;speechactivityframe";
+
+import "alice/megamind/protos/scenarios/frames/common/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSpeechActivityTypeSlot {
+  enum EValue {
+    Unknown = 0;
+    Started = 1;
+    Finished = 2;
+  }
+
+  oneof Value {
+    .NAlice.TSpeechActivityTypeSlot.EValue SpeechActivityTypeValue = 1;
+  }
+}
+
+message TVoiceActivityDetectorSemanticFrame {
+  .NAlice.TSpeechActivityTypeSlot SpeechActivityType = 1;
+  .NAlice.TInt64Slot TimestampSeconds = 2;
+}
+

@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AutoHeadTextMessagingCapabilitiesProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/auto_head_text_messaging;autoheadtextmessagingpb";
+
+import "alice/protos/data/telecom/providers.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAutoHeadTextMessagingCapability {
+  message TSupportedProvider {
+    .NAlice.NTelecom.EProvider Provider = 1;
+  }
+
+  message TParameters {
+    repeated .NAlice.TAutoHeadTextMessagingCapability.TSupportedProvider SupportedProviders = 1;
+  }
+
+  message TState {
+    message TConnectedDeviceState {
+      message TDeviceProviderState {
+        .NAlice.NTelecom.EProvider Provider = 1;
+        bool SyncEnabled = 2;
+      }
+
+      repeated .NAlice.TAutoHeadTextMessagingCapability.TState.TConnectedDeviceState.TDeviceProviderState ProviderStates = 1;
+    }
+
+    message TProviderState {
+      .NAlice.NTelecom.EProvider Provider = 1;
+      bool SyncEnabled = 2;
+    }
+
+    repeated .NAlice.TAutoHeadTextMessagingCapability.TState.TProviderState ProviderStates = 1;
+    optional .NAlice.TAutoHeadTextMessagingCapability.TState.TConnectedDeviceState ConnectedDeviceState = 2;
+  }
+
+  message TSendMessageDirective {
+    string Name = 1;
+    .NAlice.NTelecom.TProviderContact ProviderContact = 3;
+    string Message = 4;
+  }
+
+  message TEnableSyncDirective {
+    string Name = 1;
+    .NAlice.NTelecom.EProvider Provider = 2;
+  }
+
+  message TDisableSyncDirective {
+    string Name = 1;
+    .NAlice.NTelecom.EProvider Provider = 2;
+  }
+
+  message TOpenPopupMessageDirective {
+    string Name = 1;
+    .NAlice.NTelecom.TProviderContact ProviderContact = 2;
+    string Message = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAutoHeadTextMessagingCapability.TParameters Parameters = 2;
+  .NAlice.TAutoHeadTextMessagingCapability.TState State = 3;
+}
+

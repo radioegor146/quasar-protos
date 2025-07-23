@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package yandex.dsp.info;
+
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/info/CpuUsage.proto";
+
+message ThreadInfo {
+  int32 id = 1;
+  string name = 2;
+  int32 type = 3;
+  int32 state = 4;
+  .yandex.dsp.info.CpuUsage cpu = 5;
+}
+

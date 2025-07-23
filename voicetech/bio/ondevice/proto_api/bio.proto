@@ -1,0 +1,174 @@
+syntax = "proto2";
+
+package YabioOndeviceProtobuf;
+
+message RequestVoiceprint {
+  optional string compatibility_tag = 1;
+  repeated double voiceprint = 2;
+  optional uint32 samples_count_used_to_compute_voiceprint = 3;
+  optional string ondevice_request_id = 4;
+  optional string server_message_id = 5;
+  optional string format = 6;
+  optional string source = 7;
+  optional string mds_url = 8;
+  optional int64 timestamp = 9;
+  optional int32 reg_num = 10;
+  optional string text = 11;
+  optional string device_model = 12;
+  optional string device_id = 13;
+  optional string device_manufacturer = 14;
+}
+
+message BiometryResultForClient {
+  message CompatibilityTagToGuestThresholdEntry {
+    optional string key = 1;
+    optional double value = 2;
+  }
+
+  optional string request_id = 1;
+  optional uint64 consumed_samples_count = 2;
+  optional bool last_chunk_received = 3;
+  repeated .YabioOndeviceProtobuf.RequestVoiceprint request_voiceprint = 4;
+  repeated .YabioOndeviceProtobuf.RequestVoiceprint experimental_voiceprint = 5;
+  optional string preferred_compatibility_tag = 6;
+  repeated .YabioOndeviceProtobuf.BiometryResultForClient.CompatibilityTagToGuestThresholdEntry compatibility_tag_to_guest_threshold = 7;
+}
+
+message TEnrollment {
+  repeated .YabioOndeviceProtobuf.RequestVoiceprint Voiceprints = 1;
+  optional string device_id = 2;
+  optional int64 timestamp = 3;
+}
+
+message TAudio {
+  optional bytes data = 1;
+  optional string mime = 2;
+}
+
+message TEnrollmentAudio {
+  optional .YabioOndeviceProtobuf.TAudio audio = 1;
+  optional string request_id = 2;
+  optional int64 timestamp = 3;
+}
+
+message TEnrollmentAudios {
+  repeated .YabioOndeviceProtobuf.TEnrollmentAudio audios = 1;
+  optional string device_id = 2;
+  optional int64 timestamp = 3;
+}
+
+message TEnrollmentVoiceprintsInfo {
+  optional string compatibility_tag = 1;
+  optional uint32 cnt = 2;
+  optional int64 timestamp = 3;
+}
+
+message TEnrollmentInfo {
+  reserved 2;
+  optional string person_id = 1;
+  repeated .YabioOndeviceProtobuf.TEnrollmentVoiceprintsInfo voiceprints = 3;
+  optional string device_id = 4;
+  optional int64 timestamp = 5;
+}
+
+message DetectionDebugInfo {
+  repeated string person_ids = 1;
+  repeated double raw_scores = 2;
+  repeated double probabilities = 3;
+  optional double guest_threshold = 4;
+  optional string mode = 5;
+  optional double confidence_threshold = 6;
+  optional double confidence_diff_threshold = 7;
+}
+
+message AgeResult {
+  enum EAgeConfidence {
+    low = 0;
+    high = 1;
+  }
+
+  enum EAge {
+    adult = 0;
+    child = 1;
+  }
+
+  optional .YabioOndeviceProtobuf.AgeResult.EAge age = 1;
+  optional double score = 2;
+  optional .YabioOndeviceProtobuf.AgeResult.EAgeConfidence confidence = 4;
+  optional string model_version = 3;
+}
+
+message GenderResult {
+  enum EGender {
+    male = 0;
+    female = 1;
+  }
+
+  optional .YabioOndeviceProtobuf.GenderResult.EGender gender = 1;
+  optional double score = 2;
+  optional string model_version = 3;
+}
+
+message MatchResult {
+  reserved 4;
+  optional string matched_person_id = 1;
+  optional .YabioOndeviceProtobuf.DetectionDebugInfo detection_debug_info = 2;
+  optional uint64 samples_count_used_to_compute_match = 3;
+  optional string compatibility_tag_used_in_matching = 5;
+  optional uint64 external_result_index = 6;
+  optional string errors = 7;
+  optional uint64 received_audio_size_in_bytes = 8;
+  optional string match_time = 9;
+  optional bool local_last_chunk_received = 10;
+  optional bool external_last_chunk_received = 11;
+  optional .YabioOndeviceProtobuf.EMatchConfidence match_confidence = 12;
+  optional .YabioOndeviceProtobuf.AgeResult age_result = 13;
+  optional .YabioOndeviceProtobuf.GenderResult gender_result = 14;
+}
+
+message MatchingInfo {
+  message ExternalCompatibilityTagToGuestThresholdEntry {
+    optional string key = 1;
+    optional double value = 2;
+  }
+
+  optional .YabioOndeviceProtobuf.MatchResult last_used_matching_result = 1;
+  repeated .YabioOndeviceProtobuf.MatchResult unique_matching_results = 2;
+  repeated .YabioOndeviceProtobuf.MatchingInfo.ExternalCompatibilityTagToGuestThresholdEntry external_compatibility_tag_to_guest_threshold = 3;
+}
+
+message ProcessingInfo {
+  optional double rtf = 1;
+  optional double audio_duration_ms = 2;
+  optional double latency_ms = 3;
+}
+
+message OndeviceBioSessionInfo {
+  reserved 1;
+  reserved 2;
+  reserved 3;
+  optional .YabioOndeviceProtobuf.ProcessingInfo spotter = 4;
+  optional .YabioOndeviceProtobuf.ProcessingInfo request = 5;
+}
+
+message RequestDiagnosticData {
+  reserved 8;
+  optional string start_time = 1;
+  optional string end_time = 2;
+  optional string svn_version = 3;
+  optional uint32 received_audio_size_in_bytes = 4;
+  repeated .YabioOndeviceProtobuf.TEnrollmentInfo enrollments_info = 5;
+  optional bool is_enrollment_active = 6;
+  optional bool received_external_voiceprints = 7;
+  optional .YabioOndeviceProtobuf.MatchingInfo matching_info = 9;
+  optional .YabioOndeviceProtobuf.OndeviceBioSessionInfo ondevice_bio_session_info = 10;
+  optional bool match_was_replaced_by_random_user = 11;
+  optional string additional_info = 12;
+}
+
+enum EMatchConfidence {
+  undefined = 0;
+  low = 1;
+  high = 2;
+}
+

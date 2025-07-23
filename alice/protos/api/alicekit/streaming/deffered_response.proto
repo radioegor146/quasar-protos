@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.streaming";
+option java_outer_classname = "DefferedResponseProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/streaming";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/api/alicekit/annotations/annotations.proto";
+import "alice/protos/api/alicekit/cards/card.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "alice/protos/api/alicekit/suggests/suggest.proto";
+
+message TDeferedAliceResponseProto {
+  reserved "Sessions";
+  reserved 5;
+  message TBaseResponse {
+    reserved "Voice";
+    reserved "EmotionDirectives";
+    reserved "SummarizerAnalyticsInfo";
+    reserved 2;
+    reserved 4;
+    reserved 6;
+    reserved 9;
+    reserved 10;
+    repeated .NAlice.NAliceApi.TCard Cards = 3;
+    bool ShouldListen = 5;
+    repeated .NAlice.NAliceApi.TSuggest Suggests = 7;
+    repeated .NAlice.NAliceApi.TDirective Directives = 8;
+    optional string Text = 1;
+    optional .NAlice.NAliceApi.TRequestAnnotation RequestAnnotation = 11;
+  }
+
+  message TCancelResponse {
+    bool Cancel = 1;
+    repeated .NAlice.NAliceApi.TDirective Directives = 2;
+  }
+
+  uint32 ResponsePartialNum = 3;
+  bool IsLast = 4;
+  string RequestId = 6;
+  oneof TDeferredResponse {
+    .NAlice.NAliceApi.TDeferedAliceResponseProto.TBaseResponse BaseResponse = 1;
+    .NAlice.NAliceApi.TDeferedAliceResponseProto.TCancelResponse CancelResponse = 2;
+  }
+}
+

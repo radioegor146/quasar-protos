@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IrCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/ir;irpb";
+
+import "alice/protos/data/ir/ir.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/endpoint.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIrCapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TTryIrCommandDirective {
+    string Name = 1000;
+    repeated uint32 KeyIds = 1;
+    .NAlice.NIr.TRemoteData Data = 2;
+    uint32 CommandIntervalMs = 3;
+  }
+
+  message TTryIrAcCommandDirective {
+    string Name = 1000;
+    .NAlice.NIr.EAcKey AcKey = 1;
+    .NAlice.NIr.TAcState AcState = 2;
+    .NAlice.NIr.TRemoteData Data = 3;
+  }
+
+  message TRecordIrPulseDirective {
+    string Name = 1000;
+    string RequestId = 1;
+    uint32 TimeoutSeconds = 2;
+  }
+
+  message TCancelRecordIrPulseDirective {
+    string Name = 1000;
+    string RequestId = 1;
+  }
+
+  message TAddIrRemoteDirective {
+    string Name = 1000;
+    string EndpointId = 1;
+    .NAlice.NIr.TRemote Remote = 2;
+    string RequestId = 3;
+  }
+
+  message TForgetIrRemoteDirective {
+    string Name = 1000;
+    string EndpointId = 1;
+  }
+
+  message TRestoreIrRemotesDirective {
+    message RemotesEntry {
+      string key = 1;
+      .NAlice.NIr.TRemote value = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.TIrCapability.TRestoreIrRemotesDirective.RemotesEntry Remotes = 1;
+  }
+
+  message TIrPulseEvent {
+    string RequestId = 1;
+    repeated uint32 Pulse = 2;
+    uint32 Frequency = 3;
+  }
+
+  message TRestoreIrRemotesEvent {
+  }
+
+  message TAddIrRemoteEvent {
+    reserved "EndpointId";
+    reserved "Capabilities";
+    reserved 1;
+    reserved 2;
+    .NAlice.TEndpoint Endpoint = 4;
+    string RequestId = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIrCapability.TParameters Parameters = 2;
+  .NAlice.TIrCapability.TState State = 3;
+}
+
+message TIrRemoteCapability {
+  message TParameters {
+    .NAlice.NIr.TRemote Remote = 1;
+  }
+
+  message TState {
+    .NAlice.NIr.TAcState AcState = 1;
+  }
+
+  message TSendIrCommandDirective {
+    string Name = 1000;
+    repeated uint32 KeyIds = 1;
+    uint32 CommandIntervalMs = 2;
+  }
+
+  message TSendIrAcCommandDirective {
+    string Name = 1000;
+    .NAlice.NIr.EAcKey AcKey = 1;
+    .NAlice.NIr.TAcState AcState = 2;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIrRemoteCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIrRemoteCapability.TParameters Parameters = 2;
+  .NAlice.TIrRemoteCapability.TState State = 3;
+}
+

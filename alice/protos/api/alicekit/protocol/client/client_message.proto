@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.protocol.client";
+option java_outer_classname = "ClientMessage";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/protocol/client";
+
+import "alice/protos/api/alicekit/events/ack/ack.proto";
+import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
+import "alice/protos/api/alicekit/events/asr_recognize/asr_recognize.proto";
+import "alice/protos/api/alicekit/events/cancel_request/cancel_request.proto";
+import "alice/protos/api/alicekit/events/capability_update_state/capability_update_state.proto";
+import "alice/protos/api/alicekit/events/common/event_header/event_header.proto";
+import "alice/protos/api/alicekit/events/continue_request/continue_request.proto";
+import "alice/protos/api/alicekit/events/data_proxy_input/data_proxy_input.proto";
+import "alice/protos/api/alicekit/events/file_upload_request/file_upload_request.proto";
+import "alice/protos/api/alicekit/events/log_spotter/log_spotter.proto";
+import "alice/protos/api/alicekit/events/record_input_request/record_input_request.proto";
+import "alice/protos/api/alicekit/events/stream_control/stream_control.proto";
+import "alice/protos/api/alicekit/events/sync_push_response/sync_push_response.proto";
+import "alice/protos/api/alicekit/events/synchronize_state_request/synchronize_state_request.proto";
+import "alice/protos/api/alicekit/events/tts_generate/tts_generate.proto";
+import "alice/protos/api/alicekit/events/tts_update_state/tts_update_state.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TClientMessage {
+  reserved "PredefinedDataForServerTests";
+  reserved 100;
+  message TEvent {
+    reserved "DataProxyConnect";
+    reserved "IotCloudTechnicalPushRequest";
+    reserved "IotCloudEventsBatchRequest";
+    reserved 15;
+    reserved 20;
+    reserved 21;
+    .NAlice.NAliceApi.TEventHeader Header = 1;
+    oneof Event {
+      .NAlice.TAliceRequestProto TextInput = 2;
+      .NAlice.TAliceRequestProto VoiceInput = 3;
+      .NAlice.TAliceRequestProto MusicInput = 4;
+      .NAlice.NAliceApi.TSynchronizeStateRequest SynchronizeStateRequest = 5;
+      .NAlice.NAliceApi.TLogSpotter LogSpotter = 6;
+      .NAlice.TAliceRequestProto MatchedUser = 7;
+      .NAlice.NAliceApi.TSyncPushResponse SyncPushResponse = 8;
+      .NAlice.NAliceApi.TAck Ack = 9;
+      .NAlice.NAliceApi.TContinueRequest ContinueRequest = 10;
+      .NAlice.NAliceApi.TCancelRequest CancelRequest = 11;
+      .NAlice.NAliceApi.TAsrRecognize AsrRecognize = 12;
+      .NAlice.NAliceApi.TTtsGenerate TtsGenerate = 13;
+      .NAlice.NAliceApi.TDataProxyInput DataProxyInput = 14;
+      .NAlice.NAliceApi.TFileUploadRequest FileUploadRequest = 16;
+      .NAlice.NAliceApi.TCapabilityUpdateState CapabilityUpdateState = 17;
+      .NAlice.TAliceRequestProto SpeechInput = 18;
+      .NAlice.NAliceApi.TTtsUpdateState TtsUpdateState = 19;
+      .NAlice.NAliceApi.TRecordInputRequest RecordInput = 22;
+    }
+  }
+
+  oneof Message {
+    .NAlice.NAliceApi.TClientMessage.TEvent Event = 1;
+    .NAlice.NAliceApi.TStreamControl StreamControl = 2;
+  }
+}
+

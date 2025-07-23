@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.device_control_panel";
+option java_outer_classname = "CommonScenarioStateProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/device_control_panel";
+
+import "google/protobuf/duration.proto";
+import "alice/protos/data/device_control_panel/time_interval.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TCommonScenarioState {
+  enum EDisabledReason {
+    Undefined = 0;
+    User = 1;
+    DailyLimitExceeded = 2;
+    DisabledPeriod = 3;
+  }
+
+  bool Disabled = 1;
+  .NAlice.TCommonScenarioState.EDisabledReason DisabledReason = 2;
+  .google.protobuf.Duration DailyUsage = 3;
+  .NAlice.TTimeInterval CurrentTimeInterval = 4;
+}
+

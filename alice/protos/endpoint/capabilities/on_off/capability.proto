@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "OnOffCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/on_off;onoffpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TOnOffCapability {
+  message TParameters {
+    bool Split = 1;
+  }
+
+  message TState {
+    bool On = 1;
+    .NAlice.TOnOffCapability.EStartupMode StartupMode = 2;
+  }
+
+  message TOnOffDirective {
+    string Name = 1000;
+    bool On = 1;
+  }
+
+  message TToggleDirective {
+    string Name = 1000;
+  }
+
+  message TSetStartupModeDirective {
+    string Name = 1000;
+    .NAlice.TOnOffCapability.EStartupMode StartupMode = 1;
+  }
+
+  message TScreenOffDirective {
+    string Name = 1000;
+  }
+
+  message TOnWithTimedOffDirective {
+    string Name = 1000;
+    uint32 OnTimeMs = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TOnOffCapability Capability = 1;
+  }
+
+  message TCondition {
+    .NAlice.TOnOffCapability.EOnOffConditionState OnOffState = 1;
+  }
+
+  message TOnOffFilter {
+    .NAlice.TOnOffCapability.EOnOffConditionState OnOffState = 1;
+  }
+
+  enum EStartupMode {
+    Unknown = 0;
+    Keep = 1;
+    On = 2;
+    Off = 3;
+  }
+
+  enum EOnOffConditionState {
+    OnCondition = 0;
+    OffCondition = 1;
+    ToggleCondition = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TOnOffCapability.TParameters Parameters = 2;
+  .NAlice.TOnOffCapability.TState State = 3;
+}
+

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+message DeviceStatus {
+  enum EStatus {
+    UNKNOWN = 0;
+    ONLINE = 1;
+    OFFLINE = 2;
+    HOST_POWER_OFF = 3;
+  }
+
+  .google.protobuf.Timestamp Timestamp = 1;
+  bool IsOnline = 2;
+  .proto.DeviceStatus.EStatus Status = 3;
+}
+

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint";
+option java_outer_classname = "AggregateProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint;endpointpb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAggregate {
+  message TCompositeMeta {
+  }
+
+  message THubMeta {
+  }
+
+  string MainEndpointId = 1;
+  repeated string EndpointIDs = 2;
+  oneof Meta {
+    .NAlice.TAggregate.TCompositeMeta CompositeMeta = 3;
+    .NAlice.TAggregate.THubMeta HubMeta = 4;
+  }
+}
+

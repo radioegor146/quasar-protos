@@ -1,0 +1,139 @@
+syntax = "proto2";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.common";
+option java_outer_classname = "Events";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/common";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+
+message TFileDescription {
+  optional string Guid = 1;
+}
+
+message TAsrResult {
+  message TWord {
+    optional string Value = 1;
+    optional double Confidence = 2;
+  }
+
+  message TAccentInfo {
+    repeated string Words = 1;
+  }
+
+  optional string Utterance = 1;
+  optional double Confidence = 2;
+  repeated .NAlice.TAsrResult.TWord Words = 3;
+  optional string Normalized = 4;
+  optional .NAlice.TAsrResult.TAccentInfo AccentInfo = 5;
+}
+
+message TPreEouInfo {
+  optional float Confidence = 1;
+}
+
+message TImageInputData {
+  optional string ImgUrl = 1;
+}
+
+message TMusicResult {
+  message TData {
+    reserved 2;
+    optional .google.protobuf.Struct Match = 1;
+    optional string RecognitionId = 3;
+    optional string Engine = 4;
+    optional string Url = 5;
+  }
+
+  optional .NAlice.TMusicResult.TData Data = 1;
+  optional string Result = 2;
+  optional string ErrorText = 3;
+}
+
+message TBiometryScoring {
+  message TScore {
+    optional string UserId = 1;
+    optional double Score = 2;
+  }
+
+  message TScoreWithMode {
+    optional string Mode = 1;
+    repeated .NAlice.TBiometryScoring.TScore Scores = 2;
+  }
+
+  repeated .NAlice.TBiometryScoring.TScore Scores = 1;
+  repeated .NAlice.TBiometryScoring.TScoreWithMode ScoresWithMode = 2;
+  optional string Status = 3;
+  optional string RequestId = 4;
+  optional string GroupId = 5;
+  optional int64 PartialNumber = 6;
+}
+
+message TBiometryClassification {
+  message TClassificationResult {
+    optional string ClassName = 1;
+    optional double Confidence = 2;
+    optional string Tag = 3;
+  }
+
+  message TClassificationSimple {
+    optional string ClassName = 1;
+    optional string Tag = 2;
+    optional .NAlice.TBiometryClassification.EConfidence Confidence = 3;
+  }
+
+  enum EConfidence {
+    low = 0;
+    high = 1;
+  }
+
+  optional string Status = 1;
+  repeated .NAlice.TBiometryClassification.TClassificationResult Scores = 2;
+  repeated .NAlice.TBiometryClassification.TClassificationSimple Simple = 3;
+  optional int64 PartialNumber = 4;
+}
+
+message TFilesInput {
+  repeated .NAlice.TFileDescription Files = 1;
+}
+
+message TEvent {
+  optional .NAlice.EEventType Type = 1;
+  optional uint32 HypothesisNumber = 2;
+  optional bool EndOfUtterance = 3;
+  repeated .NAlice.TAsrResult AsrResult = 4;
+  optional uint32 OriginalZeroAsrHypothesisIndex = 15;
+  optional string Text = 5;
+  optional .NAlice.TImageInputData Data = 6;
+  optional .NAlice.TMusicResult MusicResult = 7;
+  optional .google.protobuf.Struct Payload = 8;
+  optional string Name = 9;
+  optional bool IgnoreAnswer = 10;
+  optional .NAlice.TBiometryScoring BiometryScoring = 11;
+  optional .NAlice.TBiometryClassification BiometryClassification = 12;
+  optional bool IsWarmUp = 13;
+  optional string AsrCoreDebug = 14;
+  optional bool AsrWhisper = 16;
+  optional uint64 AsrDurationProcessedAudio = 17;
+  optional string HybridAsrPartial = 18;
+  optional bool SaveToHistory = 20 [default = true];
+  repeated .NAlice.TFileDescription AttachedFiles = 21;
+  optional .NAlice.TFilesInput FilesInput = 22;
+  optional .NAlice.TPreEouInfo PreEouInfo = 23;
+}
+
+enum EEventType {
+  voice_input = 1;
+  text_input = 2;
+  suggested_input = 3;
+  image_input = 4;
+  music_input = 5;
+  server_action = 6;
+  hybrid_asr_partial_result = 7;
+  file_input = 8;
+}
+

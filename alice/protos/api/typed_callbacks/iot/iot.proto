@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks.iot";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks/iot";
+
+import "alice/protos/extensions/extensions.proto";
+import "alice/protos/endpoint/endpoint.proto";
+import "alice/protos/endpoint/aggregate.proto";
+import "alice/protos/endpoint/capabilities/iot_discovery/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TActionDeviceResult {
+  string ID = 1;
+  string Status = 2;
+}
+
+message TScenarioActionDeviceResultCallback {
+  string LaunchID = 1;
+  repeated .NAlice.TActionDeviceResult DeviceResults = 2;
+  uint64 StepIndex = 3;
+}
+
+message TFinishDiscoveryCallback {
+  repeated .NAlice.TIotDiscoveryCapability.TProtocol Protocols = 1;
+  .NAlice.TIotDiscoveryCapability.TNetworks Networks = 2;
+  repeated .NAlice.TEndpoint DiscoveredEndpoints = 3;
+  string SystemInfo = 4;
+  uint32 CallbackId = 5;
+  string SessionId = 6;
+  repeated .NAlice.TAggregate DiscoveredAggregates = 7;
+}
+
+message TFinishSystemDiscoveryCallback {
+  repeated .NAlice.TIotDiscoveryCapability.TProtocol Protocols = 1;
+  .NAlice.TIotDiscoveryCapability.TNetworks Networks = 2;
+  repeated .NAlice.TEndpoint DiscoveredEndpoints = 3;
+  string SystemInfo = 4;
+  uint32 CallbackId = 5;
+  repeated .NAlice.TAggregate DiscoveredAggregates = 6;
+}
+
+message TCancelDiscoveryCallback {
+  repeated string SessionIds = 1;
+}
+

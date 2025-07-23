@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "StereoPairCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/stereo_pair;stereo_pairpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "google/protobuf/descriptor.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TStereoPairCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TStereoPairCapability.ERole Role = 1;
+    .NAlice.TStereoPairCapability.EChannel Channel = 2;
+    .NAlice.TStereoPairCapability.EConnectivity Connectivity = 3;
+    .NAlice.TStereoPairCapability.EStatus Status = 4;
+    string PartnerEndpointId = 5;
+  }
+
+  message TStereoPairUserEvent {
+    enum EEvent {
+      EVENT_UNDEFINED = 0;
+      EVENT_CLICK = 1;
+      EVENT_SWIPE_LEFT = 2;
+      EVENT_SWIPE_RIGHT = 3;
+      EVENT_DOUBLE_CLICK = 4;
+      EVENT_TRIPLE_CLICK = 5;
+    }
+
+    .NAlice.TStereoPairCapability.TStereoPairUserEvent.EEvent Event = 1;
+    string Payload = 2;
+  }
+
+  enum ERole {
+    ROLE_UNDEFINED = 0;
+    ROLE_LEADER = 1;
+    ROLE_FOLLOWER = 2;
+  }
+
+  enum EChannel {
+    CHANNEL_UNDEFINED = 0;
+    CHANNEL_ALL = 1;
+    CHANNEL_LEFT = 2;
+    CHANNEL_RIGHT = 3;
+  }
+
+  enum EConnectivity {
+    CONNECTIVITY_UNDEFINED = 0;
+    CONNECTIVITY_NO_CONNECTION = 1;
+    CONNECTIVITY_ONEWAY = 2;
+    CONNECTIVITY_TWOWAY = 3;
+  }
+
+  enum EStatus {
+    STATUS_UNDEFINED = 0;
+    STATUS_NO_SYNC = 1;
+    STATUS_PARTNER_NOT_READY = 2;
+    STATUS_READY = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TStereoPairCapability.TParameters Parameters = 2;
+  .NAlice.TStereoPairCapability.TState State = 3;
+}
+

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.recent";
+option java_outer_classname = "RecentSource";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/recent";
+
+import "alice/protos/data/tv/sources/source_type.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRecentSourceItem {
+  string InputId = 1;
+  .NAlice.NTv.ESourceType SourceType = 2;
+  string InputName = 3;
+}
+

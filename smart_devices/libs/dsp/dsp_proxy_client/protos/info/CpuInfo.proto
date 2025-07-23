@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package yandex.dsp.info;
+
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/info/CpuUsage.proto";
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/info/ThreadInfo.proto";
+
+message CpuInfo {
+  .yandex.dsp.info.CpuUsage total = 1;
+  repeated .yandex.dsp.info.ThreadInfo threads = 2;
+}
+

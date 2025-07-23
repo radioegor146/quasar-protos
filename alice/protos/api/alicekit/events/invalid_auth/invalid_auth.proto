@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.invalid_auth";
+option java_outer_classname = "InvalidAuth";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/invalid_auth";
+
+import "alice/protos/api/alicekit/events/invalid_auth/credential_status/credential_status.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TInvalidAuth {
+  message TCredentialInfo {
+    string CredentialValue = 1;
+    .NAlice.NAliceApi.ECredentialStatus CredentialStatus = 2;
+  }
+
+  oneof CredentialInfo {
+    .NAlice.NAliceApi.TInvalidAuth.TCredentialInfo TokenInfo = 1;
+    .NAlice.NAliceApi.TInvalidAuth.TCredentialInfo CookieInfo = 2;
+  }
+}
+

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.speechkit.counteractivation";
+option java_outer_classname = "CounteractivationFeaturesProto";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/speechkit/counteractivation";
+
+import "alice/protos/data/counteractivation/scenario_counteractivation_features.proto";
+import "alice/protos/endpoint/capabilities/source_input/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TCounteractivationFeatures {
+  bool HasDirective = 1;
+  bool HasClientDirective = 2;
+  .NAlice.NData.TScenarioCounteractivationFeatures ScenarioFeatures = 3;
+  bool DeferredApply = 4;
+  bool HasModalWinReason = 5;
+  string CurrentTvScreen = 7;
+  .NAlice.TSourceInputCapability.TSourceInput.EDeviceType VideoInputDeviceType = 8;
+  optional bool IsDeviceOn = 6;
+}
+

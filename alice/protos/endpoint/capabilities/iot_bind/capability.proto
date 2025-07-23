@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotBindCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_bind;iotbindpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/data/iot_bind/iot_bind.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotBindCapability {
+  message TBindType {
+    .NAlice.NIotBind.TIotBindKey BindKey = 1;
+    .NAlice.TIotBindCapability.EConstraint Constraint = 2;
+  }
+
+  message TBind {
+    .NAlice.TIotBindCapability.TBindType Type = 1;
+    string DestinationEndpointId = 2;
+  }
+
+  message TParameters {
+    repeated .NAlice.TIotBindCapability.TBindType SupportedBindTypes = 1;
+  }
+
+  message TState {
+    repeated .NAlice.TIotBindCapability.TBind Binds = 1;
+  }
+
+  message TBindDirective {
+    string Name = 1000;
+    string DestinationEndpointId = 1;
+    uint32 ClusterId = 2;
+  }
+
+  message TUnbindDirective {
+    string Name = 1000;
+    string DestinationEndpointId = 1;
+    uint32 ClusterId = 2;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotBindCapability Capability = 1;
+  }
+
+  enum EConstraint {
+    NO_CONSTRAINT = 0;
+    CONSTANT_EXCLUSIVE_LOCK = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotBindCapability.TParameters Parameters = 2;
+  .NAlice.TIotBindCapability.TState State = 3;
+}
+

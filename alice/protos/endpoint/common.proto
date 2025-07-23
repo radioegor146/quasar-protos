@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint";
+option java_outer_classname = "CommonProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint;endpointpb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRange {
+  double Min = 1;
+  double Max = 2;
+  double Precision = 3;
+}
+
+message TPositiveIntegerRange {
+  uint64 Min = 1;
+  uint64 Max = 2;
+}
+
+message THueAndSaturation {
+  double Hue = 1;
+  double Saturation = 2;
+}
+
+enum EUnit {
+  NoUnit = 0;
+  PercentUnit = 1;
+  TemperatureKelvinUnit = 2;
+  TemperatureCelsiusUnit = 3;
+  PressureAtmUnit = 4;
+  PressurePascalUnit = 5;
+  PressureBarUnit = 6;
+  PressureMmHgUnit = 7;
+  LuxUnit = 8;
+  PPBUnit = 9;
+  AmpereUnit = 10;
+  VoltUnit = 11;
+  WattUnit = 12;
+  PPMUnit = 13;
+  CubicMeterUnit = 14;
+  KilowattHourUnit = 15;
+  GigacalorieUnit = 16;
+  DensityUgM3Unit = 17;
+  LiterUnit = 18;
+}
+
+enum EProtocol {
+  PROTOCOL_UNKNOWN = 0;
+  PROTOCOL_ZIGBEE = 1;
+  PROTOCOL_MATTER = 2;
+  PROTOCOL_WIFI = 3;
+  PROTOCOL_IR = 4;
+  PROTOCOL_CRADLE = 5;
+}
+

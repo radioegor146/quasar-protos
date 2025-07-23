@@ -1,0 +1,272 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotDiscoveryCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_discovery;iotdiscoverypb";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/wrappers.proto";
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotDiscoveryCapability {
+  message TParameters {
+    repeated .NAlice.TIotDiscoveryCapability.TProtocol SupportedProtocols = 1;
+    bool IsMatterBulkSupported = 2;
+    uint32 MatterParametersVer = 3;
+  }
+
+  message TProtocolStatus {
+    .NAlice.TIotDiscoveryCapability.TProtocol Protocol = 1;
+    .NAlice.TIotDiscoveryCapability.EStatus Status = 2;
+  }
+
+  message TState {
+    bool IsDiscoveryInProgress = 1;
+    repeated .NAlice.TIotDiscoveryCapability.TProtocolStatus Statuses = 2;
+  }
+
+  message TProtocolParameters {
+    message TZigbeeParameters {
+      uint32 DeviceLimit = 1;
+    }
+
+    message TMatterParameters {
+      string SetupCodePayload = 1;
+      string SSID = 2;
+      string Password = 3;
+    }
+
+    message TMatterBulkParameters {
+      repeated string SetupCodePayloads = 1;
+      string SSID = 2;
+      string Password = 3;
+    }
+
+    message TDeviceParameters {
+      string SetupCodePayload = 1;
+      .NAlice.TIotDiscoveryCapability.TMatterTransport Transport = 2;
+    }
+
+    message TWiFiTransportParameters {
+      string SSID = 1;
+      string Password = 2;
+    }
+
+    message TThreadTransportParameters {
+    }
+
+    message TTransportParameters {
+      .NAlice.TIotDiscoveryCapability.TMatterTransport Transport = 1;
+      oneof Parameters {
+        .NAlice.TIotDiscoveryCapability.TProtocolParameters.TWiFiTransportParameters WiFiParameters = 2;
+        .NAlice.TIotDiscoveryCapability.TProtocolParameters.TThreadTransportParameters ThreadParameters = 3;
+      }
+    }
+
+    message TMatterParametersV3 {
+      repeated .NAlice.TIotDiscoveryCapability.TProtocolParameters.TDeviceParameters DevicesParameters = 1;
+      repeated .NAlice.TIotDiscoveryCapability.TProtocolParameters.TTransportParameters TransportsParameters = 2;
+    }
+
+    .NAlice.TIotDiscoveryCapability.TProtocol Protocol = 1;
+    oneof Parameters {
+      .NAlice.TIotDiscoveryCapability.TProtocolParameters.TZigbeeParameters ZigbeeParameters = 2;
+      .NAlice.TIotDiscoveryCapability.TProtocolParameters.TMatterParameters MatterParameters = 3;
+      .NAlice.TIotDiscoveryCapability.TProtocolParameters.TMatterBulkParameters MatterBulkParameters = 4;
+      .NAlice.TIotDiscoveryCapability.TProtocolParameters.TMatterParametersV3 MatterParametersV3 = 5;
+    }
+  }
+
+  message TNetwork {
+    .NAlice.TIotDiscoveryCapability.TProtocol Protocol = 1;
+    .google.protobuf.StringValue NetworkBase64 = 2;
+  }
+
+  message TNetworks {
+    .google.protobuf.BytesValue ZigbeeNetwork = 1;
+    .google.protobuf.StringValue ZigbeeNetworkBase64 = 2;
+    .google.protobuf.StringValue MatterNetworkBase64 = 3;
+    .google.protobuf.StringValue ThreadNetworkBase64 = 4;
+    repeated .NAlice.TIotDiscoveryCapability.TNetwork Networks = 5;
+  }
+
+  message TEndpointInfo {
+    string Id = 1;
+    .NAlice.EProtocol Protocol = 2;
+  }
+
+  message TStartDiscoveryDirective {
+    reserved "DiscoveryContext";
+    reserved 3;
+    string Name = 1000;
+    repeated .NAlice.TIotDiscoveryCapability.TProtocol Protocols = 1;
+    uint32 TimeoutMs = 2;
+    uint32 DeviceLimit = 4;
+    repeated .NAlice.TIotDiscoveryCapability.TProtocolParameters ProtocolParameters = 5;
+    string SessionId = 6;
+  }
+
+  message TCancelDiscoveryDirective {
+    string SessionId = 1;
+    string Name = 1000;
+  }
+
+  message TFinishDiscoveryDirective {
+    string Name = 1000;
+    repeated string AcceptedIds = 1;
+    repeated .NAlice.TIotDiscoveryCapability.TEndpointInfo AcceptedEndpoints = 2;
+    string SystemInfo = 3;
+    uint32 CallbackId = 4;
+  }
+
+  message TFinishSystemDiscoveryDirective {
+    string Name = 1000;
+    repeated string AcceptedIds = 1;
+    repeated .NAlice.TIotDiscoveryCapability.TEndpointInfo AcceptedEndpoints = 2;
+    string SystemInfo = 3;
+    uint32 CallbackId = 4;
+  }
+
+  message TStartTuyaBroadcastDirective {
+    string Name = 1000;
+    string SSID = 1;
+    string Password = 2;
+    string Token = 3;
+    string Cipher = 4;
+  }
+
+  message TRestoreNetworksDirective {
+    string Name = 1000;
+    .NAlice.TIotDiscoveryCapability.TNetworks Networks = 1;
+  }
+
+  message TForgetDevicesDirective {
+    string Name = 1000;
+    repeated string DeviceIds = 1;
+  }
+
+  message TDeleteNetworksDirective {
+    string Name = 1000;
+    repeated .NAlice.TIotDiscoveryCapability.TProtocol Protocols = 1;
+  }
+
+  message TEnableNetworkDirective {
+    string Name = 1000;
+    .NAlice.TIotDiscoveryCapability.TProtocol Protocol = 1;
+    bool Enabled = 2;
+  }
+
+  message TSyncEndpointsDirective {
+    string Name = 1000;
+    repeated .NAlice.TIotDiscoveryCapability.TEndpointInfo Endpoints = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotDiscoveryCapability Capability = 1;
+    string SessionId = 2;
+  }
+
+  message TIotDiscoveryCompleteEvent {
+    message TMatterDiscoveryResult {
+      message TMatterError {
+        uint32 Code = 1;
+        string Details = 2;
+        .NAlice.TIotDiscoveryCapability.EMatterDiscoveryStage MatterDiscoveryStage = 3;
+        .NAlice.TIotDiscoveryCapability.EMatterErrorType ErrorType = 4;
+      }
+
+      string DevicePairingId = 1;
+      optional .NAlice.TIotDiscoveryCapability.TIotDiscoveryCompleteEvent.TMatterDiscoveryResult.TMatterError Error = 2;
+    }
+
+    uint32 FoundDevicesCount = 1;
+    string SessionId = 3;
+    oneof Result {
+      .NAlice.TIotDiscoveryCapability.TIotDiscoveryCompleteEvent.TMatterDiscoveryResult Matter = 2;
+    }
+  }
+
+  message TIotDiscoveryProgressEvent {
+    message TMatterDiscoveryStage {
+      string DevicePairingId = 1;
+      .NAlice.TIotDiscoveryCapability.EMatterDiscoveryStage MatterDiscoveryStage = 2;
+    }
+
+    .NAlice.TIotDiscoveryCapability.TProtocol Protocol = 1;
+    string SessionId = 4;
+    oneof DiscoveryStage {
+      .NAlice.TIotDiscoveryCapability.EMatterDiscoveryStage MatterDiscoveryStage = 2;
+      .NAlice.TIotDiscoveryCapability.TIotDiscoveryProgressEvent.TMatterDiscoveryStage ExtendedMatterDiscoveryStage = 3;
+    }
+  }
+
+  enum TProtocol {
+    Zigbee = 0;
+    WiFi = 1;
+    Matter = 2;
+    Thread = 3;
+  }
+
+  enum TMatterTransport {
+    WIFI = 0;
+    THREAD = 1;
+  }
+
+  enum EStatus {
+    UNKNOWN = 0;
+    INITIALIZING = 1;
+    READY = 2;
+    DISCOVERING = 3;
+    DISABLED = 4;
+    FAILURE = 5;
+    WIPED = 6;
+  }
+
+  enum EMatterDiscoveryStage {
+    STAGE_UNKNOWN = 0;
+    ESTABLISH_CONNECTION = 1;
+    READ_COMMISSIONING_INFO = 2;
+    ARM_FAIL_SAFE = 3;
+    CONFIG_REGULATORY = 4;
+    SEND_PAI_CERTIFICATE_REQUEST = 5;
+    SEND_DAC_CERTIFICATE_REQUEST = 6;
+    SEND_ATTESTATION_REQUEST = 7;
+    ATTESTATION_VERIFICATION = 8;
+    SEND_OP_CERT_SIGNING_REQUEST = 9;
+    VALIDATE_CSR = 10;
+    GENERATE_NOC_CHAIN = 11;
+    SEND_TRUSTED_ROOT_CERT = 12;
+    SEND_NOC = 13;
+    WI_FI_NETWORK_SETUP = 14;
+    FAILSAFE_BEFORE_WI_FI_ENABLE = 15;
+    WI_FI_NETWORK_ENABLE = 16;
+    FIND_OPERATIONAL = 17;
+    SEND_COMPLETE = 18;
+    CLEANUP = 19;
+    READ_DEVICE_INFO = 20;
+  }
+
+  enum EMatterErrorType {
+    UNKNOWN_ERROR = 0;
+    CHIP_ERROR = 1;
+    CANCELED = 2;
+    PROVIDER_NOT_READY = 3;
+    PROVIDER_FAILURE = 4;
+    PROVIDER_DISABLED = 5;
+    NO_WIFI_CREDENTIALS = 6;
+    NO_THREAD_OPERATIONAL_DATASET = 7;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotDiscoveryCapability.TParameters Parameters = 2;
+  .NAlice.TIotDiscoveryCapability.TState State = 3;
+}
+

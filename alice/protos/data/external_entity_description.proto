@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data";
+option java_outer_classname = "ExternalEntityDescriptionProto";
+option go_package = "a.yandex-team.ru/alice/protos/data";
+
+import "alice/protos/data/entity_meta/recent_tv_item_nlu_meta.proto";
+import "alice/protos/data/entity_meta/tv_channel_nlu_meta.proto";
+import "alice/protos/data/entity_meta/video_nlu_meta.proto";
+import "alice/protos/data/entity_meta/reminders_meta.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TExternalEntityDescription {
+  message TEntityItem {
+    message TEntityItemPhrase {
+      string Phrase = 1;
+    }
+
+    message TEntityValue {
+      string StringValue = 1;
+    }
+
+    .NAlice.NData.TExternalEntityDescription.TEntityItem.TEntityValue Value = 1;
+    repeated .NAlice.NData.TExternalEntityDescription.TEntityItem.TEntityItemPhrase Phrases = 2;
+    oneof Meta {
+      .NAlice.TVideoGalleryItemMeta VideoMeta = 3;
+      .NAlice.TTvChannelItemMeta TvChannelMeta = 4;
+      .NAlice.TRecentTvItemMeta RecentTvItemMeta = 5;
+      .NAlice.TRemindersMeta RemindersMeta = 6;
+    }
+  }
+
+  string Name = 1;
+  repeated .NAlice.NData.TExternalEntityDescription.TEntityItem Items = 2;
+}
+

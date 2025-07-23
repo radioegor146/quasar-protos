@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "StandbyProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/standby;standbypb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TStandbyCapability {
+  message TParameters {
+  }
+
+  message TState {
+    enum EMode {
+      Default = 0;
+      Standby = 1;
+      DeepStandby = 2;
+      PowerOff = 3;
+    }
+
+    .NAlice.TStandbyCapability.TState.EMode Mode = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TStandbyCapability.TParameters Parameters = 2;
+  .NAlice.TStandbyCapability.TState State = 3;
+}
+

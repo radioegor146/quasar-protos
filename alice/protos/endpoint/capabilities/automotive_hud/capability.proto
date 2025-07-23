@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AutomotiveHudCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/automotive_hud;automotive_hudpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAutomotiveHudCapability {
+  message TParameters {
+    message TPropertyConfigParameters {
+      .NAlice.TAutomotiveHudCapability.EPropertyId PropertyId = 1;
+      .NAlice.TAutomotiveHudCapability.TVehiclePropertyValueBounds PropertyValueBounds = 2;
+    }
+
+    repeated .NAlice.TAutomotiveHudCapability.TParameters.TPropertyConfigParameters PropertyConfigParameters = 1;
+  }
+
+  message TState {
+    repeated .NAlice.TAutomotiveHudCapability.TVehiclePropertyState VehiclePropertyStates = 2;
+  }
+
+  message TVehiclePropertyState {
+    .NAlice.TAutomotiveHudCapability.EPropertyId PropertyId = 1;
+    .NAlice.TAutomotiveHudCapability.TVehiclePropertyValue GlobalStateValue = 2;
+  }
+
+  message TVehiclePropertyValue {
+    message TIntValue {
+      int32 Value = 1;
+    }
+
+    message TBoolValue {
+      bool Value = 1;
+    }
+
+    oneof ValueType {
+      .NAlice.TAutomotiveHudCapability.TVehiclePropertyValue.TIntValue IntValue = 1;
+      .NAlice.TAutomotiveHudCapability.TVehiclePropertyValue.TBoolValue BoolValue = 2;
+    }
+  }
+
+  message TVehiclePropertyValueBounds {
+    message IntValueBounds {
+      int32 Min = 1;
+      int32 Max = 2;
+    }
+
+    oneof ValueType {
+      .NAlice.TAutomotiveHudCapability.TVehiclePropertyValueBounds.IntValueBounds IntValue = 1;
+    }
+  }
+
+  message TSetHudStateDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message TSetHudBrightnessDirective {
+    string Name = 1000;
+    int32 Brightness = 1;
+  }
+
+  message TSetHudHeightDirective {
+    string Name = 1000;
+    int32 Height = 1;
+  }
+
+  message TSetHudModeDirective {
+    enum EHudMode {
+      Unknown = 0;
+      Normal = 1;
+      Snow = 2;
+    }
+
+    string Name = 1000;
+    .NAlice.TAutomotiveHudCapability.TSetHudModeDirective.EHudMode Mode = 1;
+  }
+
+  enum EPropertyId {
+    Unknown = 0;
+    HudDisplayBrightness = 1;
+    HudDisplayHeight = 2;
+    HudDisplayMode = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAutomotiveHudCapability.TParameters Parameters = 2;
+  .NAlice.TAutomotiveHudCapability.TState State = 3;
+}
+

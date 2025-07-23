@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "VideoDetailsScreenCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/video_details_screen;videodetailsscreenpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/analytics/client_analytics/tv_client_carousel_analytics.proto";
+import "alice/protos/data/video/video.proto";
+import "alice/protos/data/video/centaur/film_details.proto";
+import "alice/protos/data/video/centaur/film_purchase_details.proto";
+import "alice/protos/data/video/centaur/season_series_details.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TVideoDetailsScreenCapability {
+  message TParameters {
+    bool SupportsShowExternalCinemasDirective = 1;
+    bool ContainsState = 2;
+  }
+
+  message TState {
+    .NAlice.TOttVideoItem CurrentItem = 1;
+  }
+
+  message TOpenVideoDetailsScreenDirective {
+    message TActors {
+      repeated .NAlice.TPersonItem Actor = 1;
+    }
+
+    message TDoc2Doc {
+      repeated .NAlice.TOttVideoItem SeeAlso = 1;
+    }
+
+    message TPlayerContinuation {
+      message TPlayerContinuationItem {
+        string Id = 1;
+        string Title = 2;
+      }
+
+      repeated .NAlice.TVideoDetailsScreenCapability.TOpenVideoDetailsScreenDirective.TPlayerContinuation.TPlayerContinuationItem Continuation = 1;
+    }
+
+    enum EMoveTo {
+      UNKNOWN = 0;
+      MAIN = 1;
+      TRAILER = 2;
+      ACTORS = 3;
+      WATCH_ALSO = 4;
+    }
+
+    string Name = 1;
+    string OntoId = 2;
+    string ProviderItemId = 3;
+    .NAlice.TVideoDetailsScreenCapability.TOpenVideoDetailsScreenDirective.TActors Actors = 5;
+    .NAlice.TVideoDetailsScreenCapability.TOpenVideoDetailsScreenDirective.TDoc2Doc Doc2Doc = 6;
+    .NAlice.TVideoDetailsScreenCapability.TOpenVideoDetailsScreenDirective.TPlayerContinuation PlayerContinuation = 7;
+    bool SkipPolicyCheck = 8;
+    .NAlice.TVideoDetailsScreenCapability.TOpenVideoDetailsScreenDirective.EMoveTo MoveTo = 9;
+    .NAlice.NAnalytics.TTvClientCarouselAnalytics ClientAnalytics = 10;
+    oneof ItemToOpen {
+      .NAlice.TThinOttVideoItem ThinItem = 100;
+      .NAlice.TOttVideoItem FullItem = 101;
+    }
+  }
+
+  message TCentaurOpenVideoDetailsScreenDirective {
+    string Name = 1000;
+    .NAlice.TFilmDetails FilmDetails = 1;
+  }
+
+  message TShowExternalCinemasDirective {
+    string Name = 100;
+    .NAlice.TThinOttVideoItem Item = 1;
+    repeated .NAlice.TOttVideoItem.TCinema ExternalCinemas = 2;
+  }
+
+  message TBuyCurrentDirective {
+    string Name = 1;
+  }
+
+  message TOpenQRPaymentDirective {
+    string Name = 1;
+    string QRBillingUrl = 2;
+  }
+
+  message TCentaurOpenVideoPurchaseScreenDirective {
+    string Name = 1000;
+    .NAlice.TFilmPurchaseDetails FilmPurchaseDetails = 1;
+  }
+
+  message TOpenSerialNavigatorDirective {
+    string Name = 1;
+  }
+
+  message TOpenCurrentContentTrailerDirective {
+    string Name = 1;
+  }
+
+  message TCentaurOpenSeriesScreenDirective {
+    string Name = 1000;
+    .NAlice.TSeasonSeriesDetails SeasonSeriesDetails = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TVideoDetailsScreenCapability.TParameters Parameters = 2;
+  .NAlice.TVideoDetailsScreenCapability.TState State = 3;
+}
+

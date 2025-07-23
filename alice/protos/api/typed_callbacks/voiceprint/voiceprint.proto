@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package NAlice.NScenarios.NVoiceprint;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks.voiceprint";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks/voiceprint";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/protos/data/scenario/voiceprint/personalization_data.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRemoveVoiceprintTypedCallback {
+  string Puid = 1;
+  string PersId = 2;
+}
+
+message TSendIotEnrollmentPushTypedCallback {
+  string Puid = 1;
+  bool NeedNlg = 2;
+}
+
+message TStartEnrollmentOnboardingTypedCallback {
+  string Puid = 1;
+}
+
+message TStartEnrollmentTypedCallback {
+  string Puid = 1;
+}
+
+message TCancelEnrollmentTypedCallback {
+}
+
+message TRegisterSharedEnrollmentTypedCallback {
+  string UserName = 1;
+  .NAlice.NData.NVoiceprint.EGender UserGender = 2;
+}
+
+message TRegisterChildKolonkishTypedCallback {
+}
+

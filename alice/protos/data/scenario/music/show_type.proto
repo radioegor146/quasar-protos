@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/music";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAliceShowType {
+  enum EDayPart {
+    UnknownDayPart = 0;
+    Morning = 1;
+    Evening = 2;
+    Night = 3;
+  }
+
+  enum EAge {
+    UnknownAge = 0;
+    Adult = 1;
+    Children = 2;
+  }
+
+  .NAlice.NData.NMusic.TAliceShowType.EDayPart DayPart = 1;
+  .NAlice.NData.NMusic.TAliceShowType.EAge Age = 2;
+}
+

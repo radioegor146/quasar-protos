@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.common.subscription_state";
+option java_outer_classname = "SubscriptionStateProto";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/common/subscription_state;subscriptionstatepb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSubscriptionState {
+  enum ESubscriptionType {
+    unknown = 0;
+    none = 1;
+    yandex_subscription = 2;
+  }
+
+  .NAlice.TSubscriptionState.ESubscriptionType Subscription = 1;
+}
+

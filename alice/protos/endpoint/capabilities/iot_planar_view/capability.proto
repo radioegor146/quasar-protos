@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "TIotPlanarViewCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_planar_view;planar_viewpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/iot/geometry.proto";
+
+message TIotPlanarViewCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.NIot.TBounds Bounds = 1;
+    .NAlice.NIot.TBasis Basis = 2;
+    optional .NAlice.NIot.TGrid Grid = 3;
+  }
+
+  message TIotSetPlanarViewBasisDirective {
+    .NAlice.NIot.TBasis Basis = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotPlanarViewCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotPlanarViewCapability.TParameters Parameters = 2;
+  .NAlice.TIotPlanarViewCapability.TState State = 3;
+}
+

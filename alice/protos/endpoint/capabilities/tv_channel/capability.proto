@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "TvChannelCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/tv_channel;tvchannelpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/data/scenario/tv_channels/tv_channels.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTvChannelCapability {
+  message TTvChannelId {
+    oneof IdentityMethod {
+      string ChannelUri = 1;
+      int32 ChannelId = 2;
+      int32 YandexChannelId = 3;
+      string ContentId = 4;
+    }
+  }
+
+  message TTvChannel {
+    .NAlice.TTvChannelCapability.TTvChannelId Id = 1;
+    string Name = 2;
+    .NAlice.TTvChannelCapability.EChannelType ChannelType = 3;
+    string ChannelId = 4;
+    string InputId = 5;
+  }
+
+  message TCategory {
+    enum ECategoryType {
+      UNKNOWN = 0;
+      SOFTWARE = 1;
+      ANTENNA = 2;
+      CABLE = 3;
+      SATELLITE = 4;
+    }
+
+    string Id = 1;
+    string Title = 2;
+    .NAlice.TTvChannelCapability.TCategory.ECategoryType Type = 3;
+    bool IsSelected = 4;
+  }
+
+  message TCatchUpEpisodeInformation {
+    string TvProgramId = 1;
+    .NAlice.TTvChannelCapability.TTvChannelId TvChannelId = 2;
+    string Name = 3;
+    int64 StartTime = 4;
+    int64 EndTime = 5;
+    int64 ProgressTime = 6;
+    int64 WatermarkTime = 7;
+    bool HasCatchup = 8;
+  }
+
+  message TChannelTypeAvailability {
+    .NAlice.TTvChannelCapability.EChannelType ChannelType = 1;
+    bool IsAvailable = 2;
+    bool IsConfigured = 3;
+    bool IsManaged = 4;
+  }
+
+  message TParameters {
+    bool IsFavoritesAvailable = 1;
+    bool CentaurUseNativeChannelListSidebar = 2;
+  }
+
+  message TState {
+    .NAlice.TTvChannelCapability.TTvChannel CurrChannel = 1;
+    .NAlice.TTvChannelCapability.TTvChannel LastChannel = 2;
+    int64 TimeTurnOffLastChannel = 3;
+    repeated .NAlice.TTvChannelCapability.TTvChannel ListPreviousChannels = 4;
+    repeated .NAlice.TTvChannelCapability.TTvChannel ListNextChannels = 5;
+    repeated .NAlice.TTvChannelCapability.TChannelTypeAvailability ChannelTypeAvailabilities = 6;
+    .NAlice.TTvChannelCapability.TCatchUpEpisodeInformation CatchUpEpisodeInformation = 7;
+    repeated .NAlice.TTvChannelCapability.TTvChannel ListFavoritesChannels = 8;
+    int64 LastChannelPlayTimestamp = 9;
+    bool IsRegionalVersionsSupported = 10;
+    repeated .NAlice.TTvChannelCapability.TCategory Categories = 11;
+    bool IsTvGridEnabled = 12;
+  }
+
+  message TTurnOnTvChannelDirective {
+    .NAlice.TTvChannelCapability.TTvChannelId TvChannelId = 1;
+    string Name = 4;
+    optional string TvProgramId = 2;
+    optional int64 Offset = 3;
+  }
+
+  message TOpenTvChannelSettingsDirective {
+    .NAlice.TTvChannelCapability.EChannelType ChannelType = 1;
+    string Name = 2;
+  }
+
+  message TAddTvChannelFavoritesDirective {
+    .NAlice.TTvChannelCapability.TTvChannelId TvChannelId = 1;
+    string Name = 2;
+  }
+
+  message TDeleteTvChannelFavoritesDirective {
+    .NAlice.TTvChannelCapability.TTvChannelId TvChannelId = 1;
+    string Name = 2;
+  }
+
+  message TOpenTvChannelsCategoryDirective {
+    string CategoryId = 1;
+    string Name = 2;
+  }
+
+  message TOpenPlayerTvChannelListDirective {
+    string Name = 1;
+  }
+
+  message TOpenPlayerTvProgramDirective {
+    string Name = 1;
+    .NAlice.TTvChannelCapability.TTvChannelId TvChannelId = 2;
+  }
+
+  message TOpenTvProgramDirective {
+    .NAlice.TTvChannelCapability.TTvChannelId TvChannelId = 1;
+    string Name = 3;
+    optional string TvProgramId = 2;
+  }
+
+  message TOpenTvChannelsScreenCentaurDirective {
+    string Name = 1;
+    .NAlice.NData.NTvChannels.TCentaurChannelsListData CentaurChannelsListData = 2;
+  }
+
+  enum EChannelType {
+    UNKNOWN = 0;
+    ANTENNA = 1;
+    CABLE = 2;
+    SOFTWARE = 3;
+    SATELLITE = 4;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TTvChannelCapability.TParameters Parameters = 2;
+  .NAlice.TTvChannelCapability.TState State = 3;
+}
+

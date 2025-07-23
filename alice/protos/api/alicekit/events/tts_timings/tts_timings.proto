@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.tts_timings";
+option java_outer_classname = "TtsTimings";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/tts_timings";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTtsTimings {
+  message TTiming {
+    float Time = 1;
+    string Phoneme = 2;
+    optional string Word = 3;
+  }
+
+  message TUtterance {
+    message Word {
+      string Word = 1;
+      repeated string Phonemes = 2;
+    }
+
+    repeated .NAlice.NAliceApi.TTtsTimings.TUtterance.Word Words = 1;
+  }
+
+  repeated .NAlice.NAliceApi.TTtsTimings.TTiming Timings = 1;
+  .NAlice.NAliceApi.TTtsTimings.TUtterance Utterance = 2;
+  bool FromCache = 3;
+}
+

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.user";
+option java_outer_classname = "UserOptions";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/user";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/megamind/protos/common/hash_puids.proto";
+import "alice/megamind/protos/user/data.proto";
+import "alice/megamind/protos/user/tags.proto";
+import "alice/protos/api/request_parts/context_load_options.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUserOptions {
+  string OAuthToken = 1;
+  string Puid = 2;
+  string PersId = 3;
+  .NAlice.THashPuids HashPuids = 4;
+  .NAlice.TUserData Data = 5;
+  .NAlice.TUserTags Tags = 6;
+  .NAlice.TContextLoadOptions ContextLoadOptions = 7;
+}
+

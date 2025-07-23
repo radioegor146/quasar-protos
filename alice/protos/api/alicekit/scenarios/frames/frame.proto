@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.scenarios.frames";
+option java_outer_classname = "SemanticFrameProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/scenarios/frames";
+
+import "alice/megamind/protos/scenarios/frames/call_commands_frame/call_commands_frame.proto";
+import "alice/megamind/protos/scenarios/frames/endpoint_events_frame/endpoint_events_frame.proto";
+import "alice/megamind/protos/scenarios/frames/enrollment_frame/enrollment_frame.proto";
+import "alice/megamind/protos/scenarios/frames/iot_frame/iot_frame.proto";
+import "alice/megamind/protos/scenarios/frames/media_frame/media_frame.proto";
+import "alice/megamind/protos/scenarios/frames/music_frame/music_frame.proto";
+import "alice/megamind/protos/scenarios/frames/onboarding_frame/onboarding_frame.proto";
+import "alice/megamind/protos/scenarios/frames/radio_frame/radio_frame.proto";
+import "alice/megamind/protos/scenarios/frames/sound_commands_frame/sound_commands_frame.proto";
+import "alice/megamind/protos/scenarios/frames/speech_activity_frame/speech_activity_frame.proto";
+import "alice/protos/api/request_parts/atm.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSemanticFrame {
+  reserved "Entities";
+  reserved "TypedSemanticFrame";
+  reserved "IsFromRephrasedUtterance";
+  reserved 4;
+  reserved 5;
+  reserved 6;
+  message TSlot {
+    reserved "AcceptedTypes";
+    reserved "IsRequested";
+    reserved "TypedValue";
+    reserved "IsFilled";
+    reserved 4;
+    reserved 5;
+    reserved 6;
+    reserved 7;
+    string Name = 1;
+    string Type = 2;
+    string Value = 3;
+  }
+
+  string Name = 1;
+  repeated .NAlice.NAliceApi.TSemanticFrame.TSlot Slots = 2;
+}
+
+message TTypedSemanticFrame {
+  reserved 56788;
+  oneof Type {
+    .NAlice.TGetCallerNameSemanticFrame GetCallerNameSemanticFrame = 7;
+    .NAlice.TMusicPlaySemanticFrame MusicPlaySemanticFrame = 8;
+    .NAlice.TPlayerNextTrackSemanticFrame PlayerNextTrackSemanticFrame = 16;
+    .NAlice.TPlayerPrevTrackSemanticFrame PlayerPrevTrackSemanticFrame = 17;
+    .NAlice.TIoTDiscoveryStartSemanticFrame IoTDiscoveryStartSemanticFrame = 31;
+    .NAlice.TIoTDiscoveryFailureSemanticFrame IoTDiscoveryFailureSemanticFrame = 33;
+    .NAlice.TOnboardingStartingCriticalUpdateSemanticFrame OnboardingStartingCriticalUpdateSemanticFrame = 36;
+    .NAlice.TOnboardingStartingConfigureSuccessSemanticFrame OnboardingStartingConfigureSuccessSemanticFrame = 37;
+    .NAlice.TRadioPlaySemanticFrame RadioPlaySemanticFrame = 38;
+    .NAlice.TSoundLouderSemanticFrame SoundLouderSemanticFrame = 42;
+    .NAlice.TSoundQuiterSemanticFrame SoundQuiterSemanticFrame = 43;
+    .NAlice.TPlayerContinueSemanticFrame PlayerContinueSemanticFrame = 53;
+    .NAlice.TPlayerShuffleSemanticFrame PlayerShuffleSemanticFrame = 55;
+    .NAlice.TPlayerReplaySemanticFrame PlayerReplaySemanticFrame = 56;
+    .NAlice.TPlayerRepeatSemanticFrame PlayerRepeatSemanticFrame = 58;
+    .NAlice.TPlayerUnshuffleSemanticFrame PlayerUnshuffleSemanticFrame = 64;
+    .NAlice.TStartIotTuyaBroadcastSemanticFrame StartIotTuyaBroadcastSemanticFrame = 102;
+    .NAlice.TRestoreIotNetworksSemanticFrame RestoreIotNetworksSemanticFrame = 104;
+    .NAlice.TSaveIotNetworksSemanticFrame SaveIotNetworksSemanticFrame = 105;
+    .NAlice.TGuestEnrollmentStartSemanticFrame GuestEnrollmentStartSemanticFrame = 106;
+    .NAlice.TEndpointEventsBatchSemanticFrame EndpointEventsBatchSemanticFrame = 127;
+    .NAlice.TGetEqualizerSettingsSemanticFrame GetEqualizerSettingsSemanticFrame = 138;
+    .NAlice.TOnboardingGetGreetingsSemanticFrame OnboardingGetGreetingsSemanticFrame = 140;
+    .NAlice.TEnrollmentStatusSemanticFrame EnrollmentStatusSemanticFrame = 156;
+    .NAlice.TGuestEnrollmentFinishSemanticFrame GuestEnrollmentFinishSemanticFrame = 165;
+    .NAlice.TVoiceActivityDetectorSemanticFrame VoiceActivityDetectorSemanticFrame = 263;
+    .NAlice.TOnboardingAddNetworkSuccessSemanticFrame OnboardingAddNetworkSuccessSemanticFrame = 368;
+  }
+}
+
+message TSemanticFrameRequestData {
+  reserved "Origin";
+  reserved "Params";
+  reserved "RequestParams";
+  reserved "OnChainFinish";
+  reserved 3;
+  reserved 4;
+  reserved 5;
+  reserved 6;
+  .NAlice.NAliceApi.TTypedSemanticFrame TypedSemanticFrame = 1;
+  .NAlice.TAnalyticsTrackingModule Analytics = 2;
+}
+

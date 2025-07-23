@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AudioPlayerCapabilitiesProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/audio_player;audioplayerpb";
+
+import "alice/protos/data/common_player_state/common_player_state.proto";
+import "alice/protos/data/playback_options.proto";
+import "alice/protos/data/scenario/music/karaoke_mode.proto";
+import "alice/protos/data/scenario/music/switching_streams_metadata.proto";
+import "alice/protos/endpoint/capabilities/audio_player/sequence_state.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAudioPlayerCapability {
+  message TParameters {
+    reserved "IsMultiroomSequenceStateSharingSupported";
+    reserved 6;
+    message TSequenceStateConditionalSupportParams {
+      bool AllowMultiroomSharing = 1;
+    }
+
+    enum ECodec {
+      Mp3 = 0;
+      Opus = 1;
+      Aac = 2;
+      Flac = 3;
+      HeAac = 4;
+      AacMp4 = 5;
+      FlacMp4 = 6;
+      HeAacMp4 = 7;
+    }
+
+    enum EStrmFeatures {
+      DecodeKey = 0;
+      MaxHttpRange = 1;
+    }
+
+    enum EQuality {
+      Default = 0;
+      Preview = 1;
+      Low = 2;
+      Normal = 3;
+      High = 4;
+      Lossless = 5;
+    }
+
+    bool GenericHlsPlaybackSupport = 1;
+    repeated .NAlice.TAudioPlayerCapability.TParameters.ECodec SupportedCodecs = 2;
+    repeated .NAlice.TAudioPlayerCapability.TParameters.EStrmFeatures SupportedStrmFeatures = 3;
+    bool KaraokeSupport = 4;
+    .NAlice.TAudioPlayerCapability.TParameters.EQuality Quality = 5;
+    bool AutoQualityEnabled = 8;
+    .NAlice.TAudioPlayerCapability.TParameters.TSequenceStateConditionalSupportParams SequenceStateConditionalSupportParams = 7;
+  }
+
+  message TState {
+    reserved "PlaybackOptions";
+    reserved "SwitchingStreamsMetadata";
+    reserved 8;
+    reserved 9;
+    message TFinishingTrackPlayerState {
+      .NAlice.TCommonPlayerState CommonPlayerState = 1;
+      string StreamId = 2;
+    }
+
+    enum EStateType {
+      Unknown = 0;
+      Idle = 1;
+      Playing = 2;
+      Paused = 3;
+      Buffering = 4;
+      Stopped = 5;
+      Finished = 6;
+    }
+
+    .NAlice.TCommonPlayerState CommonPlayerState = 1;
+    .NAlice.TAudioPlayerCapability.TState.EStateType StateType = 2;
+    string StreamId = 3;
+    string StreamType = 4;
+    string Title = 5;
+    string SubTitle = 6;
+    .NAlice.TAudioPlayerSequenceState SequenceState = 7;
+    .NAlice.NData.NMusic.TSwitchingStreamsMetadata SwitchStreamsMetadata = 10;
+    .NAlice.NData.TPlaybackOptions PlaybackOpts = 11;
+    double PlaybackSpeed = 12;
+    bool IsCrossfaded = 13;
+    int64 UserMusicSessionTimestamp = 14;
+    .NAlice.TAudioPlayerCapability.TState.TFinishingTrackPlayerState FinishingTrackPlayerState = 15;
+    .NAlice.NData.NMusic.EKaraokeMode KaraokeMode = 16;
+  }
+
+  message TSetSequenceStateDirective {
+    string Name = 1000;
+    .NAlice.TAudioPlayerSequenceState SequenceState = 1;
+  }
+
+  message TPlayDirective {
+    optional string TrackId = 1;
+  }
+
+  message TLikeDirective {
+    optional string TrackId = 1;
+  }
+
+  message TUnlikeDirective {
+    optional string TrackId = 1;
+  }
+
+  message TDislikeDirective {
+    optional string TrackId = 1;
+  }
+
+  message TUndislikeDirective {
+    optional string TrackId = 1;
+  }
+
+  message TNextDirective {
+    optional string TrackId = 1;
+  }
+
+  message TPreviousDirective {
+    optional string TrackId = 1;
+  }
+
+  message TRepeatOneDirective {
+    optional string TrackId = 1;
+  }
+
+  message TRepeatAllDirective {
+    optional string TrackId = 1;
+  }
+
+  message TUnrepeatDirective {
+    optional string TrackId = 1;
+  }
+
+  message TShuffleDirective {
+    optional string TrackId = 1;
+  }
+
+  message TUnshuffleDirective {
+    optional string TrackId = 1;
+  }
+
+  message TGetLyricsDirective {
+    optional string TrackId = 1;
+  }
+
+  message TAudioSetSpeedLevelDirective {
+    string Name = 1000;
+    optional double PlaybackSpeed = 1;
+  }
+
+  message TEnableKaraokeModeDirective {
+    optional string TrackId = 1;
+  }
+
+  message TDisableKaraokeModeDirective {
+    optional string TrackId = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAudioPlayerCapability.TParameters Parameters = 2;
+  .NAlice.TAudioPlayerCapability.TState State = 3;
+}
+

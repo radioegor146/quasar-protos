@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.directives";
+option java_outer_classname = "DirectiveProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/directives";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/protos/api/source/source.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+
+message TDirective {
+  reserved "UniproxyDirectiveMeta";
+  reserved 56788;
+  reserved 10;
+  message TOnFinishEvent {
+    oneof Event {
+      .google.protobuf.Struct TypedCallbackRequest = 1;
+    }
+  }
+
+  string Type = 1;
+  string Name = 2;
+  string AnalyticsType = 3;
+  bool IgnoreAnswer = 4;
+  repeated string RoomDeviceIds = 7;
+  bool IsLedSilent = 8;
+  .google.protobuf.StringValue EndpointId = 9;
+  bool IsParallel = 11;
+  uint32 TimeBeforeDropMs = 12;
+  .NAlice.NAliceApi.TDirective.TOnFinishEvent OnFinish = 14;
+  .NAlice.NAliceApi.TSourceInfo SourceInfo = 17;
+  bool AttachToMultiroom = 18;
+  oneof PayloadType {
+    .google.protobuf.Struct Payload = 5;
+    bytes PayloadRaw = 15;
+  }
+  oneof OptionalMultiroomSessionId {
+    string MultiroomSessionId = 6;
+  }
+  oneof OptionalPersId {
+    string PersId = 13;
+  }
+  optional string Id = 16;
+}
+

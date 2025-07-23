@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.rpc.events_batch";
+option java_outer_classname = "EventsBatch";
+option go_package = "a.yandex-team.ru/alice/protos/api/rpc/iot/events_batch;eventsbatchpb";
+
+import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
+import "alice/protos/endpoint/events/events.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIoTEventsBatchRequest {
+  repeated .NAlice.TEndpointEvents Batch = 1;
+  .NAlice.NAliceApi.TEnvironmentState EnvironmentState = 2;
+}
+
+message TIoTEventsBatchResponse {
+}
+

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "PhoneCallsUICapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/phone_calls_ui;phonecallsuipb";
+
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/protos/data/calls/callable_devices.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TPhoneCallsUICapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TOpenDeviceCallUIDirective {
+    message TCallableDeviceInfo {
+      string DeviceId = 1;
+      string DeviceName = 2;
+      string DevicePlatform = 3;
+      string RoomName = 4;
+      string HouseholdName = 5;
+      string DeviceIconUrl = 6;
+      bool RadioNannyEnabled = 7;
+      bool DropInEnabled = 8;
+    }
+
+    string Name = 1;
+    .NAlice.TPhoneCallsUICapability.TOpenDeviceCallUIDirective.TCallableDeviceInfo DeviceInfo = 2;
+  }
+
+  message TGetCallableDevicesDirective {
+    string Name = 1;
+    .NAlice.TCallableDevicesData CallableDevicesData = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TPhoneCallsUICapability.TParameters Parameters = 2;
+  .NAlice.TPhoneCallsUICapability.TState State = 3;
+}
+

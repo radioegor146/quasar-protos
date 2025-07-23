@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.device_control_panel";
+option java_outer_classname = "LocalTimeProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/device_control_panel";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLocalTime {
+  uint32 Hour = 1;
+  uint32 Minute = 2;
+  uint32 Second = 3;
+}
+
+message TDayOfWeek {
+  enum EDayOfWeek {
+    sunday = 0;
+    monday = 1;
+    tuesday = 2;
+    wednesday = 3;
+    thursday = 4;
+    friday = 5;
+    saturday = 6;
+  }
+
+  .NAlice.TDayOfWeek.EDayOfWeek DayOfWeek = 1;
+}
+

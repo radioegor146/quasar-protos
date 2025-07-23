@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.sources";
+option java_outer_classname = "SourceType";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/sources";
+
+enum ESourceType {
+  ST_UNKNOWN = 0;
+  ST_TV = 1;
+  ST_HDMI = 2;
+  ST_USB = 3;
+  ST_COMPOSITE = 4;
+  ST_VGA = 5;
+  ST_Y_PB_PR = 6;
+  ST_AV = 7;
+}
+

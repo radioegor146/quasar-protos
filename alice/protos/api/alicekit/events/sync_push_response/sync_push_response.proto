@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push_response";
+option java_outer_classname = "SyncPushResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push_response";
+
+import "alice/protos/api/alicekit/events/sync_push_response/sync_response/sync_response.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSyncPushResponse {
+  .NAlice.NAliceApi.TSyncResponse SyncResponse = 1;
+}
+

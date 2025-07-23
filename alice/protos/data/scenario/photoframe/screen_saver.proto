@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.photoframe";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/photoframe";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TScreenSaverData {
+  string ImageUrl = 1;
+}
+
+message TAsset {
+  string ImageUrl = 1;
+  string VideoUrl = 2;
+}
+
+message TLiveBackgroundAsset {
+  .NAlice.NData.TAsset Bottom = 1;
+  .NAlice.NData.TAsset Top = 2;
+}
+
+message TLiveBackgroundData {
+  enum EDayPart {
+    Day = 0;
+    Evening = 1;
+    Night = 2;
+  }
+
+  enum EOrientationType {
+    Any = 0;
+    LandscapeOnly = 1;
+    PortraitOnly = 2;
+  }
+
+  string BackgroundId = 1;
+  .NAlice.NData.TLiveBackgroundData.EDayPart DayPart = 2;
+  .NAlice.NData.TLiveBackgroundData.EOrientationType OrientationType = 3;
+  .NAlice.NData.TLiveBackgroundAsset LandscapeAsset = 4;
+  .NAlice.NData.TLiveBackgroundAsset PortraitAsset = 5;
+  bool UseS3SourceUri = 6;
+}
+
+message TDeepBackgroundData {
+  string BackgroundId = 1;
+}
+
+message TYaBroBackgroundCategorySettingData {
+  string CategoryId = 1;
+}
+
+message TYaBroBackgroundPreviewData {
+  .NAlice.NData.TYaBroBackgroundCategorySettingData CategorySettingData = 1;
+  bool IsChosen = 2;
+  string CategoryName = 3;
+  string CategoryPreview = 4;
+}
+
+message TYaBroBackgroundsSettingScreenData {
+  repeated .NAlice.NData.TYaBroBackgroundPreviewData YaBroBackgroundsPreviews = 1;
+}
+
+message TVideoBackgroundData {
+  enum EOrientationType {
+    Any = 0;
+    LandscapeOnly = 1;
+    PortraitOnly = 2;
+  }
+
+  string BackgroundId = 1;
+  .NAlice.NData.TVideoBackgroundData.EOrientationType OrientationType = 2;
+  .NAlice.NData.TAsset LandscapeAsset = 3;
+  .NAlice.NData.TAsset PortraitAsset = 4;
+  bool UseS3SourceUri = 5;
+}
+

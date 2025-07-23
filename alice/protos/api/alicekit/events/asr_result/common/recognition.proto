@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.asr_result.common";
+option java_outer_classname = "AsrResultRecognition";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/asr_result/common";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAsrRecognition {
+  message TWord {
+    optional string Value = 1;
+    optional float Confidence = 2;
+  }
+
+  repeated .NAlice.NAliceApi.TAsrRecognition.TWord Words = 2;
+  optional float Confidence = 1;
+  optional string Normalized = 3;
+  optional string ParentModel = 4;
+}
+

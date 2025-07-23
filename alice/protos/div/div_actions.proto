@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.div";
+option java_outer_classname = "DivActionsProto";
+option go_package = "a.yandex-team.ru/alice/protos/div";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDirectiveDivAction {
+}
+
+message TTextQueryDivAction {
+}
+
+message TDivActions {
+  .NAlice.TDirectiveDivAction DirectiveDivAction = 1;
+  .NAlice.TTextQueryDivAction TextQueryDivAction = 2;
+}
+

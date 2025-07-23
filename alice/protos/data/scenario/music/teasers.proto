@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/music";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TMusicTeaserData {
+  message TColors {
+    string BackgroundColor = 1;
+    string ButtonColor = 2;
+    string TextColor = 3;
+  }
+
+  enum EMusicTeaserType {
+    Unknown = 0;
+    Playlist = 1;
+    Album = 2;
+  }
+
+  string Type = 1;
+  string Title = 2;
+  string PosterUrl = 3;
+  string CoverUrl = 4;
+  string Url = 5;
+  .NAlice.NData.NMusic.TMusicTeaserData.TColors Colors = 6;
+  .NAlice.NData.NMusic.TMusicTeaserData.EMusicTeaserType MusicTeaserType = 7;
+}
+

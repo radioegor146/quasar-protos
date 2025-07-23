@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.entity_meta";
+option go_package = "a.yandex-team.ru/alice/protos/data/entity_meta";
+
+import "alice/protos/data/tv/recent/recent_usage_info.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRecentTvItemMeta {
+  .NAlice.NTv.TRecentUsageInfo UsageInfo = 1;
+  uint32 Position = 2;
+}
+

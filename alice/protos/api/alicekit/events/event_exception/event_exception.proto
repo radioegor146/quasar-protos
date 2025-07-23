@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.event_exception";
+option java_outer_classname = "EventException";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/event_exception";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TEventException {
+  message TError {
+    string ErrorMessage = 1;
+  }
+
+  .NAlice.NAliceApi.TEventException.TError Error = 1;
+}
+

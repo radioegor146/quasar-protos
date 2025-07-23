@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AudioFilePlayerCapabilitiesProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/audio_file_player;audiofileplayerpb";
+
+import "alice/protos/data/channel/channel.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAudioFilePlayerCapability {
+  message TParameters {
+    repeated .NAlice.TAudioFilePlayerCapability.EStoredSound StoredSounds = 1;
+  }
+
+  message TState {
+  }
+
+  message TLocalAudioFilePlayDirective {
+    reserved "StoredSound";
+    reserved 1;
+    string Name = 4;
+    .NAlice.EDirectiveChannel Channel = 2;
+    bool Looped = 3;
+    uint32 PlayTimes = 5;
+    oneof Sound {
+      .NAlice.TAudioFilePlayerCapability.EStoredSound SoundToPlay = 7;
+      string FileName = 6;
+    }
+  }
+
+  message TLocalAudioFileStopDirective {
+    reserved "StoredSound";
+    reserved 1;
+    string Name = 3;
+    .NAlice.EDirectiveChannel Channel = 2;
+    oneof Sound {
+      .NAlice.TAudioFilePlayerCapability.EStoredSound SoundToPlay = 7;
+      string FileName = 6;
+    }
+  }
+
+  enum EStoredSound {
+    UnknownSound = 0;
+    CallRinging = 1;
+    CallEndedNannyWarning = 2;
+    ActivationNoNetworkInEthernet = 3;
+    AuthFailed = 4;
+    BluetoothPairingMode = 5;
+    BluetoothSourceConnected = 6;
+    BluetoothSourceDisconnected = 7;
+    BootSound = 8;
+    Brick = 9;
+    CallBusy = 10;
+    CallChecking = 11;
+    CallConnected = 12;
+    CallConnecting = 13;
+    CallEnded = 14;
+    CallFail = 15;
+    CallRingingOutgoing = 16;
+    CannotConnectToTheWifi = 17;
+    ConfigureSuccess = 18;
+    ConfigureSuccessUpdate = 19;
+    ConfirmDataReset = 20;
+    DataResetCanceled = 21;
+    DataResetSuccess = 22;
+    EnterConfigure = 23;
+    FirstEnterConfigure = 24;
+    GuestEnrollmentFailed = 25;
+    HotelSetupPrompt = 26;
+    IdleSound = 27;
+    MicsMuted = 28;
+    MicsUnmuted = 29;
+    NoAccess = 30;
+    NoInternet = 31;
+    NoPower = 32;
+    NotificationSound = 33;
+    PlaybackError = 34;
+    SnakeAppPop = 35;
+    PowerOff = 36;
+    PowerOn = 37;
+    QcButtonsTest = 38;
+    RadioError = 39;
+    SomethingWentWrong = 40;
+    Timer = 41;
+    VinsError = 42;
+    VolumeChange = 43;
+    VolumeMax = 44;
+    VolumeSound = 45;
+    WhiteNoise = 46;
+    WrongSound = 47;
+    WrongSoundVersion = 48;
+    WrongWifiPassword = 49;
+    QcSweepTone = 50;
+    OutgoingCallFailed = 51;
+    BluetoothTurningOn = 52;
+    BluetoothTurningOff = 53;
+    BluetoothTurningBlockedBySubscription = 54;
+    SeamActivationFeedback = 55;
+    SpotterStart = 56;
+    SpotterCancel = 57;
+    SpotterError = 58;
+    StopRecognition = 59;
+    AliceIoTSoundsTurnOff = 60;
+    AliceIoTSoundsTurnOn = 61;
+    AliceIoTSoundsOnOffUnknownState = 62;
+    AliceIoTSoundsDone = 63;
+    AliceIoTSoundsEasy = 64;
+    AliceIoTSoundsGood = 65;
+    AliceIoTSoundsNoProblem = 66;
+    AliceIoTSoundsOfcourse = 67;
+    AliceIoTSoundsOk = 68;
+    AliceIoTSoundsWithPleasure = 69;
+    AliceIoTSoundsPlease = 70;
+    LowBattery = 71;
+    ContentNotAvailable = 72;
+    ContentNotPaid = 73;
+    ContentRestricted = 74;
+    ProtocolUnsupported = 75;
+    ScreenIsNotConnected = 76;
+    UnknownVideoError = 77;
+    OvercooledBattery = 78;
+    OverheatedBattery = 79;
+    ConfiguringLowBattery = 80;
+    ChargerConnected = 81;
+    LowBatteryDuringAudio = 82;
+    BluetoothTurningOnJingle = 83;
+    BluetoothTurningOffJingle = 84;
+    CannotWithoutInternet = 85;
+    HotForCharging = 86;
+    UnavailableRadiostation = 87;
+    WaterLeakWithCable = 88;
+    WaterLeakWithoutCable = 89;
+    DischargingWithChargerConnected = 90;
+    PowerOffLowBattery = 91;
+    AliceLoginwallSpeech = 92;
+    EnterBluetoothReset = 93;
+    BluetoothResetted = 94;
+    FoundWifi = 95;
+    SlowChargerConnected = 96;
+    CriticalUpdateInProgress = 97;
+    SearchingForWifi = 98;
+    WifiNotFound = 99;
+    StoppedSearchingForWifi = 100;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAudioFilePlayerCapability.TParameters Parameters = 2;
+  .NAlice.TAudioFilePlayerCapability.TState State = 3;
+}
+

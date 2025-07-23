@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "TIotTrackingCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_tracking;trackingpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/iot/geometry.proto";
+
+message TIotTrackingCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Active = 1;
+    uint64 ReportFrequencyMs = 2;
+  }
+
+  message TIotStartTrackingDirective {
+    uint64 ReportFrequencyMs = 1;
+    uint64 TimeoutMs = 2;
+  }
+
+  message TIotStopTrackingDirective {
+  }
+
+  message TIotTrackingEvent {
+    message TObjectState {
+      uint32 ID = 1;
+      .NAlice.NIot.TPoint Position = 2;
+      float VelocityMmS = 4;
+    }
+
+    repeated .NAlice.TIotTrackingCapability.TIotTrackingEvent.TObjectState ObjectStates = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotTrackingCapability.TParameters Parameters = 2;
+  .NAlice.TIotTrackingCapability.TState State = 3;
+}
+

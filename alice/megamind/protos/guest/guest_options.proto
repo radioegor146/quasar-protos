@@ -1,0 +1,45 @@
+syntax = "proto2";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.guest";
+option java_outer_classname = "GuestOptions";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/guest";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/megamind/protos/common/hash_puids.proto";
+import "alice/megamind/protos/guest/enrollment_headers/enrollment_headers.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TGuestOptions {
+  enum EGuestOrigin {
+    Unknown = 0;
+    RemoteControl = 1;
+    VoiceBiometry = 2;
+    VideoBiometry = 3;
+  }
+
+  enum EStatus {
+    NoMatch = 0;
+    Match = 1;
+  }
+
+  enum EMatchConfidence {
+    Undefined = 0;
+    Low = 1;
+    High = 2;
+  }
+
+  optional string OAuthToken = 1;
+  optional string YandexUID = 2;
+  optional string PersId = 3;
+  optional .NAlice.TGuestOptions.EGuestOrigin GuestOrigin = 4;
+  optional .NAlice.TGuestOptions.EStatus Status = 5;
+  optional bool IsOwnerEnrolled = 6;
+  optional .NAlice.TEnrollmentHeaders EnrollmentHeaders = 7;
+  optional string RefMessageId = 8;
+  optional .NAlice.THashPuids HashPuids = 9;
+  optional .NAlice.TGuestOptions.EMatchConfidence MatchConfidence = 10;
+}
+

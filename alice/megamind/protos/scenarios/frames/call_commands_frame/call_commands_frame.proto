@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.call_commands_frame";
+option java_outer_classname = "FrameCallCommands";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/call_commands_frame";
+
+import "alice/megamind/protos/scenarios/frames/common/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TGetCallerNameSemanticFrame {
+  .NAlice.TStringSlot CallerDeviceID = 1;
+  .NAlice.TStringSlot CallerPayload = 2;
+  .NAlice.TStringSlot ChatId = 3;
+}
+

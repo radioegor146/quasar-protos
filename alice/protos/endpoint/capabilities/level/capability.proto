@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "LevelCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/level;levelpb";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/wrappers.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLevelCapability {
+  message TParameters {
+    .NAlice.TLevelCapability.EInstance Instance = 1;
+    .NAlice.TRange Range = 2;
+    .NAlice.EUnit Unit = 3;
+  }
+
+  message TState {
+    double Level = 1;
+  }
+
+  message TSetAbsoluteLevelDirective {
+    string Name = 1000;
+    double TargetLevel = 1;
+    uint32 TransitionTime = 2;
+    bool WithOnOff = 3;
+  }
+
+  message TSetRelativeLevelDirective {
+    string Name = 1000;
+    double RelativeLevel = 1;
+    uint32 TransitionTime = 2;
+    bool WithOnOff = 3;
+  }
+
+  message TTransitionLevelDirective {
+    string Name = 1000;
+    double StartLevel = 1;
+    double EndLevel = 2;
+    uint32 TransitionTime = 3;
+    bool WithOnOff = 4;
+  }
+
+  message TStopTransitionLevelDirective {
+    string Name = 1000;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TLevelCapability Capability = 1;
+  }
+
+  message TCondition {
+    .NAlice.TLevelCapability.EInstance Instance = 1;
+    .google.protobuf.DoubleValue LowerBound = 2;
+    .google.protobuf.DoubleValue UpperBound = 3;
+    double Hysteresis = 4;
+  }
+
+  message TLevelFilter {
+    .NAlice.TLevelCapability.EInstance Instance = 1;
+    .google.protobuf.DoubleValue LowerBound = 2;
+    .google.protobuf.DoubleValue UpperBound = 3;
+  }
+
+  enum EInstance {
+    UnknownInstance = 0;
+    TemperatureInstance = 1;
+    HumidityInstance = 2;
+    PressureInstance = 3;
+    BrightnessInstance = 4;
+    IlluminanceInstance = 5;
+    CoverInstance = 6;
+    TVOCInstance = 7;
+    AmperageInstance = 8;
+    VoltageInstance = 9;
+    PowerInstance = 10;
+    CO2Instance = 11;
+    ParticulateMatter_1_0_Instance = 12;
+    ParticulateMatter_2_5_Instance = 13;
+    ParticulateMatter_10_0_Instance = 14;
+    FuelInstance = 15;
+    NOXInstance = 16;
+  }
+
+  enum EMoveMode {
+    Up = 0;
+    Down = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TLevelCapability.TParameters Parameters = 2;
+  .NAlice.TLevelCapability.TState State = 3;
+}
+

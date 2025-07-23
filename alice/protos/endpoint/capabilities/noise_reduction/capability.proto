@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "NoiseReductionCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/noise_reduction;noisereductionpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TNoiseReductionCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TNoiseReductionCapability.EMode Mode = 1;
+  }
+
+  message TSetModeDirective {
+    string Name = 1000;
+    .NAlice.TNoiseReductionCapability.EMode Mode = 1;
+  }
+
+  enum EMode {
+    Disabled = 0;
+    Default = 1;
+    Nanny = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TNoiseReductionCapability.TParameters Parameters = 2;
+  .NAlice.TNoiseReductionCapability.TState State = 3;
+}
+

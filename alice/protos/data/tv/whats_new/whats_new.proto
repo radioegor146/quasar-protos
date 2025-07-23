@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.whats_new";
+option java_outer_classname = "WhatsNewProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/whats_new";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/api/typed_callbacks/typed_callback_request.proto";
+import "alice/protos/data/avatar/avatar.proto";
+
+message TSupportedWhatsNew {
+  string Id = 1;
+}
+
+message TWhatsNewContent {
+  message TButton {
+    reserved "Action";
+    reserved 3;
+    string Id = 1;
+    string Text = 2;
+    .NAlice.TTypedCallbackRequest OnClick = 4;
+  }
+
+  message TVoiceControlSerialized {
+    bytes Serialized = 1;
+  }
+
+  message TVideoTemplate {
+    reserved "VoiceControls";
+    reserved 5;
+    string FirstFrameUrl = 1;
+    string VideoUrl = 2;
+    string Video4KUrl = 3;
+    repeated .NAlice.NTv.TWhatsNewContent.TButton Buttons = 4;
+    repeated .NAlice.NTv.TWhatsNewContent.TVoiceControlSerialized VoiceControlsSerialized = 6;
+  }
+
+  string WhatsNewId = 2;
+  oneof WhatsNewTemplate {
+    .NAlice.NTv.TWhatsNewContent.TVideoTemplate VideoTemplate = 1;
+  }
+}
+
+message TWhatsNewTile {
+  string Id = 1;
+  string Title = 2;
+  string PromoText = 3;
+  string Label = 4;
+  .NAlice.TAvatarMdsImage Background = 5;
+}
+

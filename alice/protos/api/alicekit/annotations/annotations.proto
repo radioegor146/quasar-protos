@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.annotations";
+option java_outer_classname = "RequestAnnotationProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/annotations";
+
+import "alice/protos/api/alicekit/cards/card.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TBaseAnnotation {
+  enum EBoundType {
+    Undefined = 0;
+  }
+
+  repeated .NAlice.NAliceApi.TCard Cards = 1;
+  .NAlice.NAliceApi.TBaseAnnotation.EBoundType BoundType = 2;
+}
+
+message TRequestAnnotation {
+  message TAnnotationsList {
+    repeated .NAlice.NAliceApi.TBaseAnnotation Annotations = 1;
+  }
+
+  .NAlice.NAliceApi.TBaseAnnotation Base = 1;
+  .NAlice.NAliceApi.TRequestAnnotation.TAnnotationsList AnnotationsList = 2;
+}
+

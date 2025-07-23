@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package NAlice.NDatumApi;
+
+option java_package = "ru.yandex.alice.protos.api.datum";
+option go_package = "a.yandex-team.ru/alice/protos/api/datum";
+
+import "alice/library/censor/protos/extension.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TGeoPoint {
+  double Longitude = 1;
+  double Latitude = 2;
+}
+
+message TFullAddress {
+  string FullAddress = 1;
+}
+
+message TCustomLabel {
+  string Name = 1;
+  repeated string Tags = 2;
+}
+
+message TUpdateDatumAddressRequest {
+  reserved "CustomLabel";
+  reserved 4;
+  oneof LocationType {
+    .NAlice.NDatumApi.TFullAddress Address = 1;
+    .NAlice.NDatumApi.TGeoPoint GeoPoint = 2;
+  }
+  oneof Label {
+    .NAlice.NDatumApi.EPassportLabels PassportLabel = 3;
+    .NAlice.NDatumApi.TCustomLabel AliceLabel = 5;
+  }
+}
+
+message TAdditionalAddressDetails {
+  optional int32 RegionId = 1;
+  optional int32 PreciseRegionId = 2;
+  optional string Country = 3;
+  optional string Area = 4;
+  optional string ZipCode = 5;
+  optional string City = 6;
+  optional string Metro = 7;
+  optional string Street = 8;
+  optional string Building = 9;
+  optional string Intercom = 10;
+  optional string Floor = 11;
+  optional string Room = 12;
+  optional string Comment = 13;
+  optional string Block = 14;
+  optional string Estate = 15;
+  optional string Wing = 16;
+  optional string Region = 17;
+  optional string District = 18;
+  optional string Uri = 19;
+}
+
+message TFullAddressInfo {
+  .NAlice.NDatumApi.TFullAddress AddressString = 1;
+  .NAlice.NDatumApi.TGeoPoint GeoPoint = 2;
+  .NAlice.NDatumApi.TAdditionalAddressDetails AdditionalAddressDetails = 3;
+}
+
+message TDatumAddressesListItem {
+  .NAlice.NDatumApi.TFullAddressInfo Address = 1;
+  oneof Label {
+    .NAlice.NDatumApi.EPassportLabels PassportLabel = 2;
+    .NAlice.NDatumApi.TCustomLabel AliceLabel = 3;
+  }
+}
+
+message TDatumAddressesList {
+  repeated .NAlice.NDatumApi.TDatumAddressesListItem Items = 1;
+}
+
+enum EPassportLabels {
+  HOME = 0;
+  WORK = 1;
+}
+

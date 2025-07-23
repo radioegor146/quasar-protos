@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic.NNative;
+
+option java_package = "ru.yandex.alice.protos.data.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/music";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/wrappers.proto";
+
+message TCentaurMusicVerticalData {
+  repeated .NAlice.NData.NMusic.NNative.THorizontalMusicBlockData HorizontalMusicBlockData = 1;
+}
+
+message THorizontalMusicBlockData {
+  string Type = 1;
+  string Title = 2;
+  repeated .NAlice.NData.NMusic.NNative.TCentaurMainScreenGalleryMusicCardData CentaurMainScreenGalleryMusicCardData = 3;
+}
+
+message TCentaurMainScreenGalleryMusicCardData {
+  reserved "TypedAction";
+  reserved 5;
+  message TArtistInfo {
+    string Id = 1;
+    string Name = 2;
+  }
+
+  string Id = 1;
+  string ImageUrl = 2;
+  string Type = 3;
+  string Title = 4;
+  .google.protobuf.StringValue Modified = 6;
+  .google.protobuf.UInt32Value LikesCount = 7;
+  repeated string Genres = 8;
+  .google.protobuf.StringValue ReleaseDate = 9;
+  repeated .NAlice.NData.NMusic.NNative.TCentaurMainScreenGalleryMusicCardData.TArtistInfo Artists = 10;
+  string BlockType = 11;
+}
+

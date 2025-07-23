@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.file_upload_response";
+option java_outer_classname = "FileUploadResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/file_upload_response";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TFileUploadResponse {
+  message TFileUploadStart {
+    optional uint64 MinChunkSize = 1;
+    optional uint64 MaxChunkSize = 2;
+  }
+
+  message TFileUploadContinue {
+  }
+
+  message TFileUploadFinish {
+    optional string FileGuid = 1;
+    optional string PreviewUrl = 2;
+    optional string Title = 3;
+    optional string MimeType = 4;
+    optional string Extension = 5;
+    optional uint64 SizeBytes = 6;
+  }
+
+  message TFileUploadError {
+    message TUnsupportedMimeType {
+    }
+
+    message TInvalidFileSize {
+      optional uint64 MaxFileSize = 1;
+    }
+
+    message TQuotaExceeded {
+    }
+
+    oneof Error {
+      .NAlice.NAliceApi.TFileUploadResponse.TFileUploadError.TUnsupportedMimeType UnsupportedMimeType = 1;
+      .NAlice.NAliceApi.TFileUploadResponse.TFileUploadError.TInvalidFileSize InvalidFileSize = 2;
+      .NAlice.NAliceApi.TFileUploadResponse.TFileUploadError.TQuotaExceeded QuotaExceeded = 3;
+    }
+  }
+
+  oneof Response {
+    .NAlice.NAliceApi.TFileUploadResponse.TFileUploadStart FileUploadStart = 1;
+    .NAlice.NAliceApi.TFileUploadResponse.TFileUploadContinue FileUploadContinue = 2;
+    .NAlice.NAliceApi.TFileUploadResponse.TFileUploadFinish FileUploadFinish = 3;
+    .NAlice.NAliceApi.TFileUploadResponse.TFileUploadError FileUploadError = 4;
+  }
+}
+

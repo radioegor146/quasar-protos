@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.analytics.alice_analytics_info";
+option java_outer_classname = "AliceAnalyticsInfoProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/analytics/alice_analytics_info";
+
+import "alice/protos/api/alicekit/analytics/scenario_analytics_info/scenario_analytics_info.proto";
+import "alice/protos/api/alicekit/scenarios/frames/frame.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAliceAnalyticsInfo {
+  reserved "FrameActions";
+  reserved "Version";
+  reserved "SemanticFrame";
+  reserved "ParentRequestId";
+  reserved "ParentProductScenarioName";
+  reserved "ResponseFrameActions";
+  reserved 4;
+  reserved 2;
+  reserved 3;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  .NAlice.NAliceApi.TScenarioAnalyticsInfo ScenarioAnalyticsInfo = 1;
+  repeated .NAlice.NAliceApi.TSemanticFrame MatchedSemanticFrames = 5;
+}
+

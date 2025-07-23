@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.appmetrika";
+option java_outer_classname = "AppMetricaProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/app_metrika";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+
+message TAppMetrikaEvent {
+  string Name = 1;
+  .google.protobuf.Struct Payload = 2;
+}
+

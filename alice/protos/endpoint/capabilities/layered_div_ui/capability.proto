@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "LayeredDivUIProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/layered_div_ui;layereddivuipb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/layer.proto";
+import "alice/protos/div/div2card.proto";
+import "alice/protos/div/div2id.proto";
+import "alice/protos/div/div2patch.proto";
+import "alice/protos/div/div2size.proto";
+import "alice/protos/div/div_actions.proto";
+import "alice/protos/div/div_customs.proto";
+import "alice/protos/div/div_extensions.proto";
+import "alice/protos/div/div_variables.proto";
+
+message TLayeredDivUICapability {
+  message TAsset {
+    string ResourceName = 1;
+  }
+
+  message TParameters {
+    bool SupportsCardStashing = 1;
+    .NAlice.TDivActions SupportedDivActions = 2;
+    .NAlice.TDivCustoms SupportedDivCustoms = 3;
+    .NAlice.TDivExtensions SupportedDivExtensions = 4;
+    .NAlice.TDivVariables SupportedDivVariables = 5;
+    repeated .NAlice.TLayeredDivUICapability.TAsset AvailableAssets = 6;
+    bool SupportsGoLeftDirective = 7;
+    bool SupportsMusicMyWaveSunIcon = 8;
+  }
+
+  message TState {
+    .NAlice.TDiv2Size availableSize = 1;
+    repeated .NAlice.TDiv2Id StashedCards = 2;
+    uint32 ScreeenDPI = 3;
+    repeated .NAlice.TLayeredDivUICapability.ENavigationType CurrentCardAvaliableNavigations = 4;
+    uint32 StatusBarSize = 5;
+  }
+
+  message TDivUIShowViewDirective {
+    message TRenderRequestParams {
+      string CardId = 1;
+    }
+
+    enum EInactivityTimeout {
+      Short = 0;
+      Medium = 1;
+      Long = 2;
+      Infinity = 3;
+      Immediate = 4;
+      Manual = 5;
+      MediumLong = 6;
+    }
+
+    enum EStashInteraction {
+      ShowUnstashed = 0;
+      KeepStashedIfPossible = 1;
+      KeepStashedAlways = 2;
+    }
+
+    enum EOverlayBehaviour {
+      NotApplicable = 0;
+      Hide = 1;
+      Stash = 2;
+    }
+
+    enum EGestureInteraction {
+      CloseSwipe = 0;
+      BackSwipe = 1;
+      ForwardSwipe = 2;
+    }
+
+    enum EStackInteraction {
+      BringToFront = 0;
+      KeepInStack = 1;
+      DeflatesAllAbove = 2;
+    }
+
+    string Name = 1;
+    .NAlice.NData.TLayer Layer = 3;
+    .NAlice.TLayeredDivUICapability.TDivUIShowViewDirective.EInactivityTimeout InactivityTimeout = 4;
+    string ActionSpaceId = 5;
+    .NAlice.TLayeredDivUICapability.TDivUIShowViewDirective.EStashInteraction StashInteraction = 6;
+    .NAlice.TLayeredDivUICapability.TDivUIShowViewDirective.EOverlayBehaviour OverlayBehaviour = 8;
+    repeated .NAlice.TLayeredDivUICapability.TDivUIShowViewDirective.EGestureInteraction GestureInteraction = 9;
+    repeated string TerminateActions = 10;
+    .NAlice.TLayeredDivUICapability.TDivUIShowViewDirective.EStackInteraction StackInteraction = 11;
+    oneof DivCard {
+      .NAlice.TDiv2Card Div2Card = 2;
+      .NAlice.TLayeredDivUICapability.TDivUIShowViewDirective.TRenderRequestParams RenderRequestParams = 7;
+    }
+  }
+
+  message TDivUIPatchViewDirective {
+    string Name = 1;
+    .NAlice.TDiv2Patch Div2Patch = 2;
+    .NAlice.TDiv2Id ApplyTo = 3;
+  }
+
+  message TDivUIHideViewDirective {
+    string Name = 1;
+    .NAlice.NData.TLayer Layer = 2;
+    .NAlice.TDiv2Id Identifier = 3;
+  }
+
+  message TDivUIHideAllViewsDirective {
+    string Name = 1;
+  }
+
+  message TDivUIStashViewDirective {
+    string Name = 1;
+    .NAlice.TDiv2Id CardSearchCriteria = 2;
+  }
+
+  message TDivUIUnstashViewDirective {
+    string Name = 1;
+    .NAlice.TDiv2Id CardSearchCriteria = 2;
+  }
+
+  message TDivUICallTerminateActionsDirective {
+    string Name = 1;
+    .NAlice.TDiv2Id CardSearchCriteria = 2;
+  }
+
+  message TDivUICallActionsGroupsDirective {
+    enum ActionsGroup {
+      Terminate = 0;
+    }
+
+    string Name = 1;
+    .NAlice.TDiv2Id CardSearchCriteria = 2;
+    repeated .NAlice.TLayeredDivUICapability.TDivUICallActionsGroupsDirective.ActionsGroup ActionsGroups = 3;
+  }
+
+  enum ENavigationType {
+    Vertical = 0;
+    Horizontal = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TLayeredDivUICapability.TParameters Parameters = 2;
+  .NAlice.TLayeredDivUICapability.TState State = 3;
+}
+

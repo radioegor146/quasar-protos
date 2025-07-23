@@ -1,0 +1,40 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+import "yandex_io/protos/connection_type.proto";
+
+message DatabaseMetricaEvent {
+  message NewEnvironment {
+    message EnvironmentValuesEntry {
+      optional string key = 1;
+      optional string value = 2;
+    }
+
+    repeated .quasar.proto.DatabaseMetricaEvent.NewEnvironment.EnvironmentValuesEntry environment_values = 1;
+  }
+
+  message NewEvent {
+    enum Type {
+      ERROR = 0;
+      CLIENT = 1;
+      STATBOX = 2;
+    }
+
+    optional .quasar.proto.DatabaseMetricaEvent.NewEvent.Type type = 1;
+    optional uint64 timestamp = 2;
+    optional string name = 3;
+    optional string value = 4;
+    optional string account_type = 5;
+    optional string account_id = 6;
+    optional uint64 serial_number = 7;
+    optional uint64 session_id = 8;
+    optional uint64 session_start_time = 9;
+    optional .quasar.proto.ConnectionType connection_type = 10;
+    optional uint64 timestamp_us = 11;
+  }
+
+  optional .quasar.proto.DatabaseMetricaEvent.NewEnvironment new_environment = 1;
+  optional .quasar.proto.DatabaseMetricaEvent.NewEvent new_event = 2;
+}
+

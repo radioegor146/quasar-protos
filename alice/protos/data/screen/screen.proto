@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.screen";
+option java_outer_classname = "ScreenProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/screen";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAppInfo {
+  string AppPackage = 1;
+  string AppName = 2;
+}
+
+message TScreenInfo {
+  oneof Screen {
+    .NAlice.TVideoPlayer VideoPlayer = 1;
+    .NAlice.TMusicPlayer MusicPlayer = 2;
+    .NAlice.TBluetoothStreaming BluetoothStreaming = 3;
+    .NAlice.TSearchResults SearchResults = 4;
+    .NAlice.TTvMain TvMain = 5;
+    .NAlice.TVideoDetails VideoDetails = 6;
+    .NAlice.TTvCatalog TvCatalog = 7;
+    .NAlice.TTvSideOptions TvSideOptions = 8;
+    .NAlice.TTvExpandedCollection TvExpandedCollection = 9;
+    .NAlice.TTvChannelGrid TvChannelGrid = 10;
+    .NAlice.TTvChannelList TvChannelList = 11;
+    .NAlice.TTvUpdate TvUpdate = 12;
+    .NAlice.TScreensaver Screensaver = 13;
+    .NAlice.TTvCategory TvCategory = 14;
+    .NAlice.TExternalApp ExternalApp = 15;
+  }
+}
+
+message TVideoPlayer {
+}
+
+message TMusicPlayer {
+}
+
+message TBluetoothStreaming {
+}
+
+message TSearchResults {
+}
+
+message TTvMain {
+}
+
+message TVideoDetails {
+}
+
+message TTvCatalog {
+}
+
+message TTvSideOptions {
+}
+
+message TTvExpandedCollection {
+}
+
+message TTvChannelGrid {
+}
+
+message TTvChannelList {
+}
+
+message TTvUpdate {
+}
+
+message TScreensaver {
+}
+
+message TTvCategory {
+}
+
+message TExternalApp {
+}
+

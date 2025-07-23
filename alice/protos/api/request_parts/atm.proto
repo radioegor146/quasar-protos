@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.request_parts";
+option go_package = "a.yandex-team.ru/alice/protos/api/request_parts";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAnalyticsTrackingModule {
+  enum EOrigin {
+    Undefined = 0;
+    Web = 1;
+    Scenario = 2;
+    SmartSpeaker = 3;
+    RemoteControl = 4;
+    Proactivity = 5;
+    Cast = 6;
+    Timetable = 7;
+    Push = 8;
+    SearchApp = 9;
+    ThisClient = 10;
+    SmartTv = 11;
+    VAD = 12;
+  }
+
+  string ProductScenario = 1;
+  .NAlice.TAnalyticsTrackingModule.EOrigin Origin = 2;
+  string Purpose = 3;
+  string OriginInfo = 4;
+}
+

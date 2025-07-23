@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "NotificationProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/notification;notificationpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TNotificationCapability {
+  message TNotification {
+    string Id = 1;
+  }
+
+  message TParameters {
+  }
+
+  message TState {
+    int32 NotificationCount = 1;
+    .NAlice.TNotificationCapability.ENotificationMode NotificationMode = 2;
+  }
+
+  message TNotificationPendingEvent {
+  }
+
+  message TNotificationStartedEvent {
+  }
+
+  message TNotificationFinishedEvent {
+  }
+
+  message TNotifyDirective {
+    string Name = 1;
+    repeated .NAlice.TNotificationCapability.TNotification Notifications = 2;
+    .NAlice.TNotificationCapability.ERingType Ring = 3;
+    string VersionId = 4;
+  }
+
+  message TApproveNotifyDirective {
+  }
+
+  enum ENotificationMode {
+    None = 0;
+    Actve = 1;
+    Passive = 2;
+  }
+
+  enum ERingType {
+    NoSound = 0;
+    Delicate = 1;
+    Proactive = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TNotificationCapability.TParameters Parameters = 2;
+  .NAlice.TNotificationCapability.TState State = 3;
+}
+

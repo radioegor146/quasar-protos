@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push.sync_request.get_device_state";
+option java_outer_classname = "GetDeviceState";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push/sync_request/get_device_state";
+
+message TGetDeviceState {
+  message TGetDeviceStateOptions {
+  }
+
+  message TGetEnvironmentStateOptions {
+  }
+
+  optional .NAlice.NAliceApi.TGetDeviceState.TGetDeviceStateOptions GetDeviceStateOptions = 1;
+  optional .NAlice.NAliceApi.TGetDeviceState.TGetEnvironmentStateOptions GetEnvironmentStateOptions = 2;
+}
+

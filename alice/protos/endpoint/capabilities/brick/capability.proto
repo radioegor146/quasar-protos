@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "BrickProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/brick;brickpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TBrickCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TBrickCapability.EBrickStatus BrickStatus = 1;
+    string DisabledReason = 2;
+    string StatusUrl = 3;
+    bool SubscriptionMode = 4;
+    .NAlice.TBrickCapability.ESubscriptionStatus SubscriptionStatus = 5;
+  }
+
+  enum EBrickStatus {
+    Unknown = 0;
+    Brick = 1;
+    NotBrick = 2;
+    BrickByTTL = 3;
+  }
+
+  enum ESubscriptionStatus {
+    SubscriptionUnknown = 0;
+    SubscriptionDisabled = 1;
+    SubscriptionEnabled = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TBrickCapability.TParameters Parameters = 2;
+  .NAlice.TBrickCapability.TState State = 3;
+}
+

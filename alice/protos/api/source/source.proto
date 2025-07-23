@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option go_package = "a.yandex-team.ru/alice/protos/api/source";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLocalIoTSource {
+  string EndpointId = 1;
+}
+
+message TLocalScenarioSource {
+  string ScenarioId = 1;
+}
+
+message TSourceInfo {
+  oneof Source {
+    .NAlice.NAliceApi.TLocalIoTSource LocalIoTSource = 1;
+    .NAlice.NAliceApi.TLocalScenarioSource LocalScenarioSource = 2;
+  }
+}
+

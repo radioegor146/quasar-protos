@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/music";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAliceShowConfig {
+  message TFallbackPlaylistId {
+    int32 Uid = 1;
+    int32 Kind = 2;
+  }
+
+  message TShowPart {
+    message TOnBoarding {
+      string Selector = 1;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TShot Greeting = 2;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TShot OnBoarding = 3;
+    }
+
+    message TPlaylist {
+      string Selector = 1;
+      string Announce = 2;
+      int32 TrackIndex = 3;
+    }
+
+    message TShot {
+      string Selector = 1;
+      bool MandatoryGeo = 2;
+      bool MandatoryUid = 3;
+      string ShotType = 4;
+      string ShotSubType = 5;
+      repeated string Tags = 6;
+      bool MandatoryHistory = 7;
+    }
+
+    message TParts {
+      reserved "Parts";
+      reserved 2;
+      message TPartsItem {
+        oneof TItem {
+          .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TShot Shot = 1;
+          .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TPlaylist Playlist = 2;
+        }
+      }
+
+      string Selector = 1;
+      repeated .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TParts.TPartsItem PartsItems = 3;
+    }
+
+    message TPodcast {
+      string Selector = 1;
+      string Group = 2;
+    }
+
+    message TPromo {
+      string Selector = 1;
+    }
+
+    message TTail {
+      string Selector = 1;
+      int32 StartFrom = 2;
+    }
+
+    oneof ShowPart {
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TOnBoarding OnBoarding = 1;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TPlaylist Playlist = 2;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TShot Shot = 3;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TParts Parts = 4;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TPromo Promo = 5;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TTail Tail = 6;
+      .NAlice.NData.NMusic.TAliceShowConfig.TShowPart.TPodcast Podcast = 7;
+    }
+  }
+
+  .NAlice.NData.NMusic.TAliceShowConfig.TFallbackPlaylistId FallbackPlaylistId = 1;
+  int32 Id = 2;
+  string MainPlaylist = 3;
+  repeated .NAlice.NData.NMusic.TAliceShowConfig.TShowPart ShowParts = 4;
+}
+

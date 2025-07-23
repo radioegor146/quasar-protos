@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.extensions";
+option java_outer_classname = "ExtensionsProto";
+option go_package = "a.yandex-team.ru/alice/protos/extensions;extensionspb";
+
+import "google/protobuf/descriptor.proto";
+
+message EWrapperDirectiveActionProperty {
+  enum Enum {
+    ACTION = 0;
+    NON_ACTION = 1;
+  }
+
+}
+
+message TFeatureType {
+  enum EFeatureType {
+    SimpleSupport = 0;
+    SupportUnsupportTrue = 1;
+    SupportUnsupportFalse = 2;
+    CustomCode = 3;
+  }
+
+}
+
+message TLanguageDependent {
+  enum EType {
+    None = 0;
+    NlgText = 1;
+  }
+
+}
+

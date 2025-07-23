@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IntonationSpottingProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/intonation_spotting;intonation_spotting";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/data/spotter/threshold_type.proto";
+import "alice/protos/data/spotter/enabling_reason.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIntonationSpottingCapability {
+  message TParameters {
+  }
+
+  message TState {
+    reserved "ActivationReason";
+    reserved 3;
+    bool IsIntonationSpottingEnabled = 1;
+    .NAlice.NData.ESpotterThresholdType Threshold = 2;
+    .NAlice.NData.ESpotterEnablingReason EnablingReason = 4;
+  }
+
+  message TSetIntonationSpottingDirective {
+    reserved "ActivationReason";
+    reserved 3;
+    string Name = 1000;
+    bool EnableIntonationSpotting = 1;
+    .NAlice.NData.ESpotterThresholdType Threshold = 2;
+    optional .NAlice.NData.ESpotterEnablingReason EnablingReason = 4;
+    optional uint32 EnableTimeMs = 5;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIntonationSpottingCapability.TParameters Parameters = 2;
+  .NAlice.TIntonationSpottingCapability.TState State = 3;
+}
+

@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.analytics.response_analytics_info";
+option java_outer_classname = "ResponseAnalyticsInfoProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/analytics/response_analytics_info";
+
+import "alice/protos/api/alicekit/analytics/alice_analytics_info/alice_analytics_info.proto";
+import "alice/protos/api/alicekit/iot/iot_user_info/iot_user_info.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TResponseAnalyticsInfo {
+  reserved "ModifiersInfo";
+  reserved "CombinatorAnalyticsInfo";
+  reserved "UsersInfo";
+  reserved "OriginalUtterance";
+  reserved "TunnellerRawResponses";
+  reserved "DeviceStateActions";
+  reserved "RecognizedAction";
+  reserved "RecognizedActions";
+  reserved "ScenarioTimings";
+  reserved "PreClassifyDuration";
+  reserved "PostClassifyDuration";
+  reserved "ServiceSourceTimings";
+  reserved "ShownUtterance";
+  reserved "ParentProductScenarioName";
+  reserved "UserProfile";
+  reserved "Location";
+  reserved "ModifierAnalyticsInfo";
+  reserved "ModifiersAnalyticsInfo";
+  reserved "CombinatorsAnalyticsInfo";
+  reserved "UserClassification";
+  reserved "ClassificationInfo";
+  reserved "ActualTimezone";
+  reserved "SummarizerAnalyticsInfo";
+  reserved "RephraserAnalyticsInfo";
+  reserved "FiltrationSettings";
+  reserved "WebSearchRephraserAnalyticsInfo";
+  reserved "NluDebugInfo";
+  reserved "InAliceTwo";
+  reserved "InAliceTwoWaitList";
+  reserved "EffectiveAliceTwo";
+  reserved "WebSearchInfo";
+  reserved "Alice2Mode";
+  reserved "ActualTimestamp";
+  reserved "LaunchedScenariosInfo";
+  reserved "TerramindAnalyticsInfo";
+  reserved "MegamindDebugInfo";
+  reserved "OnboardingAnalyticsInfo";
+  reserved 5;
+  reserved 6;
+  reserved 23;
+  reserved 2;
+  reserved 3;
+  reserved 4;
+  reserved 7;
+  reserved 8;
+  reserved 21;
+  reserved 9;
+  reserved 11;
+  reserved 12;
+  reserved 13;
+  reserved 14;
+  reserved 16;
+  reserved 17;
+  reserved 18;
+  reserved 19;
+  reserved 22;
+  reserved 24;
+  reserved 25;
+  reserved 26;
+  reserved 27;
+  reserved 28;
+  reserved 29;
+  reserved 30;
+  reserved 31;
+  reserved 32;
+  reserved 33;
+  reserved 34;
+  reserved 35;
+  reserved 36;
+  reserved 37;
+  reserved 38;
+  reserved 39;
+  reserved 40;
+  reserved 41;
+  reserved 42;
+  message AnalyticsInfoEntry {
+    string key = 1;
+    .NAlice.NAliceApi.TAliceAnalyticsInfo value = 2;
+  }
+
+  message TWinnerScenario {
+    string Name = 1;
+  }
+
+  repeated .NAlice.NAliceApi.TResponseAnalyticsInfo.AnalyticsInfoEntry AnalyticsInfo = 1;
+  .NAlice.NAliceApi.TResponseAnalyticsInfo.TWinnerScenario WinnerScenario = 10;
+  .NAlice.NAliceApi.TIoTUserInfo IoTUserInfo = 15;
+  string ChosenUtterance = 20;
+}
+

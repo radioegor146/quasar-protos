@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package quasar.proto;
+
+import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
+
+message TDirectiveInfo {
+  int64 Version = 1;
+  .quasar.proto.Directive SdkDirective = 2;
+}
+

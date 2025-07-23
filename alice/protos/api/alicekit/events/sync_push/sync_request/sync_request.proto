@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push.sync_request";
+option java_outer_classname = "SyncRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push/sync_request";
+
+import "alice/protos/api/alicekit/events/sync_push/sync_request/execute_directive/execute_directive.proto";
+import "alice/protos/api/alicekit/events/sync_push/sync_request/execute_directive_chain/execute_directive_chain.proto";
+import "alice/protos/api/alicekit/events/sync_push/sync_request/get_device_state/get_device_state.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSyncRequest {
+  message TGetClientInfoOptions {
+  }
+
+  .NAlice.NAliceApi.TSyncRequest.TGetClientInfoOptions GetClientInfoOptions = 4;
+  oneof Request {
+    .NAlice.NAliceApi.TGetDeviceState GetDeviceState = 1;
+    .NAlice.NAliceApi.TExecuteDirective ExecuteDirective = 2;
+    .NAlice.NAliceApi.TExecuteDirectiveChain ExecuteDirectiveChain = 3;
+  }
+}
+

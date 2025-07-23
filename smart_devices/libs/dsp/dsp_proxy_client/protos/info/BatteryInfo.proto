@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package yandex.dsp.info;
+
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/info/BatteryStat.proto";
+
+message BatteryInfo {
+  repeated .yandex.dsp.info.BatteryStat stats = 1;
+}
+

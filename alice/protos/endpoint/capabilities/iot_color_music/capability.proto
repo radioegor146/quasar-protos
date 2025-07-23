@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotColorMusicCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_color_music;iotcolormusicpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotColorMusicCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Value = 1;
+  }
+
+  message TSetIotColorMusicDirective {
+    string Name = 1000;
+    bool Value = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotColorMusicCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotColorMusicCapability.TParameters Parameters = 2;
+  .NAlice.TIotColorMusicCapability.TState State = 3;
+}
+

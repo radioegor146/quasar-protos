@@ -1,0 +1,76 @@
+syntax = "proto2";
+
+package quasar.keymaster_proxy_client.proto;
+
+message SignRequest {
+  optional bytes payload = 1;
+}
+
+message DecryptRequest {
+  optional bytes payload = 1;
+}
+
+message ExportKeyRequest {
+}
+
+message UpgradeKeyRequest {
+}
+
+message GenerateKeyRequest {
+  optional bool forced = 1;
+}
+
+message Request {
+  oneof request {
+    .quasar.keymaster_proxy_client.proto.SignRequest sign_request = 1;
+    .quasar.keymaster_proxy_client.proto.DecryptRequest decrypt_request = 2;
+    .quasar.keymaster_proxy_client.proto.ExportKeyRequest export_key_request = 3;
+    .quasar.keymaster_proxy_client.proto.UpgradeKeyRequest upgrade_key_request = 4;
+    .quasar.keymaster_proxy_client.proto.GenerateKeyRequest generate_key_request = 5;
+  }
+}
+
+message ErrorResponse {
+  enum ErrorCode {
+    UNKNOWN_PROTOCOL = 1;
+    UNKNOWN_REQUEST = 2;
+    INVALID_REQUEST = 3;
+    NOT_IMPLEMENTED_REQUEST = 4;
+    KEYMASTER_ERROR = 5;
+  }
+
+  optional .quasar.keymaster_proxy_client.proto.ErrorResponse.ErrorCode code = 1;
+  optional string text = 2;
+}
+
+message SignResponse {
+  optional bytes payload = 1;
+}
+
+message DecryptResponse {
+  optional bytes payload = 1;
+}
+
+message ExportKeyResponse {
+  optional bytes payload = 1;
+}
+
+message UpgradeKeyResponse {
+  optional bytes payload = 1;
+}
+
+message GenerateKeyResponse {
+  optional bytes payload = 1;
+}
+
+message Response {
+  oneof response {
+    .quasar.keymaster_proxy_client.proto.ErrorResponse error_response = 1;
+    .quasar.keymaster_proxy_client.proto.SignResponse sign_response = 2;
+    .quasar.keymaster_proxy_client.proto.DecryptResponse decrypt_response = 3;
+    .quasar.keymaster_proxy_client.proto.ExportKeyResponse export_key_response = 4;
+    .quasar.keymaster_proxy_client.proto.UpgradeKeyResponse upgrade_key_response = 5;
+    .quasar.keymaster_proxy_client.proto.GenerateKeyResponse generate_key_response = 6;
+  }
+}
+

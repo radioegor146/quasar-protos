@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.serialnavigator";
+option java_outer_classname = "SerialInfoProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/serial_navigator";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/avatar/avatar.proto";
+import "alice/protos/data/video/video.proto";
+
+message TSerialInfo {
+  reserved 2;
+  reserved 4;
+  reserved 5;
+  message TSeasonEpisodesInfo {
+    optional uint32 SeasonNumber = 1;
+    optional uint32 EpisodesCount = 2;
+  }
+
+  string ProviderItemId = 1;
+  string Name = 3;
+  uint32 SeasonsCount = 6;
+  repeated .NAlice.TSerialInfo.TSeasonEpisodesInfo EpisodesInSeasonsCount = 7;
+  .NAlice.TAvatarMdsImage Cover = 8;
+  string OntoId = 9;
+  .NAlice.TOttVideoItem.TViewOptions ViewOptions = 11;
+  optional uint32 AgeLimit = 10;
+}
+

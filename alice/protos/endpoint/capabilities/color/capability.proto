@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "ColorCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/color;colorpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TColorCapability {
+  message TParameters {
+    message TTemperatureKParameters {
+      .NAlice.TPositiveIntegerRange Range = 1;
+    }
+
+    message TColorSceneParameters {
+      repeated .NAlice.TColorCapability.EColorScene SupportedScenes = 1;
+    }
+
+    .NAlice.TColorCapability.TParameters.TColorSceneParameters ColorSceneParameters = 1;
+    .NAlice.TColorCapability.TParameters.TTemperatureKParameters TemperatureKParameters = 2;
+  }
+
+  message TState {
+    oneof Value {
+      .NAlice.TColorCapability.EColorScene ColorScene = 1;
+      uint64 TemperatureK = 2;
+      .NAlice.THueAndSaturation HueSaturation = 3;
+    }
+  }
+
+  message TSetColorSceneDirective {
+    string Name = 1000;
+    .NAlice.TColorCapability.EColorScene ColorScene = 1;
+  }
+
+  message TSetTemperatureKDirective {
+    string Name = 1000;
+    uint64 TargetValue = 1;
+  }
+
+  message TSetHueAndSaturationDirective {
+    string Name = 1000;
+    double HueTargetValue = 1;
+    double SaturationTargetValue = 2;
+  }
+
+  message TSetHueDirective {
+    string Name = 1000;
+    double HueTargetValue = 1;
+  }
+
+  message TSetSaturationDirective {
+    string Name = 1000;
+    double SaturationTargetValue = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TColorCapability Capability = 1;
+  }
+
+  enum EColorScene {
+    Inactive = 0;
+    LavaLampScene = 1;
+    CandleScene = 2;
+    NightScene = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TColorCapability.TParameters Parameters = 2;
+  .NAlice.TColorCapability.TState State = 3;
+}
+

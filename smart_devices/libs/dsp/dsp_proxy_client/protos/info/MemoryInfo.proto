@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package yandex.dsp.info;
+
+message MemoryInfo {
+  float total = 1;
+  float free = 2;
+  float min_free = 3;
+  float used = 4;
+}
+

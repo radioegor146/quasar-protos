@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.video_call";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/video_call";
+
+import "alice/protos/data/video_call/video_call.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRecentCall {
+  .NAlice.NData.TProviderContactData Contact = 1;
+  .NAlice.NData.ECallType CallType = 2;
+  .NAlice.NData.ERecentType RecentType = 3;
+  uint64 TimeContacted = 4;
+}
+
+enum ECallType {
+  UnknownCallType = 0;
+  Audio = 1;
+  Video = 2;
+}
+
+enum ERecentType {
+  UnknownRecentType = 0;
+  Missed = 1;
+  Incoming = 2;
+  Outgoing = 3;
+}
+

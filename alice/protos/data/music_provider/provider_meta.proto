@@ -1,0 +1,189 @@
+syntax = "proto3";
+
+package Alice.Music;
+
+option java_package = "ru.yandex.alice.protos.data.music_provider";
+option go_package = "a.yandex-team.ru/alice/protos/data/music_provider";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message ArtistRelation {
+  string id = 1;
+  .Alice.Music.ArtistType artist_type = 2;
+}
+
+message ContentId {
+  enum ContentType {
+    CONTENT_TYPE_UNSPECIFIED = 0;
+    CONTENT_TYPE_TRACK = 1;
+    CONTENT_TYPE_ALBUM = 2;
+    CONTENT_TYPE_ARTIST = 3;
+    CONTENT_TYPE_PLAYLIST = 4;
+    CONTENT_TYPE_RECOMMENDATIONS = 5;
+  }
+
+  .Alice.Music.ContentId.ContentType content_type = 1;
+  string id = 2;
+  bool is_trial = 3;
+}
+
+message AgeRestrictions {
+  enum RestrictionLevel {
+    RESTRICTION_LEVEL_UNKNOWN = 0;
+    RESTRICTION_LEVEL_EXPLICIT = 1;
+    RESTRICTION_LEVEL_NORMAL = 2;
+    RESTRICTION_LEVEL_CHILD_SAFE = 3;
+  }
+
+  .Alice.Music.AgeRestrictions.RestrictionLevel restriction_level = 1;
+}
+
+message AlbumItemInfo {
+  .Alice.Music.AlbumMeta album_meta = 1;
+  repeated .Alice.Music.TrackMeta tracks_meta = 2;
+  repeated .Alice.Music.ArtistMeta artists_meta = 3;
+  .Alice.Music.LastListenedInfo last_listened_info = 4;
+}
+
+message ArtistItemInfo {
+  repeated .Alice.Music.TrackMeta tracks_meta = 1;
+  repeated .Alice.Music.AlbumMeta albums_meta = 2;
+  repeated .Alice.Music.ArtistMeta artists_meta = 3;
+}
+
+message TrackItemInfo {
+  .Alice.Music.TrackMeta track_meta = 1;
+  .Alice.Music.AlbumMeta album_meta = 2;
+  repeated .Alice.Music.ArtistMeta artists_meta = 3;
+}
+
+message PlaylistItemInfo {
+  .Alice.Music.PlaylistMeta playlist_meta = 1;
+  repeated .Alice.Music.TrackMeta tracks_meta = 2;
+  repeated .Alice.Music.AlbumMeta albums_meta = 3;
+  repeated .Alice.Music.ArtistMeta artists_meta = 4;
+}
+
+message Fade {
+  optional uint64 in_start_ms = 1;
+  optional uint64 in_stop_ms = 2;
+  optional uint64 out_start_ms = 3;
+  optional uint64 out_stop_ms = 4;
+}
+
+message DisclaimerInfo {
+  string type = 1;
+  string title = 3;
+  string description = 4;
+}
+
+message TrackMeta {
+  reserved "is_explicit";
+  reserved 6;
+  string id = 1;
+  repeated string artist_ids = 3;
+  .Alice.Music.StreamUrl stream_url = 9;
+  repeated .Alice.Music.ArtistRelation artist_relations = 10;
+  .Alice.Music.AgeRestrictions age_restrictions = 11;
+  .Alice.Music.Fade fade = 13;
+  repeated .Alice.Music.DisclaimerInfo disclaimers = 16;
+  optional string album_id = 2;
+  optional string title = 4;
+  optional string image_url = 5;
+  optional string background_image_url = 7;
+  optional bool has_available_sync_lyrics = 8;
+  optional uint32 duration_ms = 12;
+  optional .Alice.Music.ColorScheme colors = 14;
+  optional bool available = 15;
+  optional bool ever_finished_chapter = 17;
+}
+
+message AlbumMeta {
+  string id = 1;
+  repeated string artist_ids = 3;
+  repeated .Alice.Music.ArtistRelation artist_relations = 8;
+  .Alice.Music.AgeRestrictions age_restrictions = 9;
+  repeated .Alice.Music.DisclaimerInfo disclaimers = 10;
+  optional string title = 2;
+  optional string image_url = 4;
+  optional string background_image_url = 5;
+  optional int32 year = 6;
+  optional uint32 total_tracks_count = 7;
+}
+
+message ArtistMeta {
+  string id = 1;
+  repeated .Alice.Music.DisclaimerInfo disclaimers = 5;
+  optional string name = 2;
+  optional string image_url = 3;
+  optional uint32 total_tracks_count = 4;
+}
+
+message StreamUrl {
+  optional string url = 1;
+  optional uint64 valid_until = 2;
+}
+
+message PlaylistMeta {
+  string id = 1;
+  optional string title = 2;
+  optional string image_url = 3;
+  optional string background_image_url = 4;
+  optional uint32 total_tracks_count = 5;
+}
+
+message RecommendationsMeta {
+  string id = 1;
+  optional string title = 2;
+}
+
+message GenerativeMeta {
+  string id = 1;
+  optional string title = 2;
+  optional string image_url = 3;
+}
+
+message FmRadioMeta {
+  string id = 1;
+  optional string title = 2;
+  optional string image_url = 3;
+  optional string background_image_url = 4;
+}
+
+message LastListenedInfo {
+  uint32 track_position_inside_entity = 1;
+  uint32 offset_ms = 2;
+}
+
+message ColorScheme {
+  string MainColor = 1;
+  string AdditionalColor = 2;
+}
+
+enum MusicProvider {
+  MUSIC_PROVIDER_UNSPECIFIED = 0;
+  MUSIC_PROVIDER_YANDEX_MUSIC = 1;
+  MUSIC_PROVIDER_ANGHAMI = 2;
+  MUSIC_PROVIDER_LITRES = 3;
+}
+
+enum ArtistType {
+  ARTIST_TYPE_UNSPECIFIED = 0;
+  ARTIST_TYPE_BOOK_AUTHOR = 1;
+  ARTIST_TYPE_AUDIOBOOK_READER = 2;
+}
+
+enum LikeStatus {
+  LIKE_STATUS_UNSPECIFIED = 0;
+  LIKE_STATUS_NONE = 1;
+  LIKE_STATUS_LIKE = 2;
+  LIKE_STATUS_DISLIKE = 3;
+}
+
+enum RepeatType {
+  REPEAT_TYPE_UNSPECIFIED = 0;
+  REPEAT_TYPE_NONE = 1;
+  REPEAT_TYPE_TRACK = 2;
+  REPEAT_TYPE_ALL = 3;
+}
+

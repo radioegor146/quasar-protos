@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AliceCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/alice;alicepb";
+
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "alice/protos/data/connection/connection.proto";
+import "alice/protos/data/tts_interruption_timings/tts_interruption_timings.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAliceCapability {
+  message TBlocker {
+    string Id = 1;
+  }
+
+  message TParameters {
+  }
+
+  message TState {
+    enum ETtsState {
+      UnknownTtsState = 0;
+      NoActiveTts = 1;
+      ActiveTts = 2;
+    }
+
+    .NAlice.TTtsInterruptionTimings TtsInterruptionTimings = 1;
+    repeated .NAlice.TAliceCapability.TBlocker Blockers = 3;
+    .NAlice.TConnectionStatus ConnectionStatus = 5;
+    optional string Uuid = 2;
+    optional .NAlice.TAliceCapability.TState.ETtsState TtsState = 4;
+  }
+
+  message TGetEnvironmentStateOptions {
+    bool IncludeLocalEndpoints = 1;
+    bool IncludeEmbeddedEndpoints = 2;
+    bool IncludeRemoteEndpoints = 3;
+  }
+
+  message TBlockDirective {
+    string Name = 1000;
+    .NAlice.TAliceCapability.TBlocker Blocker = 1;
+  }
+
+  message TUnblockDirective {
+    string Name = 1000;
+    .NAlice.TAliceCapability.TBlocker Blocker = 1;
+  }
+
+  message TUpdateTtsPlaceholderDirective {
+    message TaggedDirective {
+      string Tag = 1;
+      .NAlice.NAliceApi.TDirective Directive = 2;
+    }
+
+    string Name = 1000;
+    repeated .NAlice.TAliceCapability.TUpdateTtsPlaceholderDirective.TaggedDirective TaggedDirectives = 1;
+  }
+
+  message TVocalizeDirective {
+    enum ESynthesisMode {
+      Unknown = 0;
+      Append = 1;
+      Interrupt = 2;
+    }
+
+    optional string Text = 1;
+    optional .NAlice.TAliceCapability.TVocalizeDirective.ESynthesisMode SynthesisMode = 2;
+  }
+
+  message TStartDataInputDirective {
+    .NAlice.TAliceCapability.TGetEnvironmentStateOptions GetEnvironmentStateOptions = 2;
+    optional string InteractionId = 1;
+  }
+
+  message TRequestErrorEvent {
+    message TBlockError {
+      repeated .NAlice.TAliceCapability.TBlocker Blockers = 1;
+    }
+
+    oneof Error {
+      .NAlice.TAliceCapability.TRequestErrorEvent.TBlockError BlockError = 1;
+    }
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAliceCapability.TParameters Parameters = 2;
+  .NAlice.TAliceCapability.TState State = 3;
+}
+

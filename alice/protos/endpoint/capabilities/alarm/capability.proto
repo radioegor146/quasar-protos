@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "AlarmProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/alarm;alarmpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/data/scenario/alarm/alarm.proto";
+import "alice/protos/data/scenario/timer/timer.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAlarmCapability {
+  message TParameters {
+    repeated .NAlice.NData.TDefaultSound AvailableDefaultSounds = 1;
+  }
+
+  message TState {
+    repeated .NAlice.NData.TAlarm Alarms = 1;
+    repeated .NAlice.NData.TTimerDescription Timers = 2;
+    .NAlice.NData.TAlarmSoundSettings AlarmSoundSettings = 3;
+    bool MediaCurrentlyPlaying = 4;
+  }
+
+  message TAlarmSoundSettingsUpdateDirective {
+    string Name = 1;
+    .NAlice.NData.TAlarmSoundSettings Settings = 2;
+  }
+
+  message TAlarmUpdateSoundLevelDirective {
+    string Name = 1;
+    .NAlice.NData.TAlarmSoundSettings.TSoundLevelInfo SoundLevelInfo = 2;
+  }
+
+  message TAlarmUpdateDirective {
+    string Name = 1;
+    repeated .NAlice.NData.TAlarm Alarms = 2;
+  }
+
+  message TAlarmSnoozeDirective {
+    string Name = 1;
+    string AlarmId = 2;
+    uint32 DurationSec = 3;
+  }
+
+  message TAlarmStopDirective {
+    string Name = 1;
+    optional bool StopMedia = 2;
+  }
+
+  message TAlarmAddDirective {
+    string Name = 1;
+    .NAlice.NData.TAlarm Alarm = 2;
+  }
+
+  message TAlarmCancelDirective {
+    string Name = 1;
+    string AlarmId = 2;
+  }
+
+  message TTimerSetDirective {
+    string Name = 1;
+    .NAlice.NData.TTimerDescription Timer = 2;
+  }
+
+  message TTimerCancelDirective {
+    string Name = 1;
+    string TimerId = 2;
+  }
+
+  message TTimerPauseDirective {
+    string Name = 1;
+    string TimerId = 2;
+  }
+
+  message TTimerResumeDirective {
+    string Name = 1;
+    string TimerId = 2;
+  }
+
+  message TTimerStopDirective {
+    string Name = 1;
+    string TimerId = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TAlarmCapability.TParameters Parameters = 2;
+  .NAlice.TAlarmCapability.TState State = 3;
+}
+

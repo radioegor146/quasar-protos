@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package NAlice;
+
+option go_package = "a.yandex-team.ru/alice/library/censor/protos";
+
+import "google/protobuf/descriptor.proto";
+
+enum EAccess {
+  A_PUBLIC = 0;
+  A_PRIVATE_REQUEST = 1;
+  A_PRIVATE_RESPONSE = 2;
+  A_PRIVATE_EVENTLOG = 4;
+}
+

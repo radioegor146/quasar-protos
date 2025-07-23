@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotIndicatorCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_indicator;iotindicatorpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotIndicatorCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Disabled = 1;
+  }
+
+  message TSetDisabledDirective {
+    string Name = 1000;
+    bool Disabled = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotIndicatorCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotIndicatorCapability.TParameters Parameters = 2;
+  .NAlice.TIotIndicatorCapability.TState State = 3;
+}
+

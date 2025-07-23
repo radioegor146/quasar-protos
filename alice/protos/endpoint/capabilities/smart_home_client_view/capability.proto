@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "SmartHomeClientViewProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/smart_home_client_view;smart_home_client_viewpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSmartHomeClientViewCapability {
+  message TParameters {
+    bool HasApplication = 1;
+  }
+
+  message TState {
+  }
+
+  message TOpenSmartHomeDirective {
+    string Name = 1;
+  }
+
+  message TOpenSmartHomePageDirective {
+    reserved "Path";
+    reserved 2;
+    message TMoveOptions {
+      .NAlice.TSmartHomeClientViewCapability.TOpenSmartHomePageDirective.EMoveTo MoveTo = 1;
+      string OntoId = 2;
+    }
+
+    enum EMoveTo {
+      Unknown = 0;
+      Remote = 1;
+      Scenario = 2;
+    }
+
+    string Name = 1;
+    oneof Params {
+      string UrlPath = 3;
+      .NAlice.TSmartHomeClientViewCapability.TOpenSmartHomePageDirective.TMoveOptions MoveOptions = 4;
+    }
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TSmartHomeClientViewCapability.TParameters Parameters = 2;
+  .NAlice.TSmartHomeClientViewCapability.TState State = 3;
+}
+

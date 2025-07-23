@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "KidsProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/kids;kidspb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TKidsCapability {
+  message TParameters {
+  }
+
+  message TState {
+    enum EStateType {
+      Undefined = 0;
+      Awakening = 1;
+    }
+
+    .NAlice.TKidsCapability.TState.EStateType StateType = 1;
+  }
+
+  message TKidsStartAwakeningDirective {
+    string Name = 1000;
+    string TrackUrl = 1;
+    .NAlice.NAliceApi.TDirective Callback = 5;
+    uint32 InitialPercentVolumeLevel = 2;
+    uint32 FinalPercentVolumeLevel = 3;
+    uint32 TimeoutSeconds = 4;
+  }
+
+  message TKidsStopAwakeningDirective {
+    string Name = 1000;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TKidsCapability.TParameters Parameters = 2;
+  .NAlice.TKidsCapability.TState State = 3;
+}
+

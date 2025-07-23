@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "LightSequenceCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/light_sequence;lightsequencepb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLightSequenceCapability {
+  message TParameters {
+  }
+
+  message TStep {
+    double Brightness = 3;
+    uint32 TransitionTimeMs = 4;
+    uint32 DurationMs = 5;
+    oneof Color {
+      .NAlice.THueAndSaturation HueSaturation = 1;
+      uint64 TemperatureK = 2;
+    }
+  }
+
+  message TSequence {
+    string Id = 1;
+    repeated .NAlice.TLightSequenceCapability.TStep Steps = 2;
+  }
+
+  message TState {
+    .NAlice.TLightSequenceCapability.TSequence ActiveSequence = 1;
+  }
+
+  message TStartLightSequenceDirective {
+    string Name = 1000;
+    .NAlice.TLightSequenceCapability.TSequence Sequence = 1;
+  }
+
+  message TStopLightSequenceDirective {
+    string Name = 1000;
+    string SequenceID = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TLightSequenceCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TLightSequenceCapability.TParameters Parameters = 2;
+  .NAlice.TLightSequenceCapability.TState State = 3;
+}
+

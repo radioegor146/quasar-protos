@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.user";
+option java_outer_classname = "UserTags";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/user";
+
+import "alice/megamind/protos/guest/enrollment_headers/enrollment_headers.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUserTags {
+  message TOwner {
+  }
+
+  message TActive {
+  }
+
+  message TBiometrical {
+    enum EOrigin {
+      Unknown = 0;
+      RemoteControl = 1;
+      VoiceBiometry = 2;
+      VideoBiometry = 3;
+    }
+
+    enum EStatus {
+      NoMatch = 0;
+      Match = 1;
+    }
+
+    .NAlice.TUserTags.TBiometrical.EOrigin Origin = 1;
+    .NAlice.TUserTags.TBiometrical.EStatus Status = 2;
+    bool IsOwnerEnrolled = 3;
+    .NAlice.TEnrollmentHeaders EnrollmentHeaders = 4;
+    string RefMessageId = 5;
+  }
+
+  message TChild {
+  }
+
+  .NAlice.TUserTags.TOwner Owner = 1;
+  .NAlice.TUserTags.TActive Active = 2;
+  .NAlice.TUserTags.TBiometrical Biometrical = 3;
+  .NAlice.TUserTags.TChild Child = 4;
+}
+

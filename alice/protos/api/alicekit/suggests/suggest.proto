@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.suggests";
+option java_outer_classname = "SuggestProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/suggests";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSuggest {
+  message TTheme {
+    string ImageUrl = 1;
+  }
+
+  string SuggestId = 1;
+  string Type = 2;
+  string Title = 3;
+  repeated .NAlice.NAliceApi.TDirective Directives = 4;
+  string Text = 5;
+  .NAlice.NAliceApi.TSuggest.TTheme Theme = 6;
+}
+

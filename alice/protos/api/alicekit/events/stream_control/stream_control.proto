@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.stream_control";
+option java_outer_classname = "StreamControl";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/stream_control";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TStreamControl {
+  message TActionClose {
+    enum EReason {
+      OK = 0;
+      INTERNAL_ERROR = 1;
+      STOP_RECORDING = 2;
+      AUDIO_SOURCE_STOPPED = 3;
+      CANCEL = 4;
+      NO_SPEECH = 5;
+    }
+
+    .NAlice.NAliceApi.TStreamControl.TActionClose.EReason Reason = 1;
+  }
+
+  message TActionSpotterEnd {
+  }
+
+  message TActionLazyTTS {
+    int64 ChunkSize = 1;
+  }
+
+  int64 StreamId = 1;
+  string MessageId = 2;
+  oneof Action {
+    .NAlice.NAliceApi.TStreamControl.TActionClose Close = 3;
+    .NAlice.NAliceApi.TStreamControl.TActionSpotterEnd SpotterEnd = 4;
+    .NAlice.NAliceApi.TStreamControl.TActionLazyTTS LazyTTS = 5;
+  }
+}
+

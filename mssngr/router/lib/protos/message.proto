@@ -1,0 +1,839 @@
+syntax = "proto3";
+
+package NMessengerProtocol;
+
+option java_package = "ru.yandex.yandex360.mssngr.router.lib.protos.message";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/mssngr/router/lib/protos";
+
+import "mssngr/router/lib/protos/client.proto";
+
+message TDebugParams {
+  string DeliveryAddress = 1;
+  string YambAddress = 4;
+  string BotPlatformAddress = 5;
+  string DeliveryAlias = 6;
+  string YambAlias = 7;
+  string BotPlatformAlias = 8;
+  string XivaAddress = 9;
+}
+
+message TPrivilegedParams {
+  bool SkipMembershipCheck = 1;
+}
+
+message TCommonRequestFields {
+  bool IsRetry = 1;
+  string UserIp = 2;
+  .NMessengerProtocol.EOriginService Origin = 3;
+  int32 UserPort = 4;
+}
+
+message TPrivilegedInMessage {
+  string ChatId = 2;
+  .NMessengerProtocol.EMessageType Type = 3;
+  string PayloadId = 4;
+  bytes PayloadResponse = 5;
+  bytes PayloadData = 6;
+  uint64 Timestamp = 10;
+  string Guid = 1;
+  repeated string ToGuids = 7;
+  string UserIp = 8;
+  .NMessengerProtocol.TDebugParams DebugParams = 9;
+  int32 UserPort = 11;
+  .NMessengerProtocol.TClientMessage ClientMessage = 101;
+  bool ModerationDisabled = 102;
+  uint32 ModerationPriority = 104;
+  .NMessengerProtocol.TUserInfo CustomFrom = 105;
+  uint64 SuggestedTimestamp = 106;
+  .NMessengerProtocol.TMessageMeta Meta = 107;
+  .NMessengerProtocol.TNotificationMeta NotificationMeta = 108;
+  uint64 HistoryVersion = 109;
+  bool ShadowEdit = 110;
+  .NMessengerProtocol.TWorkspaceNotificationSettings WorkspaceNotificationSettings = 111;
+}
+
+message TMessageMeta {
+  message TCmntData {
+    uint32 Service = 1;
+    uint64 OrgPermalink = 4;
+  }
+
+  .NMessengerProtocol.EOriginService Origin = 1;
+  .NMessengerProtocol.TMessageMeta.TCmntData CmntData = 2;
+  string RtxId = 3;
+  string MessageLanguage = 4;
+}
+
+message TWorkspaceNotificationSettings {
+  message TNotifyAllSettings {
+    repeated string Workspaces = 1;
+  }
+
+  message TNotifyPrioritySettings {
+    repeated string Workspaces = 1;
+  }
+
+  oneof Strategy {
+    .NMessengerProtocol.TWorkspaceNotificationSettings.TNotifyAllSettings All = 1;
+    .NMessengerProtocol.TWorkspaceNotificationSettings.TNotifyPrioritySettings Priority = 2;
+  }
+}
+
+message TInMessage {
+  string ChatId = 3;
+  .NMessengerProtocol.EMessageType Type = 4;
+  string PayloadId = 5;
+  bytes PayloadResponse = 7;
+  bytes PayloadData = 8;
+  string ToGuid = 9;
+  uint64 Timestamp = 12;
+  string Guid = 2;
+  string UserIp = 10;
+  .NMessengerProtocol.TDebugParams DebugParams = 11;
+  int32 UserPort = 15;
+  .NMessengerProtocol.TClientMessage ClientMessage = 101;
+  .NMessengerProtocol.TMessageMeta Meta = 102;
+  string UserAgent = 104;
+  .NMessengerProtocol.TClientTransportId ClientTransportId = 105;
+  .NMessengerProtocol.TWorkspaceNotificationSettings WorkspaceNotificationSettings = 106;
+}
+
+message TRankingData {
+  enum ESource {
+    UNSET = 0;
+    BERT_CONSTRUCTIVITY = 1;
+  }
+
+  .NMessengerProtocol.TRankingData.ESource Source = 1;
+  double Value = 2;
+}
+
+message TOutMessage {
+  string ChatId = 3;
+  .NMessengerProtocol.EMessageType Type = 4;
+  string PayloadId = 5;
+  bytes PayloadResponse = 6;
+  bytes PayloadData = 7;
+  string Token = 8;
+  uint64 Timestamp = 9;
+  uint64 PrevTimestamp = 10;
+  string FromGuid = 11;
+  uint64 SeqNo = 14;
+  string MessageText = 15;
+  string FileName = 16;
+  uint64 LastEditTsMcs = 17;
+  uint64 Version = 18;
+  bool IsLegacyMessage = 20;
+  repeated string Guids = 2;
+  string UserIp = 13;
+  int32 UserPort = 21;
+  .NMessengerProtocol.TServerMessage ServerMessage = 101;
+  .NMessengerProtocol.TMessageMeta Meta = 102;
+  repeated .NMessengerProtocol.TRankingData RankingData = 104;
+  .NMessengerProtocol.TClientTransportId ClientTransportId = 105;
+  string ClientWorkspace = 106;
+}
+
+message TOutMessageRef {
+  string ChatId = 3;
+  uint64 Timestamp = 9;
+  uint64 Version = 10;
+  uint32 AttemptCount = 101;
+  uint64 LastAttemptTimestamp = 102;
+  .NMessengerProtocol.TServerMessage NonHistoryMessage = 103;
+  repeated string ToGuids = 104;
+  uint32 Priority = 105;
+  repeated uint64 ToPuids = 106;
+  uint64 Namespace = 107;
+  uint64 Subservice = 108;
+  uint64 FromPuid = 109;
+  string UserIp = 210;
+  int32 UserPort = 211;
+  uint32 BotHosts = 212;
+  string ClientWorkspace = 213;
+}
+
+message TOutMessageRefModeration {
+  string ChatId = 3;
+  uint64 Timestamp = 9;
+  uint64 Version = 10;
+  .NMessengerProtocol.TServerMessage NonHistoryMessage = 103;
+  uint32 Priority = 105;
+  uint64 Namespace = 107;
+  uint64 Subservice = 108;
+  uint64 FromPuid = 109;
+  string ModerationType = 110;
+}
+
+message TOutMessageBlock {
+  repeated .NMessengerProtocol.TOutMessage Messages = 1;
+}
+
+message TCompressedOutMessageBlock {
+  bytes CompressedMessages = 1;
+  .NMessengerProtocol.ECodec Codec = 2;
+  uint32 MessageBlockFlags = 3;
+  uint32 AttemptsCount = 4;
+  uint64 LastAttemptTimestamp = 5;
+}
+
+message TPostprocPushStatus {
+}
+
+message TMessageInfo {
+  uint64 TimestampMcs = 1;
+  uint64 PrevTimestampMcs = 2;
+  uint64 SeqNo = 3;
+  uint64 Version = 4;
+}
+
+message TErrorInfo {
+  string Message = 1;
+  uint32 WorkerId = 2;
+  uint64 TimeMcs = 3;
+  uint64 RetryAfter = 4;
+}
+
+message TDebugInfo {
+  string WorkerAddress = 1;
+  string BalancerAddress = 2;
+  uint64 PostprocPushTimeMcs = 4;
+  uint64 ProcessingTimeMcs = 5;
+  uint32 Attempts = 6;
+  repeated .NMessengerProtocol.TErrorInfo ErrorInfos = 7;
+  uint64 SuccessfulAttemptTimeMcs = 8;
+}
+
+message TResponse {
+  message TRateLimit {
+    uint64 WaitFor = 1;
+  }
+
+  .NMessengerProtocol.ECommitStatus Status = 1;
+  string Details = 2;
+  .NMessengerProtocol.TMessageInfo MessageInfo = 3;
+  .NMessengerProtocol.TDebugInfo DebugInfo = 4;
+  .NMessengerProtocol.TResponse.TRateLimit RateLimit = 5;
+}
+
+message TChatCounters {
+  uint64 TotalMessageCount = 1;
+  uint64 HiddenMessageCount = 2;
+}
+
+message TPinnedMessageInfo {
+  uint64 PinnedMessageTs = 1;
+  uint64 LastActionTsMcs = 2;
+}
+
+message TChatRole {
+  .NMessengerProtocol.EChatRole Role = 1;
+  uint64 Version = 2;
+  uint64 Rights = 3;
+  string ProfileId = 4;
+  bool IsTransient = 5;
+}
+
+message TChatHistoryResponse {
+  string ChatId = 1;
+  repeated .NMessengerProtocol.TOutMessage Messages = 2;
+  uint64 LastEditTsMcs = 3;
+  .NMessengerProtocol.EGenericResponseStatus Status = 4;
+  .NMessengerProtocol.TChatCounters Counters = 5;
+  uint64 LastSeenTsMcs = 6;
+  uint64 LastSeenByMeTsMcs = 7;
+  uint64 Version = 8;
+  uint64 LastSeenSeqNo = 9;
+  uint64 LastSeenByMeSeqNo = 10;
+  bool Muted = 11;
+  .NMessengerProtocol.TTimestampRange LastModeratedRange = 12;
+  uint64 ApproximateOnlineUserCount = 13;
+  .NMessengerProtocol.TChatInfo ChatInfo = 14;
+  uint64 LastSeqNo = 15;
+  bool ApprovedByMe = 17;
+  .NMessengerProtocol.TUserInfo PartnerInfo = 18;
+  uint64 LastTsMcs = 19;
+  .NMessengerProtocol.TPinnedMessageInfo PinnedMessageInfo = 20;
+  .NMessengerProtocol.TChatRole MyRole = 21;
+  uint64 HistoryStartTsMcs = 22;
+  repeated uint64 MentionTsMcs = 23;
+  .NMessengerProtocol.TPrivateChatInfo PrivateChatInfo = 24;
+  .NMessengerProtocol.TServerMessage ThreadParentMessage = 25;
+  .NMessengerProtocol.TMeetingInfo MeetingInfo = 26;
+  uint64 LastSeenByMeVersion = 27;
+  .NMessengerProtocol.TChatEventTypes SupportedEvents = 28;
+}
+
+message THistoryResponse {
+  repeated .NMessengerProtocol.TChatHistoryResponse Chats = 1;
+  repeated .NMessengerProtocol.TErrorInfo ErrorInfos = 2;
+  string RequestId = 3;
+  .NMessengerProtocol.EGenericResponseStatus Status = 4;
+  uint64 UnreadCount = 5;
+  uint32 WorkspaceVersion = 8;
+  uint64 MinGlobalVersion = 9;
+  uint64 MaxGlobalVersion = 10;
+}
+
+message TResponseFilter {
+  bool ExceptDeletedMessages = 1;
+  bool ModerationApprovedOnly = 2;
+  bool UnmuteHiddenNamespaces = 3;
+}
+
+message TMessageDataFilter {
+  bool KeepUids = 1;
+  bool DropPayload = 2;
+  bool OnlyTimestamps = 3;
+  bool IncludeRankingData = 4;
+  bool DropThreadParentMessage = 5;
+}
+
+message THistoryTranslationDataFilter {
+  string LanguageCode = 1;
+  repeated uint64 TranslationFor = 2;
+}
+
+message THistoryRequest {
+  message TExperiments {
+    bool Versioning = 1;
+  }
+
+  message TChatDataFilter {
+    uint64 MinVersion = 1;
+    uint32 OrganizationId = 2;
+    uint32 Limit = 3;
+    uint64 MinKnownGlobalVersion = 4;
+    uint64 MaxKnownGlobalVersion = 5;
+  }
+
+  string Guid = 1;
+  string ChatId = 2;
+  uint64 MinTimestamp = 3;
+  uint32 Limit = 4;
+  uint64 MaxTimestamp = 5;
+  uint32 Offset = 6;
+  string RequestId = 7;
+  string InviteHash = 8;
+  .NMessengerProtocol.TMessageDataFilter MessageDataFilter = 9;
+  uint64 Uid = 10;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 11;
+  bool DropPersonalFields = 12;
+  .NMessengerProtocol.TResponseFilter ResponseFilter = 14;
+  .NMessengerProtocol.THistoryRequest.TChatDataFilter ChatDataFilter = 15;
+  repeated string ChatIds = 16;
+  bool Internal = 17;
+  .NMessengerProtocol.THistoryRequest.TExperiments Experiments = 18;
+  bool Threads = 19;
+  bool HasMeeting = 20;
+  .NMessengerProtocol.THistoryTranslationDataFilter TranslationDataFilter = 21;
+}
+
+message TUnreadCountResponse {
+  message TChat {
+    string ChatId = 1;
+    string Name = 2;
+    string AvatarId = 3;
+    uint64 UnreadCount = 4;
+    uint64 LastTsMcs = 5;
+    bool ApprovedByMe = 6;
+  }
+
+  message TWorkspaceDetails {
+    message NsEntry {
+      string key = 1;
+      uint64 value = 2;
+    }
+
+    message BotsEntry {
+      string key = 1;
+      uint64 value = 2;
+    }
+
+    repeated .NMessengerProtocol.TUnreadCountResponse.TWorkspaceDetails.NsEntry Ns = 1;
+    repeated .NMessengerProtocol.TUnreadCountResponse.TWorkspaceDetails.BotsEntry Bots = 2;
+  }
+
+  .NMessengerProtocol.EGenericResponseStatus Status = 1;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 2;
+  string RequestId = 3;
+  uint64 UnreadCount = 4;
+  uint64 ChatUnreadCount = 5;
+  uint64 LastUnreadTsMcs = 6;
+  uint64 Ttl = 7;
+  repeated .NMessengerProtocol.TUnreadCountResponse.TChat ImportantChats = 8;
+  uint32 ChatCount = 9;
+  .NMessengerProtocol.TUnreadCountResponse.TWorkspaceDetails Details = 10;
+}
+
+message TUnreadCountRequest {
+  string RequestId = 1;
+  string ChatId = 2;
+  string OtherGuid = 3;
+  bool UnmuteHiddenNamespaces = 4;
+  string Guid = 5;
+  uint64 ImportantChatsLimit = 6;
+  bool IgnoreApprovals = 7;
+  string Client = 8;
+  repeated uint64 Namespaces = 9;
+  bool CountChats = 10;
+  bool DetailedWorkspace = 11;
+}
+
+message TSubscriptionResponse {
+  .NMessengerProtocol.EGenericResponseStatus Status = 1;
+  string Details = 2;
+  string RequestId = 3;
+  .NMessengerProtocol.TServerMessage LastMessage = 4;
+  .NMessengerProtocol.TTimestampRange LastModeratedRange = 5;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 6;
+  repeated .NMessengerProtocol.TServerMessage LastMessages = 7;
+  uint64 CurrentTime = 8;
+  repeated .NMessengerProtocol.TErrorInfo ErrorInfos = 9;
+}
+
+message TTranslationDataFilter {
+  string LanguageCode = 1;
+}
+
+message TSubscriptionRequest {
+  string Guid = 1;
+  string ChatId = 2;
+  string ToGuid = 3;
+  .NMessengerProtocol.EMessageType MessageType = 4;
+  uint64 TtlMcs = 5;
+  string RequestId = 6;
+  int32 MessageBodyType = 7;
+  string InviteHash = 8;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 9;
+  .NMessengerProtocol.TResponseFilter ResponseFilter = 10;
+  repeated int32 MessageBodyTypes = 12;
+  .NMessengerProtocol.TTranslationDataFilter TranslationDataFilter = 13;
+  repeated string ToGuids = 14;
+  .NMessengerProtocol.TClientTransportId ClientTransportId = 15;
+}
+
+message TEditHistoryResponse {
+  repeated .NMessengerProtocol.TOutMessage Messages = 1;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 2;
+  .NMessengerProtocol.EGenericResponseStatus Status = 3;
+  string RequestId = 4;
+}
+
+message TEditHistoryRequest {
+  string Guid = 1;
+  string ChatId = 2;
+  uint64 MinTimestamp = 3;
+  uint32 Limit = 4;
+  string RequestId = 5;
+  string InviteHash = 6;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 7;
+  bool DropPersonalFields = 8;
+  .NMessengerProtocol.THistoryTranslationDataFilter TranslationDataFilter = 21;
+}
+
+message TClearHistoryResponse {
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 1;
+  .NMessengerProtocol.EGenericResponseStatus Status = 2;
+  string RequestId = 3;
+}
+
+message TClearHistoryRequest {
+  string ChatId = 1;
+  string RequestId = 2;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 3;
+}
+
+message TDropUserStateRequest {
+  string RequestId = 1;
+  string Guid = 2;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 3;
+}
+
+message TDropUserStateResponse {
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 1;
+  .NMessengerProtocol.EGenericResponseStatus Status = 2;
+  string RequestId = 3;
+}
+
+message TMessageInfoRequest {
+  string ChatId = 1;
+  uint64 Timestamp = 2;
+  string Guid = 3;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 4;
+  bool SetLegacyFields = 5;
+  .NMessengerProtocol.TMessageDataFilter MessageDataFilter = 6;
+  string InviteHash = 7;
+  bool IncludeChatInfo = 8;
+  .NMessengerProtocol.TTranslationDataFilter TranslationDataFilter = 9;
+}
+
+message TMessageInfoResponse {
+  .NMessengerProtocol.TOutMessage Message = 1;
+  .NMessengerProtocol.EGenericResponseStatus Status = 2;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 3;
+  repeated uint32 MyReactions = 4;
+  repeated .NMessengerProtocol.TUserInfo HighlightedReactionUsers = 5;
+  .NMessengerProtocol.TChatInfo ChatInfo = 6;
+}
+
+message TPollInfoRequest {
+  message TAnswerFilter {
+    uint32 AnswerId = 1;
+    uint64 MaxTimestamp = 2;
+  }
+
+  string Guid = 1;
+  string ChatId = 2;
+  string InviteHash = 3;
+  uint64 Timestamp = 4;
+  .NMessengerProtocol.TMessageRef ForwardedMessageRef = 5;
+  .NMessengerProtocol.TPrivilegedParams PrivilegedParams = 6;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 7;
+  bool ReturnResults = 8;
+  uint32 Limit = 9;
+  .NMessengerProtocol.TPollInfoRequest.TAnswerFilter AnswerFilter = 10;
+}
+
+message TPollInfoResponse {
+  message TVote {
+    uint64 Timestamp = 1;
+    .NMessengerProtocol.TUserInfo UserInfo = 2;
+  }
+
+  message TAnswerVotes {
+    uint32 AnswerId = 1;
+    uint32 TotalCount = 2;
+    repeated .NMessengerProtocol.TPollInfoResponse.TVote Votes = 3;
+  }
+
+  .NMessengerProtocol.EGenericResponseStatus Status = 1;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 2;
+  .NMessengerProtocol.TPollResults Results = 3;
+  repeated uint32 MyChoices = 4;
+  repeated .NMessengerProtocol.TPollInfoResponse.TAnswerVotes AnswerVotes = 5;
+}
+
+message TWhoamiRequest {
+  string Guid = 1;
+  .NMessengerProtocol.TCommonRequestFields CommonRequestFields = 2;
+}
+
+message TWhoamiResponse {
+  .NMessengerProtocol.TUserInfo UserInfo = 1;
+  .NMessengerProtocol.EGenericResponseStatus Status = 2;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 3;
+  .NMessengerProtocol.TUserStatusInfo UserStatusInfo = 4;
+  uint64 CurrentTime = 5;
+}
+
+message TForwardEventInfo {
+  uint64 ShardingToken = 1;
+  uint64 Timestamp = 2;
+}
+
+message TUpdateRankingDataRequest {
+  .NMessengerProtocol.TMessageRef MessageRef = 1;
+  .NMessengerProtocol.TForwardEventInfo ForwardEvent = 3;
+  repeated .NMessengerProtocol.TRankingData RankingData = 4;
+}
+
+message TUpdateRankingDataResponse {
+  .NMessengerProtocol.EGenericResponseStatus Status = 1;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 2;
+}
+
+message TLastSeenRequest {
+  repeated uint64 Uids = 1;
+  repeated string Guids = 2;
+  bool Foreground = 3;
+}
+
+message TLastSeenResponse {
+  .NMessengerProtocol.EGenericResponseStatus Status = 1;
+  repeated .NMessengerProtocol.TErrorInfo ErrorInfos = 2;
+  repeated .NMessengerProtocol.TLastSeenInfo LastSeenInfos = 3;
+}
+
+message TListReactionsRequest {
+  string Guid = 1;
+  string ChatId = 2;
+  string InviteHash = 3;
+  uint64 Timestamp = 4;
+  uint64 MaxTimestamp = 5;
+  uint32 Limit = 6;
+  repeated uint32 Types = 7;
+}
+
+message TListReactionsResponse {
+  .NMessengerProtocol.EGenericResponseStatus Status = 1;
+  .NMessengerProtocol.TErrorInfo ErrorInfo = 2;
+  repeated .NMessengerProtocol.TUserReaction UserReactions = 3;
+}
+
+enum EMessageType {
+  UNKNOWN = 0;
+  PLAIN = 1;
+  TYPING = 2;
+  SERVER_PLAIN = 3;
+  SEEN_MARKER = 4;
+  SERVER_SEEN_MARKER = 5;
+  HEARTBEAT = 6;
+  MESSAGE_EVENT = 7;
+  YOU_ADDED = 8;
+  YOU_REMOVED = 9;
+  CHAT_RELOAD = 10;
+  CHAT_REMOVED = 11;
+  CHAT_INFO_CHANGED = 12;
+  ORG_CHANGED = 13;
+  USER_RELOAD = 14;
+  GROUP_RELOAD = 15;
+  DEPARTMENT_RELOAD = 16;
+  GROUP_REMOVED = 17;
+  DEPARTMENT_REMOVED = 18;
+  MEMBERS_CHANGED = 19;
+  ROLES_CHANGED = 20;
+  USER_SETTINGS_CHANGED = 21;
+  CHAT_SETTINGS_CHANGED = 22;
+  STATE_SYNC = 23;
+  YOU_REMOVED_FROM_THREAD = 24;
+  YOU_ADDED_TO_THREAD = 25;
+}
+
+enum EOriginService {
+  UNSET = 0;
+  SERVICES = 1;
+  SERP = 2;
+  LOCAL = 3;
+  ETHER = 4;
+  IOS_SEARCHAPP = 5;
+  IOS_BROWSER = 6;
+  IOS_STANDALONE = 7;
+  BRINGLY = 8;
+  BERU = 9;
+  MORDA = 10;
+  WIDGET_ON_WEBSITE = 11;
+  MARKET = 12;
+  MAP = 13;
+  TRAVEL = 14;
+  DIRECT = 15;
+  GEO = 16;
+  ANDROID = 17;
+  COLLECTIONS = 18;
+  HEALTH = 19;
+  LMS = 20;
+  AURA = 21;
+  TALENTS = 22;
+  TURBO_LANDING_CONSTRUCTOR = 23;
+  ANDROID_SEARCHAPP = 24;
+  ANDROID_BROWSER = 25;
+  ANDROID_STANDALONE = 26;
+  WEB = 27;
+  ELECTRON_APP = 28;
+  CMNT = 29;
+  DESKTOP_YABRO = 30;
+  NMAP = 31;
+  VIDEO = 32;
+  YASTATION = 33;
+  YASTATION_MINI = 34;
+  EDUCATION = 35;
+  ZEN = 36;
+  ELJUR = 37;
+  WISP = 38;
+  TELEMOST = 39;
+  TELEMOST_DESKTOP = 40;
+  CHEMODAN_ADMIN = 41;
+  PASSPORT = 42;
+  KINOPOISK = 43;
+  CLOUD = 44;
+  METRIKA = 45;
+  TOLOKA = 46;
+  PLUS = 47;
+  COMEDY = 48;
+  PARTNER = 49;
+  WEBMASTER = 50;
+  DELIVERY = 51;
+  EDA = 52;
+  PAY = 53;
+  CONTEST = 54;
+  HELP = 55;
+  TAXI = 56;
+  AFISHA = 57;
+  Q = 58;
+  SURVEYS = 59;
+  ADFOX = 60;
+  KOLHOZ = 61;
+  FARM = 62;
+  QUANTUM = 63;
+  GO = 64;
+  TRIP = 65;
+  TRIP_INTERNAL = 66;
+  YANDEX_360 = 67;
+  EPAM = 68;
+  BOOKMATE = 69;
+  YACE = 70;
+  K50 = 71;
+  YATALKS = 72;
+  SPLIT = 73;
+  AUTO_RU = 74;
+  PASSPORT_OAUTH = 75;
+  ALICE = 76;
+  DISTRIBUTION = 77;
+  GEOADV = 78;
+  ASGARD = 79;
+  CM_EXPERT = 80;
+  PML_CONF = 81;
+  LAB_INDUSTRIES = 82;
+  ROUTING = 83;
+  BUSINESS_YANGO = 84;
+  EATS_TIPS_ADMIN = 85;
+  VCONFMOBILE = 86;
+  BINGO = 87;
+  FINTECHINT = 88;
+  CALENDAR = 89;
+  TASKS = 90;
+  YANG = 91;
+  ROUTING_COURIER = 92;
+  DISK_FRONTEND = 93;
+  DEVELOPER_OFFICE = 94;
+  STAFF_PROFILE = 95;
+  SPARK_YANGO_DOCS = 96;
+  SMENA = 97;
+  DOCS_TOOLS = 98;
+  ANDROID_WEB_TAXI = 99;
+  IOS_WEB_TAXI = 100;
+  ANDROID_WEB_YANGO = 101;
+  IOS_WEB_YANGO = 102;
+  ANDROID_WEB_MESSENGER = 103;
+  ANDROID_WEB_YANGO_SAFT = 104;
+  IOS_WEB_YANGO_JOY = 105;
+  CG_FRONTEND = 106;
+  ANDROID_IOT = 107;
+  ANDROID_USLUGI = 108;
+  ANDROID_MARKET = 109;
+  ANDROID_MARKET_PARTNER = 110;
+  ANDROID_KINOPOISK = 111;
+  ANDROID_TELEMOST = 112;
+  ANDROID_MAIL = 113;
+  ANDROID_DISK = 114;
+  ANDROID_LAVKA = 115;
+  ANDROID_EDA = 116;
+  ANDROID_DELIVERYCLUB = 117;
+  ANDROID_DELIVERYCLUB_STOCK = 118;
+  ANDROID_YANGO_DRIVER = 119;
+  ANDROID_YANGO_DELI = 120;
+  ANDROID_TAXIMETER = 121;
+  ANDROID_TAXIMETER_X = 122;
+  ANDROID_BOOKMATE = 123;
+  ANDROID_GASSTATIONS = 124;
+  ANDROID_BLUECOLLARS = 125;
+  LPC = 126;
+  TRACKER = 127;
+  WIKI = 128;
+  MARKET_FRONT_TPL = 129;
+  FORMS = 130;
+  VLOTHO = 131;
+  ORDA = 132;
+  WEATHER = 133;
+  FEMIDA = 134;
+  Y360_API_TEST_APP = 135;
+  SHUVALOV = 136;
+  KIDS = 137;
+  FARMHUB = 138;
+  PERFORMANCE_REVIEW = 139;
+  ANDROID_WEB_KINOPOISK = 140;
+  ANDROID_WEB_MARKET = 141;
+  IOS_WEB_MARKET = 142;
+  TRANSLATE_CS = 143;
+  KEYBOARD_CS = 144;
+  TURBOAPP_TAXI = 145;
+  FUNTECH_CLIENT_ACCOUNTING = 146;
+  ANDROID_WEB_MUSIC = 147;
+  MERCHANTS = 148;
+  CHATSUPPORT_CS = 149;
+  YANDEX_MAPS_SUPPORT = 150;
+  SUPERWEB = 151;
+  UAG = 152;
+  OFD = 153;
+  SERVICE_DESK = 154;
+  SPACE = 155;
+  LUMIPROB_RUS = 156;
+  ANDROID_CALENDAR = 157;
+  IOS_CALENDAR = 158;
+  EXTRA = 159;
+  SFT = 160;
+  PARTNER_BLOGGERS = 161;
+  ANDROID_WEB_CALENDAR = 162;
+  ANDROID_TAXIMETER_BETA = 163;
+  LAVKA = 164;
+  ANDROID_WEB_YANDEX_MAPS = 165;
+  ANDROID_WEB_YANDEX_NAVI = 166;
+  PROMO = 167;
+  REVATOR = 168;
+  IOS_WEB_IBRO = 169;
+  IOS_WEB_CORP_BRO = 170;
+  IOS_WEB_SEARCH_APP = 171;
+  ANDROID_SMENA_DEMAND = 172;
+  IOS_SMENA_DEMAND = 173;
+  PRUFFME = 174;
+  GAMES = 175;
+  ECREDIT = 176;
+  ELECTRO = 177;
+  PROMO_PAGES = 178;
+  ORBIT = 179;
+  SIGNLAB = 180;
+  VCONF = 181;
+  CORP_BRO = 182;
+}
+
+enum ECodec {
+  ZSTD = 0;
+  LZ4 = 1;
+  IDENTITY = 2;
+}
+
+enum ECommitStatus {
+  Uncommitted = 0;
+  FullyCommitted = 1;
+  UniproxyCommitted = 2;
+  Failed = 3;
+  NoSuchChat = 4;
+  NotLeading = 5;
+  ForeignPartition = 6;
+  SenderNotInChat = 7;
+  Duplicate = 8;
+  PostprocCommitted = 9;
+  KikimrWriteFailed = 10;
+  MessageNotFound = 11;
+  DequeuedAfterError = 12;
+  BadRequest = 13;
+  FileshareFailed = 14;
+  NoPermission = 15;
+  Conflict = 16;
+  NoSuchUser = 17;
+  Throttled = 18;
+  Banned = 19;
+  Blacklisted = 20;
+  NotFound = 21;
+  SpamDetected = 22;
+  RateLimitExceeded = 23;
+  BlockedByPrivacySettings = 24;
+}
+
+enum EGenericResponseStatus {
+  Success = 0;
+  InternalError = 1;
+  AccessDenied = 2;
+  Misconfiguration = 3;
+  EntityNotFound = 4;
+  Overload = 5;
+}
+
+enum EChatRole {
+  SUBSCRIBER = 0;
+  MEMBER = 1;
+  ADMIN = 2;
+  GONE = 3;
+}
+

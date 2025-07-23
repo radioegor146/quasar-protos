@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.sound_commands_frame";
+option java_outer_classname = "FrameSoundCommands";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/sound_commands_frame;soundcommandsframe";
+
+import "alice/megamind/protos/scenarios/frames/common/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSoundAbsoluteChangeSlot {
+  oneof Value {
+    int32 NumLevelValue = 1;
+    float FloatLevelValue = 2;
+    string CustomLevelValue = 3;
+  }
+}
+
+message TSoundRelativeChangeSlot {
+  oneof Value {
+    int32 NumLevelValue = 1;
+    float FloatLevelValue = 2;
+  }
+}
+
+message TSoundPercentageChangeSlot {
+  oneof Value {
+    int32 NumLevelValue = 1;
+    float FloatLevelValue = 2;
+    float PercentLevelValue = 3;
+  }
+}
+
+message TSoundDegreeChangeSlot {
+  oneof Value {
+    string DegreeValue = 1;
+  }
+}
+
+message TSoundLouderSemanticFrame {
+  .NAlice.TBoolSlot RepeatInterruptedPhrase = 1;
+  .NAlice.TSoundAbsoluteChangeSlot AbsoluteChange = 2;
+  .NAlice.TSoundRelativeChangeSlot RelativeChange = 3;
+  .NAlice.TSoundPercentageChangeSlot PercentageChange = 4;
+  .NAlice.TSoundDegreeChangeSlot DegreeChange = 5;
+}
+
+message TSoundQuiterSemanticFrame {
+  .NAlice.TBoolSlot RepeatInterruptedPhrase = 1;
+  .NAlice.TSoundAbsoluteChangeSlot AbsoluteChange = 2;
+  .NAlice.TSoundRelativeChangeSlot RelativeChange = 3;
+  .NAlice.TSoundPercentageChangeSlot PercentageChange = 4;
+  .NAlice.TSoundDegreeChangeSlot DegreeChange = 5;
+}
+
+message TSoundMuteSemanticFrame {
+}
+
+message TSoundUnmuteSemanticFrame {
+}
+
+message TSoundLevelSlot {
+  oneof Value {
+    int32 NumLevelValue = 1;
+    float FloatLevelValue = 2;
+    string CustomLevelValue = 3;
+    string CustomVolumeSettings = 4;
+    float PercentLevelValue = 5;
+  }
+}
+
+message TSoundSetLevelSemanticFrame {
+  .NAlice.TSoundLevelSlot Level = 1;
+  .NAlice.TSysNumSlot Denominator = 2;
+}
+

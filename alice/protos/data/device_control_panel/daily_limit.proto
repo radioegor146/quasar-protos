@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.device_control_panel";
+option java_outer_classname = "DailyLimitProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/device_control_panel";
+
+import "alice/protos/data/device_control_panel/local_time.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/duration.proto";
+
+message TDailyLimit {
+  .google.protobuf.Duration Limit = 1;
+  .NAlice.TDayOfWeek DayOfWeek = 2;
+}
+

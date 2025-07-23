@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "PersistedCapabilityEventProto";
+
+import "alice/protos/endpoint/events/all/all.proto";
+import "google/protobuf/timestamp.proto";
+
+message PersistedCapabilityEvent {
+  .NAlice.TCapabilityEventHolder Event = 1;
+  .google.protobuf.Timestamp Timestamp = 2;
+  uint32 EndpointId = 3;
+}
+

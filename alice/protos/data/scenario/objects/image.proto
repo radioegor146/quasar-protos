@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.objects";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/objects";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSingleImage {
+  reserved "HttpSorce";
+  reserved 3;
+  message TImageRef {
+    string Url = 1;
+    int32 Width = 2;
+    int32 Height = 3;
+  }
+
+  .NAlice.NData.TSingleImage.TImageRef UrlAvatar = 1;
+  .NAlice.NData.TSingleImage.TImageRef UrlSource = 2;
+  string Text = 4;
+  string HttpSource = 5;
+}
+
+message TImageGallery {
+  reserved "Gallery";
+  reserved 1;
+  repeated .NAlice.NData.TSingleImage Images = 2;
+}
+
+message TImageGrid {
+  string Title = 1;
+  .NAlice.NData.TImageGallery Images = 2;
+}
+

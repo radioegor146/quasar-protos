@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.recent";
+option java_outer_classname = "RecentApplication";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/recent";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRecentApplicationItem {
+  string PackageName = 1;
+  string ActivityName = 2;
+  string AppName = 3;
+  string LaunchIntentUri = 4;
+  string IconUri = 5;
+}
+

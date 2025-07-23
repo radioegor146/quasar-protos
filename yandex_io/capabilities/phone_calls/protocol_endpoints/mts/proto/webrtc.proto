@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package yandex_io.mts;
+
+message TIceServer {
+  repeated string Urls = 1;
+  string Username = 2;
+  string Credential = 3;
+}
+
+message TTurnConfig {
+  .yandex_io.mts.EIceTransportPolicy IceTransportPolicy = 1;
+  repeated .yandex_io.mts.TIceServer IceServers = 2;
+}
+
+message TWebrtcConfig {
+  .yandex_io.mts.TTurnConfig TurnConfig = 1;
+}
+
+enum EIceTransportPolicy {
+  none = 0;
+  relay = 1;
+  no_host = 2;
+  all = 3;
+}
+

@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "VolumeProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/volume;volumepb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TVolumeCapability {
+  message TParameters {
+    bool SupportsPercentLevel = 1;
+    bool UseCoarseScale = 2;
+    bool SupportVolumeDbLevels = 3;
+  }
+
+  message TState {
+    bool IsMuted = 1;
+    uint32 Level = 2;
+    uint32 MaxLevel = 3;
+    float PercentLevel = 4;
+    .NAlice.TVolumeCapability.ESource LastChangeSource = 5;
+    repeated float VolumeDbLevels = 6;
+  }
+
+  message TVolumeMuteDirective {
+    bool IsMuted = 1;
+    .NAlice.TVolumeCapability.ESource Source = 2;
+  }
+
+  message TVolumeUnmuteDirective {
+  }
+
+  message TVolumeStartVolumeChange {
+    uint32 InitialPercentLevel = 1;
+    uint32 FinalPercentLevel = 2;
+    oneof TimeStepPolicy {
+      uint32 StepMs = 3;
+      uint32 FullTimeMs = 4;
+    }
+    optional uint32 PercentStep = 5;
+  }
+
+  message TVolumeStopVolumeChange {
+    bool RestoreVolumeLevel = 1;
+  }
+
+  message TVolumeSetDirective {
+    enum EMode {
+      EModeDefault = 0;
+      EModeNotLessThan = 1;
+      EModeNotMoreThan = 2;
+    }
+
+    float PercentLevel = 1;
+    .NAlice.TVolumeCapability.TVolumeSetDirective.EMode Mode = 2;
+    .NAlice.TVolumeCapability.ESource Source = 3;
+  }
+
+  enum ESource {
+    ESourceVoice = 0;
+    ESourceButton = 1;
+    ESourceBluetooth = 2;
+    ESourceRcuHold = 3;
+    ESourceRcuPress = 4;
+    ESourceOther = 1000;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TVolumeCapability.TParameters Parameters = 2;
+  .NAlice.TVolumeCapability.TState State = 3;
+}
+

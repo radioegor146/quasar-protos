@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "MotionCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/motion;motionpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/endpoint/events/events.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TMotionCapability {
+  message TParameters {
+    .NAlice.TPositiveIntegerRange MotionDetectionIntervalRangeSec = 1;
+  }
+
+  message TState {
+    uint32 MotionDetectionIntervalSec = 1;
+    .NAlice.TTypedCapabilityEvent LastEvent = 2;
+  }
+
+  message TSetMotionDetectionInterval {
+    string Name = 1000;
+    uint32 MotionDetectionIntervalSec = 1;
+  }
+
+  message TMotionDetectedEvent {
+  }
+
+  message TCondition {
+    repeated .NAlice.TCapability.EEventType Events = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TMotionCapability.TParameters Parameters = 2;
+  .NAlice.TMotionCapability.TState State = 3;
+}
+

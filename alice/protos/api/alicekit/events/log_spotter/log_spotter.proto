@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.log_spotter";
+option java_outer_classname = "LogSpotter";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/log_spotter";
+
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "alice/protos/api/alicekit/common/device_state/device_state.proto";
+import "google/protobuf/struct.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLogSpotter {
+  message TExtraPayload {
+    .NAlice.NAliceApi.TDeviceState DeviceState = 1;
+    .NAlice.TExperimentsProto Experiments = 2;
+    optional string QuasmodromGroup = 3;
+    optional string QuasmodromSubgroup = 4;
+    optional string TestBuckets = 5;
+    optional string Testids = 6;
+    optional string Context = 7;
+    optional string CallId = 8;
+    optional string DurationMs = 9;
+  }
+
+  message TExtra {
+    .google.protobuf.Struct RawPayload = 1;
+    .NAlice.NAliceApi.TLogSpotter.TExtraPayload Payload = 2;
+  }
+
+  .NAlice.NAliceApi.TLogSpotter.TExtra Extra = 1;
+  optional string Format = 2;
+  optional string Transcript = 3;
+  optional string Source = 4;
+  optional string Firmware = 5;
+  optional string Lang = 6;
+  optional string VinsMessageId = 7;
+  optional int32 Priority = 8;
+  optional string BtDeviceName = 9;
+  optional string BtDeviceClass = 10;
+  optional bool ExternalSoundAccess = 11;
+}
+

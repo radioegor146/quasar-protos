@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "OpeningSensorProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/opening_sensor;openingsensorpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/events/events.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TOpeningSensorCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TTypedCapabilityEvent LastEvent = 1;
+  }
+
+  message TOpeningSensorOpenedEvent {
+  }
+
+  message TOpeningSensorAjarEvent {
+  }
+
+  message TOpeningSensorLockedEvent {
+  }
+
+  message TOpeningSensorClosedEvent {
+  }
+
+  message TCondition {
+    repeated .NAlice.TCapability.EEventType Events = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TOpeningSensorCapability.TParameters Parameters = 2;
+  .NAlice.TOpeningSensorCapability.TState State = 3;
+}
+

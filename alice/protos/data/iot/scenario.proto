@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+package NAlice.NIot;
+
+option java_package = "ru.yandex.alice.protos.data.iot";
+option java_outer_classname = "ScenarioProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/data/iot;iotpb";
+
+import "google/protobuf/any.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/date/day_of_week.proto";
+
+message TLocalScenarioCondition {
+  message TAnyOfCondition {
+    repeated .NAlice.NIot.TLocalScenarioCondition Conditions = 1;
+  }
+
+  message TAllOfCondition {
+    repeated .NAlice.NIot.TLocalScenarioCondition Conditions = 1;
+  }
+
+  message TCapabilityEventCondition {
+    string EndpointID = 1;
+    .google.protobuf.Any EventCondition = 2;
+  }
+
+  message TActiveForCondition {
+    .NAlice.NIot.TLocalScenarioCondition Condition = 1;
+    uint32 DurationSeconds = 2;
+  }
+
+  message TScheduleCondition {
+    uint32 TimeOfDaySeconds = 1;
+    repeated string DaysOfWeek = 2;
+    optional uint64 StartTimeSeconds = 3;
+  }
+
+  message TEffectiveTimeCondition {
+    enum ETriggerPolicy {
+      Unknown = 0;
+      Once = 1;
+      Unlimited = 2;
+    }
+
+    uint32 StartTimeSeconds = 1;
+    uint32 DurationSeconds = 2;
+    repeated .NAlice.NData.TDayOfWeek Weekdays = 3;
+    .NAlice.NIot.TLocalScenarioCondition.TEffectiveTimeCondition.ETriggerPolicy TriggerPolicy = 4;
+    .NAlice.NIot.TLocalScenarioCondition Condition = 5;
+    bool AsTrigger = 6;
+  }
+
+  message TConditionFilter {
+    string EndpointID = 1;
+    .google.protobuf.Any Filter = 2;
+    optional string ID = 3;
+  }
+
+  enum EConditionType {
+    Unknown = 0;
+    CapabilityEvent = 1;
+    AnyOf = 2;
+    ActiveFor = 3;
+    Schedule = 4;
+    AllOf = 5;
+    EffectiveTime = 6;
+  }
+
+  repeated .NAlice.NIot.TLocalScenarioCondition.TConditionFilter Filters = 6;
+  oneof Condition {
+    .NAlice.NIot.TLocalScenarioCondition.TCapabilityEventCondition CapabilityEventCondition = 1;
+    .NAlice.NIot.TLocalScenarioCondition.TAnyOfCondition AnyOfCondition = 2;
+    .NAlice.NIot.TLocalScenarioCondition.TActiveForCondition ActiveForCondition = 3;
+    .NAlice.NIot.TLocalScenarioCondition.TScheduleCondition ScheduleCondition = 4;
+    .NAlice.NIot.TLocalScenarioCondition.TAllOfCondition AllOfCondition = 7;
+    .NAlice.NIot.TLocalScenarioCondition.TEffectiveTimeCondition EffectiveTimeCondition = 8;
+  }
+  optional string ID = 5;
+}
+
+message TLocalScenario {
+  message TEffectiveTime {
+    enum ETriggerPolicy {
+      Unknown = 0;
+      Once = 1;
+      Unlimited = 2;
+    }
+
+    uint32 StartTimeSeconds = 1;
+    uint32 EndTimeSeconds = 2;
+    repeated string DaysOfWeek = 3;
+    .NAlice.NIot.TLocalScenario.TEffectiveTime.ETriggerPolicy TriggerPolicy = 4;
+    uint32 DurationSeconds = 5;
+  }
+
+  message TStep {
+    message TDirectivesStep {
+      repeated .google.protobuf.Any Directives = 1;
+    }
+
+    oneof Step {
+      .NAlice.NIot.TLocalScenario.TStep.TDirectivesStep DirectivesStep = 1;
+    }
+  }
+
+  message TStepResult {
+    message TDirectivesStepResult {
+      message TDirectiveExecResult {
+        enum EDirectiveExecStatus {
+          Unknown = 0;
+          Success = 1;
+          DeviceUnreachable = 2;
+          Failure = 3;
+        }
+
+        .NAlice.NIot.TLocalScenario.TStepResult.TDirectivesStepResult.TDirectiveExecResult.EDirectiveExecStatus Status = 1;
+        optional string EndpointId = 2;
+      }
+
+      enum EStatus {
+        Unknown = 0;
+        Success = 1;
+        Failure = 2;
+      }
+
+      .NAlice.NIot.TLocalScenario.TStepResult.TDirectivesStepResult.EStatus Status = 1;
+      repeated .NAlice.NIot.TLocalScenario.TStepResult.TDirectivesStepResult.TDirectiveExecResult DirectivesExecResults = 2;
+    }
+
+    oneof Step {
+      .NAlice.NIot.TLocalScenario.TStepResult.TDirectivesStepResult DirectivesStepResult = 1;
+    }
+  }
+
+  string ID = 1;
+  .NAlice.NIot.TLocalScenarioCondition Condition = 2;
+  repeated .NAlice.NIot.TLocalScenario.TStep Steps = 3;
+  .NAlice.NIot.TLocalScenario.TEffectiveTime EffectiveTime = 4;
+  bool ContinueExecutionAfterError = 5;
+  optional bool IsActive = 6;
+}
+

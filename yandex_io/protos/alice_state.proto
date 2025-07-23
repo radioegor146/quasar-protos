@@ -1,0 +1,119 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "AliceStateProtos";
+
+import "alice/protos/data/event_source/event_source.proto";
+import "alice/protos/api/alicekit/annotations/annotations.proto";
+import "alice/protos/api/alicekit/cards/card.proto";
+import "alice/protos/api/alicekit/suggests/suggest.proto";
+import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
+import "alice/protos/data/dialog_type/dialog_type.proto";
+import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
+
+message AliceState {
+  message TextState {
+    message Partial {
+      optional string text = 1;
+      optional bool should_rewrite = 2;
+      optional int64 partial_number = 3;
+    }
+
+    optional string text = 1;
+    optional string message_view_id = 2;
+    optional float symbols_per_second = 3;
+    optional bool is_end = 4;
+    optional .quasar.proto.AliceState.TextState.Partial last_partial = 5;
+  }
+
+  message ResponseState {
+    optional string text = 1;
+    repeated .NAlice.NAliceApi.TCard cards = 2;
+    optional bool is_final = 3;
+    optional string request_id = 4;
+    optional string dialog_id = 9;
+    repeated .NAlice.NAliceApi.TSuggest suggests = 5;
+    optional bool is_cancelled = 6;
+    optional .NAlice.NApi.NAlice2Mode.TAlice2ModeInfo alice_2_mode_info = 7;
+    optional .NAlice.NApi.NAlice2Mode.TAlice2TrialState alice_2_trial_state = 8;
+    optional .NAlice.NAliceApi.TRequestAnnotation request_annotation = 10;
+  }
+
+  message RequestState {
+    optional string request_text = 1;
+    optional string dialog_id = 3;
+    optional bool is_final = 2 [default = false];
+    optional bool is_recognition_started = 4;
+  }
+
+  enum State {
+    IDLE = 0;
+    LISTENING = 1;
+    SPEAKING = 2;
+    BUSY = 3;
+    SHAZAM = 5;
+    NONE = 6;
+  }
+
+  enum Error {
+    ErrorOther = 0;
+    ErrorBlocked = 1;
+    ErrorDeviceNotReady = 2;
+    ErrorInterrupted = 3;
+    ErrorNetwork = 4;
+    ErrorNoSpeechDetected = 5;
+    ErrorServer = 6;
+    ErrorSpottingRejected = 7;
+    ErrorTimeout = 8;
+    ErrorAudioRecorder = 9;
+  }
+
+  optional .quasar.proto.AliceState.State state = 1;
+  optional string recognized_phrase = 2;
+  optional .quasar.proto.VinsResponse vins_response = 3;
+  optional double doa_angle = 4;
+  optional bool has_startup_requirements = 5 [default = false];
+  optional string activation_spotter_model = 6;
+  optional string request_id = 7;
+  optional double voice_power = 8;
+  optional bool has_speech = 9;
+  optional .NAlice.TEventSource event_source = 10;
+  optional bool is_connected = 11;
+  optional bool is_reminder_active = 12;
+  optional .quasar.proto.AliceState.TextState text_state = 13;
+  optional .quasar.proto.AliceState.ResponseState response_state = 14;
+  optional .quasar.proto.AliceState.RequestState request_state = 15;
+}
+
+message VinsResponse {
+  reserved 6;
+  reserved 7;
+  message Suggest {
+    message Theme {
+      optional string image_url = 1;
+      optional string text_color = 2;
+      optional string border_color = 3;
+      optional string fill_color = 4;
+    }
+
+    optional string text = 1;
+    optional string title = 2;
+    repeated .quasar.proto.Directive directives = 3;
+    optional float image_width_ratio = 4;
+    optional .quasar.proto.VinsResponse.Suggest.Theme theme = 5;
+    optional .quasar.proto.VinsResponse.Suggest.Theme dark_theme = 6;
+  }
+
+  optional string output_speech = 1;
+  repeated .quasar.proto.VinsResponse.Suggest suggests = 2;
+  optional bool text_only = 3;
+  optional string div_card = 4;
+  optional string payload = 5;
+  optional string dialog_id = 8;
+  optional bool is_streaming = 9;
+  optional bool has_voice_response = 10;
+  optional .NAlice.NData.EDialogType dialog_type = 11;
+}
+

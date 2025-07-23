@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package NAlice.NAts.NApi;
+
+option java_package = "ru.yandex.alice.protos.api.ats.user_registration_info";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/ats/user_registration_info";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUserRegistrationInfo {
+  string AtsLogin = 1;
+}
+

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.universal";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/universal_scenario";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUniversalScenarioTeaserCardData {
+  string ScenarioName = 1;
+  string ImageUrl = 2;
+  string Text = 3;
+  string Title = 4;
+  string Action = 5;
+}
+

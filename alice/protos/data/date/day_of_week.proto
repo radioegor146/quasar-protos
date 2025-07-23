@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.date";
+option go_package = "a.yandex-team.ru/alice/protos/data/date";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDayOfWeek {
+  enum EDayOfWeek {
+    None = 0;
+    Monday = 1;
+    Tuesday = 2;
+    Wednesday = 3;
+    Thursday = 4;
+    Friday = 5;
+    Saturday = 6;
+    Sunday = 7;
+  }
+
+  .NAlice.NData.TDayOfWeek.EDayOfWeek DayOfWeek = 1;
+}
+

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice.NApi;
+
+option java_package = "ru.yandex.alice.protos.api.local_scenario";
+option go_package = "a.yandex-team.ru/alice/protos/api/local_scenario";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLocalScenarioResponseData {
+  string ScenarioName = 1;
+  string ProductScenarioName = 2;
+  string RequestText = 3;
+  string ResponseText = 4;
+}
+

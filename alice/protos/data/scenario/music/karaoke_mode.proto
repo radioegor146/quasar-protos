@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/music";
+
+enum EKaraokeMode {
+  Undefined = 0;
+  Enabled = 1;
+  Disabled = 2;
+}
+

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "MultiroomCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/multiroom;multiroompb";
+
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TMultiroomCapability {
+  message TParameters {
+    bool SupportsDirectivesAttachment = 1;
+  }
+
+  message TSessionDescriptor {
+    optional string MasterDeviceId = 1;
+    optional string MultiroomToken = 2;
+    optional int64 StartTimestampMs = 3;
+  }
+
+  message TState {
+    optional .NAlice.TMultiroomCapability.ERole Role = 1;
+    optional .NAlice.TMultiroomCapability.TSessionDescriptor CurrentSession = 2;
+  }
+
+  enum ERole {
+    ROLE_NONE = 0;
+    ROLE_MASTER = 1;
+    ROLE_SLAVE = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TMultiroomCapability.TParameters Parameters = 2;
+  .NAlice.TMultiroomCapability.TState State = 3;
+}
+

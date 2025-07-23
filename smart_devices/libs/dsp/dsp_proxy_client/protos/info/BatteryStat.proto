@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package yandex.dsp.info;
+
+message BatteryStat {
+  int32 soc = 1;
+  int32 current = 2;
+  int32 voltage = 3;
+  int32 temperature = 4;
+}
+

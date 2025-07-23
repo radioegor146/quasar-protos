@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "TIotOccupancyCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_occupancy;occupancypb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotOccupancyCapability {
+  message TParameters {
+  }
+
+  message TSonarDetection {
+    double DistanceMeters = 1;
+  }
+
+  message TDetection {
+    oneof Detection {
+      .NAlice.TIotOccupancyCapability.TSonarDetection SonarDetection = 1;
+    }
+  }
+
+  message TObject {
+    .NAlice.TIotOccupancyCapability.TDetection Detection = 1;
+  }
+
+  message TState {
+    repeated .NAlice.TIotOccupancyCapability.TObject Objects = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotOccupancyCapability Capability = 1;
+  }
+
+  message TIotOccupancyEnterEvent {
+  }
+
+  message TIotOccupancyLeaveEvent {
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotOccupancyCapability.TParameters Parameters = 2;
+  .NAlice.TIotOccupancyCapability.TState State = 3;
+}
+

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.radio_frame";
+option java_outer_classname = "FrameRadio";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/radio_frame;radioframe";
+
+import "alice/megamind/protos/scenarios/frames/common/common.proto";
+import "alice/protos/data/fm_radio_info.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TFmRadioStationSlot {
+  oneof Value {
+    string FmRadioValue = 1;
+    string FmRadioCustomValue = 2;
+  }
+}
+
+message TFmRadioFreqSlot {
+  oneof Value {
+    string FmRadioFreqValue = 1;
+    string FmRadioFreqCustomValue = 2;
+  }
+}
+
+message TFmRadioInfoSlot {
+  oneof Value {
+    .NAlice.NData.TFmRadioInfo FmRadioInfoValue = 1;
+  }
+}
+
+message TRadioPlaySemanticFrame {
+  .NAlice.TFmRadioStationSlot FmRadioStation = 1;
+  .NAlice.TFmRadioFreqSlot FmRadioFreq = 2;
+  .NAlice.TFmRadioInfoSlot FmRadioInfo = 3;
+  .NAlice.TBoolSlot DisableNlg = 4;
+}
+
+message TFmRadioPlaySemanticFrame {
+  .NAlice.TFmRadioStationSlot FmRadioStation = 1;
+  .NAlice.TFmRadioFreqSlot FmRadioFreq = 2;
+  .NAlice.TBoolSlot DisableNlg = 3;
+}
+

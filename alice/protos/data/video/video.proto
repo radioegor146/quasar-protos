@@ -1,0 +1,684 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.video";
+option java_outer_classname = "VideoProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/video";
+
+import "alice/protos/data/action/tv_action.proto";
+import "alice/protos/data/avatar/avatar.proto";
+import "alice/protos/data/app_metrika/metrika.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+
+message TVideoItemDebugInfo {
+  string WebPageUrl = 1;
+  string SearchReqId = 2;
+}
+
+message TMiscIds {
+  string Kinopoisk = 1;
+  string KinopoiskUUID = 2;
+  string IMDB = 3;
+  string OntoId = 4;
+}
+
+message TLightVideoItem {
+  string Type = 1;
+  string ProviderName = 2;
+  string ProviderItemId = 3;
+  string TvShowSeasonId = 4;
+  string TvShowItemId = 5;
+  string HumanReadableId = 6;
+  .NAlice.TMiscIds MiscIds = 7;
+  uint32 Available = 8;
+  uint32 PriceFrom = 9;
+  uint32 Episode = 10;
+  uint32 Season = 11;
+  uint32 ProviderNumber = 12;
+  uint32 Unauthorized = 13;
+  string AudioLanguage = 14;
+  string SubtitlesLanguage = 15;
+}
+
+message TSeasonsItem {
+  uint64 Number = 1;
+}
+
+message TVideoRelated {
+  string Related = 1;
+  string RelatedVideo = 2;
+  string RelatedFamily = 3;
+  string RelatedOrigText = 4;
+  string RelatedSrc = 5;
+  string RelatedUrl = 6;
+  int32 RelatedVfp = 7;
+  string Text = 8;
+}
+
+message TVideoExtra {
+  .NAlice.TVideoRelated Related = 1;
+}
+
+message TVideoProgress {
+  double Played = 1;
+  double Duration = 2;
+}
+
+message TWatchedVideoItem {
+  reserved 1;
+  reserved 4;
+  reserved 5;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  reserved 9;
+  reserved 12;
+  reserved 13;
+  string ProviderName = 2;
+  string ProviderItemId = 3;
+  uint32 Episode = 10;
+  uint32 Season = 11;
+  .NAlice.TVideoProgress Progress = 14;
+  uint32 Timestamp = 15;
+  string PlayUri = 16;
+  string AudioLanguage = 17;
+  string SubtitlesLanguage = 18;
+  string Kind = 19;
+  string Name = 20;
+  string CoverUrl = 21;
+  string Type = 22;
+  string VideoId = 23;
+  .NAlice.TMiscIds MiscIds = 24;
+  string Genre = 26;
+  .NAlice.TVideoFeature Features = 29;
+  string AgeLimit = 30;
+  optional string EmbedUri = 25;
+  optional string Doc2docUrl = 27;
+  optional string SourceHost = 28;
+}
+
+message TWatchedTvShowItem {
+  reserved 1;
+  reserved 4;
+  reserved 5;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  reserved 9;
+  reserved 12;
+  reserved 13;
+  reserved 16;
+  string ProviderName = 2;
+  string ProviderItemId = 3;
+  uint32 Episode = 10;
+  uint32 Season = 11;
+  .NAlice.TWatchedVideoItem Item = 14;
+  .NAlice.TWatchedVideoItem TvShowItem = 15;
+  string AudioLanguage = 17;
+  string SubtitlesLanguage = 18;
+}
+
+message TSkippableFragment {
+  double StartTime = 1;
+  double EndTime = 2;
+  string Type = 3;
+  string Result = 4;
+}
+
+message TSkippableFragmentsDepr {
+  double IntroStart = 1;
+  double IntroEnd = 2;
+  double CreditsStart = 3;
+}
+
+message TAudioStreamOrSubtitle {
+  string Title = 1;
+  string Language = 2;
+  uint32 Index = 3;
+  string Suggest = 4;
+}
+
+message TPlayerRestrictionConfig {
+  uint32 SubtitlesButtonEnable = 1;
+}
+
+message TVHLicenceInfo {
+  uint32 Avod = 1;
+  uint32 Tvod = 2;
+  uint32 UserHasTvod = 3;
+  uint32 Est = 4;
+  uint32 UserHasEst = 5;
+  repeated string Svod = 6;
+  string ContentType = 7;
+  bool HasActiveLicenses = 8;
+  string UserSubscription = 9;
+}
+
+message TVideoItem {
+  reserved 29;
+  reserved 39;
+  message TNestedVideoItem {
+    string Type = 1;
+    string ProviderName = 2;
+    string ProviderItemId = 3;
+    uint32 Available = 8;
+    uint32 PriceFrom = 9;
+    string ThumbnailUrl16x9 = 17;
+    string ThumbnailUrl16x9Small = 18;
+    string Name = 19;
+    string NormalizedName = 20;
+    string Description = 21;
+    uint32 Duration = 22;
+    string SourceHost = 33;
+    uint64 ViewCount = 34;
+    string PlayUri = 35;
+    repeated .NAlice.TLightVideoItem ProviderInfo = 38;
+    .NAlice.TVideoItemDebugInfo DebugInfo = 49;
+    string Source = 51;
+    .NAlice.TVideoRelated Related = 52;
+  }
+
+  message TTvStreamInfo {
+    message TProgram {
+      string TvEpisodeId = 1;
+      string TvEpisodeName = 2;
+      int64 StartTime = 3;
+      int64 EndTime = 4;
+      string AgeLimit = 5;
+    }
+
+    enum EChannelType {
+      CT_DEFAULT = 0;
+      CT_MULTIPLEX = 1;
+    }
+
+    string ChannelType = 1;
+    string TvEpisodeId = 2;
+    string TvEpisodeName = 3;
+    uint32 DeepHD = 4;
+    uint32 IsPersonal = 5;
+    string LogoUrl = 6;
+    int64 StartTime = 7;
+    int64 EndTime = 8;
+    repeated .NAlice.TVideoItem.TTvStreamInfo.TProgram Programs = 9;
+    .NAlice.TVideoItem.TTvStreamInfo.EChannelType Type = 10;
+  }
+
+  message TAvailabilityRequest {
+    message TSingleAvailabilityRequest {
+      string Id = 1;
+      string SeasonId = 2;
+      string TvShowId = 3;
+    }
+
+    string Type = 1;
+    .NAlice.TVideoItem.TAvailabilityRequest.TSingleAvailabilityRequest Amediateka = 2;
+    .NAlice.TVideoItem.TAvailabilityRequest.TSingleAvailabilityRequest Ivi = 3;
+    .NAlice.TVideoItem.TAvailabilityRequest.TSingleAvailabilityRequest Kinopoisk = 4;
+    .NAlice.TVideoItem.TAvailabilityRequest.TSingleAvailabilityRequest Okko = 5;
+  }
+
+  message TCameraStreamInfo {
+    string Type = 1;
+  }
+
+  string Type = 1;
+  string ProviderName = 2;
+  string ProviderItemId = 3;
+  string TvShowSeasonId = 4;
+  string TvShowItemId = 5;
+  string HumanReadableId = 6;
+  .NAlice.TMiscIds MiscIds = 7;
+  uint32 Available = 8;
+  uint32 PriceFrom = 9;
+  uint32 Episode = 10;
+  uint32 Season = 11;
+  uint32 ProviderNumber = 12;
+  uint32 Unauthorized = 13;
+  string CoverUrl2x3 = 14;
+  string CoverUrl16x9 = 15;
+  string ThumbnailUrl2x3Small = 16;
+  string ThumbnailUrl16x9 = 17;
+  string ThumbnailUrl16x9Small = 18;
+  string Name = 19;
+  string NormalizedName = 20;
+  string Description = 21;
+  uint32 Duration = 22;
+  string Genre = 23;
+  double Rating = 24;
+  uint32 ReviewAvailable = 25;
+  double Progress = 26;
+  uint32 SeasonsCount = 27;
+  uint32 EpisodesCount = 28;
+  uint32 ReleaseYear = 30;
+  string Directors = 31;
+  string Actors = 32;
+  string SourceHost = 33;
+  uint64 ViewCount = 34;
+  string PlayUri = 35;
+  uint64 Relevance = 36;
+  double RelevancePrediction = 37;
+  repeated .NAlice.TLightVideoItem ProviderInfo = 38;
+  repeated .NAlice.TVideoItem.TNestedVideoItem NextItems = 40;
+  repeated .NAlice.TVideoItem.TNestedVideoItem PreviousItems = 41;
+  repeated .NAlice.TSeasonsItem Seasons = 42;
+  uint32 MinAge = 43;
+  .NAlice.TVideoItem.TTvStreamInfo TvStreamInfo = 44;
+  string ChannelType = 45;
+  string TvEpisodeName = 46;
+  uint32 Soon = 47;
+  uint64 UpdateAtUs = 48;
+  .NAlice.TVideoItemDebugInfo DebugInfo = 49;
+  .NAlice.TVideoItem.TAvailabilityRequest AvailabilityRequest = 50;
+  string Source = 51;
+  .NAlice.TVideoRelated Related = 52;
+  .NAlice.TSkippableFragmentsDepr SkippableFragmentsDepr = 53;
+  repeated .NAlice.TSkippableFragment SkippableFragments = 54;
+  repeated .NAlice.TAudioStreamOrSubtitle AudioStreams = 55;
+  repeated .NAlice.TAudioStreamOrSubtitle Subtitles = 56;
+  string Entref = 57;
+  string AudioLanguage = 58;
+  string SubtitlesLanguage = 59;
+  .NAlice.TPlayerRestrictionConfig PlayerRestrictionConfig = 60;
+  string Legal = 61;
+  string AgeLimit = 62;
+  string MusicalTrackId = 63;
+  .NAlice.TAvatarMdsImage Thumbnail = 64;
+  .NAlice.TAvatarMdsImage Poster = 65;
+  string SearchQuery = 66;
+  string PlayerId = 67;
+  .NAlice.TVHLicenceInfo VhLicences = 69;
+  string HintDescription = 70;
+  uint64 Mtime = 71;
+  string EmbedUri = 72;
+  string ContentUri = 73;
+  .NAlice.TVideoItem.TCameraStreamInfo CameraStreamInfo = 74;
+  string Html = 75;
+  string EpisodeName = 76;
+  string TvShowItemName = 77;
+  repeated int32 CountryIds = 78;
+  string VideoId = 79;
+  string Doc2docUrl = 80;
+  .NAlice.TVideoFeature Features = 81;
+  string DeviceID = 82;
+  string PaymentTargetId = 83;
+}
+
+message TVideoGalleryDebugInfo {
+  string YaVideoRequest = 1;
+  string Url = 2;
+}
+
+message TPersonItem {
+  string KpId = 1;
+  string Name = 2;
+  string Description = 3;
+  string Subtitle = 4;
+  string Entref = 5;
+  string SearchQuery = 6;
+  .NAlice.TAvatarMdsImage Image = 7;
+}
+
+message TCollectionItem {
+  string Id = 1;
+  string Title = 2;
+  string Entref = 3;
+  string SearchQuery = 4;
+  repeated .NAlice.TAvatarMdsImage Images = 5;
+}
+
+message TRequestContentPayload {
+  .NAlice.TVideoItem Item = 1;
+  uint32 SeasonIndex = 2;
+}
+
+message TVideoPlayCommandData {
+  string Uri = 1;
+  string Payload = 2;
+  string SessionToken = 3;
+  .NAlice.TVideoItem Item = 4;
+  .NAlice.TVideoItem NextItem = 5;
+  .NAlice.TVideoItem TvShowItem = 6;
+  double StartAt = 7;
+  string AudioLanguage = 8;
+  string SubtitlesLanguage = 9;
+}
+
+message TVideoPlayActionData {
+  .NAlice.TVideoItem Item = 1;
+  .NAlice.TVideoItem TvShowItem = 2;
+}
+
+message TDebugInfoDirective {
+  string Name = 1;
+  string AnalyticsTag = 2;
+  .google.protobuf.Struct Payload = 3;
+}
+
+message TScreenState {
+  string CurrentScreen = 1;
+}
+
+message TDescriptionScreenState {
+  string CurrentScreen = 1;
+  .NAlice.TVideoItem Item = 2;
+  .NAlice.TVideoItem NextItem = 3;
+  .NAlice.TVideoItem TvShowItem = 4;
+}
+
+message TVideoCurrentlyPlaying {
+  string CurrentScreen = 1;
+  uint32 Paused = 2;
+  .NAlice.TVideoProgress Progress = 3;
+  .NAlice.TVideoItem Item = 4;
+  .NAlice.TVideoItem NextItem = 5;
+  .NAlice.TVideoItem TvShowItem = 6;
+}
+
+message TCatchupInfo {
+  string ContentId = 1;
+  string ChannelTitle = 3;
+  .NAlice.TAvatarMdsImage ChannelLogo = 4;
+  uint64 EndOfLife = 5;
+  optional string StreamTitle = 2;
+  optional string ChannelId = 6;
+}
+
+message TOttVideoItem {
+  message TCinema {
+    reserved "DeepLink";
+    reserved 10;
+    message TVariant {
+      string EmbedUrl = 1;
+      uint32 Price = 2;
+      string Currency = 3;
+      string Type = 4;
+      string Quality = 5;
+    }
+
+    repeated .NAlice.TOttVideoItem.TCinema.TVariant Variants = 1;
+    .NAlice.TAvatarMdsImage KeyArt = 2;
+    string Favicon = 3;
+    string CinemaName = 4;
+    bool HidePrice = 5;
+    string Code = 6;
+    uint64 Duration = 7;
+    string EmbedUrl = 8;
+    string Link = 9;
+    string TvDeepLink = 11;
+    string TvPackageName = 12;
+    string TvFallbackLink = 13;
+    repeated .NAlice.TTvAction OnClickAction = 14;
+  }
+
+  message TTrailerInfo {
+    message TThumbnailInfo {
+      int32 OriginalHeight = 1;
+      int32 OriginalWidth = 2;
+      string Url = 3;
+    }
+
+    string Date = 1;
+    int32 Duration = 2;
+    int32 External = 3;
+    string StreamUrl = 4;
+    .NAlice.TOttVideoItem.TTrailerInfo.TThumbnailInfo ThumbnailInfo = 5;
+    string Url = 6;
+    string VhUuid = 7;
+  }
+
+  message TOffer {
+    optional string FullSubscriptionName = 1;
+    optional string ButtonText = 2;
+    optional string ButtonTextWithDetails = 3;
+  }
+
+  message TPrice {
+    optional string CurrencyCode = 1;
+    optional double Amount = 2;
+  }
+
+  message TDiscount {
+    repeated .NAlice.TAvatarMdsImage Icons = 2;
+    optional .NAlice.TOttVideoItem.TPrice Price = 1;
+    optional .NAlice.TOttVideoItem.TPrice Amount = 3;
+    optional string Text = 4;
+  }
+
+  message TViewOptions {
+    message TCardDetailsButton {
+      enum EActionType {
+        AT_PLAY = 0;
+        AT_BUY_SUBSCRIPTION = 1;
+        AT_SERIAL_NAVIGATOR = 2;
+      }
+
+      enum EBackgroundType {
+        BT_DEFAULT = 0;
+        BT_PLUS = 1;
+      }
+
+      .NAlice.TOttVideoItem.TViewOptions.TCardDetailsButton.EActionType Type = 1;
+      string Text = 2;
+      .NAlice.TOttVideoItem.TViewOptions.TCardDetailsButton.EBackgroundType Background = 3;
+    }
+
+    string Type = 1;
+    repeated string MonetizationModels = 2;
+    string ButtonText = 13;
+    string ButtonColor = 14;
+    repeated .NAlice.TOttVideoItem.TViewOptions.TCardDetailsButton CardDetailsButtons = 21;
+    optional .NAlice.TOttVideoItem.EWatchabilityStatus Watchability = 3;
+    optional .NAlice.TOttVideoItem.EPurchasabilityStatus Purchasability = 4;
+    optional .NAlice.TOttVideoItem.EAvailabilityStatus Availability = 18;
+    optional string PosterWithRightholderLogo = 5;
+    optional string PurchasedSubscriptionName = 6;
+    optional uint32 TimeToExpire = 7;
+    optional .NAlice.TOttVideoItem.TOffer Offer = 8;
+    optional string Disclaimer = 9;
+    optional .NAlice.TOttVideoItem.TPrice TransactionalMinimumPrice = 10;
+    optional .NAlice.TOttVideoItem.TPrice TransactionalPrice = 11;
+    optional string BillingFeatureName = 12;
+    optional string OfferText = 15;
+    optional string SubofferText = 16;
+    optional string FullSubscriptionName = 17;
+    optional .NAlice.TOttVideoItem.TDiscount Discount = 19;
+    optional string BillingProductId = 20;
+    optional string SubscriptionBadge = 22;
+  }
+
+  message TEpisodeInfo {
+    optional int32 SeasonNumber = 1;
+    optional int32 EpisodeNumber = 2;
+    optional string EpisodeTitle = 3;
+    optional bool Seen = 4;
+    optional bool Watching = 5;
+  }
+
+  message TUgcFlags {
+    bool AlreadySeen = 1;
+    bool NotInterested = 2;
+    bool Like = 3;
+  }
+
+  enum EWatchabilityStatus {
+    W_UNDEFINED = 0;
+    W_WATCHABLE = 1;
+    W_UNWATCHABLE = 2;
+  }
+
+  enum EPurchasabilityStatus {
+    P_UNDEFINED = 0;
+    P_PURCHASABLE = 1;
+    P_PURCHASED = 2;
+    P_UNPURCHASABLE = 3;
+  }
+
+  enum EAvailabilityStatus {
+    AS_UNAVAILABLE = 0;
+    AS_DISABLED = 1;
+    AS_NOT_RELEASED = 2;
+    AS_RELEASED = 3;
+  }
+
+  string Id = 1;
+  string ProviderItemId = 2;
+  .NAlice.TMiscIds MiscIds = 3;
+  string ContentType = 4;
+  string Title = 5;
+  string Description = 6;
+  .NAlice.TAvatarMdsImage Thumbnail = 7;
+  .NAlice.TAvatarMdsImage Poster = 8;
+  string Entref = 9;
+  string AgeLimit = 10;
+  string SearchQuery = 11;
+  string Annotation = 12;
+  int32 Duration = 13;
+  .NAlice.TVHLicenceInfo VhLicences = 14;
+  string EmbedUri = 15;
+  double Rating = 16;
+  repeated .NAlice.TOttVideoItem.TCinema Cinemas = 17;
+  .NAlice.TAppMetrikaEvent OnVhContentCardOpenedEvent = 18;
+  uint64 ReleaseDate = 19;
+  string HintDescription = 20;
+  string Genres = 21;
+  int32 ReleaseYear = 22;
+  int32 Progress = 23;
+  repeated string Genre = 24;
+  repeated string Country = 25;
+  repeated string Actor = 26;
+  repeated string Director = 27;
+  repeated string AudioTrack = 28;
+  repeated string SubtitleTrack = 29;
+  .NAlice.TAvatarMdsImage Cover = 30;
+  .NAlice.TAvatarMdsImage Logo = 31;
+  .NAlice.TAvatarMdsImage LegalLogo = 32;
+  bool WillWatch = 33;
+  .NAlice.TOttVideoItem.TTrailerInfo TrailerInfo = 34;
+  uint64 SeasonsEndDate = 35;
+  string OttStatus = 36;
+  bool WillWatchAvailable = 37;
+  bool IsNewDelayedEpisode = 38;
+  string QRBillingUrl = 40;
+  .NAlice.TOttVideoItem.TViewOptions ViewOptions = 44;
+  string SubscriptionBadge = 45;
+  repeated string Producer = 49;
+  string ShortDescription = 50;
+  repeated .NAlice.TPersonItem ActorItems = 53;
+  uint32 SeasonsCount = 54;
+  string ShortDisplayName = 55;
+  optional .NAlice.TAvatarMdsImage HorizontalPoster = 39;
+  optional bool IsInKPTop10 = 41;
+  optional bool IsInKPTop250 = 42;
+  optional .NAlice.TOttVideoItem.TEpisodeInfo EpisodeInfo = 43;
+  optional .NAlice.TOttVideoItem.TUgcFlags UgcFlags = 46;
+  optional .NAlice.TCatchupInfo CatchupInfo = 47;
+  optional .NAlice.TAdConfig AdConfig = 48;
+  optional uint64 LastInteractionTime = 51;
+  optional string PromoCinema = 52;
+}
+
+message TThinOttVideoItem {
+  string OntoId = 1;
+  string ProviderItemId = 2;
+  string ContentType = 3;
+  string SearchQuery = 4;
+  string Title = 5;
+  string Description = 6;
+  string HintDescription = 7;
+  .NAlice.TAvatarMdsImage Thumbnail = 8;
+  .NAlice.TAvatarMdsImage Poster = 9;
+  string AgeLimit = 10;
+  repeated string Genre = 12;
+  optional int32 ReleaseYear = 11;
+  optional double Rating = 13;
+  optional .NAlice.TAdConfig AdConfig = 14;
+}
+
+message TWebVideoPreview {
+  string Type = 1;
+  string Url = 2;
+}
+
+message TWebVideoItem {
+  message TFeature {
+    optional bool IsPorn = 1;
+  }
+
+  message TEpisodeInfo {
+    optional int32 SeasonNumber = 1;
+    optional int32 EpisodeNumber = 2;
+    optional string EpisodeTitle = 3;
+  }
+
+  string Id = 1;
+  string ContentType = 2;
+  string Title = 3;
+  .NAlice.TMiscIds MiscIds = 4;
+  string PlayerId = 5;
+  string ProviderItemId = 6;
+  .NAlice.TAvatarMdsImage Thumbnail = 7;
+  .NAlice.TAvatarMdsImage Poster = 8;
+  string Hosting = 9;
+  string EmbedUri = 10;
+  bool IsCommercialVideo = 11;
+  uint64 ReleaseDate = 12;
+  uint64 Duration = 13;
+  string ReqId = 14;
+  string Html = 15;
+  .NAlice.TWebVideoItem.TFeature Feature = 17;
+  string VideoId = 20;
+  repeated .NAlice.TWebVideoPreview VideoPreview = 21;
+  .NAlice.TWebVideoItem.TEpisodeInfo EpisodeInfo = 22;
+  int32 Progress = 23;
+  string Badge = 24;
+  string Description = 25;
+  string SearchQuery = 26;
+  string AgeLimit = 27;
+  bool IsLive = 28;
+  optional .NAlice.TAdConfig AdConfig = 16;
+  optional string Doc2docUrl = 18;
+  optional uint64 ViewsCount = 19;
+}
+
+message TExternalCinemaRequest {
+  repeated string Flags = 1;
+}
+
+message TExternalCinemaData {
+  message TCinemaTvData {
+    string CinemaCode = 1;
+    string CinemaName = 2;
+    string TvPackageName = 3;
+    bool AllowTvDeepLink = 4;
+    string TvFallbackLink = 5;
+  }
+
+  repeated .NAlice.TExternalCinemaData.TCinemaTvData ExternalCinemasData = 1;
+}
+
+message TAdConfig {
+  int64 Category = 3;
+  bool HasPreroll = 4;
+  optional int64 PartnerId = 1;
+  optional int64 PageId = 2;
+}
+
+message TVideoFeature {
+  optional bool IsPorn = 1;
+}
+
+message TYangoVideoItem {
+  message Title {
+    string Lang = 1;
+    string Value = 2;
+  }
+
+  string ContentUuid = 1;
+  string Id = 2;
+  string OttStatus = 3;
+  repeated .NAlice.TYangoVideoItem.Title Titles = 4;
+}
+

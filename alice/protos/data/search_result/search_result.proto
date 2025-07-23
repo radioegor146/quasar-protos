@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.search_result";
+option java_outer_classname = "SearchResult";
+option go_package = "a.yandex-team.ru/alice/protos/data/search_result";
+
+import "alice/protos/data/video/video.proto";
+import "google/protobuf/struct.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TGetVideoGalleriesRequest {
+  string CategoryId = 1;
+}
+
+message TSearchResultItem {
+  enum EItemType {
+    unknown = 0;
+    entity = 1;
+    search = 2;
+    actor = 3;
+    association = 4;
+    collection = 5;
+  }
+
+  bool Visible = 1;
+  int32 Number = 2;
+  .NAlice.TSearchResultItem.EItemType ContentType = 3;
+  oneof Item {
+    .NAlice.TVideoItem VideoItem = 21;
+    .NAlice.TPersonItem PersonItem = 22;
+    .NAlice.TCollectionItem CollectionItem = 23;
+    .NAlice.TOttVideoItem OttVideoItem = 24;
+    .NAlice.TWebVideoItem SearchVideoItem = 25;
+  }
+}
+
+message TSearchResultGallery {
+  string Title = 1;
+  bool Visible = 2;
+  repeated .NAlice.TSearchResultItem Items = 3;
+  .google.protobuf.Struct DivJson = 4;
+}
+
+message TSearchResultData {
+  repeated .NAlice.TSearchResultGallery Galleries = 1;
+}
+

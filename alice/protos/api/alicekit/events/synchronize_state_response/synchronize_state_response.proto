@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.synchronize_state_response";
+option java_outer_classname = "SynchronizeStateResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/synchronize_state_response";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSynchronizeStateResponse {
+  message TConnectionData {
+    enum EGeo {
+      unknown = 0;
+      sas = 1;
+      vla = 2;
+      klg = 3;
+    }
+
+    enum ECtype {
+      undefined = 0;
+      trunk = 1;
+      testing = 2;
+      hamster = 3;
+      beta = 4;
+      prestable = 5;
+      production = 6;
+    }
+
+    .NAlice.NAliceApi.TSynchronizeStateResponse.TConnectionData.EGeo Geo = 1;
+    .NAlice.NAliceApi.TSynchronizeStateResponse.TConnectionData.ECtype Ctype = 2;
+  }
+
+  string SessionId = 1;
+  .NAlice.NAliceApi.TSynchronizeStateResponse.TConnectionData ConnectionData = 2;
+}
+

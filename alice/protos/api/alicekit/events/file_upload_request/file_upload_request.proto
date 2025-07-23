@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.file_upload_request";
+option java_outer_classname = "FileUploadRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/file_upload_request";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/library/censor/protos/extension.proto";
+
+message TFileUploadRequest {
+  message TFileUploadStart {
+    bool SpecialEventOnInvalidFileMimeTypeOrSize = 10000;
+    optional string Title = 1;
+    optional string MimeType = 2;
+    optional uint64 Size = 3;
+    optional string OAuthToken = 100;
+  }
+
+  message TChunkUploadFinish {
+    optional bool IsLast = 1;
+  }
+
+  oneof Request {
+    .NAlice.NAliceApi.TFileUploadRequest.TFileUploadStart FileUploadStart = 1;
+    .NAlice.NAliceApi.TFileUploadRequest.TChunkUploadFinish ChunkUploadFinish = 2;
+  }
+}
+

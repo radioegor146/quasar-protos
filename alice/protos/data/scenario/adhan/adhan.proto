@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.adhan";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/adhan";
+
+import "alice/protos/data/date/day_of_week.proto";
+import "alice/protos/data/date/gregorian_date.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAdhan {
+  message TActivationDay {
+    oneof ActivationDay {
+      .NAlice.NData.TDayOfWeek Weekday = 1;
+      .NAlice.NData.TGregorianDate Date = 2;
+    }
+  }
+
+  enum EAdhanType {
+    UnknownAdhanType = 0;
+    FajrAdhanType = 1;
+    DhuhrAdhanType = 2;
+    AsrAdhanType = 3;
+    MaghribAdhanType = 4;
+    IshaAdhanType = 5;
+  }
+
+  string AdhanId = 1;
+  .NAlice.NData.TAdhan.EAdhanType AdhanType = 2;
+  repeated .NAlice.NData.TAdhan.TActivationDay ActivationDays = 3;
+}
+
+message TAdhanMuezzinSettings {
+  string FajrAdhanMelodyS3Url = 1;
+  string OtherAdhansMelodyS3Url = 2;
+}
+

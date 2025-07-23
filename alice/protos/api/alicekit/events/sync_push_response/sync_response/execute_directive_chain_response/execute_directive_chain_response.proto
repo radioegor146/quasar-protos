@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push_response.sync_response.execute_directive_chain_response";
+option java_outer_classname = "ExecuteDirectiveChainResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push_response/sync_response/execute_directive_chain_response";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TExecuteDirectiveChainResponse {
+  message TExecutionResult {
+    message TReceivedChain {
+    }
+
+    message TCompleted {
+      message TSucceed {
+      }
+
+      message TFailed {
+        string Error = 1;
+      }
+
+      string DirectiveId = 3;
+      .NAlice.NAliceApi.DirectiveTimings DirectiveTimings = 4;
+      oneof Status {
+        .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult.TCompleted.TSucceed Succeed = 1;
+        .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult.TCompleted.TFailed Failed = 2;
+      }
+    }
+
+    message TCompletedChain {
+      repeated .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult.TCompleted Completed = 1;
+    }
+
+    .NAlice.NAliceApi.ExecutionTimings ExecutionTimings = 3;
+    oneof Result {
+      .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult.TReceivedChain ExecutionStarted = 1;
+      .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult.TCompletedChain ExecutionCompleted = 2;
+    }
+  }
+
+  .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult ExecutionResult = 1;
+}
+
+message DirectiveTimings {
+  optional uint64 StartedTimestamp = 1;
+  optional uint64 CompletedTimestamp = 2;
+}
+
+message ExecutionTimings {
+  optional uint64 StartedTimestamp = 1;
+  optional uint64 CompletedTimestamp = 2;
+}
+

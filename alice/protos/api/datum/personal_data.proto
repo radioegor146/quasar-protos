@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package NAlice.NDatumApi;
+
+option java_package = "ru.yandex.alice.protos.api.datum";
+option go_package = "a.yandex-team.ru/alice/protos/api/datum";
+
+import "alice/protos/api/datum/addresses.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDatumScopePersonalData {
+  optional .NAlice.NDatumApi.TDatumAddressesList Addresses = 1;
+}
+
+message TDatumPersonalData {
+  optional .NAlice.NDatumApi.TDatumScopePersonalData Passport = 1;
+  optional .NAlice.NDatumApi.TDatumScopePersonalData Alice = 2;
+}
+

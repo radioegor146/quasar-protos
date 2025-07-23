@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/music";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDurationRestrictions {
+  uint32 MinS = 1;
+  uint32 MaxS = 2;
+}
+

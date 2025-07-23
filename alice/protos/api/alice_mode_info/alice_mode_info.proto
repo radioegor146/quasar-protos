@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package NAlice.NApi.NAlice2Mode;
+
+option java_package = "ru.yandex.alice.protos.api.alice_mode_info";
+option go_package = "a.yandex-team.ru/alice/protos/api/alice_mode_info";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAlice2ModeInfo {
+  enum EMode {
+    Undefined = 0;
+    Base = 1;
+    Pro = 2;
+    External = 3;
+    Search = 4;
+    DeepResearch = 5;
+  }
+
+  .NAlice.NApi.NAlice2Mode.TAlice2ModeInfo.EMode Mode = 1;
+  string Preset = 2;
+  optional string HackMode = 3;
+}
+
+message TAlice2TrialState {
+  uint32 LeftCount = 1;
+  uint32 Limit = 2;
+  uint32 TimeLimitSec = 3;
+}
+

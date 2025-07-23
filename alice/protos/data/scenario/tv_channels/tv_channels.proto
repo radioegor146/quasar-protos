@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package NAlice.NData.NTvChannels;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.tv_channels";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/tv_channels";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/api/voice_control/voice_control.proto";
+import "alice/protos/extensions/extensions.proto";
+import "alice/protos/data/tv/channels/common.proto";
+
+message TProgramWrapper {
+  .NAlice.NTv.TProgramItem Program = 1;
+  repeated .NAlice.TVoiceControl VoiceControls = 2;
+}
+
+message TChannelWrapper {
+  .NAlice.NTv.TChannel Channel = 1;
+  repeated .NAlice.TVoiceControl VoiceControls = 2;
+  repeated .NAlice.NData.NTvChannels.TProgramWrapper Programs = 3;
+}
+
+message TTvGetChannelsResponse {
+  repeated .NAlice.NTv.TCategory Categories = 1;
+  repeated .NAlice.NData.NTvChannels.TChannelWrapper ChannelWrappers = 2;
+}
+
+message TTvChannelsListData {
+  repeated .NAlice.NTv.TCategory Categories = 1;
+  repeated .NAlice.NData.NTvChannels.TChannelWrapper ChannelWrappers = 2;
+  .NAlice.NTv.TChannel CurrentlyPlaying = 3;
+}
+
+message TCentaurChannelsListData {
+  repeated .NAlice.NTv.TCategory Categories = 1;
+  repeated .NAlice.NData.NTvChannels.TChannelWrapper ChannelWrappers = 2;
+}
+

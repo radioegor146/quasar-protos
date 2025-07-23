@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "SmokeSensorProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/smoke_sensor;smokesensorpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/events/events.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSmokeSensorCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TTypedCapabilityEvent LastEvent = 1;
+  }
+
+  message TSmokeSensorDetectedEvent {
+  }
+
+  message TSmokeSensorNotDetectedEvent {
+  }
+
+  message TSmokeSensorHighEvent {
+  }
+
+  message TCondition {
+    repeated .NAlice.TCapability.EEventType Events = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TSmokeSensorCapability.TParameters Parameters = 2;
+  .NAlice.TSmokeSensorCapability.TState State = 3;
+}
+

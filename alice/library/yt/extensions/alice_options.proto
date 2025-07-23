@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+package NAliceYT;
+
+option java_package = "ru.yandex.alice.library.yt.extensions.alice_options";
+option go_package = "a.yandex-team.ru/alice/library/yt/extensions;alice_options_proto";
+
+import "google/protobuf/descriptor.proto";
+
+enum EOutputFormat {
+  OutputFormatDefault = 0;
+  OutputFormatAsYson = 1;
+  OutputFormatAsBinary = 2;
+  OutputFormatExpandAny = 3;
+  OutputFormatAsDict = 4;
+  OutputFormatSaveAsNumber = 5;
+  OutputFormatStringTimestamp = 6;
+  OutputFormatNativeStruct = 7;
+  OutputFormatAsRealMap = 8;
+}
+
+enum EPrivateGroup {
+  PrivateGroupNothing = 0;
+  PrivateGroupPuid = 1;
+  PrivateGroupClose = 2;
+  PrivateGroupLevel1 = 3;
+  PrivateGroupLevel2 = 4;
+}
+

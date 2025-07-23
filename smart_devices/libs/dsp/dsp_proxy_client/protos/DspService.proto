@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package yandex.dsp;
+
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/DspCoreEnum.proto";
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/info/CpuInfo.proto";
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/info/MemoryInfo.proto";
+import "smart_devices/libs/dsp/dsp_proxy_client/protos/info/BatteryInfo.proto";
+
+message StartRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message StopRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message RestartRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message StartAllRequest {
+}
+
+message StopAllRequest {
+}
+
+message RestartAllRequest {
+}
+
+message LoadFirmwareRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+  string firmware_name = 2;
+}
+
+message CpuInfoRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message MemoryInfoRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message BatteryInfoRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message CrashRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message SetVadTuningCoefRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+  uint32 coef = 2;
+  int32 val = 3;
+}
+
+message GetRegRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+  uint32 reg = 2;
+}
+
+message SetRegRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+  uint32 reg = 2;
+  int32 val = 3;
+}
+
+message SetTimerWakeupRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+  uint64 val = 2;
+}
+
+message GetWakeupReasonRequest {
+  .yandex.dsp.DspCoreEnum core = 1;
+}
+
+message Request {
+  oneof request {
+    .yandex.dsp.StartRequest start_request = 1;
+    .yandex.dsp.StopRequest stop_request = 2;
+    .yandex.dsp.RestartRequest restart_request = 3;
+    .yandex.dsp.StartAllRequest start_all_request = 4;
+    .yandex.dsp.StopAllRequest stop_all_request = 5;
+    .yandex.dsp.RestartAllRequest restart_all_request = 6;
+    .yandex.dsp.LoadFirmwareRequest load_firmware_request = 7;
+    .yandex.dsp.CpuInfoRequest cpu_info_request = 8;
+    .yandex.dsp.MemoryInfoRequest memory_info_request = 9;
+    .yandex.dsp.CrashRequest crash_request = 10;
+    .yandex.dsp.SetVadTuningCoefRequest set_vad_tuning_coef_request = 11;
+    .yandex.dsp.GetRegRequest get_reg_request = 12;
+    .yandex.dsp.SetRegRequest set_reg_request = 13;
+    .yandex.dsp.SetTimerWakeupRequest set_timer_wakeup_request = 14;
+    .yandex.dsp.GetWakeupReasonRequest get_wakeup_reason_request = 15;
+    .yandex.dsp.BatteryInfoRequest battery_info_request = 16;
+  }
+}
+
+message StatusCodeResponse {
+  enum StatusCode {
+    SUCCESS = 0;
+    UNKNOWN_REQUEST = 1;
+    ERROR = 2;
+    UNSUPPORTED_CORE = 3;
+    NOT_IMPLEMENTED_REQUEST = 4;
+  }
+
+  .yandex.dsp.StatusCodeResponse.StatusCode code = 1;
+  optional string text = 2;
+}
+
+message CpuInfoResponse {
+  .yandex.dsp.info.CpuInfo cpu_info = 1;
+}
+
+message MemoryInfoResponse {
+  .yandex.dsp.info.MemoryInfo memory_info = 1;
+}
+
+message BatteryInfoResponse {
+  .yandex.dsp.info.BatteryInfo battery_info = 1;
+}
+
+message GetRegResponse {
+  .yandex.dsp.DspCoreEnum core = 1;
+  uint32 reg = 2;
+  int32 val = 3;
+}
+
+message Response {
+  oneof response {
+    .yandex.dsp.StatusCodeResponse status_code_response = 1;
+    .yandex.dsp.CpuInfoResponse cpu_info_response = 2;
+    .yandex.dsp.MemoryInfoResponse memory_info_response = 3;
+    .yandex.dsp.GetRegResponse get_reg_response = 4;
+    .yandex.dsp.BatteryInfoResponse battery_info_response = 5;
+  }
+}
+

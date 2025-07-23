@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package NAlice.NIot;
+
+option java_package = "ru.yandex.alice.protos.data.iot";
+option java_outer_classname = "GeometryProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/data/iot;iotpb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TPoint {
+  sint32 XMm = 1;
+  sint32 YMm = 2;
+}
+
+message TCell {
+  uint32 X = 1;
+  uint32 Y = 2;
+}
+
+message TBounds {
+  .NAlice.NIot.TPoint Lower = 1;
+  .NAlice.NIot.TPoint Upper = 2;
+}
+
+message TBasis {
+  .NAlice.NIot.TPoint Origin = 1;
+  float AngleDeg = 2;
+}
+
+message TGrid {
+  uint32 CellSizeMm = 1;
+}
+
+message TPolygonZoneShape {
+  repeated .NAlice.NIot.TPoint Vertices = 1;
+}
+
+message TGridZoneShape {
+  repeated .NAlice.NIot.TCell Cells = 1;
+}
+
+message TZoneShape {
+  oneof ZoneShape {
+    .NAlice.NIot.TPolygonZoneShape PolygonZoneShape = 1;
+    .NAlice.NIot.TGridZoneShape GridZoneShape = 2;
+  }
+}
+

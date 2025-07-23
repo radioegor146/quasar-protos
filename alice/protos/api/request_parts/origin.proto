@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.request_parts";
+option go_package = "a.yandex-team.ru/alice/protos/api/request_parts";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+
+message TOrigin {
+  oneof OptionalDeviceId {
+    string DeviceId = 1;
+  }
+  oneof OptionalUuid {
+    string Uuid = 2;
+  }
+}
+

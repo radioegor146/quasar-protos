@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "CommandSpotterProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/command_spotter;commandspotterpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TCommandSpotterCapability {
+  message TParameters {
+  }
+
+  message TState {
+    repeated .NAlice.TCommandSpotterCapability.EFastCommand EnabledFastCommands = 1;
+  }
+
+  message TEnableCommandPhrasesDirective {
+    enum EPurpose {
+      Undefined = 0;
+      NextTTS = 1;
+    }
+
+    string Name = 1;
+    .NAlice.TCommandSpotterCapability.TEnableCommandPhrasesDirective.EPurpose Purpose = 2;
+    repeated .NAlice.TCommandSpotterCapability.EPhraseType Phrases = 3;
+    .NAlice.TCommandSpotterCapability.EThresholdType Threshold = 4;
+    .NAlice.TCommandSpotterCapability.EDirectiveIntent Intent = 5;
+  }
+
+  message TDisableCommandPhrasesDirective {
+    string Name = 1;
+    .NAlice.TCommandSpotterCapability.EDirectiveIntent Intent = 2;
+    repeated .NAlice.TCommandSpotterCapability.EPhraseType Phrases = 3;
+  }
+
+  enum EPhraseType {
+    Undefined = 0;
+    Stop = 1;
+  }
+
+  enum EThresholdType {
+    DefaultThreshold = 0;
+    SubThreshold = 1;
+  }
+
+  enum EDirectiveIntent {
+    DirectiveIntentUndefined = 0;
+    DirectiveIntentNextTTS = 1;
+  }
+
+  enum EFastCommand {
+    PlayPause = 0;
+    MusicNavigation = 1;
+    Volume = 2;
+    Bluetooth = 3;
+    Feedback = 4;
+    ScreenNavigation = 5;
+    BackToHome = 6;
+    Light = 7;
+    Tv = 8;
+    CallAnswer = 9;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TCommandSpotterCapability.TParameters Parameters = 2;
+  .NAlice.TCommandSpotterCapability.TState State = 3;
+}
+

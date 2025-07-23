@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package NAlice.NApi.NFiles;
+
+option java_package = "ru.yandex.alice.protos.api.files";
+option go_package = "a.yandex-team.ru/alice/protos/api/files";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TFileInfo {
+  message TSource {
+    message TS3Source {
+      string S3Bucket = 1;
+      string S3Key = 2;
+    }
+
+    message TAvatarSource {
+      string AvatarId = 1;
+      string AvatarNamespace = 2;
+      optional uint64 GroupId = 3;
+    }
+
+    message TExternalUrlSource {
+      string Url = 1;
+    }
+
+    oneof Source {
+      .NAlice.NApi.NFiles.TFileInfo.TSource.TS3Source S3Source = 1;
+      .NAlice.NApi.NFiles.TFileInfo.TSource.TAvatarSource AvatarSource = 2;
+      .NAlice.NApi.NFiles.TFileInfo.TSource.TExternalUrlSource ExternalUrlSource = 3;
+    }
+  }
+
+  enum EFileType {
+    UnknownFileType = 0;
+    Text = 1;
+    Image = 2;
+    Document = 3;
+    Video = 4;
+    Audio = 5;
+  }
+
+  enum EFileServiceStatus {
+    UnknownFileServiceStatus = 0;
+    Processed = 1;
+    Queued = 2;
+    UnsupportedFormat = 3;
+    InvalidFile = 4;
+    InternalError = 5;
+  }
+
+}
+

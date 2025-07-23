@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/audio_player;audioplayerpb";
+
+import "alice/protos/data/scenario/music/meta_storage.proto";
+import "google/protobuf/struct.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/music_provider/provider_meta.proto";
+import "alice/protos/data/scenario/music/music_platform_queue.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+
+message TAudioPlayerSequenceState {
+  repeated .NAlice.TSequenceItem Queue = 1;
+  repeated .NAlice.TSequenceItem History = 2;
+  .NAlice.TSequenceItem CurrentItem = 3;
+  .NAlice.NData.NMusic.TMetaStorage MetaStorage = 4;
+  .NAlice.TCallbacksStorage CallbacksStorage = 5;
+}
+
+message TSequenceItem {
+  message TContainerQueue {
+    .NAlice.TSequenceItem.TTrack CurrentTrack = 1;
+    repeated .NAlice.TSequenceItem.TTrack TracksBefore = 2;
+    repeated .NAlice.TSequenceItem.TTrack TracksAfter = 3;
+  }
+
+  message TMusicContainer {
+    string Id = 1;
+    string Uuid = 2;
+    .NAlice.TSequenceItem.TContainerQueue Queue = 5;
+    bool IsShuffled = 6;
+    .Alice.Music.RepeatType RepeatType = 7;
+    .Alice.Music.LikeStatus LikeStatus = 8;
+    optional uint32 StartPosition = 3;
+    optional uint32 FinishPosition = 4;
+  }
+
+  message TTrack {
+    string Id = 1;
+    string Uuid = 2;
+    .Alice.Music.LikeStatus LikeStatus = 3;
+    .Alice.Music.RepeatType RepeatType = 4;
+    bool HasAvailableLyrics = 5;
+  }
+
+  message TAlbum {
+    .NAlice.TSequenceItem.TMusicContainer Container = 1;
+  }
+
+  message TArtist {
+    .NAlice.TSequenceItem.TMusicContainer Container = 1;
+  }
+
+  message TPlaylist {
+    .NAlice.TSequenceItem.TMusicContainer Container = 1;
+  }
+
+  message TRecommendations {
+    string Id = 1;
+    string Uuid = 2;
+    .NAlice.TSequenceItem.TContainerQueue Queue = 3;
+    bool UseIchwill = 4;
+  }
+
+  message TFmRadio {
+    string Id = 1;
+  }
+
+  message TGenerative {
+    string Id = 1;
+  }
+
+  .Alice.Music.MusicProvider MusicProvider = 101;
+  .NAlice.NData.NMusic.TOperatingFeatures OperatingFeatures = 102;
+  oneof SequenceItem {
+    .NAlice.TSequenceItem.TTrack Track = 1;
+    .NAlice.TSequenceItem.TAlbum Album = 2;
+    .NAlice.TSequenceItem.TArtist Artist = 3;
+    .NAlice.TSequenceItem.TPlaylist Playlist = 4;
+    .NAlice.TSequenceItem.TRecommendations Recommendations = 5;
+    .NAlice.TSequenceItem.TFmRadio FmRadio = 6;
+    .NAlice.TSequenceItem.TGenerative Generative = 7;
+  }
+}
+
+message TCallbacksStorage {
+  message TCallbackPayloads {
+    .google.protobuf.Struct MusicPlay = 1;
+    optional .google.protobuf.Struct Like = 2;
+    optional .google.protobuf.Struct Dislike = 3;
+    optional .google.protobuf.Struct UnDislike = 4;
+    optional .google.protobuf.Struct UnLike = 5;
+    optional .google.protobuf.Struct Next = 6;
+    optional .google.protobuf.Struct Previous = 7;
+    optional .google.protobuf.Struct RepeatOne = 8;
+    optional .google.protobuf.Struct RepeatAll = 9;
+    optional .google.protobuf.Struct UnRepeat = 10;
+    optional .google.protobuf.Struct Shuffle = 11;
+    optional .google.protobuf.Struct UnShuffle = 12;
+    optional .google.protobuf.Struct NextStopped = 13;
+    optional .google.protobuf.Struct PrevStopped = 14;
+    optional .google.protobuf.Struct GetLyrics = 15;
+    optional .google.protobuf.Struct EnableKaraokeMode = 16;
+    optional .google.protobuf.Struct DisableKaraokeMode = 17;
+  }
+
+  message CallbacksEntry {
+    string key = 1;
+    .NAlice.TCallbacksStorage.TCallbackPayloads value = 2;
+  }
+
+  repeated .NAlice.TCallbacksStorage.CallbacksEntry Callbacks = 1;
+}
+

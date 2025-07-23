@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.common";
+option java_outer_classname = "FrameCommon";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/common";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/extensions/extensions.proto";
+
+message TBoolSlot {
+  reserved 56788;
+  oneof Value {
+    bool BoolValue = 1;
+  }
+}
+
+message TSysNumSlot {
+  oneof Value {
+    uint32 NumValue = 1;
+  }
+}
+
+message TUInt32Slot {
+  reserved 56788;
+  oneof Value {
+    uint32 UInt32Value = 1;
+  }
+}
+
+message TInt64Slot {
+  oneof Value {
+    int64 Int64Value = 1;
+  }
+}
+
+message TLocationSlot {
+  oneof Value {
+    string UserIotRoomValue = 1;
+    string DeviceIotRoomValue = 2;
+    string UserIotGroupValue = 3;
+    string DeviceIotGroupValue = 4;
+    string UserIotDeviceValue = 5;
+    string DeviceIotDeviceValue = 6;
+    string UserIotMultiroomAllDevicesValue = 7;
+    string DeviceIotMultiroomAllDevicesValue = 8;
+  }
+}
+
+message TStringSlot {
+  reserved 56788;
+  oneof Value {
+    string StringValue = 1;
+    string SpecialPlaylistValue = 2;
+    string NewsTopicValue = 3;
+    string SpecialAnswerInfoValue = 4;
+    string VideoContentTypeValue = 5;
+    string VideoActionValue = 6;
+    string ActionRequestValue = 8;
+    string EpochValue = 9;
+    string VideoSelectionActionValue = 10;
+  }
+}
+
+message TTokenTypeSlot {
+  enum EValue {
+    Unknown = 0;
+    XToken = 1;
+    OAuthToken = 2;
+  }
+
+  oneof Value {
+    .NAlice.TTokenTypeSlot.EValue EnumValue = 1;
+  }
+}
+
+message TLanguageSlot {
+  reserved 56788;
+  oneof Value {
+    string LanguageValue = 1;
+  }
+}
+
+message TNumSlot {
+  reserved 56788;
+  oneof Value {
+    uint32 NumValue = 1;
+  }
+}
+
+message TDoubleSlot {
+  oneof Value {
+    double DoubleValue = 1;
+  }
+}
+

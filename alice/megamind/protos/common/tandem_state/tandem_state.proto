@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.common.tandem_state";
+option java_outer_classname = "TandemStateProto";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/common/tandem_state;tandemstatepb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTandemState {
+  bool Connected = 1;
+}
+

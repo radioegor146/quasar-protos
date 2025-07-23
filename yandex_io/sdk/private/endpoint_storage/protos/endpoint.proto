@@ -1,0 +1,43 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "EndpointSdkProto";
+
+import "alice/protos/data/event_source/event_source.proto";
+import "alice/protos/endpoint/capabilities/all/all.proto";
+import "alice/protos/endpoint/endpoint.proto";
+import "google/protobuf/any.proto";
+
+message DirectiveHandler {
+  optional string name = 1;
+  optional string endpoint_id = 2;
+  repeated string supported_directive_names = 3;
+}
+
+message Capability {
+  optional string id = 1;
+  optional .quasar.proto.DirectiveHandler directive_handler = 2;
+  optional .NAlice.TCapabilityHolder capability = 3;
+  optional .google.protobuf.Any packed_capability = 4;
+}
+
+message Endpoint {
+  message CapabilityHolder {
+    optional .quasar.proto.Capability capability = 1;
+    optional string storage_name = 2;
+  }
+
+  optional .NAlice.TEndpoint endpoint = 1;
+  optional string endpoint_owner_id = 4;
+  repeated .quasar.proto.Endpoint.CapabilityHolder capabilities = 2;
+  optional .quasar.proto.DirectiveHandler directive_handler = 3;
+}
+
+enum AudioChannel {
+  CONTENT_CHANNEL = 0;
+  DIALOG_CHANNEL = 1;
+  MEDIA_ALARM_CHANNEL = 2;
+}
+

@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "ScreenCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/screen;screenpb";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/struct.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/data/screen/screen.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TScreenCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TScreenCapability.TCurrentScreenInfo CurrentScreen = 1;
+  }
+
+  message TCurrentScreenInfo {
+    string Name = 1;
+    .google.protobuf.Struct ScreenData = 4;
+    .NAlice.TScreenInfo ScreenInfo = 5;
+    repeated .NAlice.TAppInfo VisibleAppInfo = 6;
+    .NAlice.TScreenCapability.TA11YNode A11yScreenData = 7;
+    oneof Type {
+      .NAlice.TScreenCapability.TDivScreenInfo Div = 2;
+      .NAlice.TScreenCapability.TNativeScreenInfo Native = 3;
+    }
+  }
+
+  message TDivScreenInfo {
+    string CardName = 1;
+    string CardId = 2;
+  }
+
+  message TNativeScreenInfo {
+    reserved "On";
+    reserved 3;
+    string ScreenName = 1;
+    string PackageName = 2;
+  }
+
+  message TA11YNode {
+    int32 Id = 1;
+    string ClassName = 2;
+    string AndroidId = 3;
+    string Text = 4;
+    string ContentDescription = 5;
+    bool IsClickable = 7;
+    bool IsEditable = 8;
+    bool IsCheckable = 9;
+    bool IsChecked = 10;
+    bool IsScrollable = 11;
+    bool IsFocusable = 12;
+    bool IsVisible = 13;
+    .NAlice.TScreenCapability.Rect bounds = 14;
+    .NAlice.TScreenCapability.CollectionInfo CollectionInfo = 16;
+    .NAlice.TScreenCapability.CollectionItemInfo CollectionItemInfo = 17;
+    string ResourceName = 18;
+    .NAlice.TScreenCapability.TA11YNode LabeledBy = 19;
+    repeated .NAlice.TScreenCapability.TA11YNode Children = 20;
+  }
+
+  message Rect {
+    float x = 1;
+    float y = 2;
+    float width = 3;
+    float height = 4;
+  }
+
+  message CollectionInfo {
+    int32 RowCount = 1;
+    int32 ColumnCount = 2;
+  }
+
+  message CollectionItemInfo {
+    int32 Row = 1;
+    int32 Column = 2;
+  }
+
+  message TSendScreenDataEvent {
+    .NAlice.TScreenCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TScreenCapability.TParameters Parameters = 2;
+  .NAlice.TScreenCapability.TState State = 3;
+}
+

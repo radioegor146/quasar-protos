@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.asr_result";
+option java_outer_classname = "AsrResult";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/asr_result";
+
+import "alice/protos/api/alicekit/events/asr_result/common/recognition.proto";
+import "alice/protos/api/alicekit/events/asr_result/common/response_code.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAsrResult {
+  repeated .NAlice.NAliceApi.TAsrRecognition Recognition = 4;
+  optional .NAlice.NAliceApi.EAsrResponseCode ResponseCode = 1;
+  optional uint32 MessagesCount = 2;
+  optional bool EndOfUtt = 3;
+}
+

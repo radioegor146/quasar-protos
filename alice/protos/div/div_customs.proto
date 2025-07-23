@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.div";
+option java_outer_classname = "DivCustomsProto";
+option go_package = "a.yandex-team.ru/alice/protos/div";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDivVideo {
+}
+
+message TDivIndicator {
+}
+
+message TDivCustoms {
+  .NAlice.TDivVideo DivVideo = 1;
+  .NAlice.TDivIndicator DivIndicator = 2;
+}
+

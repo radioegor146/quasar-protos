@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package quasar.proto;
+
+import "alice/megamind/protos/speechkit/directives.proto";
+import "alice/protos/endpoint/capabilities/iot_scenarios/capability.proto";
+import "alice/protos/data/iot/scenario.proto";
+import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
+
+message TDirectiveLaunchInfo {
+  .NAlice.NSpeechKit.TDirective Directive = 1;
+  .quasar.proto.Directive SdkDirective = 4;
+  .NAlice.TIotScenariosCapability.EStepStatus Status = 2;
+  .NAlice.NIot.TLocalScenario.TStepResult.TDirectivesStepResult.TDirectiveExecResult.EDirectiveExecStatus Result = 3;
+}
+
+message TOptionalDirectiveLaunchInfo {
+  .NAlice.NSpeechKit.TDirective OptionalDirective = 1;
+  .quasar.proto.Directive OptionalSdkDirective = 3;
+  repeated .quasar.proto.TDirectiveLaunchInfo InternalDirectivesLaunchInfo = 2;
+}
+
+message TStepLaunchInfo {
+  repeated .quasar.proto.TDirectiveLaunchInfo SubstepLaunchInfo = 1;
+}
+
+message TLaunchInfo {
+  message StepIndexToOptionalDirectiveEntry {
+    uint32 key = 1;
+    .quasar.proto.TOptionalDirectiveLaunchInfo value = 2;
+  }
+
+  repeated .quasar.proto.TStepLaunchInfo StepLaunchInfo = 1;
+  repeated .quasar.proto.TLaunchInfo.StepIndexToOptionalDirectiveEntry StepIndexToOptionalDirective = 6;
+  uint64 CurrentStepIndex = 5;
+  .NAlice.NIot.TLocalScenarioCondition TriggeredCondition = 2;
+  uint64 LaunchStartTimeMs = 3;
+  bool IsSaveLaunchProgressRequired = 4;
+}
+

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotAirQualityCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_air_quality;iotairqualitypb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotAirQualityCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TIotAirQualityCapability.EAirQuality AirQuality = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotAirQualityCapability Capability = 1;
+  }
+
+  enum EAirQuality {
+    Unknown = 0;
+    Good = 1;
+    Fair = 2;
+    Moderate = 3;
+    Poor = 4;
+    VeryPoor = 5;
+    ExtremelyPoor = 6;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotAirQualityCapability.TParameters Parameters = 2;
+  .NAlice.TIotAirQualityCapability.TState State = 3;
+}
+

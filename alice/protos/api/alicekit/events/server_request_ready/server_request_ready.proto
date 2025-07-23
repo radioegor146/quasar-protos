@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.server_request_ready";
+option java_outer_classname = "ServerRequestReady";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/server_request_ready";
+
+message TServerRequestReady {
+}
+

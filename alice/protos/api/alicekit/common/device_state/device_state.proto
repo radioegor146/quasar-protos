@@ -1,0 +1,565 @@
+syntax = "proto2";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.common.device_state";
+option java_outer_classname = "DeviceStateProto";
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/common/device_state;devicestatepb";
+
+import "google/protobuf/struct.proto";
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/restriction_level/protos/content_settings.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/megamind/protos/common/subscription_state/subscription_state.proto";
+import "alice/megamind/protos/common/tandem_state/tandem_state.proto";
+import "alice/protos/data/external_entity_description.proto";
+import "alice/protos/data/search_result/search_result.proto";
+import "alice/protos/data/scenario/reminders/device_state.proto";
+import "alice/protos/data/scenario/timer/timer.proto";
+import "alice/protos/data/video/video.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUntypedDirective {
+  optional string Name = 1;
+  optional string Type = 2;
+  optional string AnalyticsType = 3;
+  optional bool IgnoreAnswer = 4;
+  optional .google.protobuf.Struct Payload = 5;
+}
+
+message TNavigator {
+  message TPoint {
+    optional float Lat = 1;
+    optional float Lon = 2;
+  }
+
+  message TFavorite {
+    optional string Name = 1;
+    optional float Lat = 2;
+    optional float Lon = 3;
+    repeated .NAlice.NAliceApi.TNavigator.TPoint ArrivalPoints = 4;
+  }
+
+  message TLocation {
+    optional float Lat = 1;
+    optional float Lon = 2;
+    repeated .NAlice.NAliceApi.TNavigator.TPoint ArrivalPoints = 3;
+  }
+
+  message TMapView {
+    optional float BottomRightLon = 1;
+    optional float TopRightLon = 2;
+    optional float TopLeftLon = 3;
+    optional float BottomLeftLon = 4;
+    optional float TopLeftLat = 5;
+    optional float BottomLeftLat = 6;
+    optional float BottomRightLat = 7;
+    optional float TopRightLat = 8;
+  }
+
+  message TRoute {
+    repeated .NAlice.NAliceApi.TNavigator.TPoint Points = 1;
+    optional float DistanceToDestination = 2;
+    optional int64 RawTimeToDestination = 3;
+    optional int64 ArrivalTimestamp = 4;
+    optional int64 TimeToDestination = 5;
+    optional int64 TimeInTrafficJam = 6;
+    optional float DistanceInTrafficJam = 7;
+  }
+
+  message TSpan {
+    optional .NAlice.NAliceApi.TNavigator.TPoint SouthWest = 1;
+    optional .NAlice.NAliceApi.TNavigator.TPoint NorthEast = 2;
+  }
+
+  message TSearchOptions {
+    optional .NAlice.NAliceApi.TNavigator.TSpan Span = 1;
+  }
+
+  repeated .NAlice.NAliceApi.TNavigator.TFavorite UserFavorites = 1;
+  optional .NAlice.NAliceApi.TNavigator.TLocation HomeLocation = 2;
+  optional .NAlice.NAliceApi.TNavigator.TLocation WorkLocation = 3;
+  optional .NAlice.NAliceApi.TNavigator.TMapView MapView = 4;
+  repeated string AvailableVoiceIds = 5;
+  optional bool ProjectedMode = 6;
+  optional .NAlice.NAliceApi.TNavigator.TRoute CurrentRoute = 7;
+  repeated string States = 8;
+  optional .NAlice.NAliceApi.TNavigator.TSearchOptions SearchOptions = 9;
+}
+
+message TDeviceState {
+  reserved "Actions";
+  reserved "TvSet";
+  reserved "CarOptions";
+  reserved "Browser";
+  reserved "Tanker";
+  reserved "InstalledApps";
+  reserved "UniversalMediaApp";
+  reserved "SubscriptionState";
+  reserved "EndpointId";
+  reserved "Capabilities";
+  reserved "Endpoint";
+  reserved "RouteManagerState";
+  reserved "DigitalAssistant";
+  reserved 13;
+  reserved 15;
+  reserved 16;
+  reserved 18;
+  reserved 19;
+  reserved 20;
+  reserved 29;
+  reserved 31;
+  reserved 34;
+  reserved 39;
+  reserved 40;
+  reserved 41;
+  reserved 43;
+  reserved 45;
+  reserved 49;
+  message TAudioPlayer {
+    message TCurrentlyPlaying {
+      optional string StreamId = 1;
+      optional double LastPlayTimestamp = 2;
+      optional string Title = 3;
+      optional string SubTitle = 4;
+      optional string StreamType = 5;
+    }
+
+    message ScenarioMetaEntry {
+      optional string key = 1;
+      optional string value = 2;
+    }
+
+    enum TPlayerState {
+      Unknown = 0;
+      Idle = 1;
+      Playing = 2;
+      Paused = 3;
+      Buffering = 4;
+      Stopped = 5;
+      Finished = 6;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TAudioPlayer.TPlayerState PlayerState = 1;
+    optional int32 OffsetMs = 2;
+    optional .NAlice.NAliceApi.TDeviceState.TAudioPlayer.TCurrentlyPlaying CurrentlyPlaying = 3;
+    repeated .NAlice.NAliceApi.TDeviceState.TAudioPlayer.ScenarioMetaEntry ScenarioMeta = 4;
+    optional double LastPlayTimestamp = 5;
+    optional int32 DurationMs = 6;
+    optional double LastStopTimestamp = 7;
+    optional int32 PlayedMs = 8;
+  }
+
+  message TMusic {
+    message TCurrentlyPlaying {
+      optional string TrackId = 1;
+      optional .google.protobuf.Struct RawTrackInfo = 2;
+      optional double LastPlayTimestamp = 3;
+    }
+
+    message TPlayer {
+      optional bool Pause = 1;
+      optional uint64 TimestampDeprecated = 2;
+      optional double Timestamp = 3;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TMusic.TCurrentlyPlaying CurrentlyPlaying = 1;
+    optional string Uid = 2;
+    optional string PlaylistOwner = 3;
+    optional .NAlice.NAliceApi.TDeviceState.TMusic.TPlayer Player = 4;
+    optional uint32 SoundLevel = 5;
+    optional bool SoundMuted = 6;
+    optional string SessionId = 7;
+    optional double LastPlayTimestamp = 8;
+    optional double LastStopTimestamp = 9;
+  }
+
+  message TScreen {
+    enum EScreenResolution {
+      video_format_unknown = 0;
+      video_format_SD = 1;
+      video_format_HD = 2;
+      video_format_UHD = 3;
+    }
+
+    enum EHdcpLevel {
+      current_HDCP_level_unknown = 0;
+      current_HDCP_level_none = 1;
+      current_HDCP_level_1X = 2;
+      current_HDCP_level_2X = 3;
+    }
+
+    enum EDynamicRange {
+      dynamic_range_unknown = 0;
+      dynamic_range_SDR = 1;
+      dynamic_range_HDR10 = 2;
+      dynamic_range_HDR10Plus = 3;
+      dynamic_range_DV = 4;
+      dynamic_range_HLG = 5;
+    }
+
+    repeated .NAlice.NAliceApi.TDeviceState.TScreen.EScreenResolution SupportedScreenResolutions = 1;
+    optional .NAlice.NAliceApi.TDeviceState.TScreen.EHdcpLevel HdcpLevel = 2;
+    repeated .NAlice.NAliceApi.TDeviceState.TScreen.EDynamicRange DynamicRanges = 3;
+  }
+
+  message TVideo {
+    reserved "TvScreenState";
+    reserved 4;
+    reserved 6;
+    reserved 7;
+    reserved 12;
+    message TScreenState {
+      reserved 1;
+      reserved 3;
+      reserved 4;
+      repeated uint32 VisibleItems = 2;
+      optional uint32 Season = 5;
+      repeated .NAlice.TVideoItem RawItems = 6;
+      optional .NAlice.TVideoItem RawItem = 7;
+      optional .NAlice.TVideoItem TvShowItem = 8;
+      optional string Scenario = 9;
+      optional string ViewKey = 10;
+      optional string ScenarioName = 11;
+    }
+
+    message TCurrentlyPlaying {
+      reserved "RawItemDeprecated";
+      reserved "RawNextItemDeprecated";
+      reserved 5;
+      reserved 6;
+      reserved 7;
+      reserved 3;
+      reserved 4;
+      message TProgress {
+        optional double Played = 1;
+        optional double Duration = 2;
+      }
+
+      optional bool Paused = 1;
+      optional .NAlice.NAliceApi.TDeviceState.TVideo.TCurrentlyPlaying.TProgress Progress = 2;
+      optional .NAlice.TVideoItem RawItem = 8;
+      optional .NAlice.TVideoItem RawNextItem = 9;
+      optional .NAlice.TVideoItem RawTvShowItem = 10;
+      optional string AudioLanguage = 11;
+      optional string SubtitlesLanguage = 12;
+      optional double LastPlayTimestamp = 13;
+    }
+
+    message TPlayer {
+      optional bool Pause = 1;
+    }
+
+    message TTvInterfaceState {
+      message TSearchResultsScreen {
+        repeated .NAlice.TSearchResultGallery Galleries = 1;
+        optional string SearchQuery = 2;
+        repeated string Suggests = 3;
+      }
+
+      optional string InitialReqId = 1;
+      oneof Screen {
+        .NAlice.NAliceApi.TDeviceState.TVideo.TTvInterfaceState.TSearchResultsScreen SearchResultsScreen = 21;
+      }
+    }
+
+    enum EPlayerCapability {
+      nothing = 0;
+      stop = 1;
+      pause = 2;
+      play = 3;
+      rewind = 4;
+      skip_to_previous = 5;
+      skip_to_next = 6;
+      fast_forward = 7;
+      seek_to = 8;
+      play_pause = 9;
+    }
+
+    optional string CurrentScreen = 1;
+    optional .NAlice.NAliceApi.TDeviceState.TVideo.TScreenState ScreenState = 2;
+    optional .NAlice.NAliceApi.TDeviceState.TVideo.TCurrentlyPlaying CurrentlyPlaying = 3;
+    optional .google.protobuf.Struct ViewState = 5;
+    optional .google.protobuf.Struct PageState = 8;
+    optional double LastPlayTimestamp = 9;
+    optional double LastStopTimestamp = 10;
+    optional .NAlice.NAliceApi.TDeviceState.TVideo.TPlayer Player = 11;
+    optional .NAlice.NAliceApi.TDeviceState.TVideo.TTvInterfaceState TvInterfaceState = 13;
+    repeated .NAlice.NAliceApi.TDeviceState.TVideo.EPlayerCapability PlayerCapabilities = 14;
+    optional string PlayerName = 15;
+  }
+
+  message TLastWatched {
+    reserved 1;
+    reserved 2;
+    reserved 3;
+    repeated .NAlice.TWatchedVideoItem RawMovies = 4;
+    repeated .NAlice.TWatchedTvShowItem RawTvShows = 5;
+    repeated .NAlice.TWatchedVideoItem RawVideos = 6;
+  }
+
+  message TTimers {
+    reserved "AlarmState";
+    reserved 2;
+    message TTimer {
+      optional string TimerId = 1;
+      optional uint64 StartTimestamp = 2;
+      optional uint32 Duration = 3;
+      optional uint32 Remaining = 4;
+      optional bool CurrentlyPlaying = 5;
+      optional bool Paused = 6;
+      repeated .NAlice.NAliceApi.TUntypedDirective Directives = 7;
+      optional .NAlice.NData.TTimerDescription TimerDescription = 8;
+    }
+
+    repeated .NAlice.NAliceApi.TDeviceState.TTimers.TTimer ActiveTimers = 1;
+  }
+
+  message TAlarmState {
+    message TSoundAlarmSetting {
+      optional string Type = 1;
+      optional .google.protobuf.Struct RawInfo = 2;
+    }
+
+    optional string ICalendar = 1;
+    optional bool CurrentlyPlaying = 2;
+    optional .NAlice.NAliceApi.TDeviceState.TAlarmState.TSoundAlarmSetting SoundAlarmSetting = 3;
+    optional uint32 MaxSoundLevel = 4;
+    optional uint32 MinSoundLevel = 5;
+    optional bool MediaCurrentlyPlaying = 6;
+  }
+
+  message TDeviceConfig {
+    optional .NAlice.EContentSettings ContentSettings = 1;
+    optional string Spotter = 2;
+    optional .NAlice.EContentSettings ChildContentSettings = 3;
+    optional bool RadioNannyEnabled = 4;
+    optional bool SmartActivation = 5;
+    optional bool SmartVolumeEnabled = 6;
+  }
+
+  message TBattery {
+    optional int32 Percent = 1;
+  }
+
+  message TMessengerCall {
+    message TCall {
+      optional string CallId = 1;
+      optional string RecipientId = 2;
+      optional string CallerName = 3;
+      optional bool IsNannyMode = 4;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TMessengerCall.TCall Incoming = 1;
+    optional .NAlice.NAliceApi.TDeviceState.TMessengerCall.TCall Current = 2;
+  }
+
+  message TMultiroom {
+    enum EMultiroomMode {
+      Unknown = 0;
+      Master = 1;
+      Slave = 2;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TMultiroom.EMultiroomMode Mode = 1;
+    optional string MultiroomSessionId = 2;
+    optional .NAlice.NAliceApi.TDeviceState.TMusic Music = 3;
+    optional string MasterDeviceId = 4;
+    repeated string VisiblePeerDeviceIds = 5;
+    optional string MultiroomToken = 6;
+    repeated string RoomDeviceIds = 7;
+  }
+
+  message TBluetooth {
+    message TConnection {
+      optional string Name = 1;
+    }
+
+    message TCurrentlyPlaying {
+      optional string TrackId = 1;
+      optional .google.protobuf.Struct RawTrackInfo = 2;
+      optional double LastPlayTimestamp = 3;
+    }
+
+    message TPlayer {
+      optional bool Pause = 1;
+      optional double Timestamp = 2;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TBluetooth.TPlayer Player = 1;
+    repeated .NAlice.NAliceApi.TDeviceState.TBluetooth.TConnection CurrentConnections = 2;
+    optional .NAlice.NAliceApi.TDeviceState.TBluetooth.TCurrentlyPlaying CurrentlyPlaying = 3;
+    optional double LastPlayTimestamp = 4;
+  }
+
+  message TInternetConnection {
+    message TWifiNetwork {
+      optional string Ssid = 1;
+      optional string Bssid = 2;
+      optional int32 Channel = 3;
+      optional int32 Rssi = 4;
+      optional string Flags = 5;
+    }
+
+    enum EType {
+      Unknown = 0;
+      Wifi_2_4GHz = 1;
+      Wifi_5GHz = 2;
+      Ethernet = 3;
+    }
+
+    enum EStatus {
+      NotConnected = 0;
+      Connecting = 1;
+      ConnectedNoInternet = 2;
+      Connected = 3;
+      NotChosen = 4;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TInternetConnection.EType Type = 1;
+    optional .NAlice.NAliceApi.TDeviceState.TInternetConnection.TWifiNetwork Current = 2;
+    repeated .NAlice.NAliceApi.TDeviceState.TInternetConnection.TWifiNetwork Neighbours = 3;
+    optional .NAlice.NAliceApi.TDeviceState.TInternetConnection.EStatus Status = 4;
+  }
+
+  message TRcuState {
+    message TRcuCapabilities {
+      optional bool CanMakeSounds = 1;
+    }
+
+    enum ESetupState {
+      None = 0;
+      Link = 1;
+      Auto = 2;
+      Check = 3;
+      Advanced = 4;
+      Manual = 5;
+    }
+
+    optional bool IsRcuConnected = 1;
+    optional .NAlice.NAliceApi.TDeviceState.TRcuState.ESetupState SetupState = 2;
+    optional int32 TotalCodesets = 3;
+    optional .NAlice.NAliceApi.TDeviceState.TRcuState.TRcuCapabilities RcuCapabilities = 4;
+  }
+
+  message TPackagesState {
+    message TPackage {
+      optional string Name = 1;
+      optional string HumanReadableName = 2;
+    }
+
+    message TInstalledPackage {
+      optional .NAlice.NAliceApi.TDeviceState.TPackagesState.TPackage PackageInfo = 1;
+      optional string MainActivity = 2;
+    }
+
+    repeated .NAlice.NAliceApi.TDeviceState.TPackagesState.TInstalledPackage Installed = 1;
+  }
+
+  message TClockDisplayState {
+    optional bool ClockEnabled = 1;
+  }
+
+  message TActiveActions {
+    reserved "SemanticFrames";
+    reserved "ConditionalActions";
+    reserved "ScreenConditionalActions";
+    reserved 1;
+    reserved 2;
+    reserved 3;
+  }
+
+  message TAppScreenInfo {
+    reserved "ScreenInfo";
+    enum ESourceScreenId {
+      undefined_screen_id = 0;
+      cloud_ui = 1;
+      chat_ui = 2;
+      cloud_2_ui = 3;
+      cloud_2_ui_keyboard = 4;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TAppScreenInfo.ESourceScreenId SourceScreenId = 3;
+  }
+
+  message TStereoPair {
+    enum EChannel {
+      undefined_channel = 0;
+      left = 1;
+      right = 2;
+    }
+
+    enum EConnected {
+      UNDEFINED_CONNECTED = 0;
+      NO_CONNECTION = 1;
+      ONEWAY = 2;
+      TWOWAY = 3;
+    }
+
+    enum ERole {
+      UNDEFINED_ROLE = 0;
+      LEADER = 1;
+      FOLLOWER = 2;
+    }
+
+    enum EStereoPlayerStatus {
+      UNDEFINED_STATUS = 0;
+      NO_SYNC = 1;
+      PARTNER_NOT_READY = 2;
+      READY = 3;
+    }
+
+    optional .NAlice.NAliceApi.TDeviceState.TStereoPair.EChannel Channel = 1;
+    optional .NAlice.NAliceApi.TDeviceState.TStereoPair.EConnected Connected = 2;
+    optional .NAlice.NAliceApi.TDeviceState.TStereoPair.ERole Role = 3;
+    optional .NAlice.NAliceApi.TDeviceState.TStereoPair.EStereoPlayerStatus StereoPlayerStatus = 4;
+    optional string PartnerDeviceId = 5;
+  }
+
+  optional string DeviceId = 1;
+  optional uint32 SoundLevel = 2;
+  optional bool SoundMuted = 3;
+  optional bool IsTvPluggedIn = 4;
+  optional .NAlice.NAliceApi.TDeviceState.TMusic Music = 5;
+  optional .NAlice.NAliceApi.TDeviceState.TVideo Video = 6;
+  optional string AlarmsState = 7;
+  optional .NAlice.NAliceApi.TDeviceState.TAlarmState AlarmState = 8;
+  optional .NAlice.NAliceApi.TDeviceState.TDeviceConfig DeviceConfig = 9;
+  optional .NAlice.NAliceApi.TDeviceState.TTimers Timers = 10;
+  optional .google.protobuf.Struct Radio = 11;
+  optional .NAlice.NAliceApi.TNavigator Navigator = 12;
+  optional .NAlice.NAliceApi.TDeviceState.TLastWatched LastWatched = 14;
+  optional .NAlice.NAliceApi.TDeviceState.TBattery Battery = 17;
+  optional .NAlice.NAliceApi.TDeviceState.TMessengerCall MessengerCall = 21;
+  optional .NAlice.NAliceApi.TDeviceState.TAudioPlayer AudioPlayer = 22;
+  optional .NAlice.NAliceApi.TDeviceState.TMultiroom Multiroom = 23;
+  optional .NAlice.NAliceApi.TDeviceState.TBluetooth Bluetooth = 24;
+  optional .NAlice.NAliceApi.TDeviceState.TInternetConnection InternetConnection = 25;
+  optional bool MicsMuted = 26;
+  optional .NAlice.NAliceApi.TDeviceState.TScreen Screen = 27;
+  optional .NAlice.NAliceApi.TDeviceState.TRcuState RcuState = 28;
+  optional bool IsDefaultAssistant = 30;
+  optional uint32 SoundMaxLevel = 32;
+  optional .NAlice.NAliceApi.TDeviceState.TActiveActions ActiveActions = 33;
+  optional .NAlice.TTandemState TandemState = 35;
+  optional .NAlice.TSubscriptionState DeviceSubscriptionState = 36;
+  optional .NAlice.NData.NReminders.TDeviceRemindersState DeviceReminders = 37;
+  optional .NAlice.NAliceApi.TDeviceState.TPackagesState PackagesState = 38;
+  repeated .NAlice.NData.TExternalEntityDescription ExternalEntitiesDescription = 42;
+  optional .NAlice.NAliceApi.TDeviceState.TClockDisplayState ClockDisplayState = 44;
+  optional .NAlice.NAliceApi.TDeviceState.TAppScreenInfo AppScreenInfo = 46;
+  optional .NAlice.NAliceApi.TDeviceState.TStereoPair StereoPair = 47;
+  optional bool DNDEnabled = 48;
+}
+
+message TDeviceStatePart {
+  reserved "video";
+  reserved 1;
+  oneof Part {
+    .NAlice.NAliceApi.TDeviceState.TRcuState rcu = 2;
+    .NAlice.NAliceApi.TDeviceState.TPackagesState packages = 3;
+    .NAlice.NAliceApi.TDeviceState.TLastWatched last_watched = 4;
+    .NAlice.NAliceApi.TDeviceState.TVideo video_state = 5;
+  }
+}
+

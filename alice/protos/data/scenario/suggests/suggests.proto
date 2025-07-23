@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.suggests";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/suggests";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSuggest {
+  message TActionButton {
+    message TTheme {
+      string ImageUrl = 1;
+    }
+
+    string Title = 1;
+    string ActionId = 2;
+    .NAlice.NData.TSuggest.TActionButton.TTheme Theme = 3;
+  }
+
+  message TSearchButton {
+    string Title = 1;
+    string Query = 2;
+  }
+
+  oneof Action {
+    .NAlice.NData.TSuggest.TActionButton ActionButton = 1;
+    .NAlice.NData.TSuggest.TSearchButton SearchButton = 2;
+  }
+}
+

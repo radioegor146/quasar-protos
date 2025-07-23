@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "BleSetupCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/ble_setup;blesetuppb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TBleSetupCapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TDeviceInfo {
+    string DeviceId = 1;
+    string Platform = 2;
+  }
+
+  message TStartBleDiscoveryDirective {
+    string Name = 1000;
+    string DiscoveryId = 1;
+    string Platform = 2;
+    uint32 TimeoutMs = 3;
+  }
+
+  message TStartBleSetupDirective {
+    string Name = 1000;
+    string DeviceId = 1;
+    string CipherText = 2;
+    string C = 3;
+    string M = 4;
+    uint32 TimeoutMs = 5;
+  }
+
+  message TBleDiscoveryFinishedEvent {
+    string DiscoveryId = 1;
+    repeated .NAlice.TBleSetupCapability.TDeviceInfo Devices = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TBleSetupCapability.TParameters Parameters = 2;
+  .NAlice.TBleSetupCapability.TState State = 3;
+}
+

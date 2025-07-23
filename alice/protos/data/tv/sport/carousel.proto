@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.sport";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/sport";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/avatar/avatar.proto";
+
+message TSportEventItem {
+  string ContentId = 1;
+  string Title = 2;
+  string Subtitle = 3;
+  .NAlice.NTv.ESportEventState EventState = 4;
+  .NAlice.TAvatarMdsImage CoverUrl = 5;
+  string AnnounceDate = 6;
+  string SubscriptionBadgeUrl = 7;
+}
+
+enum ESportEventState {
+  UNKNOWN_STATE = 0;
+  LIVE = 1;
+  ANNOUNCE = 2;
+}
+

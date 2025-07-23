@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.recent";
+option java_outer_classname = "RecentChannel";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/recent";
+
+import "alice/protos/data/tv/channels/common.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRecentChannelItem {
+  .NAlice.NTv.TTvChannelId Id = 1;
+  string Name = 2;
+  .NAlice.NTv.EChannelType ChannelType = 3;
+  string InputId = 4;
+  string IconUri = 5;
+}
+

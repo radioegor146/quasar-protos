@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.objects";
+option java_outer_classname = "MusicObjectsProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/objects";
+
+import "alice/protos/data/scenario/objects/image.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+
+message TDisclaimerInfo {
+  string Type = 1;
+  string Title = 2;
+  string Description = 3;
+}
+
+message TAlbum {
+  string Id = 1;
+  string Title = 2;
+  string Genre = 3;
+  string CoverUri = 4;
+  repeated .NAlice.NData.TArtist Artists = 5;
+  int32 ReleaseYear = 6;
+  string Type = 7;
+  bool IsLiked = 8;
+  uint32 LikesCount = 9;
+  repeated .NAlice.NData.TDisclaimerInfo Disclaimers = 10;
+}
+
+message TPlaylist {
+  string Id = 1;
+  string Title = 2;
+  string CoverUri = 5;
+  int32 LikesCount = 6;
+  bool IsLiked = 7;
+  uint32 TracksCount = 8;
+}
+
+message TArtist {
+  string Id = 1;
+  string Name = 2;
+  bool Composer = 3;
+  bool IsVarious = 4;
+  string CoverUri = 5;
+  repeated string Genre = 6;
+  bool IsLiked = 7;
+  uint32 LikesCount = 8;
+  repeated .NAlice.NData.TDisclaimerInfo Disclaimers = 9;
+}
+
+message TTrack {
+  string Id = 1;
+  string Title = 2;
+  string Subtype = 3;
+  string ArtImageUrl = 4;
+  .NAlice.NData.TAlbum Album = 5;
+  repeated .NAlice.NData.TArtist Artists = 6;
+  bool IsLiked = 7;
+  bool IsDisliked = 8;
+  uint32 DurationMs = 9;
+  string ArtistId = 10;
+  string AlbumId = 11;
+  string TrackId = 12;
+  string ShotText = 13;
+  bool HasAvailableLyrics = 14;
+  string Uuid = 15;
+  repeated .NAlice.NData.TDisclaimerInfo Disclaimers = 16;
+}
+
+message TPodcastEpisode {
+  string Id = 1;
+  string Title = 2;
+  string CoverUri = 3;
+  string PublicationDate = 4;
+  .NAlice.NData.TAlbum Album = 5;
+  repeated .NAlice.NData.TArtist Artists = 6;
+  uint32 DurationMs = 7;
+  bool IsLiked = 8;
+}
+
+message TWave {
+  string Id = 1;
+  string Title = 2;
+  string Subtitle = 3;
+  string CoverUri = 4;
+}
+
+message TMusicBand {
+  string Id = 1;
+  string Title = 2;
+  string Subtitle = 3;
+  string GroupDescription = 4;
+  .NAlice.NData.TSingleImage.TImageRef Logo = 5;
+  int32 Year = 6;
+  string SearchUrl = 7;
+  string SearchRequest = 8;
+}
+
+message TMusicBands {
+  repeated .NAlice.NData.TMusicBand Bands = 1;
+}
+
+message TMusicAlbums {
+  repeated .NAlice.NData.TAlbum Albums = 1;
+}
+
+message TMusicTracks {
+  repeated .NAlice.NData.TTrack Tracks = 1;
+}
+
+enum ELikeStatus {
+  Undefined = 0;
+  None = 1;
+  Liked = 2;
+  Disliked = 3;
+}
+

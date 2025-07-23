@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.device_control_panel";
+option java_outer_classname = "ScenarioStorageProto";
+
+import "alice/protos/data/device_control_panel/local_time.proto";
+import "alice/protos/data/device_control_panel/scenarios.proto";
+
+message TScenarioStorage {
+  message TDate {
+    uint32 Year = 1;
+    uint32 Month = 2;
+    uint32 Day = 3;
+  }
+
+  message TScenarioState {
+    .NAlice.TScenarioStorage.TDate Date = 1;
+    .NAlice.TLocalTime LocalTime = 4;
+    oneof Scenario {
+      .NAlice.TTotalScenario TotalScenario = 2;
+      .NAlice.TVideoScenario VideoScenario = 3;
+      .NAlice.TTvChannelsScenario TvChannels = 5;
+      .NAlice.TInputControlScenario InputControl = 6;
+      .NAlice.TExternalAppScenario ExternalApp = 7;
+    }
+  }
+
+  repeated .NAlice.TScenarioStorage.TScenarioState Scenarios = 1;
+}
+

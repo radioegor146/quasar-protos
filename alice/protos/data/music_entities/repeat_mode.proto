@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/music_entities";
+
+enum ERepeatMode {
+  NONE = 0;
+  TRACK = 1;
+  ALL = 2;
+}
+

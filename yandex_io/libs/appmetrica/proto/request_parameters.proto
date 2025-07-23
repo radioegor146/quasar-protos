@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+message RequestParameters {
+  optional string uuid = 1;
+  optional string device_id = 2;
+}
+

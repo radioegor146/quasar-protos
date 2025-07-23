@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.afisha";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/afisha";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAfishaTeaserData {
+  string Title = 1;
+  string ImageUrl = 2;
+  string Date = 3;
+  string Place = 4;
+  string ContentRating = 5;
+  string EventId = 6;
+  string Type = 7;
+  string QRUrl = 8;
+  string AfishaUrl = 9;
+}
+
+message TAfishaSelectionSettingData {
+  string SelectionCode = 1;
+}
+
+message TAfishaSelectionData {
+  .NAlice.NData.TAfishaSelectionSettingData SelecSettingData = 1;
+  bool IsChosen = 2;
+  string SelectionName = 3;
+  string ImageUrl = 4;
+}
+
+message TAfishaSettingScreenData {
+  repeated .NAlice.NData.TAfishaSelectionData AfishaSelections = 1;
+}
+

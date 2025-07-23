@@ -1,0 +1,35 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "AccountStorageProto";
+
+message AccountInfo {
+  message OAuthInfo {
+    optional string token = 1;
+    optional string refresh_token = 2;
+    optional int64 expires_in_timestamp = 3;
+  }
+
+  required uint64 id = 1;
+  optional .quasar.proto.AccountType type = 6 [default = UNDEFINED];
+  optional .quasar.proto.AccountInfo.OAuthInfo x = 7;
+  optional .quasar.proto.AccountInfo.OAuthInfo auth = 8;
+  optional string xtoken = 2;
+  optional string auth_token = 3;
+  optional string refresh_token = 4;
+  optional int64 last_token_refresh_timestamp = 5;
+}
+
+message AccountStorage {
+  repeated .quasar.proto.AccountInfo accounts = 1;
+  optional uint64 current_account_id = 2;
+}
+
+enum AccountType {
+  UNDEFINED = 0;
+  OWNER = 1;
+  GUEST = 2;
+}
+

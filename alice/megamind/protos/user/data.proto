@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.user";
+option java_outer_classname = "UserData";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/user";
+
+import "alice/megamind/protos/blackbox/blackbox.proto";
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/protos/api/datum/personal_data.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUserData {
+  .NAlice.TBlackBoxUserInfo UserInfo = 1;
+  oneof OptionalRawPersonalData {
+    string RawPersonalData = 2;
+  }
+  oneof OptionalMementoData {
+    string MementoData = 3;
+  }
+  optional .NAlice.ECredentialStatus BlackboxStatus = 4;
+  optional string BlackboxStatusReason = 5;
+  optional .NAlice.NDatumApi.TDatumPersonalData DatumPersonalData = 6;
+}
+

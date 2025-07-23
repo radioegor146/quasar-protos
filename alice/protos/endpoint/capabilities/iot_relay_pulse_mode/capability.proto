@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotRelayPulseModeCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_relay_pulse_mode;iotrelaypulsemodepb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotRelayPulseModeCapability {
+  message TParameters {
+  }
+
+  message TState {
+    uint32 OnTimeMs = 1;
+  }
+
+  message TIotSetPulseTimeDirective {
+    string Name = 1000;
+    uint32 OnTimeMs = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotRelayPulseModeCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotRelayPulseModeCapability.TParameters Parameters = 2;
+  .NAlice.TIotRelayPulseModeCapability.TState State = 3;
+}
+

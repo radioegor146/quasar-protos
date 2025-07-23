@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.alice_response";
+option java_outer_classname = "AliceResponseProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/alice_response";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/protos/api/alicekit/analytics/response_analytics_info/response_analytics_info.proto";
+import "alice/protos/api/alicekit/annotations/annotations.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+
+message TAliceResponseProto {
+  reserved "analytics_info";
+  reserved "OldAnalyticsInfo";
+  reserved "Sessions";
+  reserved "ContainsSensitiveData";
+  reserved "Version";
+  reserved "ContentProperties";
+  reserved "ProactivityLogStorage";
+  reserved "CounteractivationFeatures";
+  reserved "IsDeferred";
+  reserved "EffectiveAlice2Settings";
+  reserved 4;
+  reserved 5;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  reserved 9;
+  reserved 12;
+  reserved 13;
+  reserved 14;
+  reserved 16;
+  message THeader {
+    reserved "RefMessageId";
+    reserved "SessionId";
+    reserved 5;
+    reserved 6;
+    optional string RequestId = 1;
+    optional string ResponseId = 2;
+    optional uint32 SequenceNumber = 3;
+    optional string DialogId = 4;
+    optional string ParentRequestId = 7;
+  }
+
+  message TVoiceResponse {
+    reserved "Directives";
+    reserved "IsTrashPartial";
+    reserved "OutputEmotion";
+    reserved "UniproxyDirectives";
+    reserved "IsStreamingResponse";
+    reserved 3;
+    reserved 4;
+    reserved 5;
+    reserved 6;
+    reserved 7;
+    reserved 8;
+    message TOutputSpeech {
+      reserved "Type";
+      reserved 1;
+      optional string Text = 2;
+    }
+
+    .NAlice.NAliceApi.TAliceResponseProto.TVoiceResponse.TOutputSpeech OutputSpeech = 1;
+    bool ShouldListen = 2;
+    bool HasVoiceResponse = 9;
+  }
+
+  message TResponse {
+    reserved "Meta";
+    reserved "QualityStorage";
+    reserved "Experiments";
+    reserved "DirectivesExecutionPolicy";
+    reserved "ResponseErrorMessage";
+    reserved "ChatDialogUpdate";
+    reserved 3;
+    reserved 4;
+    reserved 5;
+    reserved 8;
+    reserved 9;
+    reserved 12;
+    message TButton {
+      message TTheme {
+        optional string ImageUrl = 1;
+      }
+
+      string Type = 1;
+      repeated .NAlice.NAliceApi.TDirective Directives = 3;
+      .NAlice.NAliceApi.TAliceResponseProto.TResponse.TButton.TTheme Theme = 5;
+      optional string Title = 2;
+      optional string Text = 4;
+    }
+
+    message TCard {
+      reserved "StringView";
+      reserved 9;
+      string Type = 1;
+      .google.protobuf.Struct Body = 3;
+      repeated .NAlice.NAliceApi.TAliceResponseProto.TResponse.TButton Buttons = 4;
+      .google.protobuf.BoolValue HasBorders = 5;
+      bool ProgressivePrinting = 7;
+      repeated string Sources = 11;
+      optional string Text = 2;
+      optional string CardId = 6;
+      optional string StringBody = 8;
+      optional bool HideBorders = 10;
+      optional bool DontAddToChatHistory = 12;
+    }
+
+    message TSuggest {
+      repeated .NAlice.NAliceApi.TAliceResponseProto.TResponse.TButton Items = 1;
+    }
+
+    message TAlice2EffectiveSettings {
+      .NAlice.NApi.NAlice2Mode.TAlice2ModeInfo EffectiveSettings = 1;
+      .NAlice.NApi.NAlice2Mode.TAlice2TrialState TrialState = 2;
+    }
+
+    repeated .NAlice.NAliceApi.TAliceResponseProto.TResponse.TCard Cards = 1;
+    repeated .NAlice.NAliceApi.TDirective Directives = 2;
+    .NAlice.NAliceApi.TAliceResponseProto.TResponse.TSuggest Suggest = 6;
+    .google.protobuf.Struct Templates = 7;
+    .google.protobuf.Struct Palette = 10;
+    bool IsStreaming = 11;
+    .NAlice.NAliceApi.TAliceResponseProto.TResponse.TAlice2EffectiveSettings Alice2EffectiveSettings = 13;
+    optional .NAlice.NAliceApi.TRequestAnnotation RequestAnnotation = 14;
+  }
+
+  message TError {
+    optional uint32 Code = 1;
+    optional string Reason = 2;
+  }
+
+  .NAlice.NAliceApi.TAliceResponseProto.THeader Header = 1;
+  .NAlice.NAliceApi.TAliceResponseProto.TVoiceResponse VoiceResponse = 2;
+  .NAlice.NAliceApi.TAliceResponseProto.TResponse Response = 3;
+  .NAlice.NAliceApi.TResponseAnalyticsInfo MegamindAnalyticsInfo = 10;
+  .NAlice.NAliceApi.TAliceResponseProto.TError Error = 11;
+  bool ForceServerRequest = 15;
+  optional bool IsGeneratedByClient = 17;
+}
+

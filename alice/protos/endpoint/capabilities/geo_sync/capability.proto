@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "GeoSyncProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/geo_sync;geosyncpb";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+import "alice/protos/data/lat_lon.proto";
+import "alice/protos/data/timezone.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TGeoSyncCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.NData.TLatLon Location = 1;
+    .NAlice.NData.TLatLon LaasRealLocation = 5;
+    .NAlice.NData.TTimezone Timezone = 2;
+    bool TimezoneIsLocked = 3;
+    .NAlice.TGeoSyncCapability.TNextTimezone NextTimezone = 4;
+  }
+
+  message TSetLocationDirective {
+    .NAlice.NData.TLatLon Location = 1;
+    .NAlice.NData.TLatLon LaasRealLocation = 3;
+    string Name = 2;
+  }
+
+  message TSetTimezoneDirective {
+    message TNextTimezone {
+      .google.protobuf.Timestamp Epoch = 1;
+      .NAlice.NData.TTimezone Timezone = 2;
+    }
+
+    .NAlice.NData.TTimezone Timezone = 1;
+    string Name = 2;
+    .NAlice.TGeoSyncCapability.TSetTimezoneDirective.TNextTimezone NextTimezone = 4;
+  }
+
+  message TNextTimezone {
+    .google.protobuf.Timestamp SwitchTimestamp = 1;
+    .NAlice.NData.TTimezone Timezone = 2;
+  }
+
+  message TSetGmtDirective {
+    .google.protobuf.Timestamp Epoch = 1;
+    string Name = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TGeoSyncCapability.TParameters Parameters = 2;
+  .NAlice.TGeoSyncCapability.TState State = 3;
+}
+

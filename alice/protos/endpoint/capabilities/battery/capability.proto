@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "BatteryProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/battery;batterypb";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/wrappers.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TBatteryCapability {
+  message TParameters {
+  }
+
+  message TState {
+    enum EChargingMode {
+      Default = 0;
+      FastCharging = 1;
+    }
+
+    double Voltage = 2;
+    optional double Percentage = 1;
+    optional bool IsCharging = 3;
+    optional .NAlice.TBatteryCapability.TState.EChargingMode ChargingMode = 4;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TBatteryCapability Capability = 1;
+  }
+
+  message TCondition {
+    .google.protobuf.DoubleValue LowerBound = 1;
+    .google.protobuf.DoubleValue UpperBound = 2;
+    double Hysteresis = 3;
+  }
+
+  message TPowerLevelFilter {
+    .google.protobuf.DoubleValue LowerBound = 1;
+    .google.protobuf.DoubleValue UpperBound = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TBatteryCapability.TParameters Parameters = 2;
+  .NAlice.TBatteryCapability.TState State = 3;
+}
+

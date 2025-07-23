@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "LocalizationProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/localization;localizationpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/data/localization/localization.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLocalizationCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.NData.ECountry Country = 1;
+    .NAlice.NData.ELocale Locale = 2;
+  }
+
+  message TSetLocalizationDirective {
+    .NAlice.NData.ECountry Country = 1;
+    .NAlice.NData.ELocale Locale = 2;
+    string Name = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TLocalizationCapability.TParameters Parameters = 2;
+  .NAlice.TLocalizationCapability.TState State = 3;
+}
+

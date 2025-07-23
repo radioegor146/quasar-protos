@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.protocol.server";
+option java_outer_classname = "ServerMessage";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/protocol/server";
+
+import "alice/protos/api/alicekit/events/alice_response/alice_response.proto";
+import "alice/protos/api/alicekit/events/asr_music_result/asr_music_result.proto";
+import "alice/protos/api/alicekit/events/asr_result/asr_result.proto";
+import "alice/protos/api/alicekit/events/common/event_header/event_header.proto";
+import "alice/protos/api/alicekit/events/data_proxy_request/data_proxy_request.proto";
+import "alice/protos/api/alicekit/events/event_exception/event_exception.proto";
+import "alice/protos/api/alicekit/events/file_upload_response/file_upload_response.proto";
+import "alice/protos/api/alicekit/events/go_away/go_away.proto";
+import "alice/protos/api/alicekit/events/input_start_ack/input_start_ack.proto";
+import "alice/protos/api/alicekit/events/invalid_auth/invalid_auth.proto";
+import "alice/protos/api/alicekit/events/log_ack/log_ack.proto";
+import "alice/protos/api/alicekit/events/ping/ping.proto";
+import "alice/protos/api/alicekit/events/push/push.proto";
+import "alice/protos/api/alicekit/events/server_request_ready/server_request_ready.proto";
+import "alice/protos/api/alicekit/events/speech_control/speech_control.proto";
+import "alice/protos/api/alicekit/events/spotter_validation/spotter_validation.proto";
+import "alice/protos/api/alicekit/events/stream_control/stream_control.proto";
+import "alice/protos/api/alicekit/events/sync_push/sync_push.proto";
+import "alice/protos/api/alicekit/events/synchronize_state_response/synchronize_state_response.proto";
+import "alice/protos/api/alicekit/events/tts_speak/tts_speak.proto";
+import "alice/protos/api/alicekit/events/tts_timings/tts_timings.proto";
+import "alice/protos/api/alicekit/streaming/deffered_response.proto";
+import "google/protobuf/timestamp.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TServerMessage {
+  message TEvent {
+    reserved "MatchVoicePrint";
+    reserved "UpdateVoicePrints";
+    reserved "DataProxyConnectResponse";
+    reserved "DataProxyOutput";
+    reserved "IotCloudTechnicalPushResponse";
+    reserved "IotCloudEventsBatchResponse";
+    reserved 6;
+    reserved 7;
+    reserved 20;
+    reserved 21;
+    reserved 26;
+    reserved 27;
+    .NAlice.NAliceApi.TEventHeader Header = 1;
+    oneof Event {
+      .NAlice.NAliceApi.TAliceResponseProto AliceResponse = 2;
+      .NAlice.NAliceApi.TDeferedAliceResponseProto DeferredAliceResponse = 3;
+      .NAlice.NAliceApi.TGoAway GoAway = 4;
+      .NAlice.NAliceApi.TPush Push = 5;
+      .NAlice.NAliceApi.TSyncPush SyncPush = 8;
+      .NAlice.NAliceApi.TEventException EventException = 9;
+      .NAlice.NAliceApi.TInputStartAck InputStartAck = 10;
+      .NAlice.NAliceApi.TLogAck LogAck = 11;
+      .NAlice.NAliceApi.TPing Ping = 12;
+      .NAlice.NAliceApi.TAsrResult AsrResult = 13;
+      .NAlice.NAliceApi.TTtsSpeak TtsSpeak = 14;
+      .NAlice.NAliceApi.TServerRequestReady ServerRequestReady = 15;
+      .NAlice.NAliceApi.TSpotterValidation SpotterValidation = 16;
+      .NAlice.NAliceApi.TInvalidAuth InvalidAuth = 17;
+      .NAlice.NAliceApi.TTtsTimings TtsTimings = 18;
+      .NAlice.NAliceApi.TAsrMusicResult AsrMusicResult = 19;
+      .NAlice.NAliceApi.TDataProxyRequest DataProxyRequest = 22;
+      .NAlice.NAliceApi.TFileUploadResponse FileUploadResponse = 23;
+      .NAlice.NAliceApi.TSynchronizeStateResponse SynchronizeStateResponse = 24;
+      .NAlice.NAliceApi.TSpeechControl SpeechControl = 25;
+    }
+  }
+
+  message TTimings {
+    .google.protobuf.Timestamp SendingTime = 1;
+  }
+
+  .NAlice.NAliceApi.TServerMessage.TTimings Timings = 3;
+  oneof Message {
+    .NAlice.NAliceApi.TServerMessage.TEvent Event = 1;
+    .NAlice.NAliceApi.TStreamControl StreamControl = 2;
+  }
+}
+

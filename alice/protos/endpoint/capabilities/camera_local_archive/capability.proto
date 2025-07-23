@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "CameraLocalArchiveCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/camera_local_archive;camera_local_archivepb";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TCameraLocalArchiveCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TCameraLocalArchiveCapability.EStatus Status = 1;
+    uint64 CapacityBytes = 2;
+    uint64 UsedBytes = 3;
+  }
+
+  message TTimeInterval {
+    .google.protobuf.Timestamp Start = 1;
+    .google.protobuf.Timestamp End = 2;
+  }
+
+  message TListFilesDirective {
+    string InteractionId = 1;
+    .NAlice.TCameraLocalArchiveCapability.TTimeInterval TimeInterval = 2;
+  }
+
+  message TGetFileDirective {
+    string InteractionId = 1;
+    string FileName = 2;
+  }
+
+  message TGetManifestDirective {
+    string InteractionId = 1;
+    .NAlice.TCameraLocalArchiveCapability.TTimeInterval TimeInterval = 2;
+  }
+
+  message TGetFileHeaderDirective {
+    string InteractionId = 1;
+    string FileName = 2;
+    int32 TrackNumber = 3;
+  }
+
+  message TGetFileSegmentDirective {
+    string InteractionId = 1;
+    int32 TrackNumber = 4;
+    optional string FileName = 2;
+    optional int32 SegmentNumber = 3;
+    optional uint64 MediaTimebase = 7;
+    optional uint64 MediaTimestamp = 5;
+    optional uint32 MediaTimescale = 6;
+  }
+
+  message TGetFileThumbnailDirective {
+    message TSizeHint {
+      optional uint32 Width = 1;
+      optional uint32 Height = 2;
+    }
+
+    enum EFormat {
+      FMT_UNKNOWN = 0;
+      FMT_JPEG = 1;
+    }
+
+    string InteractionId = 1;
+    .NAlice.TCameraLocalArchiveCapability.TGetFileThumbnailDirective.EFormat Format = 2;
+    .NAlice.TCameraLocalArchiveCapability.TGetFileThumbnailDirective.TSizeHint SizeHint = 3;
+    string FileName = 4;
+  }
+
+  message TFormatStorageDirective {
+    string Name = 1000;
+    .NAlice.TCameraLocalArchiveCapability.EFileSystem FileSystem = 1;
+  }
+
+  message TUnmountStorageDirective {
+    string Name = 1000;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TCameraLocalArchiveCapability Capability = 1;
+  }
+
+  enum EStatus {
+    STATUS_UNKNOWN = 0;
+    STATUS_MISSING = 1;
+    STATUS_MOUNTED = 2;
+    STATUS_NEED_FORMAT = 3;
+    STATUS_BROKEN = 4;
+    STATUS_FORMATTING = 5;
+  }
+
+  enum EFileSystem {
+    FILE_SYSTEM_UNKNOWN = 0;
+    FILE_SYSTEM_FAT32 = 1;
+    FILE_SYSTEM_EXFAT = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TCameraLocalArchiveCapability.TParameters Parameters = 2;
+  .NAlice.TCameraLocalArchiveCapability.TState State = 3;
+}
+

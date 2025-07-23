@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package NAlice.NTelecom;
+
+option java_package = "ru.yandex.alice.protos.data.telecom";
+option java_outer_classname = "ProvidersProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/telecom;telecompb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/color/color.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+
+message TProviderContact {
+  message TTelephoneId {
+    string Phone = 1;
+  }
+
+  message TMessengerId {
+    string DeviceId = 1;
+    string Guid = 2;
+  }
+
+  message TAtsId {
+    string Login = 1;
+    string CallId = 2;
+    string Domain = 3;
+  }
+
+  string Name = 1;
+  oneof ProviderId {
+    .NAlice.NTelecom.TProviderContact.TTelephoneId TelephoneId = 2;
+    .NAlice.NTelecom.TProviderContact.TMessengerId MessengerId = 3;
+    .NAlice.NTelecom.TProviderContact.TAtsId AtsId = 4;
+  }
+}
+
+message TProviderContactInfo {
+  .NAlice.NTelecom.TProviderContact ProviderContact = 1;
+  bool CanBeTexted = 2;
+  bool CanBeCalled = 3;
+}
+
+message TCallInfo {
+  message TDevice {
+    string DeviceName = 1;
+    string DevicePlatform = 2;
+    .NAlice.NData.EColor Color = 6;
+    string DeviceIconUrl = 7;
+    string IotPlatform = 8;
+    optional string DeviceColor = 3;
+    optional string RoomName = 4;
+    optional string HouseholdName = 5;
+  }
+
+  message TUser {
+    string UserName = 1;
+  }
+
+  enum ECallType {
+    CT_Default = 0;
+    CT_Dropin = 1;
+    CT_Radionanny = 2;
+  }
+
+  .NAlice.NTelecom.TCallInfo.ECallType CallType = 1;
+  oneof Call {
+    .NAlice.NTelecom.TCallInfo.TDevice Device = 101;
+    .NAlice.NTelecom.TCallInfo.TUser User = 102;
+  }
+  oneof Caller {
+    .NAlice.NTelecom.TCallInfo.TDevice CallerDevice = 103;
+    .NAlice.NTelecom.TCallInfo.TUser CallerUser = 104;
+  }
+  oneof Callee {
+    .NAlice.NTelecom.TCallInfo.TDevice CalleeDevice = 105;
+    .NAlice.NTelecom.TCallInfo.TUser CalleeUser = 106;
+  }
+}
+
+enum EProvider {
+  UNKNOWN_PROVIDER = 0;
+  TELEPHONE = 1;
+  MESSENGER = 2;
+  ATS = 3;
+}
+

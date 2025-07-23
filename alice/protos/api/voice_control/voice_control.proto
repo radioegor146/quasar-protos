@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.voicecontrol";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/voice_control";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+import "alice/megamind/protos/common/conditional_action.proto";
+import "alice/protos/data/external_entity_description.proto";
+
+message TVoiceControl {
+  repeated .NAlice.TActivationCondition ActivationConditions = 1;
+  repeated .NAlice.TConditionalAction Actions = 2;
+  repeated .NAlice.NData.TExternalEntityDescription ExternalEntitiesDescriptions = 3;
+}
+
+message TUnstructuredVoiceControl {
+  repeated .NAlice.TActivationCondition ActivationConditions = 1;
+  repeated .google.protobuf.Struct Actions = 2;
+  repeated .google.protobuf.Struct ExternalEntitiesDescriptions = 3;
+}
+
+message TBinaryVoiceControl {
+  repeated .NAlice.TActivationCondition ActivationConditions = 1;
+  repeated bytes Actions = 2;
+  repeated bytes ExternalEntitiesDescriptions = 3;
+}
+
+message TActivationCondition {
+  oneof ConditionType {
+    .NAlice.TVisibleCondition VisibleCondition = 1;
+    .NAlice.TAlwaysTrueCondition AlwaysTrueCondition = 2;
+  }
+}
+
+message TVisibleCondition {
+  double VisibleShare = 1;
+}
+
+message TAlwaysTrueCondition {
+}
+

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package yandex.dsp.info;
+
+message CpuUsage {
+  float current = 1;
+  float average = 2;
+  float minimum = 3;
+  float maximum = 4;
+}
+

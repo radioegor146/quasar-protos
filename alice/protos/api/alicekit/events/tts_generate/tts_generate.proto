@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.tts_generate";
+option java_outer_classname = "TtsGenerate";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/tts_generate";
+
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTtsGenerate {
+  reserved "RealtimeStreamer";
+  reserved 11;
+  .NAlice.TExperimentsProto Experiments = 10;
+  optional string Lang = 1;
+  optional string Emotion = 2;
+  optional string Format = 3;
+  optional string Quality = 4;
+  optional double Speed = 5;
+  optional string Tag = 6;
+  optional string Text = 7;
+  optional string Voice = 8;
+  optional double Volume = 9;
+}
+

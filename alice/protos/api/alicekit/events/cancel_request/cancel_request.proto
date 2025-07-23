@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.cancel_request";
+option java_outer_classname = "CancelRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/cancel_request";
+
+import "alice/protos/api/local_scenario/response_data.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TCancelRequest {
+  message TReasonUserStop {
+  }
+
+  message TReasonInterruption {
+  }
+
+  message TReasonLocalExecution {
+    .NAlice.NApi.TLocalScenarioResponseData ScenarioResponse = 1;
+  }
+
+  string RequestMessageId = 1;
+  oneof Reason {
+    .NAlice.NAliceApi.TCancelRequest.TReasonUserStop UserStop = 2;
+    .NAlice.NAliceApi.TCancelRequest.TReasonInterruption Interruption = 3;
+    .NAlice.NAliceApi.TCancelRequest.TReasonLocalExecution LocalExecution = 4;
+  }
+}
+

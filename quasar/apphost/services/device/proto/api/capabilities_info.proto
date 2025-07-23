@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package NQuasar.NDeviceService.NApi;
+
+option java_package = "ru.yandex.quasar.apphost.services.device.proto.api";
+option go_package = "a.yandex-team.ru/quasar/apphost/services/device/proto/api";
+
+import "alice/protos/endpoint/endpoint.proto";
+import "alice/protos/endpoint/capability.proto";
+import "google/protobuf/any.proto";
+
+message TCapabilityInfo {
+  string CapabilityId = 1;
+  .NAlice.TCapability.ECapabilityType CapabilityType = 2;
+  .google.protobuf.Any Parameters = 3;
+}
+
+message TEndpointCapabilitiesInfo {
+  string EndpointId = 1;
+  .NAlice.TEndpoint.TMeta EndpointMeta = 2;
+  repeated .NQuasar.NDeviceService.NApi.TCapabilityInfo CapabilitiesInfo = 3;
+}
+
+message TEndpointsCapabilitiesInfo {
+  repeated .NQuasar.NDeviceService.NApi.TEndpointCapabilitiesInfo Endpoints = 1;
+}
+
+message TEndpointsCapabilitiesInfoRequest {
+  repeated string DeviceIds = 1;
+}
+
+message TEndpointsCapabilitiesInfoResponse {
+  message EndpointsCapabilitiesInfoByDeviceIdEntry {
+    string key = 1;
+    .NQuasar.NDeviceService.NApi.TEndpointsCapabilitiesInfo value = 2;
+  }
+
+  repeated .NQuasar.NDeviceService.NApi.TEndpointsCapabilitiesInfoResponse.EndpointsCapabilitiesInfoByDeviceIdEntry EndpointsCapabilitiesInfoByDeviceId = 1;
+}
+

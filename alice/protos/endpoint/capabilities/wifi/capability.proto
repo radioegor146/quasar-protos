@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "WifiProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/wifi;wifipb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TWifiCapability {
+  message TParameters {
+  }
+
+  message TState {
+    message TNetwork {
+      string Ssid = 1;
+    }
+
+    .NAlice.TWifiCapability.TState.TNetwork CurrentNetwork = 1;
+  }
+
+  message TNetworkInfo {
+    string Ssid = 1;
+    string Psk = 2;
+    bool AllowAutoConnect = 3;
+    bool Hidden = 4;
+    optional .NAlice.TWifiCapability.EWifiType SecurityProtocol = 5;
+  }
+
+  message TConnectToNetworkDirective {
+    string Ssid = 1;
+  }
+
+  message TSetWifiConfigurationDirective {
+    repeated .NAlice.TWifiCapability.TNetworkInfo Networks = 1;
+    string WifiHash = 2;
+  }
+
+  message TForceSyncWifiConfigurationDirective {
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TWifiCapability Capability = 1;
+  }
+
+  message TSyncWifiConfigurationEvent {
+    message TFirstSyncInfo {
+      message TNetwork {
+        string Ssid = 1;
+      }
+
+      .NAlice.TWifiCapability.TSyncWifiConfigurationEvent.TFirstSyncInfo.TNetwork CurrentNetwork = 1;
+    }
+
+    .NAlice.TWifiCapability.TSyncWifiConfigurationEvent.TFirstSyncInfo FirstSyncInfo = 1;
+  }
+
+  message TConnectionFailureEvent {
+    string Ssid = 1;
+    .NAlice.TWifiCapability.EConnectionFailureCause Cause = 2;
+  }
+
+  enum EConnectionFailureCause {
+    Unknown = 0;
+    SsidNotFound = 1;
+    WrongPsk = 2;
+    NoInternet = 3;
+  }
+
+  enum EWifiType {
+    WEP = 0;
+    WPA = 1;
+    OPEN = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TWifiCapability.TParameters Parameters = 2;
+  .NAlice.TWifiCapability.TState State = 3;
+}
+

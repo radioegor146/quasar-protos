@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.synchronize_state_request";
+option java_outer_classname = "SynchronizeStateRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/synchronize_state_request";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/client/protos/client_info.proto";
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "alice/megamind/protos/user/options.proto";
+import "alice/protos/api/alicekit/events/common/event_type/event_type.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSynchronizeStateRequest {
+  string OAuthToken = 1;
+  string ApiKey = 2;
+  .NAlice.TClientInfoProto Application = 3;
+  repeated string SupportedFeatures = 4;
+  bool SoundLogging = 5;
+  .NAlice.TExperimentsProto Experiments = 6;
+  repeated .NAlice.NAliceApi.EEventType SupportedServerEvents = 7;
+  repeated .NAlice.TUserOptions UsersOptions = 8;
+  optional string ICookie = 9;
+}
+

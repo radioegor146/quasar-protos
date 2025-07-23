@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.tts_update_state";
+option java_outer_classname = "TtsUpdateState";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/tts_update_state";
+
+import "google/protobuf/duration.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTtsUpdateState {
+  message TTsState {
+    .google.protobuf.Duration PlayedTtsDuration = 1;
+    bool IsPlaying = 2;
+  }
+
+  enum EReportReason {
+    Unknown = 0;
+    Interruption = 1;
+    Finish = 2;
+  }
+
+  string RequestMessageId = 1;
+  .NAlice.NAliceApi.TTtsUpdateState.TTsState State = 2;
+  .NAlice.NAliceApi.TTtsUpdateState.EReportReason ReportReason = 3;
+}
+

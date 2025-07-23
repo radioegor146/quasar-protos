@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.video_call";
+option go_package = "a.yandex-team.ru/alice/protos/data/video_call";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TProviderContactList {
+  repeated .NAlice.NData.TProviderContactData ContactData = 1;
+}
+
+message TProviderContactData {
+  message TTelegramContactData {
+    reserved "LookupKey";
+    reserved 3;
+    string DisplayName = 1;
+    string UserId = 2;
+  }
+
+  oneof ProviderData {
+    .NAlice.NData.TProviderContactData.TTelegramContactData TelegramContactData = 1;
+  }
+}
+

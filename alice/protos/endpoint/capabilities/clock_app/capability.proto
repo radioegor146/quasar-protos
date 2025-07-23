@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "ClockAppCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/clock_app;clockapppb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/data/scenario/alarm/alarm.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TClockAppCapability {
+  message TParameters {
+  }
+
+  message TState {
+    oneof ScreenState {
+      .NAlice.TClockAppCapability.TAlarmListScreenState AlarmListScreenState = 1;
+      .NAlice.TClockAppCapability.TAlarmEditScreenState AlarmEditScreenState = 2;
+      .NAlice.TClockAppCapability.TAlarmActiveScreenState AlarmActiveScreenState = 3;
+      .NAlice.TClockAppCapability.TTimerListScreenState TimerListScreenState = 4;
+      .NAlice.TClockAppCapability.TTimerInfoScreenState TimerInfoScreenState = 5;
+      .NAlice.TClockAppCapability.TTimerActiveScreenState TimerActiveScreenState = 6;
+      .NAlice.TClockAppCapability.TTimerCreateScreenState TimerCreateScreenState = 7;
+    }
+  }
+
+  message TAlarmListScreenState {
+    reserved "AlarmIds";
+    reserved "OtherAlarmIds";
+    reserved 1;
+    reserved 2;
+    .NAlice.TClockAppCapability.TAlarmList AlarmList = 3;
+  }
+
+  message TAlarmEditScreenState {
+    .NAlice.NData.TAlarm Alarm = 1;
+  }
+
+  message TAlarmActiveScreenState {
+    string AlarmId = 1;
+  }
+
+  message TTimerListScreenState {
+    reserved "TargetTimers";
+    reserved 2;
+    enum ESectionOfListScreen {
+      Undefined = 0;
+      Timers = 1;
+      History = 2;
+    }
+
+    .NAlice.TClockAppCapability.TTimerListScreenState.ESectionOfListScreen TargetSection = 1;
+    oneof ScreenInfo {
+      uint32 TimerDuration = 3;
+      .NAlice.TClockAppCapability.TTimerList TimerList = 4;
+    }
+  }
+
+  message TTimerInfoScreenState {
+    string TimerId = 1;
+  }
+
+  message TTimerActiveScreenState {
+    string TimerId = 1;
+  }
+
+  message TTimerCreateScreenState {
+    uint32 TimerDuration = 1;
+  }
+
+  message TOpenScreenAlarmListDirective {
+    string Name = 1;
+    repeated string TargetAlarmIds = 2;
+  }
+
+  message TOpenScreenAlarmEditDirective {
+    string Name = 1;
+    string AlarmId = 2;
+  }
+
+  message TCloseScreenAlarmActiveDirective {
+    string Name = 1;
+  }
+
+  message TOpenScreenTimerListDirective {
+    string Name = 1;
+    repeated string TargetTimerIds = 2;
+    .NAlice.TClockAppCapability.TTimerListScreenState.ESectionOfListScreen TargetSection = 3;
+  }
+
+  message TOpenScreenTimerInfoDirective {
+    string Name = 1;
+    string TimerId = 2;
+  }
+
+  message TCloseScreenTimerActiveDirective {
+    string Name = 1;
+  }
+
+  message TAlarmList {
+    repeated string TargetAlarmIds = 1;
+    repeated string OtherAlarmIds = 2;
+  }
+
+  message TTimerList {
+    repeated string TargetTimerIds = 1;
+    repeated string OtherTimerIds = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TClockAppCapability.TParameters Parameters = 2;
+  .NAlice.TClockAppCapability.TState State = 3;
+}
+

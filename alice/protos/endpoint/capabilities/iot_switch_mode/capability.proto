@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotSwitchModeCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_switch_mode;iotswitchmodepb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotSwitchModeCapability {
+  message TParameters {
+    repeated .NAlice.TIotSwitchModeCapability.EMode SupportedModes = 1;
+  }
+
+  message TState {
+    .NAlice.TIotSwitchModeCapability.EMode Mode = 1;
+  }
+
+  message TSetModeDirective {
+    string Name = 1000;
+    .NAlice.TIotSwitchModeCapability.EMode Mode = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotSwitchModeCapability Capability = 1;
+  }
+
+  enum EMode {
+    Undefined = 0;
+    Native = 1;
+    TopRowMultifunction = 2;
+    AllRowMultifunction = 3;
+    BottomRowMultifunction = 4;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotSwitchModeCapability.TParameters Parameters = 2;
+  .NAlice.TIotSwitchModeCapability.TState State = 3;
+}
+

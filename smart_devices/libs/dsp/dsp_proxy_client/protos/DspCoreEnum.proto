@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package yandex.dsp;
+
+enum DspCoreEnum {
+  DSP_A = 0;
+  DSP_B = 1;
+}
+

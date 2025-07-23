@@ -1,0 +1,258 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.scenarios.protocol";
+option java_outer_classname = "ScenarioRequestProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/scenarios/protocol";
+
+import "alice/library/client/protos/client_info.proto";
+import "alice/megamind/protos/blackbox/blackbox.proto";
+import "alice/protos/api/alicekit/common/device_state/device_state.proto";
+import "alice/protos/api/alicekit/scenarios/frames/frame.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TInput {
+  reserved "Text";
+  reserved "Voice";
+  reserved "Image";
+  reserved "Music";
+  reserved "Callback";
+  reserved "TypedCallback";
+  reserved 4;
+  reserved 2;
+  reserved 3;
+  reserved 5;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  repeated .NAlice.NAliceApi.TSemanticFrame SemanticFrames = 1;
+}
+
+message TDataSource {
+  reserved "BegemotTaggerResult";
+  reserved "EntitySearch";
+  reserved "PersonalIntents";
+  reserved "BegemotIotNluResult";
+  reserved "TandemEnvironmentState";
+  reserved "PersonalUsedIntents";
+  reserved "BegemotGcMemoryState";
+  reserved "ActiveUserData";
+  reserved "SmartHomeInfo";
+  reserved "UserLocation";
+  reserved "BegemotExternalMarkup";
+  reserved "DialogHistory";
+  reserved "BegemotItemSelectorResult";
+  reserved "BegemotFixlistResult";
+  reserved "WebSearchDocs";
+  reserved "WebSearchDocsRight";
+  reserved "WebSearchWizplaces";
+  reserved "WebSearchSummarization";
+  reserved "WebSearchRenderrer";
+  reserved "WebSearchWizard";
+  reserved "WebSearchBanner";
+  reserved "WebSearchUnifiedBanner";
+  reserved "WebSearchRequestMeta";
+  reserved "WebSearchGenerativeAnswerWizardData";
+  reserved "VinsWizardRules";
+  reserved "VideoViewState";
+  reserved "NotificationState";
+  reserved "Alice4BusinessConfig";
+  reserved "ResponseHistory";
+  reserved "SkillDiscoveryGcSaasCandidates";
+  reserved "DeviceStateNavigator";
+  reserved "DeviceStateFull";
+  reserved "IotUserInfo";
+  reserved "AppInfo";
+  reserved "RawPersonalData";
+  reserved "VideoCurrentlyPlaying";
+  reserved "ContactsList";
+  reserved "EnvironmentState";
+  reserved "WhisperInfo";
+  reserved "GuestData";
+  reserved "GuestOptions";
+  reserved "QuasarDevicesInfo";
+  reserved "RawLaasRegion";
+  reserved "VinsWebSearchSetupData";
+  reserved "PersonalIntentsInfo";
+  reserved "AliceHashPuid";
+  reserved "QuasarDeviceConfigs";
+  reserved "EmergencyButtonContactsList";
+  reserved "IoTUserInfo_Rooms";
+  reserved "IoTUserInfo_Groups";
+  reserved "IoTUserInfo_Devices";
+  reserved "IoTUserInfo_Scenarios";
+  reserved "IoTUserInfo_Colors";
+  reserved "IoTUserInfo_Households";
+  reserved "IoTUserInfo_RoomDevices";
+  reserved "IoTUserInfo_ScenarioDevices";
+  reserved "IoTUserInfo_HouseholdGuestsMap";
+  reserved "ActiveUserOptions";
+  reserved "SummarizerRequest";
+  reserved "MultiwizardResponses";
+  reserved "EnvironmentStateTandemData";
+  reserved "EnvironmentStateEndpointMeta";
+  reserved 1 to 3;
+  reserved 5;
+  reserved 9;
+  reserved 10;
+  reserved 17;
+  reserved 18;
+  reserved 20;
+  reserved 36;
+  reserved 43;
+  reserved 60;
+  reserved 61;
+  reserved 4;
+  reserved 6;
+  reserved 8;
+  reserved 11;
+  reserved 24;
+  reserved 12;
+  reserved 13;
+  reserved 14;
+  reserved 15;
+  reserved 16;
+  reserved 25;
+  reserved 26;
+  reserved 62;
+  reserved 37;
+  reserved 50;
+  reserved 19;
+  reserved 21;
+  reserved 22;
+  reserved 23;
+  reserved 27;
+  reserved 28;
+  reserved 29;
+  reserved 45;
+  reserved 30;
+  reserved 31;
+  reserved 32;
+  reserved 33;
+  reserved 34;
+  reserved 35;
+  reserved 38;
+  reserved 39;
+  reserved 40;
+  reserved 41;
+  reserved 42;
+  reserved 44;
+  reserved 46;
+  reserved 47;
+  reserved 48;
+  reserved 49;
+  reserved 51;
+  reserved 52;
+  reserved 53;
+  reserved 54;
+  reserved 55;
+  reserved 56;
+  reserved 57;
+  reserved 58;
+  reserved 59;
+  reserved 63;
+  reserved 64;
+  reserved 65;
+  reserved 66;
+  reserved 67;
+  oneof Type {
+    .NAlice.TBlackBoxUserInfo UserInfo = 7;
+  }
+}
+
+message TScenarioBaseRequest {
+  reserved "DialogId";
+  reserved "ServerTimeMs";
+  reserved "Location";
+  reserved "Interfaces";
+  reserved "State";
+  reserved "Options";
+  reserved "IsNewSession";
+  reserved "UserPreferences";
+  reserved "IsSessionReset";
+  reserved "UserLanguage";
+  reserved "UserClassification";
+  reserved "Memento";
+  reserved "RequestSource";
+  reserved "IsStackOwner";
+  reserved "Origin";
+  reserved "NluFeatures";
+  reserved "StackParams";
+  reserved "DialogType";
+  reserved "Localization";
+  reserved 2;
+  reserved 3;
+  reserved 6;
+  reserved 7;
+  reserved 9;
+  reserved 11;
+  reserved 12;
+  reserved 13;
+  reserved 14;
+  reserved 15;
+  reserved 16;
+  reserved 17;
+  reserved 18;
+  reserved 19;
+  reserved 20;
+  reserved 21;
+  reserved 22;
+  reserved 23;
+  reserved 24;
+  string RequestId = 1;
+  uint64 RandomSeed = 4;
+  .NAlice.TClientInfoProto ClientInfo = 5;
+  .NAlice.NAliceApi.TDeviceState DeviceState = 8;
+  .google.protobuf.Struct Experiments = 10;
+}
+
+message TScenarioRunRequest {
+  reserved 3;
+  message DataSourcesEntry {
+    int32 key = 1;
+    .NAlice.NAliceApi.TDataSource value = 2;
+  }
+
+  .NAlice.NAliceApi.TScenarioBaseRequest BaseRequest = 1;
+  .NAlice.NAliceApi.TInput Input = 2;
+  repeated .NAlice.NAliceApi.TScenarioRunRequest.DataSourcesEntry DataSources = 4;
+}
+
+message TScenarioApplyRequest {
+  reserved 4;
+  message DataSourcesEntry {
+    int32 key = 1;
+    .NAlice.NAliceApi.TDataSource value = 2;
+  }
+
+  .NAlice.NAliceApi.TScenarioBaseRequest BaseRequest = 1;
+  .google.protobuf.Any Arguments = 2;
+  .NAlice.NAliceApi.TInput Input = 3;
+  repeated .NAlice.NAliceApi.TScenarioApplyRequest.DataSourcesEntry DataSources = 5;
+}
+
+message TExactCapability {
+  .google.protobuf.Any Capability = 1;
+}
+
+message TExactTypedSemanticFrame {
+  .google.protobuf.Any SemanticFrame = 1;
+}
+
+message TLocalScenarioRunRequest {
+  .NAlice.NAliceApi.TScenarioRunRequest ScenarioRunRequest = 1;
+  repeated .NAlice.NAliceApi.TExactCapability Capabilities = 2;
+  repeated .NAlice.NAliceApi.TExactTypedSemanticFrame SemanticFrames = 3;
+  bool IsPureLocal = 4;
+}
+
+message TLocalScenarioApplyRequest {
+  .NAlice.NAliceApi.TScenarioApplyRequest ScenarioApplyRequest = 1;
+  repeated .NAlice.NAliceApi.TExactCapability Capabilities = 2;
+  repeated .NAlice.NAliceApi.TExactTypedSemanticFrame SemanticFrames = 3;
+}
+

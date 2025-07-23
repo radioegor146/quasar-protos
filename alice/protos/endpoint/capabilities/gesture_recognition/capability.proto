@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "GestureRecognitionCapability";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/gesture_recognition;gesture_recognitionpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TGestureRecognitionCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Active = 1;
+    bool PauseResumeEnabled = 2;
+    bool PreviousNextEnabled = 3;
+    optional .NAlice.TGestureRecognitionCapability.TReaction LastReaction = 4;
+    optional string LastReactionEventSourceID = 5;
+  }
+
+  message TSetGestureRecognitionDirective {
+    string Name = 1000;
+    bool PauseResumeEnabled = 1;
+    bool PreviousNextEnabled = 2;
+  }
+
+  enum TReaction {
+    Stop = 0;
+    Resume = 1;
+    Previous = 2;
+    Next = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TGestureRecognitionCapability.TParameters Parameters = 2;
+  .NAlice.TGestureRecognitionCapability.TState State = 3;
+}
+

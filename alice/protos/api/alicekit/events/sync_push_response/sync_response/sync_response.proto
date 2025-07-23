@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push_response.sync_response";
+option java_outer_classname = "SyncResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push_response/sync_response";
+
+import "alice/library/client/protos/client_info.proto";
+import "alice/protos/api/alicekit/events/sync_push_response/sync_response/execute_directive_chain_response/execute_directive_chain_response.proto";
+import "alice/protos/api/alicekit/events/sync_push_response/sync_response/execute_directive_response/execute_directive_response.proto";
+import "alice/protos/api/alicekit/events/sync_push_response/sync_response/get_device_state_response/get_device_state_response.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSyncResponse {
+  .NAlice.TClientInfoProto ClientInfo = 4;
+  oneof Response {
+    .NAlice.NAliceApi.TGetDeviceStateResponse GetDeviceStateResponse = 1;
+    .NAlice.NAliceApi.TExecuteDirectiveResponse ExecuteDirectiveResponse = 2;
+    .NAlice.NAliceApi.TExecuteDirectiveChainResponse ExecuteDirectiveChainResponse = 3;
+  }
+}
+

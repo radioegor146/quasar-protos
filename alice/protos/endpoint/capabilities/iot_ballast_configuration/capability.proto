@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotBallastConfigurationCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_ballast_configuration;iotballastconfigurationpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotBallastConfigurationCapability {
+  message TParameters {
+    .NAlice.TRange PhysicalRange = 1;
+  }
+
+  message TState {
+    double Min = 1;
+    double Max = 2;
+  }
+
+  message TSetIotBallastMinDirective {
+    string Name = 1000;
+    double Min = 1;
+  }
+
+  message TSetIotBallastMaxDirective {
+    string Name = 1000;
+    double Max = 1;
+  }
+
+  message TSetIotBallastMinMaxDirective {
+    string Name = 1000;
+    double Min = 1;
+    double Max = 2;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotBallastConfigurationCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotBallastConfigurationCapability.TParameters Parameters = 2;
+  .NAlice.TIotBallastConfigurationCapability.TState State = 3;
+}
+

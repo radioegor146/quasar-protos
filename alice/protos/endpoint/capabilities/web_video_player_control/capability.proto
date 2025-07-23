@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "TWebPlayerControlCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/web_video_player_control;webvideoplayercontrolpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TWebPlayerControlCapability {
+  message TParameters {
+  }
+
+  message TState {
+  }
+
+  message TDontAutoPlayRelatedVideoDirective {
+    string Name = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TWebPlayerControlCapability.TParameters Parameters = 2;
+  .NAlice.TWebPlayerControlCapability.TState State = 3;
+}
+

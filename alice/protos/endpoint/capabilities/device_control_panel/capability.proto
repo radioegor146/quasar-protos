@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "DeviceControlPanelProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/device_control_panel;device_control_panelpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/data/device_control_panel/scenarios.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDeviceControlPanelCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TTotalScenario Total = 1;
+    .NAlice.TVideoScenario Video = 2;
+    .NAlice.TTvChannelsScenario TvChannels = 3;
+    .NAlice.TInputControlScenario InputControl = 4;
+    .NAlice.TExternalAppScenario ExternalApp = 5;
+  }
+
+  message TChildModeUnblockDirective {
+    message TSwitchAccount {
+      string TargetPersonId = 1;
+    }
+
+    message TLaunchApp {
+      string PackageName = 2;
+    }
+
+    message TProlongation {
+      uint32 ProlongationSeconds = 1;
+    }
+
+    string ChildPersonId = 1;
+    bool RequestDeclined = 2;
+    string Name = 6;
+    oneof Action {
+      .NAlice.TDeviceControlPanelCapability.TChildModeUnblockDirective.TSwitchAccount SwitchAccount = 3;
+      .NAlice.TDeviceControlPanelCapability.TChildModeUnblockDirective.TLaunchApp LaunchApp = 4;
+      .NAlice.TDeviceControlPanelCapability.TChildModeUnblockDirective.TProlongation Prolongation = 5;
+    }
+  }
+
+  message TOpenProlongationScreenDirective {
+    string Name = 1;
+    bool IsAdultRequest = 2;
+  }
+
+  message TSendUnblockRequestDirective {
+    string Name = 1;
+  }
+
+  message TProlongTimeLimitDirective {
+    uint32 ProlongationSeconds = 1;
+    string Name = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TDeviceControlPanelCapability.TParameters Parameters = 2;
+  .NAlice.TDeviceControlPanelCapability.TState State = 3;
+}
+

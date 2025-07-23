@@ -1,0 +1,78 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+message ConfigCapabilityEvents {
+  message BackendConfig {
+    optional string name = 1;
+    required string value = 2;
+  }
+
+  message GetSyncInfoRequestStatus {
+    enum Status {
+      OK = 1;
+      NETWORK_ERROR = 2;
+      AUTH_FAILED = 3;
+    }
+
+    required .quasar.proto.ConfigCapabilityEvents.GetSyncInfoRequestStatus.Status status = 1;
+  }
+
+  message AccountDevice {
+    optional string id = 1;
+    optional string platform = 2;
+    optional string name = 3;
+    optional string server_certificate = 4;
+    optional string server_private_key = 5;
+    optional bool guest_mode = 6;
+    optional string group = 7;
+    optional string network_info = 8;
+  }
+
+  message AccountDevicesList {
+    repeated .quasar.proto.ConfigCapabilityEvents.AccountDevice account_devices = 1;
+  }
+
+  repeated .quasar.proto.ConfigCapabilityEvents.BackendConfig system_configs = 1;
+  repeated .quasar.proto.ConfigCapabilityEvents.BackendConfig device_configs = 2;
+  repeated .quasar.proto.ConfigCapabilityEvents.BackendConfig account_configs = 3;
+  optional .quasar.proto.ConfigCapabilityEvents.GetSyncInfoRequestStatus get_sync_info_status = 4;
+  optional string subscription_info = 5;
+  optional string alice_pro_subscription_info = 6;
+  optional string auxiliary_config = 7;
+  optional string group_config = 8;
+  optional string camera_subscription_info = 10;
+  optional .quasar.proto.ConfigCapabilityEvents.AccountDevicesList account_devices_list = 9;
+}
+
+message ConfigCapabilitySubscriptions {
+  message EmptyMessage {
+  }
+
+  message ConfigSubscriptionMessage {
+    optional string config_name = 1;
+  }
+
+  optional .quasar.proto.ConfigCapabilitySubscriptions.ConfigSubscriptionMessage subscribe_to_device_config = 1;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.ConfigSubscriptionMessage unsubscribe_from_device_config = 2;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.ConfigSubscriptionMessage subscribe_to_system_config = 3;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.ConfigSubscriptionMessage unsubscribe_from_system_config = 4;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.ConfigSubscriptionMessage subscribe_to_account_config = 5;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.ConfigSubscriptionMessage unsubscribe_from_account_config = 6;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage subscribe_to_subscription_info = 7;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage unsubscribe_from_subscription_info = 8;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage subscribe_to_alice_pro_subscription_info = 9;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage unsubscribe_from_alice_pro_subscription_info = 10;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage subscribe_to_auxiliary_config = 11;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage unsubscribe_from_auxiliary_config = 12;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage subscribe_to_group_config = 13;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage unsubscribe_from_group_config = 14;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage subscribe_to_account_devices_list = 15;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage unsubsrcibe_from_account_devices_list = 16;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage request_config_update = 17;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage request_account_devices_list_update = 18;
+  optional string set_ab_testing_cookie = 19;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage subscribe_to_camera_subscription_info = 20;
+  optional .quasar.proto.ConfigCapabilitySubscriptions.EmptyMessage unsubscribe_from_camera_subscription_info = 21;
+}
+

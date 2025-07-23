@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.cards";
+option java_outer_classname = "CardProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/cards";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/protos/div/div2card.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+
+message TTextCard {
+  string Text = 1;
+  bool ProgressivePrinting = 2;
+}
+
+message TDivCard {
+  reserved "StringBody";
+  reserved 1;
+  string Text = 2;
+  .google.protobuf.Struct Body = 3;
+}
+
+message TTextWithButtonsCard {
+  message TButton {
+    message TTheme {
+      string ImageUrl = 1;
+    }
+
+    string Type = 1;
+    string Title = 2;
+    repeated .NAlice.NAliceApi.TDirective Directives = 3;
+    string Text = 4;
+    .NAlice.NAliceApi.TTextWithButtonsCard.TButton.TTheme Theme = 5;
+  }
+
+  string Text = 1;
+  repeated .NAlice.NAliceApi.TTextWithButtonsCard.TButton buttons = 2;
+}
+
+message TRichJsonCard {
+  reserved "View";
+  reserved 2;
+  string Body = 1;
+  bool HideBorders = 3;
+}
+
+message TNeuroStructuredBlocksCard {
+  reserved "StructuredData";
+  reserved 1;
+  string PlainText = 2;
+  string JsonStructuredData = 3;
+}
+
+message TSourcesCard {
+  repeated string Sources = 1;
+}
+
+message TModeCard {
+  message TRequestMode {
+    enum EMode {
+      UNKNOWN = 0;
+      LIVE = 1;
+    }
+
+    .NAlice.NAliceApi.TModeCard.TRequestMode.EMode Mode = 1;
+  }
+
+  oneof Mode {
+    .NAlice.NAliceApi.TModeCard.TRequestMode RequestMode = 1;
+  }
+}
+
+message TCard {
+  string CardId = 1;
+  oneof Card {
+    .NAlice.NAliceApi.TTextCard TextCard = 2;
+    .NAlice.TDiv2Card Div2Card = 3;
+    .NAlice.NAliceApi.TDivCard DivCard = 4;
+    .NAlice.NAliceApi.TTextWithButtonsCard TextWithButtonsCard = 5;
+    .NAlice.NAliceApi.TRichJsonCard RichJsonCard = 6;
+    .NAlice.NAliceApi.TSourcesCard SourcesCard = 7;
+    .NAlice.NAliceApi.TModeCard ModeCard = 9;
+    .NAlice.NAliceApi.TNeuroStructuredBlocksCard NeuroStructuredBlocksCard = 10;
+  }
+  optional bool DontAddToChatHistory = 8;
+}
+

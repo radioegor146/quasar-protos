@@ -1,0 +1,219 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.analytics.scenario_analytics_info";
+option java_outer_classname = "ScenarioAnalyticsInfoProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/analytics/scenario_analytics_info";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTimePoint {
+  string Time = 1;
+}
+
+message TTimeInterval {
+  string StartTime = 1;
+  string EndTime = 2;
+}
+
+message TTimeInfo {
+  reserved 56788;
+  oneof Value {
+    .NAlice.NAliceApi.TTimePoint TimePoint = 1;
+    .NAlice.NAliceApi.TTimeInterval TimeInterval = 2;
+  }
+}
+
+message TReaction {
+  reserved "QueryParameters";
+  reserved "ScenarioParameters";
+  reserved "PushParameters";
+  reserved 3;
+  reserved 4;
+  reserved 5;
+  message TActionParameters {
+    string CapabilityType = 1;
+    string CapabilityInstance = 2;
+    string CapabilityUnit = 3;
+    string RelativityType = 4;
+    string CapabilityValue = 5;
+    repeated string Devices = 6;
+    .NAlice.NAliceApi.TTimeInfo TimeInfo = 7;
+  }
+
+  string Type = 1;
+  oneof Parameters {
+    .NAlice.NAliceApi.TReaction.TActionParameters ActionParameters = 2;
+  }
+}
+
+message TReactions {
+  repeated .NAlice.NAliceApi.TReaction Reactions = 1;
+}
+
+message TScenarioAnalyticsInfo {
+  reserved "Actions";
+  reserved "Events";
+  reserved "TunnellerRawResponses";
+  reserved "ScenarioTimings";
+  reserved "NlgRenderHistoryRecords";
+  reserved "ScenarioClassificationInfo";
+  reserved "AliceParserPatch";
+  reserved "WebSearchAnalyticsInfo";
+  reserved "VisulizationInfo";
+  reserved 1;
+  reserved 3;
+  reserved 6;
+  reserved 4;
+  reserved 7;
+  reserved 8;
+  reserved 10;
+  reserved 11;
+  reserved 20;
+  reserved 21;
+  reserved 22;
+  reserved 23;
+  message TObject {
+    reserved "ReduceTitleInfo";
+    reserved "ProviderSearchChoosedItems";
+    reserved "Name";
+    reserved "HumanReadable";
+    reserved "Empty";
+    reserved "Skill";
+    reserved "SkillUser";
+    reserved "SkillSession";
+    reserved "VideoDescriptionScreen";
+    reserved "VideoSearchGalleryScreen";
+    reserved "VideoSeasonGalleryScreen";
+    reserved "GCResponseInfo";
+    reserved "VinsGcMeta";
+    reserved "VinsErrorMeta";
+    reserved "FirstTrack";
+    reserved "SkillRecommendations";
+    reserved "MovieAkinatorResponseInfo";
+    reserved "Recipe";
+    reserved "RecipeStep";
+    reserved "RecipeSession";
+    reserved "AudioStream";
+    reserved "Hypotheses";
+    reserved "SelectedHypotheses";
+    reserved "CurrentlyPlayingVideo";
+    reserved "TaxiOrder";
+    reserved "NewsProvider";
+    reserved "SearchFact";
+    reserved "MatchedContacts";
+    reserved "PhoneBook";
+    reserved "BestPricesRequest";
+    reserved "GoodsRequest";
+    reserved "ContentId";
+    reserved "DummyResponse";
+    reserved "SkillSuggestedExamples";
+    reserved "SearchGenericInfo";
+    reserved "TelegramUser";
+    reserved "StageInfo";
+    reserved "ContentInfo";
+    reserved "PoiOperation";
+    reserved "NamePronounciation";
+    reserved "ProviderOrderInfo";
+    reserved "MapsCallSearchResults";
+    reserved "ProviderSearchChoosedItem";
+    reserved "EntertainmentContext";
+    reserved "EntertainmentItem";
+    reserved "NannyDailyRoutineTaleContext";
+    reserved "NannyDailyRoutineContentItem";
+    reserved "NannyDailyRoutineNatureSoundsContext";
+    reserved "MusicPlatformContentId";
+    reserved "MusicPlatformSearchResults";
+    reserved "MusicPlatformSubscriptions";
+    reserved "CalendarService";
+    reserved "NannyDailyRoutineTimeToSleepChoiceContext";
+    reserved "MultiQuerySequencerResults";
+    reserved "ChildEducationPushContext";
+    reserved "NannyDailyRoutinePushContext";
+    reserved "SearchTemplateClassifierInfo";
+    reserved "AliceResponseFeedback";
+    reserved "DrawPictureGenerationInfo";
+    reserved "ChildTimetableItem";
+    reserved "NannyDailyRoutineAlarmContext";
+    reserved "OrderRenderedProviderInfo";
+    reserved "RemindersObject";
+    reserved "AlarmObject";
+    reserved 5;
+    reserved 56788;
+    reserved 40;
+    reserved 44;
+    reserved 2;
+    reserved 3;
+    reserved 4;
+    reserved 6;
+    reserved 7;
+    reserved 8;
+    reserved 9;
+    reserved 10;
+    reserved 11;
+    reserved 12;
+    reserved 13;
+    reserved 14;
+    reserved 15;
+    reserved 16;
+    reserved 17;
+    reserved 18;
+    reserved 19;
+    reserved 20;
+    reserved 21;
+    reserved 22;
+    reserved 23;
+    reserved 24;
+    reserved 25;
+    reserved 26;
+    reserved 27;
+    reserved 28;
+    reserved 29;
+    reserved 30;
+    reserved 31;
+    reserved 33;
+    reserved 34;
+    reserved 35;
+    reserved 36;
+    reserved 37;
+    reserved 38;
+    reserved 39;
+    reserved 41;
+    reserved 42;
+    reserved 43;
+    reserved 45;
+    reserved 46;
+    reserved 47;
+    reserved 48;
+    reserved 49;
+    reserved 50;
+    reserved 51;
+    reserved 52;
+    reserved 53;
+    reserved 54;
+    reserved 55;
+    reserved 56;
+    reserved 57;
+    reserved 58;
+    reserved 59;
+    reserved 60;
+    reserved 61;
+    reserved 62;
+    reserved 63;
+    reserved 64;
+    reserved 65;
+    reserved 66;
+    reserved 67;
+    string Id = 1;
+    oneof Payload {
+      .NAlice.NAliceApi.TReactions IotReactions = 32;
+    }
+  }
+
+  string Intent = 2;
+  repeated .NAlice.NAliceApi.TScenarioAnalyticsInfo.TObject Objects = 5;
+  string ProductScenarioName = 9;
+}
+

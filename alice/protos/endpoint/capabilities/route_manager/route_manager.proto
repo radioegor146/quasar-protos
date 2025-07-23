@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "RouteManagerCapabilitiesProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/route_manager;routemanagercapabilitiespb";
+
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRouteManagerCapability {
+  message TParameters {
+  }
+
+  message TState {
+    enum TRoute {
+      UnknownRoute = 0;
+      Stopped = 1;
+      Stopping = 2;
+      Moving = 3;
+      WaitingPassenger = 4;
+      Finished = 5;
+    }
+
+    enum TLayout {
+      UnknownLayout = 0;
+      Map = 1;
+      Ride = 2;
+    }
+
+    .NAlice.TRouteManagerCapability.TState.TRoute Route = 1;
+    .NAlice.TRouteManagerCapability.TState.TLayout Layout = 2;
+  }
+
+  message TStartDirective {
+    string Name = 1000;
+  }
+
+  message TStopDirective {
+    string Name = 1000;
+  }
+
+  message TShowDirective {
+    string Name = 1000;
+  }
+
+  message TContinueDirective {
+    string Name = 1000;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TRouteManagerCapability.TParameters Parameters = 2;
+  .NAlice.TRouteManagerCapability.TState State = 3;
+}
+

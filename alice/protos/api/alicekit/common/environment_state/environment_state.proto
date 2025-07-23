@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.common.environment_state";
+option java_outer_classname = "EnvironmentStateProto";
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/common/environment_state;environmentstatepb";
+
+import "alice/library/client/protos/client_info.proto";
+import "alice/protos/api/alicekit/common/device_state/device_state.proto";
+import "alice/protos/endpoint/endpoint.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TEnvironmentDeviceInfo {
+  reserved "DeviceState";
+  reserved 3;
+  .NAlice.TClientInfoProto Application = 1;
+  repeated string SupportedFeatures = 2;
+  oneof OneOfStates {
+    .NAlice.NAliceApi.TDeviceState SpeakerDeviceState = 4;
+  }
+}
+
+message TEnvironmentGroupInfo {
+  message TEnvironmentGroupDeviceInfo {
+    string Id = 1;
+    string Platform = 2;
+    .NAlice.NAliceApi.TEnvironmentGroupInfo.EEnvironmentGroupDeviceRole Role = 3;
+  }
+
+  enum EEnvironmentGroupType {
+    unknown_group = 0;
+    tandem = 1;
+    stereopair = 2;
+  }
+
+  enum EEnvironmentGroupDeviceRole {
+    unknown_role = 0;
+    leader = 1;
+    follower = 2;
+  }
+
+  .NAlice.NAliceApi.TEnvironmentGroupInfo.EEnvironmentGroupType Type = 1;
+  repeated .NAlice.NAliceApi.TEnvironmentGroupInfo.TEnvironmentGroupDeviceInfo Devices = 2;
+}
+
+message TEnvironmentState {
+  repeated .NAlice.NAliceApi.TEnvironmentDeviceInfo Devices = 1;
+  repeated .NAlice.NAliceApi.TEnvironmentGroupInfo Groups = 2;
+  repeated .NAlice.TEndpoint Endpoints = 3;
+}
+

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.yandex_io.capabilities.phone_calls.accounts_database.protos";
+option java_outer_classname = "AccountInfo";
+
+import "alice/protos/endpoint/capabilities/phone_calls/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAccountInfo {
+  reserved "CredentialsKey";
+  reserved 1;
+  .NAlice.TPhoneCallsCapability.TCredentials Credentials = 2;
+  .NAlice.TPhoneCallsCapability.ELifetimePolicy LifetimePolicy = 3;
+  string AccountId = 4;
+  .NAlice.TPhoneCallsCapability.ETelephoneServiceProvider Provider = 5;
+}
+
+message TAccountsInfo {
+  repeated .NAlice.TAccountInfo AccountsInfo = 1;
+}
+

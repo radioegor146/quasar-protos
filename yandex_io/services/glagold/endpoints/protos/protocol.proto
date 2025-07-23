@@ -1,0 +1,76 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "EndpointProtocol";
+
+import "alice/protos/endpoint/events/events.proto";
+import "yandex_io/sdk/private/endpoint_storage/protos/endpoint.proto";
+import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
+
+message GlagolEndpointProtocol {
+  message EndpointSync {
+    repeated .quasar.proto.Endpoint endpoints = 1;
+  }
+
+  message HandleDirective {
+    optional .quasar.proto.Directive directive = 1;
+  }
+
+  message AddCapabilityListener {
+    optional string capability_id = 1;
+    optional string endpoint_id = 2;
+  }
+
+  message CapabilityStateChanged {
+    optional .quasar.proto.Capability capability = 1;
+    optional string endpoint_id = 2;
+  }
+
+  message CapabilityEvents {
+    optional string capability_id = 1;
+    optional string endpoint_id = 2;
+    repeated .NAlice.TCapabilityEvent events = 3;
+  }
+
+  message ProtocolSettingsChanged {
+    optional bool enabled = 1;
+  }
+
+  message EndpointSyncRequest {
+  }
+
+  message AddCapability {
+    optional .quasar.proto.Capability capability = 1;
+    optional string endpoint_id = 2;
+  }
+
+  message RemoveCapability {
+    optional .quasar.proto.Capability capability = 1;
+    optional string endpoint_id = 2;
+  }
+
+  message AddEndpoint {
+    optional .quasar.proto.Endpoint endpoint = 1;
+  }
+
+  message RemoveEndpoint {
+    optional .quasar.proto.Endpoint endpoint = 1;
+  }
+
+  oneof message {
+    .quasar.proto.GlagolEndpointProtocol.EndpointSync endpoint_sync = 1;
+    .quasar.proto.GlagolEndpointProtocol.HandleDirective handle_directive = 2;
+    .quasar.proto.GlagolEndpointProtocol.AddCapabilityListener add_capability_listener = 3;
+    .quasar.proto.GlagolEndpointProtocol.CapabilityStateChanged capability_state_changed = 4;
+    .quasar.proto.GlagolEndpointProtocol.ProtocolSettingsChanged protocol_settings_changed = 5;
+    .quasar.proto.GlagolEndpointProtocol.EndpointSyncRequest endpoint_sync_request = 6;
+    .quasar.proto.GlagolEndpointProtocol.AddCapability add_capability = 7;
+    .quasar.proto.GlagolEndpointProtocol.RemoveCapability remove_capability = 8;
+    .quasar.proto.GlagolEndpointProtocol.AddEndpoint add_endpoint = 9;
+    .quasar.proto.GlagolEndpointProtocol.RemoveEndpoint remove_endpoint = 10;
+    .quasar.proto.GlagolEndpointProtocol.CapabilityEvents capability_events = 11;
+  }
+}
+

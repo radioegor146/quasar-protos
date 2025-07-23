@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.color";
+option go_package = "a.yandex-team.ru/alice/protos/data/color";
+
+enum EColor {
+  UndefinedColor = 0;
+  Black = 1;
+  Gray = 2;
+  White = 3;
+  Red = 4;
+  Pink = 5;
+  Blue = 6;
+  Beige = 7;
+  Yellow = 8;
+  Copper = 9;
+  Green = 10;
+  Cyan = 11;
+  Violet = 12;
+  Tiffany = 13;
+  Purple = 14;
+}
+

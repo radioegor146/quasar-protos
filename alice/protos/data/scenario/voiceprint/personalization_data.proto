@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package NAlice.NData.NVoiceprint;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.voiceprint";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/voiceprint";
+
+enum EGender {
+  Undefined = 0;
+  Male = 1;
+  Female = 2;
+}
+

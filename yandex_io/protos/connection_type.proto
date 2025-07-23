@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "QuasarCommon";
+
+enum ConnectionType {
+  CONNECTION_TYPE_UNKNOWN = 0;
+  CONNECTION_TYPE_WIFI = 1;
+  CONNECTION_TYPE_ETHERNET = 2;
+}
+

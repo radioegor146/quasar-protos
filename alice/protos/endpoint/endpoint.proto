@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint";
+option java_outer_classname = "EndpointProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint;endpointpb";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+import "alice/protos/data/color/color.proto";
+import "alice/protos/endpoint/common.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TEndpoint {
+  message TMeta {
+    message TTag {
+      enum ELayoutTag {
+        UnknownLayout = 0;
+        Center = 1;
+        Left = 2;
+        Right = 3;
+        Front = 4;
+        Back = 5;
+        Top = 6;
+        Bottom = 7;
+      }
+
+      oneof Tag {
+        .NAlice.TEndpoint.TMeta.TTag.ELayoutTag Layout = 1;
+      }
+    }
+
+    .NAlice.TEndpoint.EEndpointType Type = 1;
+    .NAlice.TEndpoint.TDeviceInfo DeviceInfo = 2;
+    .NAlice.TEndpoint.EAccessType AccessType = 3;
+    repeated .NAlice.TEndpoint.TMeta.TTag Tags = 4;
+  }
+
+  message TStatus {
+    .NAlice.TEndpoint.EEndpointStatus Status = 1;
+    .google.protobuf.Timestamp UpdatedAt = 2;
+  }
+
+  message TDeviceInfo {
+    string Manufacturer = 1;
+    string Model = 2;
+    string HwVersion = 3;
+    string SwVersion = 4;
+    .NAlice.EProtocol Protocol = 5;
+    string SerialNumber = 6;
+    .NAlice.NData.EColor Color = 7;
+    string SetupCodePayload = 8;
+  }
+
+  enum EEndpointStatus {
+    Unknown = 0;
+    Offline = 1;
+    Online = 2;
+  }
+
+  enum EEndpointType {
+    UnknownEndpointType = 0;
+    SpeakerEndpointType = 1;
+    LightEndpointType = 2;
+    SocketEndpointType = 3;
+    SensorEndpointType = 4;
+    WebOsTvEndpointType = 5;
+    SwitchEndpointType = 6;
+    WindowCoveringEndpointType = 7;
+    DongleEndpointType = 8;
+    MotionSensorDeviceType = 9;
+    VibrationSensorDeviceType = 10;
+    IlluminationSensorDeviceType = 11;
+    OpenSensorDeviceType = 12;
+    ClimateSensorDeviceType = 13;
+    WaterLeakSensorDeviceType = 14;
+    ButtonSensorDeviceType = 15;
+    GasSensorDeviceType = 16;
+    SmokeSensorDeviceType = 17;
+    ThermostatDeviceType = 18;
+    WarningDeviceType = 19;
+    CradleDeviceType = 20;
+    PresenceSensorDeviceType = 21;
+    PresenceSensorZoneDeviceType = 22;
+    BridgeDeviceType = 23;
+    IrRemoteDeviceType = 24;
+  }
+
+  enum EAccessType {
+    UnknownAccessType = 0;
+    Local = 1;
+    Embedded = 2;
+    Remote = 3;
+  }
+
+  string Id = 1;
+  .NAlice.TEndpoint.TMeta Meta = 2;
+  repeated .google.protobuf.Any Capabilities = 3;
+  .NAlice.TEndpoint.TStatus Status = 4;
+}
+

@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package NAlice.NData.NReminders;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.reminders";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/reminders";
+
+import "google/protobuf/timestamp.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+
+message TOriginInfo {
+  repeated string SupportedFeatures = 3;
+  optional string DeviceId = 1;
+  optional string UUID = 2;
+}
+
+message TPlaySettings {
+  message TSendPush {
+    enum EState {
+      Undefined = 0;
+      Enabled = 1;
+      Disabled = 2;
+    }
+
+    .NAlice.NData.NReminders.TPlaySettings.TSendPush.EState State = 1;
+  }
+
+  message TPlayLocation {
+    message TSelectedDevices {
+      repeated string SelectedDeviceIds = 1;
+    }
+
+    .NAlice.NData.NReminders.TPlaySettings.TPlayLocation.TSelectedDevices SelectedDevices = 1;
+  }
+
+  .NAlice.NData.NReminders.TPlaySettings.TSendPush SendPush = 1;
+  .NAlice.NData.NReminders.TPlaySettings.TPlayLocation PlayLocation = 2;
+}
+
+message TProperties {
+  message TArchivedProperty {
+    .google.protobuf.Timestamp ManualArchivedTime = 1;
+  }
+
+  .NAlice.NData.NReminders.TProperties.TArchivedProperty ArchivedProperty = 1;
+}
+
+message TReminderExtensions {
+  int64 ClientTimeDeltaSeconds = 1;
+  .NAlice.NData.NReminders.TOriginInfo OriginInfo = 2;
+  .NAlice.NData.NReminders.TPlaySettings PlaySettings = 3;
+  .NAlice.NData.NReminders.TProperties Properties = 4;
+}
+
+enum ERemindersSyncState {
+  Undefined = 0;
+  Normal = 1;
+  NoSync = 2;
+}
+
+enum ERemindersSyncAction {
+  Unknown = 0;
+  Scenario = 1;
+  Login = 2;
+  Logout = 3;
+  DisableSyncAndWipeMine = 4;
+  EnableSync = 5;
+}
+

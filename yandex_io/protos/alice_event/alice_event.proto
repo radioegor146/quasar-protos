@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.protocol.alice_event";
+option java_outer_classname = "AliceEvent";
+option java_multiple_files = true;
+
+import "alice/protos/api/alicekit/protocol/server/server_message.proto";
+
+message TAliceEvent {
+  oneof Event {
+    .NAlice.NAliceApi.TServerMessage.TEvent ServerEvent = 1;
+  }
+}
+

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push_response.sync_response.execute_directive_response";
+option java_outer_classname = "ExecuteDirectiveResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push_response/sync_response/execute_directive_response";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TExecuteDirectiveResponse {
+  message TExecutionStatus {
+    message TExecutionStarted {
+    }
+
+    message TExecutionCompleted {
+    }
+
+    message TExecutionFailed {
+    }
+
+    oneof Status {
+      .NAlice.NAliceApi.TExecuteDirectiveResponse.TExecutionStatus.TExecutionStarted ExecutionStarted = 1;
+      .NAlice.NAliceApi.TExecuteDirectiveResponse.TExecutionStatus.TExecutionCompleted ExecutionCompleted = 2;
+      .NAlice.NAliceApi.TExecuteDirectiveResponse.TExecutionStatus.TExecutionFailed ExecutionFailed = 3;
+    }
+  }
+
+  .NAlice.NAliceApi.TExecuteDirectiveResponse.TExecutionStatus ExecutionStatus = 1;
+}
+

@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+message MatterDevice {
+  message DeviceInfo {
+    optional uint32 dataModelRevision = 1;
+    optional string vendorName = 2;
+    optional uint32 vendorId = 3;
+    optional string productName = 4;
+    optional uint32 productId = 5;
+    optional uint32 hardwareVersion = 6;
+    optional uint32 softwareVersion = 7;
+    optional string serialNumber = 8;
+    optional string setupCode = 9;
+  }
+
+  message NetworkInterfaceInfo {
+    optional bytes wifiMac = 1;
+    optional bytes threadMac = 2;
+    optional bytes ethernetMac = 3;
+  }
+
+  message Cluster {
+    message AttributesEntry {
+      uint32 key = 1;
+      bytes value = 2;
+    }
+
+    repeated .proto.MatterDevice.Cluster.AttributesEntry attributes = 1;
+  }
+
+  message Endpoint {
+    message ServerClustersEntry {
+      uint32 key = 1;
+      .proto.MatterDevice.Cluster value = 2;
+    }
+
+    repeated .proto.MatterDevice.Endpoint.ServerClustersEntry serverClusters = 1;
+    optional bool isBridgeRootNode = 2;
+    optional .proto.MatterDevice.DeviceInfo bridgedDeviceInfo = 3;
+  }
+
+  message Endpoints {
+    message EndpointsEntry {
+      uint32 key = 1;
+      .proto.MatterDevice.Endpoint value = 2;
+    }
+
+    repeated .proto.MatterDevice.Endpoints.EndpointsEntry endpoints = 1;
+  }
+
+  .proto.MatterDevice.DeviceInfo info = 1;
+  .proto.MatterDevice.NetworkInterfaceInfo networkInterfaces = 2;
+  .proto.MatterDevice.Endpoints endpoints = 3;
+  repeated uint32 removedEndpoints = 4;
+}
+

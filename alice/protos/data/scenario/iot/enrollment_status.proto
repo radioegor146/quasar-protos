@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package NAlice.NData.NIoT;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.iot";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/iot";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TEnrollmentStatus {
+  enum EFailureReason {
+    Unknown = 0;
+    ClientTimeout = 1;
+    ScenarioError = 2;
+    PassportError = 3;
+    RequestedByUser = 4;
+    EnrolledUser = 5;
+    ActiveEnrollment = 6;
+    SoundEnrollmentError = 7;
+    NoUserForEnrollment = 8;
+    CommitEnrollmentError = 9;
+    NoUserOnRemoveAccount = 10;
+  }
+
+  enum ESource {
+    UnknownSource = 0;
+    AddAccountDirective = 1;
+    RemoveAccountDirective = 2;
+    UpdateVoicePrintsDirective = 3;
+    RemoveAccountPersIdDirective = 4;
+    RegisterFaceEnrollmentTypedCallback = 5;
+  }
+
+  bool Success = 1;
+  .NAlice.NData.NIoT.TEnrollmentStatus.EFailureReason FailureReason = 2;
+  string FailureReasonDetails = 3;
+  .NAlice.NData.NIoT.TEnrollmentStatus.ESource Source = 4;
+}
+

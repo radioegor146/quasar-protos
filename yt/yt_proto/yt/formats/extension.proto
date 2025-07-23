@@ -1,0 +1,45 @@
+syntax = "proto2";
+
+package NYT;
+
+option go_package = "a.yandex-team.ru/yt/yt_proto/yt/formats";
+
+import "google/protobuf/descriptor.proto";
+
+message EWrapperFieldFlag {
+  enum Enum {
+    ANY = 0;
+    OTHER_COLUMNS = 1;
+    ENUM_INT = 2;
+    ENUM_STRING = 3;
+    SERIALIZATION_YT = 4;
+    SERIALIZATION_PROTOBUF = 5;
+    REQUIRED_LIST = 6;
+    OPTIONAL_LIST = 7;
+    MAP_AS_LIST_OF_STRUCTS_LEGACY = 8;
+    MAP_AS_LIST_OF_STRUCTS = 9;
+    MAP_AS_DICT = 10;
+    MAP_AS_OPTIONAL_DICT = 11;
+    EMBEDDED = 12;
+    ENUM_SKIP_UNKNOWN_VALUES = 13;
+    ENUM_CHECK_VALUES = 14;
+  }
+
+}
+
+message EWrapperMessageFlag {
+  enum Enum {
+    DEPRECATED_SORT_FIELDS_AS_IN_PROTO_FILE = 0;
+    SORT_FIELDS_BY_FIELD_NUMBER = 1;
+  }
+
+}
+
+message EWrapperOneofFlag {
+  enum Enum {
+    SEPARATE_FIELDS = 12;
+    VARIANT = 13;
+  }
+
+}
+

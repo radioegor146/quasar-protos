@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotScenariosProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_scenarios;iotscenariospb";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/data/iot/scenario.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotScenariosCapability {
+  message TParameters {
+    repeated .NAlice.NIot.TLocalScenarioCondition.EConditionType SupportedConditionTypes = 1;
+    repeated .NAlice.TCapability.EEventType SupportedCapabilityEventConditions = 2;
+  }
+
+  message TState {
+    repeated .NAlice.NIot.TLocalScenario Scenarios = 1;
+  }
+
+  message TLocalStepsFinishedEvent {
+    message StepResultsEntry {
+      uint32 key = 1;
+      .NAlice.NIot.TLocalScenario.TStepResult value = 2;
+    }
+
+    string LaunchID = 1;
+    uint64 LaunchTimestampSeconds = 7;
+    string ScenarioID = 2;
+    repeated .NAlice.TIotScenariosCapability.TLocalStepsFinishedEvent.StepResultsEntry StepResults = 3;
+    uint32 StepIndex = 4;
+    .NAlice.TIotScenariosCapability.EStepStatus StepStatus = 5;
+    .NAlice.NIot.TLocalScenarioCondition TriggeredCondition = 6;
+  }
+
+  message TExecuteNonLocalStepEvent {
+    message StepResultsEntry {
+      uint32 key = 1;
+      .NAlice.NIot.TLocalScenario.TStepResult value = 2;
+    }
+
+    string LaunchID = 1;
+    uint64 LaunchTimestampSeconds = 6;
+    string ScenarioID = 2;
+    repeated .NAlice.TIotScenariosCapability.TExecuteNonLocalStepEvent.StepResultsEntry StepResults = 3;
+    uint32 StepIndex = 4;
+    .NAlice.NIot.TLocalScenarioCondition TriggeredCondition = 5;
+  }
+
+  message TConfirmLocalScenariosEvent {
+    repeated string LocalScenarioIDs = 1;
+    repeated string NonLocalScenarioIDs = 2;
+  }
+
+  message TRestoreLocalScenariosEvent {
+  }
+
+  message TConfirmLocalScenariosActivityEvent {
+    repeated string ActiveIDs = 1;
+    repeated string InactiveIDs = 2;
+  }
+
+  message TAddIotScenariosDirective {
+    string Name = 1000;
+    repeated .NAlice.NIot.TLocalScenario Scenarios = 1;
+  }
+
+  message TRemoveIotScenariosDirective {
+    string Name = 1000;
+    repeated string IDs = 1;
+  }
+
+  message TSyncIotScenariosDirective {
+    string Name = 1000;
+    repeated .NAlice.NIot.TLocalScenario Scenarios = 1;
+  }
+
+  message TContinueScenarioLaunchDirective {
+    reserved "ScenarioID";
+    reserved 2;
+    string Name = 1000;
+    string LaunchID = 1;
+    uint32 StepIndex = 3;
+  }
+
+  message TSetIotScenariosActivityDirective {
+    string Name = 1000;
+    repeated string ActiveIDs = 1;
+    repeated string InactiveIDs = 2;
+  }
+
+  message TSendExecuteNonLocalStepEventDirective {
+    string Name = 1000;
+    uint32 StepIndex = 1;
+  }
+
+  message TSendLocalStepsFinishedEventDirective {
+    string Name = 1000;
+    uint32 StepIndex = 1;
+    .NAlice.TIotScenariosCapability.EStepStatus StepStatus = 2;
+  }
+
+  message TWaitScenarioDelayDirective {
+    enum EDelayFinishedPolicy {
+      Unknown = 0;
+      FailScenario = 1;
+      ContinueScenario = 2;
+    }
+
+    string Name = 1000;
+    uint32 DelaySeconds = 1;
+    .NAlice.TIotScenariosCapability.TWaitScenarioDelayDirective.EDelayFinishedPolicy DelayFinishedPolicy = 2;
+    optional .google.protobuf.Timestamp StartTimestamp = 3;
+  }
+
+  message TOptionalDirective {
+    enum ERunPolicy {
+      Unknown = 0;
+      SomeDeviceUnreachable = 1;
+    }
+
+    string Name = 1000;
+    .NAlice.TIotScenariosCapability.TOptionalDirective.ERunPolicy RunPolicy = 1;
+    repeated .google.protobuf.Any Directives = 2;
+  }
+
+  message TEffectiveTimeFilter {
+    enum ETriggerPolicy {
+      Unknown = 0;
+      Once = 1;
+      Unlimited = 2;
+    }
+
+    uint32 StartTimeSeconds = 1;
+    uint32 DurationSeconds = 5;
+    uint32 EndTimeSeconds = 2;
+    repeated string DaysOfWeek = 3;
+    .NAlice.TIotScenariosCapability.TEffectiveTimeFilter.ETriggerPolicy TriggerPolicy = 4;
+  }
+
+  enum EStepStatus {
+    Unknown = 0;
+    Running = 1;
+    Scheduled = 2;
+    Finished = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotScenariosCapability.TParameters Parameters = 2;
+  .NAlice.TIotScenariosCapability.TState State = 3;
+}
+

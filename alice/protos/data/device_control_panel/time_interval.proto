@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.device_control_panel";
+option java_outer_classname = "TimeIntervalProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/device_control_panel";
+
+import "alice/protos/data/device_control_panel/local_time.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTimeInterval {
+  message TBoundary {
+    .NAlice.TLocalTime Time = 1;
+    .NAlice.TDayOfWeek DayOfWeek = 2;
+  }
+
+  .NAlice.TLocalTime StartTime = 1;
+  .NAlice.TLocalTime EndTime = 2;
+  .NAlice.TDayOfWeek DayOfWeek = 3;
+  .NAlice.TTimeInterval.TBoundary Start = 4;
+  .NAlice.TTimeInterval.TBoundary End = 5;
+}
+

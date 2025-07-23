@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.counteractivation";
+option java_outer_classname = "ScenarioCounteractivationFeaturesProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/counteractivation";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TScenarioCounteractivationFeatures {
+  bool HasScreenRelatedAnswer = 1;
+  bool CurrentlyPlayingRelated = 2;
+  bool PreferBetterAcoustics = 3;
+  bool HasSuitableAlarmState = 4;
+  bool IsPlayerStopCommand = 5;
+  bool IsActiveCall = 7;
+  oneof OptionalSecondsSinceLastPlayback {
+    double SecondsSinceLastPlayback = 6;
+  }
+}
+

@@ -1,0 +1,45 @@
+syntax = "proto2";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.library.client.protos";
+option java_outer_classname = "ClientInfoProto";
+option go_package = "a.yandex-team.ru/alice/library/client/protos";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+
+message TClientInfoProto {
+  reserved "AuthToken";
+  reserved 13;
+  message TMediaDeviceIdentifier {
+    optional string OttServiceId = 1;
+    optional string OttServiceName = 2;
+    optional string StrmFrom = 3;
+    optional string VideoSearchClient = 4;
+    optional string ObjectResponseClient = 5;
+  }
+
+  optional string AppId = 1;
+  optional string AppVersion = 2;
+  optional string OsVersion = 3;
+  optional string Platform = 4;
+  optional string Uuid = 5;
+  optional string DeviceId = 6;
+  optional string Lang = 7;
+  optional string ClientTime = 8;
+  optional string Timezone = 9;
+  optional string Epoch = 10;
+  optional string DeviceModel = 11;
+  optional string DeviceManufacturer = 12;
+  optional string DeviceColor = 14;
+  optional string DeviceRevision = 15;
+  optional string QuasmodromGroup = 16;
+  optional string QuasmodromSubgroup = 17;
+  optional .NAlice.TClientInfoProto.TMediaDeviceIdentifier MediaDeviceIdentifier = 18;
+  optional string DeviceFirmware = 19;
+  optional string MetricaDeviceId = 20;
+  optional string WifiModel = 21;
+  optional string IntegrationType = 22;
+}
+

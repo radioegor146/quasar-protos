@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.channels";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/channels";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTvChannelId {
+  oneof IdentityMethod {
+    string ChannelUri = 1;
+    string ContentId = 2;
+  }
+}
+
+message TChannel {
+  reserved "BageUrl";
+  reserved 10;
+  int32 ChannelId = 1;
+  string ChannelProvider = 2;
+  string ChannelProviderId = 3;
+  string Title = 4;
+  string Description = 5;
+  string DisplayNumber = 6;
+  string Thumbnail = 7;
+  string Icon = 8;
+  string IconBgColor = 9;
+  bool HasCatchup = 11;
+  int32 CatchupAgeSeconds = 12;
+  string RestrictionAge = 13;
+  .NAlice.NTv.TWatchingOption WatchingOption = 14;
+  string BadgeUrl = 15;
+  string ChannelProviderLogo = 16;
+  repeated .NAlice.NTv.TAdvertisementItem Advertisement = 17;
+  .NAlice.NTv.TTvis Tvis = 18;
+  repeated .NAlice.NTv.TProgramItem CurrentEpisodes = 19;
+  int32 ItemSelectionNumber = 20;
+  string ChannelBgColor = 21;
+  .NAlice.NTv.TViewOptions ViewOptions = 22;
+  bool IsMultiplex = 23;
+  string LogoUrl = 24;
+}
+
+message TWatchingOption {
+  bool IsPaid = 1;
+}
+
+message TViewOptions {
+  reserved 5;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  reserved 9;
+  reserved 10;
+  reserved 11;
+  reserved 13;
+  reserved 14;
+  reserved 15;
+  reserved 16;
+  reserved 17;
+  enum EWatchabilityStatus {
+    W_UNDEFINED = 0;
+    W_WATCHABLE = 1;
+    W_UNWATCHABLE = 2;
+  }
+
+  enum EPurchasabilityStatus {
+    P_UNDEFINED = 0;
+    P_PURCHASABLE = 1;
+    P_PURCHASED = 2;
+    P_UNPURCHASABLE = 3;
+  }
+
+  string Type = 1;
+  repeated string MonetizationModels = 2;
+  .NAlice.NTv.TViewOptions.EWatchabilityStatus Watchability = 3;
+  .NAlice.NTv.TViewOptions.EPurchasabilityStatus Purchasability = 4;
+  string BillingFeatureName = 12;
+}
+
+message TCategory {
+  message TChannelWrapper {
+    oneof Id {
+      int32 ChannelId = 1;
+      int32 InternalId = 2;
+    }
+  }
+
+  string Name = 1;
+  repeated .NAlice.NTv.TCategory.TChannelWrapper Channels = 2;
+  string CategoryId = 3;
+}
+
+message TProgramItem {
+  reserved "EpisodeTitle";
+  reserved 12;
+  string Title = 1;
+  int32 ProgramId = 2;
+  string StartTime = 3;
+  string EndTime = 4;
+  string ContentId = 5;
+  int32 Duration = 6;
+  string Thumbnail = 7;
+  string Description = 8;
+  string RestrictionAge = 9;
+  repeated .NAlice.NTv.TAdvertisementItem Advertisement = 10;
+  .NAlice.NTv.TTvis Tvis = 11;
+  string Genre = 13;
+  string CatchupContentId = 14;
+}
+
+message TAdvertisementItem {
+  string Position = 1;
+  .NAlice.NTv.TSdkData SdkData = 3;
+  repeated string Urls = 2;
+}
+
+message TSdkData {
+  message ParamsEntry {
+    string key = 1;
+    string value = 2;
+  }
+
+  string Type = 1;
+  string VendorClientId = 2;
+  repeated .NAlice.NTv.TSdkData.ParamsEntry Params = 3;
+}
+
+message TTvis {
+  string Url = 1;
+}
+
+enum EChannelType {
+  CT_UNKNOWN = 0;
+  CT_ANTENNA = 1;
+  CT_CABLE = 2;
+  CT_SOFTWARE = 3;
+  CT_SATELLITE = 4;
+}
+

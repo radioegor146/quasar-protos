@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "VisualSpottingCapability";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/visual_spotting;visual_spottingpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TVisualSpottingCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Enabled = 1;
+    bool Active = 2;
+    bool IntentDetected = 3;
+  }
+
+  message TSetVisualSpottingDirective {
+    string Name = 1000;
+    bool Active = 1;
+    bool Enabled = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TVisualSpottingCapability.TParameters Parameters = 2;
+  .NAlice.TVisualSpottingCapability.TState State = 3;
+}
+

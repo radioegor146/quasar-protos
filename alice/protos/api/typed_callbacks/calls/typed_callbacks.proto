@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package NAlice.NScenarios.NCalls;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks.calls";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks/calls";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIncomingCallReceivedTypedCallback {
+}
+
+message TOutgoingDeviceCallTypedCallback {
+  enum ECallType {
+    Default = 0;
+    Dropin = 1;
+    Radionanny = 2;
+  }
+
+  .NAlice.NScenarios.NCalls.TOutgoingDeviceCallTypedCallback.ECallType CallType = 1;
+  string DeviceId = 2;
+}
+
+message TGetCallableDevicesTypedCallback {
+}
+

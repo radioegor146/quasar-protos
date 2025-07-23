@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package yandex_io.proto;
+
+option java_package = "ru.yandex.yandex_io.capabilities";
+option java_outer_classname = "AdhanStorageProto";
+
+import "alice/protos/data/scenario/adhan/adhan.proto";
+
+message AdhanStorage {
+  message AdhanSchedule {
+    .NAlice.NData.TAdhan adhan = 1;
+    repeated uint64 timestamps = 2;
+  }
+
+  repeated .yandex_io.proto.AdhanStorage.AdhanSchedule adhan_schedules = 1;
+  uint32 sound_level = 2;
+}
+

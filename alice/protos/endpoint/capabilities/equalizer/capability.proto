@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "EqualizerCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/equalizer;equalizerpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TEqualizerCapability {
+  message TParameters {
+    message TBandsLimits {
+      uint32 MinBandsCount = 1;
+      uint32 MaxBandsCount = 2;
+      double MinBandGain = 3;
+      double MaxBandGain = 4;
+    }
+
+    message TAdjustableBandsConfiguration {
+    }
+
+    message TFixedBandsConfiguration {
+      message TFixedBand {
+        double Frequency = 1;
+        double Width = 2;
+      }
+
+      repeated .NAlice.TEqualizerCapability.TParameters.TFixedBandsConfiguration.TFixedBand FixedBands = 1;
+    }
+
+    .NAlice.TEqualizerCapability.TParameters.TBandsLimits BandsLimits = 1;
+    repeated .NAlice.TEqualizerCapability.EPresetMode SupportedPresetModes = 2;
+    oneof BandsConfiguration {
+      .NAlice.TEqualizerCapability.TParameters.TFixedBandsConfiguration Fixed = 3;
+      .NAlice.TEqualizerCapability.TParameters.TAdjustableBandsConfiguration Adjustable = 4;
+    }
+  }
+
+  message TState {
+    repeated .NAlice.TEqualizerCapability.TBandState Bands = 1;
+    .NAlice.TEqualizerCapability.EPresetMode PresetMode = 2;
+    bool PreventClipping = 3;
+  }
+
+  message TBandState {
+    enum EType {
+      Undefined = 0;
+      Peak = 1;
+      LowShelf = 2;
+      HighShelf = 3;
+    }
+
+    double Frequency = 1;
+    double Gain = 2;
+    double Width = 3;
+    .NAlice.TEqualizerCapability.TBandState.EType Type = 4;
+  }
+
+  message TSetAdjustableEqualizerBandsDirective {
+    string Name = 1000;
+    repeated .NAlice.TEqualizerCapability.TBandState Bands = 1;
+  }
+
+  message TSetFixedEqualizerBandsDirective {
+    string Name = 1000;
+    repeated double Gains = 1;
+  }
+
+  enum EPresetMode {
+    Default = 0;
+    User = 1;
+    MediaCorrection = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TEqualizerCapability.TParameters Parameters = 2;
+  .NAlice.TEqualizerCapability.TState State = 3;
+}
+

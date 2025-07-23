@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks.music_touch_callback";
+option java_outer_classname = "MusicTouchTypedCallbackProto";
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks/music_touch_callback";
+
+import "alice/protos/api/rpc/music/music_search/music_search.proto";
+import "alice/protos/data/music_entities/repeat_mode.proto";
+import "alice/protos/data/scenario/music/common.proto";
+import "alice/protos/data/scenario/music/content_id.proto";
+import "alice/protos/data/scenario/music/karaoke_mode.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TMusicTouchTypedCallback {
+  reserved "CallbackFrame";
+  reserved 1;
+  message TLikeCommand {
+    .NAlice.NData.NMusic.TContentId ContentId = 1;
+  }
+
+  message TRemoveLikeCommand {
+    .NAlice.NData.NMusic.TContentId ContentId = 1;
+  }
+
+  message TDislikeCommand {
+    .NAlice.NData.NMusic.TContentId ContentId = 1;
+  }
+
+  message TRemoveDislikeCommand {
+    .NAlice.NData.NMusic.TContentId ContentId = 1;
+  }
+
+  message TRepeatCommand {
+    .NAlice.NData.ERepeatMode RepeatMode = 1;
+  }
+
+  message TShuffleCommand {
+  }
+
+  message TUnshuffleCommand {
+  }
+
+  message TNextTrackCommand {
+    bool SetPause = 1;
+  }
+
+  message TPrevTrackCommand {
+    bool SetPause = 1;
+  }
+
+  message TContinueCommand {
+    bool SkipPlayerStateCheck = 1;
+  }
+
+  message TGetLyricsCommand {
+  }
+
+  message TEnableKaraokeModeCommand {
+  }
+
+  message TDisableKaraokeModeCommand {
+  }
+
+  message TFmRadioPlayCommand {
+    string FmRadioStation = 1;
+    string FmRadioFreq = 2;
+  }
+
+  message TMusicPlayCommand {
+    reserved "ObjectType";
+    reserved "ObjectId";
+    reserved 1;
+    reserved 2;
+    string StartFromTrackId = 3;
+    .NAlice.NData.NMusic.TContentId ContentId = 4;
+    bool UseIchwillRecommendations = 5;
+    bool DisableAutoflow = 6;
+    bool PlaySingleTrack = 7;
+    .NAlice.NData.NMusic.TDurationRestrictions DurationRestrictions = 8;
+    bool KeepInStack = 9;
+    .NAlice.NData.NMusic.EKaraokeMode KaraokeMode = 10;
+    bool DisableAutoflowSoft = 11;
+    bool IsStashUpdate = 12;
+  }
+
+  message TMoveToTrackIdCommand {
+    string StartFromTrackId = 1;
+    optional string StartFromTrackUuid = 2;
+  }
+
+  message TShowArtistCommand {
+    string Id = 1;
+    bool DisableShowView = 2;
+  }
+
+  message TShowAlbumCommand {
+    string Id = 1;
+  }
+
+  message TShowAllArtistContent {
+    enum EContentType {
+      Tracks = 0;
+      SimilarArtists = 1;
+      Albums = 2;
+      Playlists = 3;
+    }
+
+    string ArtistId = 1;
+    .NAlice.TMusicTouchTypedCallback.TShowAllArtistContent.EContentType ContentType = 2;
+  }
+
+  message TShowPlaylistCommand {
+    string Id = 1;
+  }
+
+  message TCommand {
+    oneof Value {
+      .NAlice.TMusicTouchTypedCallback.TLikeCommand Like = 1;
+      .NAlice.TMusicTouchTypedCallback.TRemoveLikeCommand RemoveLike = 2;
+      .NAlice.TMusicTouchTypedCallback.TDislikeCommand Dislike = 3;
+      .NAlice.TMusicTouchTypedCallback.TRemoveDislikeCommand RemoveDislike = 4;
+      .NAlice.TMusicTouchTypedCallback.TRepeatCommand Repeat = 5;
+      .NAlice.TMusicTouchTypedCallback.TShuffleCommand Shuffle = 6;
+      .NAlice.TMusicTouchTypedCallback.TUnshuffleCommand Unshuffle = 7;
+      .NAlice.TMusicTouchTypedCallback.TNextTrackCommand NextTrack = 8;
+      .NAlice.TMusicTouchTypedCallback.TPrevTrackCommand PrevTrack = 9;
+      .NAlice.TMusicTouchTypedCallback.TFmRadioPlayCommand FmRadioPlay = 10;
+      .NAlice.TMusicTouchTypedCallback.TMusicPlayCommand MusicPlay = 11;
+      .NAlice.TMusicTouchTypedCallback.TGetLyricsCommand GetLyrics = 12;
+      .NAlice.TMusicTouchTypedCallback.TMoveToTrackIdCommand MoveToTrackId = 13;
+      .NAlice.TMusicTouchTypedCallback.TContinueCommand Continue = 14;
+      .NAlice.TMusicTouchTypedCallback.TShowAlbumCommand ShowAlbum = 15;
+      .NAlice.TMusicTouchTypedCallback.TShowArtistCommand ShowArtist = 16;
+      .NAlice.TMusicTouchTypedCallback.TShowAllArtistContent ShowAllArtistContent = 17;
+      .NAlice.TMusicTouchTypedCallback.TShowPlaylistCommand ShowPlaylist = 18;
+      .NAlice.TMusicTouchTypedCallback.TEnableKaraokeModeCommand EnableKaraokeMode = 19;
+      .NAlice.TMusicTouchTypedCallback.TDisableKaraokeModeCommand DisableKaraokeMode = 20;
+    }
+  }
+
+  .NAlice.TMusicTouchTypedCallback.TCommand Command = 2;
+}
+
+message TCollectMusicVerticalTypedCallback {
+  bool IsStashUpdate = 1;
+}
+
+message TCentaurMusicEnrichTracksTypedCallback {
+  message TDiv2Id {
+    string CardId = 1;
+    string CardName = 2;
+  }
+
+  repeated string TracksIds = 1;
+  string CurrentTrackId = 2;
+  uint32 Limit = 3;
+  .NAlice.NData.NMusic.TContentId ParentContentId = 4;
+  .NAlice.TCentaurMusicEnrichTracksTypedCallback.TDiv2Id Div2Id = 5;
+}
+
+message TMusicSearchTypedCallback {
+  string Query = 1;
+  .NAlice.NMusic.TMusicSearchRequest.EMusicSearchType Type = 2;
+  uint32 Offset = 3;
+  uint32 Limit = 4;
+}
+

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/music";
+
+import "alice/protos/data/music_provider/provider_meta.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TContentId {
+  enum EContentType {
+    Track = 0;
+    Album = 1;
+    Artist = 2;
+    Playlist = 3;
+    Radio = 4;
+    Generative = 5;
+    FmRadio = 6;
+    ShowTail = 7;
+  }
+
+  .NAlice.NData.NMusic.TContentId.EContentType Type = 1;
+  string Id = 2;
+  repeated string Ids = 3;
+}
+
+message TContentIdWithProvider {
+  .Alice.Music.ContentId ContentId = 1;
+  .Alice.Music.MusicProvider MusicProvider = 2;
+}
+

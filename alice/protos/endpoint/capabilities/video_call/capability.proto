@@ -1,0 +1,269 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "VideoCallCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/video_call;videocallpb";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/struct.proto";
+import "alice/protos/data/scenario/video_call/recent.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TVideoCallCapability {
+  message TParameters {
+  }
+
+  message TState {
+    repeated .NAlice.TVideoCallCapability.TProviderState ProviderStates = 1;
+    repeated .NAlice.TVideoCallCapability.TProviderCall Incoming = 2;
+    .NAlice.TVideoCallCapability.TProviderCall Current = 3;
+    .NAlice.TVideoCallCapability.TProviderCall Outgoing = 4;
+  }
+
+  message TProviderState {
+    oneof ProviderState {
+      .NAlice.TVideoCallCapability.TTelegramProviderState TelegramProviderState = 1;
+    }
+  }
+
+  message TTelegramProviderState {
+    message TLogin {
+      enum EState {
+        InProgress = 0;
+        Success = 1;
+      }
+
+      string UserId = 1;
+      .NAlice.TVideoCallCapability.TTelegramProviderState.TLogin.EState State = 2;
+      bool FullContactsUploadFinished = 3;
+      repeated .NAlice.TVideoCallCapability.TTelegramProviderState.TRecentContactData RecentContacts = 4;
+      string DisplayName = 5;
+      string Login = 6;
+      repeated .NAlice.NData.TRecentCall Recents = 7;
+    }
+
+    message TContactSyncProgress {
+    }
+
+    message TRecentContactData {
+      string UserId = 1;
+    }
+
+    .NAlice.TVideoCallCapability.TTelegramProviderState.TLogin Login = 1;
+    .NAlice.TVideoCallCapability.TTelegramProviderState.TContactSyncProgress ContactSync = 2;
+  }
+
+  message TTelegramVideoCallOwnerData {
+    string CallId = 1;
+    string UserId = 2;
+  }
+
+  message TProviderCall {
+    message TTelegramCallData {
+      message TRecipientData {
+        string UserId = 1;
+        string DisplayName = 2;
+        bool MicMuted = 3;
+        bool VideoEnabled = 4;
+      }
+
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .NAlice.TVideoCallCapability.TProviderCall.TTelegramCallData.TRecipientData Recipient = 2;
+      bool MicMuted = 3;
+      bool VideoEnabled = 4;
+      bool AudioCall = 5;
+      bool AutoCropEnabled = 6;
+    }
+
+    enum EState {
+      Ringing = 0;
+      Accepted = 1;
+      Established = 2;
+    }
+
+    .NAlice.TVideoCallCapability.TProviderCall.EState State = 1;
+    oneof ProviderCallData {
+      .NAlice.TVideoCallCapability.TProviderCall.TTelegramCallData TelegramCallData = 2;
+    }
+  }
+
+  message TStartVideoCallLoginDirective {
+    message TTelegramStartLoginData {
+      string Id = 1;
+      optional .google.protobuf.Struct OnFailCallback = 2;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TStartVideoCallLoginDirective.TTelegramStartLoginData TelegramStartLoginData = 1;
+    }
+  }
+
+  message TVideoCallLogoutDirective {
+    message TTelegramLogoutData {
+      .google.protobuf.Struct OnFailCallback = 1;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TVideoCallLogoutDirective.TTelegramLogoutData TelegramLogoutData = 1;
+    }
+  }
+
+  message TStartVideoCallDirective {
+    message TTelegramStartVideoCallData {
+      string Id = 1;
+      string UserId = 2;
+      string RecipientUserId = 3;
+      bool VideoEnabled = 7;
+      .google.protobuf.Struct OnAcceptedCallback = 4;
+      .google.protobuf.Struct OnDiscardedCallback = 5;
+      .google.protobuf.Struct OnFailCallback = 6;
+      .google.protobuf.Struct OnEndedCallback = 8;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TStartVideoCallDirective.TTelegramStartVideoCallData TelegramStartVideoCallData = 1;
+    }
+  }
+
+  message TProcessIncomingVideoCallDirective {
+    message TProcessIncomingVideoCallData {
+      string CallId = 1;
+      string UserId = 2;
+      .google.protobuf.Struct OnEndedCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TProcessIncomingVideoCallDirective.TProcessIncomingVideoCallData TelegramProcessIncomingVideoCallData = 1;
+    }
+  }
+
+  message TAcceptVideoCallDirective {
+    message TTelegramAcceptVideoCallData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TAcceptVideoCallDirective.TTelegramAcceptVideoCallData TelegramAcceptVideoCallData = 1;
+    }
+  }
+
+  message TDiscardVideoCallDirective {
+    message TTelegramDiscardVideoCallData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TDiscardVideoCallDirective.TTelegramDiscardVideoCallData TelegramDiscardVideoCallData = 1;
+    }
+  }
+
+  message TMuteMicDirective {
+    message TTelegramMuteMicData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TMuteMicDirective.TTelegramMuteMicData TelegramMuteMicData = 1;
+    }
+  }
+
+  message TUnmuteMicDirective {
+    message TTelegramUnmuteMicData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TUnmuteMicDirective.TTelegramUnmuteMicData TelegramUnmuteMicData = 1;
+    }
+  }
+
+  message TTurnOnVideoDirective {
+    message TTelegramTurnOnVideoData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TTurnOnVideoDirective.TTelegramTurnOnVideoData TelegramMuteTurnOnVideoData = 1;
+    }
+  }
+
+  message TTurnOffVideoDirective {
+    message TTelegramTurnOffVideoData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TTurnOffVideoDirective.TTelegramTurnOffVideoData TelegramMuteTurnOffVideoData = 1;
+    }
+  }
+
+  message TTurnOnAutoCropDirective {
+    message TTelegramTurnOnAutoCropData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TTurnOnAutoCropDirective.TTelegramTurnOnAutoCropData TelegramTurnOnAutoCropData = 1;
+    }
+  }
+
+  message TTurnOffAutoCropDirective {
+    message TTelegramTurnOffAutoCropData {
+      .NAlice.TVideoCallCapability.TTelegramVideoCallOwnerData CallOwnerData = 1;
+      .google.protobuf.Struct OnSuccessCallback = 2;
+      .google.protobuf.Struct OnFailCallback = 3;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TTurnOffAutoCropDirective.TTelegramTurnOffAutoCropData TelegramTurnOffAutoCropData = 1;
+    }
+  }
+
+  message TSetActionOnCallEndDirective {
+    message TTelegramSetActionOnCallEndData {
+      .google.protobuf.Any Action = 1;
+    }
+
+    string Name = 1000;
+    oneof ProviderData {
+      .NAlice.TVideoCallCapability.TSetActionOnCallEndDirective.TTelegramSetActionOnCallEndData TelegramSetActionOnCallEndData = 1;
+    }
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TVideoCallCapability.TParameters Parameters = 2;
+  .NAlice.TVideoCallCapability.TState State = 3;
+}
+

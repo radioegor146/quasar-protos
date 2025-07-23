@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.device_control_panel";
+option java_outer_classname = "CommonScenarioSettingsProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/device_control_panel";
+
+import "google/protobuf/duration.proto";
+import "alice/protos/data/device_control_panel/daily_limit.proto";
+import "alice/protos/data/device_control_panel/time_interval.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TCommonScenarioSettings {
+  bool Disabled = 1;
+  .google.protobuf.Duration DailyLimit = 2;
+  repeated .NAlice.TDailyLimit DailyLimits = 5;
+  repeated .NAlice.TTimeInterval DisabledPeriods = 3;
+  bool ShouldKeepSilence = 4;
+}
+

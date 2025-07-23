@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.rpc.historical_events";
+option java_outer_classname = "HistoricalEvents";
+option go_package = "a.yandex-team.ru/alice/protos/api/rpc/historical_events;historicaleventspb";
+
+import "alice/protos/endpoint/events/events.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message THistoricalEventsRequest {
+  repeated .NAlice.TEndpointEvents Batch = 1;
+}
+
+message THistoricalEventsResponse {
+}
+

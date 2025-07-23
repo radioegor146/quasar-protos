@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.arcadia.yandex_io.protos.capabilities";
+option java_outer_classname = "DeviceStateCapability";
+option go_package = "a.yandex-team.ru/yandex_io/protos/capabilities;yandexiocapabilitiespb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "alice/megamind/protos/guest/enrollment_headers/enrollment_headers.proto";
+import "alice/protos/api/alicekit/common/device_state/device_state.proto";
+import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
+import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
+import "alice/protos/api/biometry/options.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDeviceStateCapability {
+  message TParameters {
+  }
+
+  message TState {
+    reserved "NetworkState";
+    reserved 2;
+    reserved 7;
+    reserved 10;
+    reserved 11;
+    reserved 9;
+    message TInternetConnectionStatus {
+      message TWifi {
+        enum EStatus {
+          NOT_CONNECTED = 0;
+          CONNECTING = 1;
+          CONNECTED_NO_INTERNET = 2;
+          CONNECTED = 3;
+          NOT_CHOSEN = 4;
+        }
+
+        .NAlice.TDeviceStateCapability.TState.TInternetConnectionStatus.TWifi.EStatus Status = 1;
+      }
+
+      message TEthernet {
+      }
+
+      bool InternetReachable = 3;
+      oneof Interface {
+        .NAlice.TDeviceStateCapability.TState.TInternetConnectionStatus.TWifi Wifi = 1;
+        .NAlice.TDeviceStateCapability.TState.TInternetConnectionStatus.TEthernet Ethernet = 2;
+      }
+    }
+
+    message TConfigurationStatus {
+      enum EStatus {
+        UNDEFINED = 0;
+        CONFIGURING = 1;
+        CONFIGURED = 2;
+      }
+
+      .NAlice.TDeviceStateCapability.TState.TConfigurationStatus.EStatus Status = 1;
+    }
+
+    message TUpdateStatus {
+      enum EStatus {
+        UNDEFINED = 0;
+        HAS_CRITICAL = 1;
+        NO_CRITICAL = 2;
+      }
+
+      .NAlice.TDeviceStateCapability.TState.TUpdateStatus.EStatus Status = 1;
+    }
+
+    message TScreensaverState {
+      bool IsOn = 1;
+    }
+
+    .NAlice.NAliceApi.TDeviceState DeviceState = 1;
+    repeated string SupportedFeatures = 3;
+    repeated string UnsupportedFeatures = 4;
+    .NAlice.TExperimentsProto Experiments = 5;
+    .NAlice.TEnrollmentHeaders EnrollmentHeaders = 6;
+    .NAlice.NAliceApi.TEnvironmentDeviceInfo EnvironmentDeviceInfo = 8;
+    .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions.TBassOptions BassOptions = 12;
+    repeated .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions.TPermission Permissions = 13;
+    .NAlice.TOndeviceBiometryOptions BiometryOptions = 14;
+    .NAlice.TDeviceStateCapability.TState.TInternetConnectionStatus InternetConnectionStatus = 15;
+    .NAlice.TDeviceStateCapability.TState.TConfigurationStatus ConfigurationStatus = 16;
+    .NAlice.TDeviceStateCapability.TState.TUpdateStatus UpdateStatus = 17;
+    .NAlice.TDeviceStateCapability.TState.TScreensaverState ScreensaverState = 18;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TDeviceStateCapability.TParameters Parameters = 2;
+  .NAlice.TDeviceStateCapability.TState State = 3;
+}
+

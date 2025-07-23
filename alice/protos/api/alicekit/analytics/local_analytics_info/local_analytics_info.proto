@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.analytics.local_analytics_info";
+option java_outer_classname = "LocalAnalyticsInfoProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/analytics/local_analytics_info";
+
+import "alice/library/client/protos/client_info.proto";
+import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
+import "alice/protos/api/alicekit/events/alice_response/alice_response.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLocalAnalyticsInfo {
+  message TResponseAnalytics {
+    .NAlice.TAliceRequestProto AliceRequest = 1;
+    .NAlice.NAliceApi.TAliceResponseProto AliceResponse = 2;
+  }
+
+  message TErrorAnalytics {
+    string ErrorMessage = 1;
+    string RequestId = 2;
+    bool IsHybridRequest = 3;
+    string ChosenUtterance = 4;
+    .NAlice.TClientInfoProto Application = 5;
+  }
+
+  oneof Analytics {
+    .NAlice.NAliceApi.TLocalAnalyticsInfo.TResponseAnalytics ResponseAnalytics = 1;
+    .NAlice.NAliceApi.TLocalAnalyticsInfo.TErrorAnalytics ErrorAnalytics = 2;
+  }
+}
+

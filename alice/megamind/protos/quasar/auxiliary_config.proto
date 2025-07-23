@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package NAlice.NQuasarAuxiliaryConfig;
+
+option java_package = "ru.yandex.alice.megamind.protos.quasar";
+option java_outer_classname = "AuxiliaryConfig";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/quasar";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAuxiliaryConfig {
+  message TAlice4BusinessConfig {
+    message TInfoConciergeConfig {
+      bool InfoConciergeEnabled = 1;
+      bool ConnectWifiIntentEnabled = 2;
+      bool InformationAboutBreakfastIntentEnabled = 3;
+      bool InformationAboutHotelIntentEnabled = 4;
+      bool RequestAmenitiesIntentEnabled = 5;
+      bool CallReceptionIntentEnabled = 6;
+    }
+
+    message THouseholdLocationConfig {
+      double Latitude = 1;
+      double Longitude = 2;
+      string Address = 3;
+      string ShortAddress = 4;
+    }
+
+    message THouseholdConfig {
+      string Name = 1;
+      string Type = 2;
+      .NAlice.NQuasarAuxiliaryConfig.TAuxiliaryConfig.TAlice4BusinessConfig.THouseholdLocationConfig Location = 3;
+    }
+
+    int32 MaxVolume = 1;
+    uint64 SmartHomeUid = 2;
+    repeated string PreactivatedSkillIds = 3;
+    bool Unlocked = 4;
+    .NAlice.NQuasarAuxiliaryConfig.TAuxiliaryConfig.TAlice4BusinessConfig.TInfoConciergeConfig InfoConcierge = 5;
+    .NAlice.NQuasarAuxiliaryConfig.TAuxiliaryConfig.TAlice4BusinessConfig.THouseholdConfig Household = 6;
+    string OrganizationId = 7;
+  }
+
+  .NAlice.NQuasarAuxiliaryConfig.TAuxiliaryConfig.TAlice4BusinessConfig Alice4Business = 1;
+}
+

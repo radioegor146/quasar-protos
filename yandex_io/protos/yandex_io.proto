@@ -1,0 +1,405 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "YandexIO";
+
+import "yandex_io/protos/alice_state.proto";
+import "yandex_io/protos/fast_command.proto";
+import "yandex_io/protos/model_objects.proto";
+import "yandex_io/protos/remoting.proto";
+import "alice/library/client/protos/client_info.proto";
+import "alice/megamind/protos/common/location.proto";
+import "alice/megamind/protos/user/options.proto";
+import "alice/protos/api/alicekit/common/device_state/device_state.proto";
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "alice/protos/data/event_source/event_source.proto";
+import "alice/protos/data/external_entity_description.proto";
+import "voicetech/library/channel_types/proto/channel_types.proto";
+
+message IOEvent {
+  reserved 6 to 18;
+  reserved 21;
+  reserved 22;
+  reserved 23;
+  reserved 25;
+  reserved 29;
+  reserved 30;
+  reserved 33;
+  reserved 38;
+  reserved 39;
+  reserved 40;
+  reserved 41;
+  reserved 43;
+  reserved 44;
+  reserved 45;
+  reserved 49;
+  reserved 50;
+  reserved 53;
+  reserved 57;
+  reserved 61;
+  reserved 62;
+  reserved 67;
+  reserved 68;
+  reserved 69;
+  reserved 70;
+  reserved 71;
+  reserved 72;
+  reserved 73;
+  reserved 74;
+  reserved 75;
+  reserved 76;
+  message SetupError {
+    optional string request_id = 1;
+    optional int32 error_code = 2;
+    optional string error_data = 3;
+  }
+
+  message LastUpdateInfo {
+    optional bool update_was_attempted = 1;
+    optional bool update_succeeded = 2;
+  }
+
+  message BluetoothState {
+    message SinkState {
+      optional bool is_playing = 1;
+      optional bool is_connected = 2;
+    }
+
+    optional .quasar.proto.IOEvent.BluetoothState.SinkState sink_state = 1;
+  }
+
+  message AlarmsState {
+    reserved 1;
+    optional bool alarm_playing = 2;
+    optional bool timer_playing = 3;
+    optional int32 set_alarms_timers_count = 4;
+  }
+
+  message ReminderState {
+    optional bool reminder_playing = 1;
+  }
+
+  message NtpdState {
+    optional bool clock_synchronized = 1;
+  }
+
+  message TimersTimingsState {
+    optional string id = 3;
+    optional uint64 start_timer_ms = 1;
+    optional uint64 end_timer_ms = 2;
+  }
+
+  message DoNotDisturbState {
+    optional bool is_dnd_mode = 1;
+  }
+
+  message SDKState {
+    reserved 1;
+    reserved 4;
+    reserved 9;
+    reserved 11;
+    reserved 15;
+    reserved 16;
+    reserved 18;
+    reserved 20;
+    reserved 21;
+    reserved 37;
+    enum NotificationState {
+      NONE = 0;
+      AVAILABLE = 1;
+      PASSIVE = 2;
+    }
+
+    optional .quasar.proto.AliceState alice_state = 2;
+    optional .quasar.proto.IOEvent.BluetoothState bluetooth_state = 3;
+    optional .quasar.proto.IOEvent.AlarmsState alarms_state = 5;
+    repeated .quasar.proto.IOEvent.TimersTimingsState timers_timings = 22;
+    optional .quasar.proto.ConfigurationState configuration_state = 6;
+    optional .quasar.proto.UpdateState update_state = 7;
+    optional .quasar.proto.AppState app_state = 8;
+    optional .quasar.proto.IOEvent.ReminderState reminder_state = 10;
+    optional .quasar.proto.IOEvent.SDKState.NotificationState notification_state = 12;
+    optional .quasar.proto.CalldSessionState calld_state = 13;
+    optional .quasar.proto.IOEvent.NtpdState ntpd_state = 14;
+    optional .quasar.proto.AllStartupSettings all_startup_settings = 19;
+    optional .quasar.proto.IOEvent.DoNotDisturbState do_not_disturb_state = 23;
+  }
+
+  message AuthenticationStatus {
+    optional string oauth_code = 1;
+    optional bool is_ok = 2;
+    optional string response = 3;
+  }
+
+  message Spectrum {
+    enum Event {
+      SPECTRUM = 0;
+      START = 1;
+      PAUSE = 2;
+      RESUME = 3;
+    }
+
+    enum Type {
+      MUSIC = 0;
+      VOICE = 1;
+      STREAM = 2;
+    }
+
+    optional .quasar.proto.IOEvent.Spectrum.Event event = 6;
+    optional uint64 running_time_ns = 1;
+    optional uint64 duration_ns = 2;
+    optional uint32 rate = 3;
+    repeated float magnitudes = 4;
+    optional int32 threshold = 5;
+    optional int64 player_instance_id = 7;
+    optional .quasar.proto.IOEvent.Spectrum.Type type = 8 [default = MUSIC];
+  }
+
+  message StartingConfigureSuccess {
+    optional bool should_update = 1;
+    optional string request_id = 2;
+  }
+
+  message AuthCodeRequest {
+    optional string uid = 1;
+  }
+
+  optional bool on_start_setup = 1 [default = false];
+  optional .quasar.proto.EmptyMessage on_sound_data_transfer_start = 2;
+  optional .quasar.proto.EmptyMessage on_connecting_to_network = 3;
+  optional .quasar.proto.IOEvent.SetupError on_setup_error = 4;
+  optional .quasar.proto.EmptyMessage on_finish_setup = 5;
+  optional .quasar.proto.EmptyMessage on_conversation_error = 36;
+  optional .quasar.proto.MediaContentType on_media_error = 42;
+  optional .quasar.proto.IOEvent.LastUpdateInfo last_update_info = 31;
+  optional .quasar.proto.IOEvent.SDKState sdk_state = 34;
+  optional .quasar.proto.IOEvent.AuthenticationStatus authentication_status = 35;
+  optional string on_invalid_oauth_token = 55;
+  optional string on_invalid_authentication = 65;
+  optional .quasar.proto.IOEvent.Spectrum spectrum = 46;
+  optional string sound_command = 51;
+  optional .quasar.proto.IOEvent.StartingConfigureSuccess starting_configure_success = 52;
+  optional .quasar.proto.AppState on_music_state_changed = 54;
+  optional .quasar.proto.AudioClientEvent on_audio_client_event = 56;
+  optional .quasar.proto.BrickStatus brick_status = 58;
+  optional .quasar.proto.BrickInfo brick_info = 66;
+  optional .quasar.proto.PushNotification push_notification = 59;
+  optional .quasar.proto.RegistrationResult registration_result = 60;
+  optional .quasar.proto.DirectiveList directives_preprocess_request = 77;
+  optional .quasar.proto.DeviceGroupState device_group_state = 63;
+  optional .quasar.proto.GlagolDiscoveryResult glagol_discovery_result = 64;
+  optional .quasar.proto.IOEvent.AuthCodeRequest issue_auth_code_request = 78;
+}
+
+message SupportedFeatures {
+  repeated string features = 1;
+}
+
+message IOControlCommand {
+  reserved 2;
+  reserved 4 to 6;
+  reserved 8;
+  reserved 9;
+  reserved 16;
+  reserved 18;
+  reserved 19;
+  reserved 24;
+  reserved 26 to 37;
+  reserved 40 to 43;
+  reserved 45 to 51;
+  reserved 53;
+  reserved 56;
+  reserved 57;
+  reserved 64 to 67;
+  reserved 69;
+  reserved 71;
+  reserved 72;
+  reserved 74;
+  reserved 76;
+  reserved 77;
+  reserved 20;
+  reserved 21;
+  reserved 38;
+  reserved 39;
+  reserved 78;
+  reserved 79;
+  reserved 81;
+  reserved 83 to 92;
+  message PlayPause {
+    optional bool can_request_music = 1 [default = false];
+  }
+
+  message AllowUpdate {
+    optional bool for_all = 1;
+    optional bool for_critical = 2;
+  }
+
+  message RegisterDeviceInBackendInfo {
+    optional string oauth_token = 1;
+    optional string auth_code = 2;
+    optional string uid = 3;
+  }
+
+  message UserAccountInfo {
+    optional string oauth_token = 1;
+    optional string uid = 2;
+    optional string pers_id = 3;
+  }
+
+  message CallMessage {
+    optional .quasar.proto.EmptyMessage accept_incoming = 1;
+    optional .quasar.proto.EmptyMessage decline_incoming = 2;
+    optional .quasar.proto.EmptyMessage decline_current = 3;
+  }
+
+  message VinsResponseWrapper {
+    optional .quasar.proto.VinsResponse vins_response = 1;
+    optional .NAlice.TEventSource event_source = 6;
+  }
+
+  message SetupCredentials {
+    optional string request_id = 1;
+    repeated string ssids = 2;
+    optional string password = 3;
+    optional string auth_code = 4;
+    optional .quasar.proto.WifiType wifi_type = 5;
+  }
+
+  message AuthCodeResponse {
+    optional string code = 1;
+  }
+
+  optional .quasar.proto.EmptyMessage set_setup_mode = 1;
+  optional .quasar.proto.EmptyMessage stop_setup_mode = 11;
+  optional .quasar.proto.EmptyMessage toggle_setup_mode = 12;
+  optional string set_host_application_message = 7;
+  optional .quasar.proto.EmptyMessage allow_init_configuration_state = 17;
+  optional string authenticate = 22;
+  optional string change_account = 23;
+  optional .quasar.proto.IOControlCommand.AllowUpdate allow_update = 25;
+  optional .quasar.proto.IOControlCommand.RegisterDeviceInBackendInfo register_device_in_backend = 54;
+  optional .quasar.proto.IOControlCommand.UserAccountInfo provide_user_account_info = 44;
+  optional .quasar.proto.IOControlCommand.UserAccountInfo provide_active_user_account_info = 82;
+  optional .quasar.proto.UserAccountList user_account_list = 94;
+  optional .quasar.proto.EmptyMessage revoke_user_account_info = 52;
+  optional .NAlice.TClientInfoProto.TMediaDeviceIdentifier media_device_identifier = 75;
+  optional .quasar.proto.AppState send_app_state = 55;
+  optional .quasar.proto.IOControlCommand.CallMessage call_message = 58;
+  optional bool is_screen_active = 59;
+  optional .NAlice.NAliceApi.TDeviceStatePart provide_device_state = 60;
+  optional .quasar.proto.Timezone timezone = 61;
+  optional .NAlice.TLocation location = 62;
+  optional .quasar.proto.WifiList wifi_list = 63;
+  optional .quasar.proto.DirectiveList directives_preprocess_response = 93;
+  optional .quasar.proto.IOControlCommand.VinsResponseWrapper vins_response = 68;
+  optional .quasar.proto.DirectiveEntityList directive_entity_list = 70;
+  optional .quasar.proto.EqualizerConfig equalizer_config = 73;
+  optional .quasar.proto.IOControlCommand.SetupCredentials setup_credentials = 80;
+  optional .quasar.proto.ExternalDirectives external_directives = 95;
+  optional .quasar.proto.IOControlCommand.AuthCodeResponse issue_auth_code_response = 96;
+}
+
+message VqeInfo {
+  optional string type = 1;
+  optional string preset = 2;
+  optional string full_config = 3;
+  optional string full_config_hash = 4;
+}
+
+message IOAudioChannelData {
+  reserved 5;
+  optional .voicetech.AudioInputChannelType type = 1;
+  optional string name = 2;
+  optional bytes data = 3;
+  optional bool is_for_recognition = 4;
+  optional double doa_angle = 6;
+  optional int32 sample_rate = 7;
+  optional .quasar.proto.SoundFormat.Type format = 8;
+  optional int64 record_start_timepoint_ms = 9;
+  optional uint32 duration_ms = 10;
+}
+
+message IOAudioChannelsData {
+  repeated .quasar.proto.IOAudioChannelData channels = 1;
+}
+
+message ProducedChannelInfo {
+  optional .voicetech.AudioInputChannelType type = 1;
+}
+
+message ProducedChannelsInfo {
+  repeated .quasar.proto.ProducedChannelInfo channels = 1;
+}
+
+message IOChannelRequest {
+  optional .quasar.proto.EmptyMessage request_main = 1;
+  optional .quasar.proto.EmptyMessage request_all = 2;
+  optional .quasar.proto.EmptyMessage request_vqe = 3;
+  optional .quasar.proto.EmptyMessage request_raw = 4;
+  optional .quasar.proto.EmptyMessage request_com = 5;
+  optional .quasar.proto.EmptyMessage unsubscribe = 6;
+}
+
+message IOHubMessage {
+  optional .quasar.proto.EmptyMessage retrieve_state = 1;
+}
+
+message TvPolicyInfo {
+  optional string content_settings = 1;
+  optional int32 age_limit = 2;
+}
+
+message DirectiveEntity {
+  optional string name = 1;
+  optional string type = 2;
+  optional bool ignore_answer = 4;
+  oneof payload_type {
+    string payload = 3;
+    bytes raw_payload = 5;
+  }
+}
+
+message DirectiveEntityList {
+  repeated .quasar.proto.DirectiveEntity directives = 1;
+}
+
+message EntityDescriptionList {
+  repeated .NAlice.NData.TExternalEntityDescription entities = 1;
+}
+
+message DirectiveList {
+  repeated .NAlice.NAliceApi.TDirective directives = 1;
+}
+
+message ExternalDirectives {
+  optional .quasar.proto.DirectiveList directive_list = 1;
+  optional .NAlice.TEventSource event_source = 2;
+}
+
+message UserAccount {
+  required bool is_active = 1;
+  required bool is_owner = 2;
+  required string oauth_token = 3;
+  required string uid = 4;
+}
+
+message UserAccountList {
+  repeated .quasar.proto.UserAccount accounts = 1;
+}
+
+message VoiceButtonsInfo {
+  optional string active_actions_json = 1;
+  optional string external_entities_description_json = 2;
+}
+
+message UserOptionsList {
+  repeated .NAlice.TUserOptions users_options = 1;
+}
+
+message FilePlayerCapabilityEvent {
+  optional string request_id = 1;
+  optional .quasar.proto.AudioClientEvent audio_client_event = 2;
+}
+

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "CounterActivationCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/counter_activation;counteractivationpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TCounterActivationCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Enabled = 1;
+  }
+
+  message TCounterActivationStartedEvent {
+    message ModelResult {
+      string ModelName = 1;
+      float Confidence = 2;
+    }
+
+    string Phrase = 1;
+    repeated .NAlice.TCounterActivationCapability.TCounterActivationStartedEvent.ModelResult ModelResults = 2;
+  }
+
+  message TCounterActivationPriorityEvent {
+    enum EType {
+      PhraseSpotted = 0;
+    }
+
+    .NAlice.TCounterActivationCapability.TCounterActivationPriorityEvent.EType Event = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TCounterActivationCapability.TParameters Parameters = 2;
+  .NAlice.TCounterActivationCapability.TState State = 3;
+}
+

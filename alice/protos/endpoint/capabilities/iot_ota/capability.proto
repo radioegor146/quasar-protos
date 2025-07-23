@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotOtaCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_ota;iototapb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TOtaCapability {
+  message TParameters {
+    .NAlice.TOtaCapability.TDeviceInfo DeviceInfo = 1;
+  }
+
+  message TState {
+    uint32 SoftwareVersion = 1;
+    .NAlice.TOtaCapability.EUpdateStatus UpdateStatus = 2;
+    optional uint32 UpdateProgress = 3;
+  }
+
+  message TDeviceInfo {
+    uint32 VendorId = 1;
+    uint32 ProductId = 2;
+    .NAlice.TOtaCapability.EProtocol Protocol = 3;
+  }
+
+  message TOtaApplyDirective {
+    string Name = 1000;
+    uint32 SoftwareVersion = 1;
+    string DownloadUrl = 2;
+  }
+
+  message TForceOtaRequestDirective {
+    string Name = 1000;
+    uint32 TimeoutSeconds = 1;
+  }
+
+  message TOtaRequestEvent {
+    .NAlice.TOtaCapability.TDeviceInfo DeviceInfo = 1;
+    uint32 SoftwareVersion = 2;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TOtaCapability Capability = 1;
+  }
+
+  enum EProtocol {
+    Zigbee = 0;
+    Matter = 1;
+    Cradle = 2;
+    Device = 3;
+  }
+
+  enum EUpdateStatus {
+    UPDATE_STATUS_UNKNOWN = 0;
+    UPDATE_STATUS_DOWNLOADING = 1;
+    UPDATE_STATUS_DOWNLOADED = 2;
+    UPDATE_STATUS_TRANSFERING = 3;
+    UPDATE_STATUS_APPLYING = 4;
+    UPDATE_STATUS_SUCCESS = 5;
+    UPDATE_STATUS_FAILURE = 6;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TOtaCapability.TParameters Parameters = 2;
+  .NAlice.TOtaCapability.TState State = 3;
+}
+

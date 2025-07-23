@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "BioProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/bio;biopb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/megamind/protos/guest/enrollment_headers/enrollment_headers.proto";
+import "alice/protos/data/scenario/voiceprint/personalization_data.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TBioCapability {
+  message TParameters {
+  }
+
+  message TState {
+    message EnrollmentsEntry {
+      string key = 1;
+      .NAlice.TEnrollmentHeader value = 2;
+    }
+
+    repeated .NAlice.TBioCapability.TState.EnrollmentsEntry Enrollments = 1;
+  }
+
+  message TBioStartSoundEnrollmentDirective {
+  }
+
+  message TMultiaccountAddAccountDirective {
+    enum ETokenType {
+      Unknown = 0;
+      XToken = 1;
+      OAuthToken = 2;
+    }
+
+    string Name = 1000;
+    string EncryptedCode = 1;
+    string Signature = 2;
+    string EncryptedSessionKey = 3;
+    string Puid = 4;
+    .NAlice.TBioCapability.TMultiaccountAddAccountDirective.ETokenType TokenType = 5;
+    string UserType = 6;
+  }
+
+  message TMultiaccountRemoveAccountDirective {
+    string Name = 1;
+    uint64 Puid = 2;
+  }
+
+  message TMultiaccountRemoveAccountPersIdDirective {
+    string Name = 1;
+    string PersId = 2;
+  }
+
+  message TEnrollmentStartDirective {
+    uint32 TimeoutMs = 1;
+  }
+
+  message TEnrollmentCancelDirective {
+  }
+
+  message TEnrollmentFinishDirective {
+    string PersId = 1;
+    bool SendGuestEnrollmentFinishFrame = 2;
+  }
+
+  message TFetchEnrollmentAudioDirective {
+    string Name = 1000;
+    string PersId = 1;
+    repeated string RequestIds = 2;
+  }
+
+  message TCalculateVoiceprintDirective {
+    string Name = 1000;
+    string PersId = 1;
+  }
+
+  message TShareEnrolledPersonDirective {
+    string Name = 1000;
+    uint64 Puid = 1;
+    string UserName = 2;
+    .NAlice.NData.NVoiceprint.EGender Gender = 3;
+    repeated string DeviceIds = 4;
+  }
+
+  message TAddEnrolledPersonDirective {
+    reserved "Puid";
+    reserved 2;
+    string Name = 1000;
+    string Code = 1;
+    string PersId = 3;
+    string UserName = 4;
+    .NAlice.EUserType UserType = 7;
+    .NAlice.NData.NVoiceprint.EGender Gender = 5;
+    bytes EnrollmentAudio = 6;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TBioCapability.TParameters Parameters = 2;
+  .NAlice.TBioCapability.TState State = 3;
+}
+

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.div";
+option java_outer_classname = "Div2PatchProto";
+option go_package = "a.yandex-team.ru/alice/protos/div";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/struct.proto";
+
+message TDiv2Patch {
+  message Template {
+    oneof TemplateBody {
+      .google.protobuf.Struct Body = 1;
+      string StringBody = 2;
+    }
+  }
+
+  message GlobalTemplatesEntry {
+    string key = 1;
+    .NAlice.TDiv2Patch.Template value = 2;
+  }
+
+  string Templates = 4;
+  repeated .NAlice.TDiv2Patch.GlobalTemplatesEntry GlobalTemplates = 6;
+  string CardName = 2;
+  string CardId = 3;
+  oneof Div2PatchBody {
+    .google.protobuf.Struct Body = 1;
+    string StringBody = 5;
+  }
+}
+

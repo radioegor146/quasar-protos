@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.guest.enrollment_headers";
+option java_outer_classname = "EnrollmentHeaders";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/guest/enrollment_headers;enrollmentheaderspb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TEnrollmentHeader {
+  string PersonId = 1;
+  string Version = 2;
+  .NAlice.EUserType UserType = 3;
+  bool EnrollmentSoundIsPresent = 4;
+}
+
+message TEnrollmentHeaders {
+  repeated .NAlice.TEnrollmentHeader Headers = 1;
+}
+
+enum EUserType {
+  OWNER = 0;
+  GUEST = 1;
+  __SYSTEM_OWNER_DO_NOT_USE_AFTER_2021 = 100;
+}
+

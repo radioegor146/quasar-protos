@@ -1,0 +1,34 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "FastCommandProto";
+
+import "google/protobuf/struct.proto";
+
+message FastCommand {
+  enum EFastCommandType {
+    Unknown = 0;
+    Stop = 1;
+    Resume = 2;
+    Previous = 3;
+    Next = 4;
+  }
+
+  optional .quasar.proto.FastCommand.EFastCommandType type = 1;
+}
+
+enum EFastCommandState {
+  General = 0;
+  Content = 1;
+  Music = 2;
+  VerticalNavigation = 3;
+  HorizontalNavigation = 4;
+  TVScreenOff = 5;
+  TVScreenOn = 6;
+  ActiveScreen = 7;
+  ContentResume = 8;
+  Unknown = 9;
+}
+

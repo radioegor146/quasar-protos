@@ -1,0 +1,190 @@
+syntax = "proto3";
+
+package NProtoLogger.NApi;
+
+message TReqWrite2LogQuasar {
+  uint64 Timestamp = 1;
+  string Path = 2;
+  bytes Data = 3;
+  string DeviceId = 4;
+  string Platform = 5;
+  uint64 ServerTimestamp = 6;
+  uint64 Usec = 7;
+  uint64 TimestampMicroSeconds = 8;
+  uint64 ServerTimestampMicroSeconds = 9;
+}
+
+message TReqWriteMetrics2LogQuasar {
+  enum ConnectionTypeEnum {
+    CONNECTION_CELL = 0;
+    CONNECTION_WIFI = 1;
+    CONNECTION_UNDEFINED = 2;
+    CONNECTION_BLUETOOTH = 3;
+    CONNECTION_ETHERNET = 4;
+  }
+
+  uint64 Timestamp = 1;
+  string Platform = 2;
+  string QuasmodromGroup = 3;
+  string DeviceId = 4;
+  string SoftwareVersion = 5;
+  string MetricName = 6;
+  string MetricValue = 7;
+  string Environment = 8;
+  string QuasmodromSubgroup = 9;
+  uint64 ServerTimestamp = 10;
+  string UUID = 11;
+  uint64 SessionId = 12;
+  uint64 EventNumber = 13;
+  string SetraceReqId = 14;
+  .NProtoLogger.NApi.TReqWriteMetrics2LogQuasar.ConnectionTypeEnum ConnectionType = 15;
+  string SetraceClientReqId = 16;
+  uint64 TimestampMicroSeconds = 17;
+  uint64 ServerTimestampMicroSeconds = 18;
+}
+
+message TRspWrite2LogQuasar {
+  string ResponseStatus = 1;
+}
+
+message TReqCardShownLog {
+  string CardId = 1;
+  string AppVersion = 2;
+  string AppPlatform = 3;
+  string DeviceModel = 4;
+  string OsVersion = 5;
+  repeated string TestIds = 6;
+}
+
+message TRspCardShownLog {
+  string ResponseStatus = 1;
+}
+
+message TReqWriteTvMetrics2LogQuasar {
+  uint64 Timestamp = 1;
+  string Platform = 2;
+  string QuasmodromGroup = 3;
+  string DeviceId = 4;
+  string SoftwareVersion = 5;
+  string MetricName = 6;
+  string MetricValue = 7;
+  string Environment = 8;
+  string QuasmodromSubgroup = 9;
+  uint64 ServerTimestamp = 10;
+  string UUID = 11;
+  string PackageName = 12;
+  string FirmwareVersion = 13;
+  string ClientIP = 14;
+  uint64 CountryCode = 15;
+  uint64 ServerTimestampMicroSeconds = 16;
+}
+
+message TReqWriteTvErrorsMetrics2LogQuasar {
+  uint64 Timestamp = 1;
+  string Platform = 2;
+  string QuasmodromGroup = 3;
+  string DeviceId = 4;
+  string SoftwareVersion = 5;
+  string MetricName = 6;
+  string MetricValue = 7;
+  string Environment = 8;
+  string QuasmodromSubgroup = 9;
+  uint64 ServerTimestamp = 10;
+  string UUID = 11;
+  string PackageName = 12;
+  string FirmwareVersion = 13;
+  uint64 ServerTimestampMicroSeconds = 14;
+}
+
+message TQuasarRateMetric {
+  string MetricName = 1;
+}
+
+message TQuasarLabels {
+  string Platform = 1;
+  string QuasmodromGroup = 2;
+  string QuasmodromSubgroup = 3;
+}
+
+message TQuasarTvLabels {
+  string Platform = 1;
+  string QuasmodromGroup = 2;
+  string QuasmodromSubgroup = 3;
+  string PackageName = 4;
+  string Handler = 5;
+}
+
+message TReqWriteSmartDisplayMetrics2LogQuasar {
+  uint64 Timestamp = 1;
+  string Platform = 2;
+  string QuasmodromGroup = 3;
+  string DeviceId = 4;
+  string SoftwareVersion = 5;
+  string MetricName = 6;
+  string MetricValue = 7;
+  string Environment = 8;
+  string QuasmodromSubgroup = 9;
+  uint64 ServerTimestamp = 10;
+  string UUID = 11;
+  string PackageName = 12;
+  string FirmwareVersion = 13;
+  string ClientIP = 14;
+  uint64 CountryCode = 15;
+  uint64 ServerTimestampMicroSeconds = 16;
+}
+
+message TReqWriteSmartDisplayErrorsMetrics2LogQuasar {
+  uint64 Timestamp = 1;
+  string Platform = 2;
+  string QuasmodromGroup = 3;
+  string DeviceId = 4;
+  string SoftwareVersion = 5;
+  string MetricName = 6;
+  string MetricValue = 7;
+  string Environment = 8;
+  string QuasmodromSubgroup = 9;
+  uint64 ServerTimestamp = 10;
+  string UUID = 11;
+  string PackageName = 12;
+  string FirmwareVersion = 13;
+  uint64 ServerTimestampMicroSeconds = 14;
+}
+
+message TQuasarRealtimeMetrics {
+  repeated .NProtoLogger.NApi.TQuasarRateMetric RateMetrics = 3;
+  oneof Labels {
+    .NProtoLogger.NApi.TQuasarLabels QuasarLabels = 1;
+    .NProtoLogger.NApi.TQuasarTvLabels QuasarTvLabels = 2;
+  }
+}
+
+message TReqWriteBatch2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWrite2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWrite2LogQuasar CommonData = 2;
+}
+
+message TReqWriteBatchMetrics2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteMetrics2LogQuasar Requests = 2;
+  optional .NProtoLogger.NApi.TReqWriteMetrics2LogQuasar CommonData = 1;
+}
+
+message TReqWriteBatchTvMetrics2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteTvMetrics2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWriteTvMetrics2LogQuasar CommonData = 2;
+}
+
+message TReqWriteBatchTvErrorsMetrics2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteTvErrorsMetrics2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWriteTvErrorsMetrics2LogQuasar CommonData = 2;
+}
+
+message TReqWriteBatchSmartDisplayMetrics2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteSmartDisplayMetrics2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWriteSmartDisplayMetrics2LogQuasar CommonData = 2;
+}
+
+message TReqWriteBatchSmartDisplayErrorsMetrics2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteSmartDisplayErrorsMetrics2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWriteSmartDisplayErrorsMetrics2LogQuasar CommonData = 2;
+}
+

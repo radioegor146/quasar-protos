@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package NAlice.NTv;
+
+option java_package = "ru.yandex.alice.protos.data.tv.recent";
+option java_outer_classname = "RecentUsageInfo";
+option go_package = "a.yandex-team.ru/alice/protos/data/tv/recent";
+
+import "alice/protos/data/tv/recent/application.proto";
+import "alice/protos/data/tv/recent/channel.proto";
+import "alice/protos/data/tv/recent/source.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRecentUsageInfo {
+  int64 LastUsageTimestamp = 1;
+  oneof Item {
+    .NAlice.NTv.TRecentApplicationItem RecentApplicationItem = 101;
+    .NAlice.NTv.TRecentChannelItem RecentChannelItem = 102;
+    .NAlice.NTv.TRecentSourceItem RecentSourceItem = 103;
+  }
+  optional int32 PinnedPosition = 2;
+  optional int32 ColdPinnedPosition = 3;
+}
+

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.spotter";
+option go_package = "a.yandex-team.ru/alice/protos/data/spotter";
+
+enum ESpotterThresholdType {
+  DefaultThreshold = 0;
+  SubThreshold = 1;
+}
+

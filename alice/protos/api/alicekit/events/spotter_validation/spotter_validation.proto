@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.spotter_validation";
+option java_outer_classname = "SpotterValidation";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/spotter_validation";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSpotterValidation {
+  enum EResult {
+    SpottingRejected = 0;
+    Ok = 1;
+  }
+
+  .NAlice.NAliceApi.TSpotterValidation.EResult Result = 1;
+}
+

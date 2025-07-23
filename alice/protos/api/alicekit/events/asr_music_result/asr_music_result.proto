@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.asr_music_result";
+option java_outer_classname = "AsrMusicResult";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/asr_music_result";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAsrMusicResult {
+  string Raw = 1;
+}
+

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.common.data_proxy";
+option java_outer_classname = "DataProxyResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/common/data_proxy";
+
+import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDataProxyResponse {
+  message TStreamHeaders {
+    optional uint64 ContentSize = 1;
+    optional string ContentType = 2;
+  }
+
+  enum EStatusCode {
+    Unknown = 0;
+    Ok = 1;
+    InvalidRequest = 2;
+    UnsupportedDirective = 3;
+    KeyNotFound = 4;
+  }
+
+  optional .NAlice.NAliceApi.TDataProxyResponse.EStatusCode Status = 1;
+  optional .NAlice.NAliceApi.TDataProxyResponse.TStreamHeaders Headers = 2;
+  optional .NAlice.NAliceApi.TEnvironmentState EnvironmentState = 10;
+}
+

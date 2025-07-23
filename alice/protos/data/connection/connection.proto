@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.connection";
+option java_outer_classname = "ConnectionStatusProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/connection";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TConnectionStatus {
+  bool IsConnected = 1;
+  optional uint32 LocalPort = 2;
+}
+

@@ -1,0 +1,67 @@
+syntax = "proto2";
+
+package quasar.proto;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "FunctionalTests";
+
+import "yandex_io/protos/model_objects.proto";
+import "yandex_io/sdk/private/endpoint_storage/protos/endpoint.proto";
+import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
+
+message EmulatedButton {
+  optional .quasar.proto.EmptyMessage activate = 1;
+  optional .quasar.proto.EmptyMessage volume_up = 2;
+  optional .quasar.proto.EmptyMessage volume_down = 3;
+  optional .quasar.proto.EmptyMessage volume_mute = 4;
+  optional .quasar.proto.EmptyMessage volume_unmute = 5;
+  optional .quasar.proto.EmptyMessage volume_toggle_mute = 6;
+  optional .quasar.proto.EmptyMessage start_conversation = 7;
+  optional .quasar.proto.EmptyMessage toggle_play_pause = 8;
+  optional .quasar.proto.EmptyMessage next = 9;
+  optional .quasar.proto.EmptyMessage prev = 10;
+  optional .quasar.proto.EmptyMessage micro_mute = 11;
+  optional .quasar.proto.EmptyMessage micro_unmute = 12;
+}
+
+message EmulateBluetooth {
+  optional .quasar.proto.EmptyMessage connect = 1;
+  optional .quasar.proto.EmptyMessage disconnect = 2;
+  optional .quasar.proto.EmptyMessage play = 3;
+  optional .quasar.proto.EmptyMessage pause = 4;
+}
+
+message AuthenticateRequest {
+  optional string xcode = 1;
+}
+
+message AudioSenderMode {
+  optional bool enabled = 1;
+}
+
+message AsrResult {
+  optional string json_payload = 1;
+}
+
+message TestpointMessage {
+  reserved "start_configuration_mode";
+  reserved "platform_volume_state";
+  reserved "test_event";
+  reserved "alice_volume_state";
+  reserved "start_enrollment_push";
+  reserved "percent_volume_state";
+  reserved 2;
+  reserved 3;
+  reserved 7;
+  reserved 8;
+  reserved 9;
+  reserved 13;
+  optional .quasar.proto.EmulatedButton emulated_button = 1;
+  repeated .quasar.proto.Directive incoming_directive = 4;
+  optional .quasar.proto.EmulateBluetooth emulated_bluetooth = 5;
+  optional .quasar.proto.AuthenticateRequest authenticate_request = 6;
+  optional .quasar.proto.AudioSenderMode audiosender_mode = 10;
+  optional .quasar.proto.AsrResult asr_result = 11;
+  optional .quasar.proto.EmptyMessage request_config_update = 12;
+}
+

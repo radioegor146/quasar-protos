@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.entity_meta";
+option go_package = "a.yandex-team.ru/alice/protos/data/entity_meta";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TVideoGalleryItemMeta {
+  uint32 Duration = 1;
+  uint32 Episode = 2;
+  uint32 EpisodesCount = 3;
+  string Genre = 4;
+  uint32 MinAge = 5;
+  string ProviderName = 6;
+  double Rating = 7;
+  uint32 ReleaseYear = 8;
+  uint32 Season = 9;
+  uint32 SeasonsCount = 10;
+  string Type = 11;
+  uint64 ViewCount = 12;
+  uint32 Position = 13;
+  string VideoId = 14;
+  string OntoId = 15;
+  string Title = 16;
+}
+

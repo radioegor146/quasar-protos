@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice.NData.NMusic;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.music";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/music";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/music_provider/provider_meta.proto";
+
+message TSwitchingStreamsMetadata {
+  bool CrossfadeAllowed = 1;
+  .Alice.Music.Fade Fade = 2;
+  .Alice.Music.Fade NextFade = 3;
+}
+

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package NAlice.NYoutube;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "YoutubePlayerCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/youtube_player;youtubeplayerpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TYoutubePlayerCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool PlayerHasNext = 1;
+    bool PlayerHasPrev = 2;
+    bool IsOnForeground = 3;
+  }
+
+  message TPlayerSkipToNextDirective {
+    string Name = 1;
+  }
+
+  message TPlayerSkipToPreviousDirective {
+    string Name = 1;
+  }
+
+  message TLikeDirective {
+    string Name = 1;
+  }
+
+  message TDislikeDirective {
+    string Name = 1;
+  }
+
+  message TOpenAccountsDirective {
+    string Name = 1;
+  }
+
+  message TOpenYoutubeUriDirective {
+    string Name = 1;
+    string Uri = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.NYoutube.TYoutubePlayerCapability.TParameters Parameters = 2;
+  .NAlice.NYoutube.TYoutubePlayerCapability.TState State = 3;
+}
+

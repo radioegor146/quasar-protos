@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.frames.onboarding_frame";
+option java_outer_classname = "FrameOnboarding";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/frames/onboarding_frame;onboardingframe";
+
+import "alice/megamind/protos/scenarios/frames/common/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TOnboardingTypeSlot {
+  enum EValue {
+    unknown = 0;
+    first_session = 1;
+    smart_cam = 2;
+  }
+
+  oneof Value {
+    .NAlice.TOnboardingTypeSlot.EValue TypeValue = 1;
+  }
+}
+
+message TOnboardingGetGreetingsSemanticFrame {
+  .NAlice.TOnboardingTypeSlot OnboardingType = 1;
+  .NAlice.TBoolSlot IsTextExpected = 2;
+}
+
+message TOnboardingGetPromoSemanticFrame {
+  .NAlice.TStringSlot PromoId = 1;
+}
+
+message TOnboardingStartingConfigureSuccessSemanticFrame {
+}
+
+message TOnboardingStartingCriticalUpdateSemanticFrame {
+  .NAlice.TBoolSlot IsFirstSetup = 1;
+}
+
+message TOnboardingAddNetworkSuccessSemanticFrame {
+}
+
+message TOnboardingWhatCanYouDoSemanticFrame {
+  .NAlice.TUInt32Slot PhraseIndex = 1;
+  .NAlice.TStringSlot RequiredTag = 2;
+}
+

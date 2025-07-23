@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.request_parts";
+option go_package = "a.yandex-team.ru/alice/protos/api/request_parts";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRequestParams {
+  enum ERequestType {
+    Undefined = 0;
+    Dialog = 1;
+    NonDialog = 2;
+  }
+
+  bool DisableOutputSpeech = 1;
+  bool DisableShouldListen = 2;
+  bool IsParallel = 3;
+  .NAlice.TRequestParams.ERequestType RequestType = 4;
+  bool EnableOutputSpeechScenarioControl = 5;
+}
+

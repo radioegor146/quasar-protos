@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package NAlice.NIr;
+
+option java_package = "ru.yandex.alice.protos.data.ir";
+option java_outer_classname = "IrProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/ir;irpb";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAcInfo {
+  message TMode {
+    .NAlice.NIr.EAcMode Mode = 1;
+    repeated .NAlice.NIr.EAcSpeed Speeds = 4;
+    optional uint32 TemperatureMin = 2;
+    optional uint32 TemperatureMax = 3;
+  }
+
+  repeated .NAlice.NIr.TAcInfo.TMode Modes = 1;
+  optional uint32 SwingMin = 2;
+  optional uint32 SwingMax = 3;
+}
+
+message TAcState {
+  bool Power = 1;
+  .NAlice.NIr.EAcMode Mode = 2;
+  optional uint32 Temperature = 3;
+  optional .NAlice.NIr.EAcSpeed Speed = 4;
+  optional uint32 Swing = 5;
+}
+
+message TRemoteData {
+  message TPulse {
+    repeated uint32 A = 1;
+    repeated uint32 B = 2;
+  }
+
+  message KeysEntry {
+    uint32 key = 1;
+    .NAlice.NIr.TRemoteData.TPulse value = 2;
+  }
+
+  uint32 Frequency = 1;
+  repeated .NAlice.NIr.TRemoteData.KeysEntry Keys = 2;
+  bytes AcData = 3;
+}
+
+message TRemote {
+  .NAlice.NIr.EDeviceType Type = 1;
+  .NAlice.NIr.TRemoteData Data = 2;
+}
+
+enum EDeviceType {
+  DEVICE_TYPE_UNKNOWN = 0;
+  DEVICE_TYPE_STB = 1;
+  DEVICE_TYPE_TV = 2;
+  DEVICE_TYPE_BOX = 3;
+  DEVICE_TYPE_DVD = 4;
+  DEVICE_TYPE_AC = 5;
+  DEVICE_TYPE_PRO = 6;
+  DEVICE_TYPE_PA = 7;
+  DEVICE_TYPE_FAN = 8;
+  DEVICE_TYPE_SLR = 9;
+  DEVICE_TYPE_LIGHT = 10;
+  DEVICE_TYPE_AIR_CLEANER = 11;
+  DEVICE_TYPE_WATER_HEATER = 12;
+  DEVICE_TYPE_ELECTRIC_HEATER = 13;
+  DEVICE_TYPE_ROBOT_VACUUM = 14;
+  DEVICE_TYPE_BLIND = 15;
+  DEVICE_TYPE_LEARNED = 1000;
+}
+
+enum EAcKey {
+  AC_KEY_UNKNOWN = 0;
+  AC_KEY_POWER = 1;
+  AC_KEY_MODE = 2;
+  AC_KEY_TEMPERATURE_UP = 3;
+  AC_KEY_TEMPERATURE_DOWN = 4;
+  AC_KEY_SPEED = 5;
+  AC_KEY_SWING = 6;
+  AC_KEY_FIXED = 7;
+}
+
+enum EAcMode {
+  AC_MODE_COOL = 0;
+  AC_MODE_HEAT = 1;
+  AC_MODE_AUTO = 2;
+  AC_MODE_AIR_SUPPLY = 3;
+  AC_MODE_DRY = 4;
+}
+
+enum EAcSpeed {
+  AC_SPEED_AUTO = 0;
+  AC_SPEED_LOW = 1;
+  AC_SPEED_MEDIUM = 2;
+  AC_SPEED_HIGH = 3;
+}
+

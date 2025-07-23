@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package NAlice.NData;
+
+option java_package = "ru.yandex.alice.protos.data.spotter";
+option go_package = "a.yandex-team.ru/alice/protos/data/spotter";
+
+enum ESpotterEnablingReason {
+  UnknownReason = 0;
+  VisualSpotter = 1;
+  DirectiveWithNoReason = 2;
+  ActivationSpotter = 3;
+  CommandSpotter = 4;
+  ListeningState = 5;
+  IntonationInterruption = 6;
+}
+

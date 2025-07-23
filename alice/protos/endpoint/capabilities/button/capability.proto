@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "ButtonCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/button;buttonpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/events/events.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TButtonCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TTypedCapabilityEvent LastEvent = 1;
+  }
+
+  message TButtonClickEvent {
+  }
+
+  message TButtonDoubleClickEvent {
+  }
+
+  message TButtonLongPressEvent {
+  }
+
+  message TButtonLongReleaseEvent {
+  }
+
+  message TCondition {
+    repeated .NAlice.TCapability.EEventType Events = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TButtonCapability.TParameters Parameters = 2;
+  .NAlice.TButtonCapability.TState State = 3;
+}
+

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.avatar";
+option java_outer_classname = "AvatarProto";
+option go_package = "a.yandex-team.ru/alice/protos/data/avatar";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAvatarMdsImage {
+  string BaseUrl = 1;
+  repeated string Sizes = 2;
+}
+

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.ack";
+option java_outer_classname = "Ack";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/ack";
+
+import "alice/protos/api/alicekit/events/common/event_header/event_header.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAck {
+  .NAlice.NAliceApi.TEventHeader ReceivedHeader = 1;
+}
+

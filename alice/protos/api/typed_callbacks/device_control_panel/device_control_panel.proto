@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.api.typed_callbacks.device_control_panel";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/typed_callbacks/device_control_panel";
+
+import "alice/protos/data/device_control_panel/time_interval.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+import "google/protobuf/duration.proto";
+
+message TDeviceControlPanelBlockData {
+  reserved "BlockType";
+  reserved 1;
+  message TManualBlock {
+  }
+
+  message TScheduledBlock {
+    .NAlice.TTimeInterval TimeInterval = 1;
+  }
+
+  message TDailyLimitBlock {
+    .google.protobuf.Duration DailyLimit = 1;
+  }
+
+  .NAlice.EDeviceBlockType DeviceBlockType = 5;
+  oneof Reason {
+    .NAlice.TDeviceControlPanelBlockData.TManualBlock ManualBlock = 2;
+    .NAlice.TDeviceControlPanelBlockData.TScheduledBlock ScheduledBlock = 3;
+    .NAlice.TDeviceControlPanelBlockData.TDailyLimitBlock DailyLimitBlock = 4;
+  }
+}
+
+message TDeviceControlPanelBlockActivatedTypedCallback {
+  .NAlice.TDeviceControlPanelBlockData Data = 1;
+}
+
+message TDeviceControlPanelBlockDeactivatedTypedCallback {
+  .NAlice.TDeviceControlPanelBlockData Data = 1;
+}
+
+message TDeviceControlPanelBlockWarningTypedCallback {
+  .NAlice.TDeviceControlPanelBlockData Data = 1;
+  .google.protobuf.Duration TimeLeft = 2;
+}
+
+message TDeviceControlPanelBlockCommandSpotterTypedCallback {
+}
+
+message TDeviceControlPanelBlockButtonTypedCallback {
+}
+
+enum EDeviceBlockType {
+  EDBT_UNKNOWN = 0;
+  EDBT_TOTAL_BLOCK = 1;
+  EDBT_VIDEO_BLOCK = 2;
+}
+

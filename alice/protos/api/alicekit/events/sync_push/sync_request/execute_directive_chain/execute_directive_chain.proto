@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push.sync_request.execute_directive_chain";
+option java_outer_classname = "ExecuteDirectiveChain";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push/sync_request/execute_directive_chain";
+
+import "alice/protos/api/alicekit/directives/directive.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TExecuteDirectiveChain {
+  message TResponsePolicy {
+    message TOnChainReceivedPolicy {
+    }
+
+    message TOnChainCompletedPolicy {
+    }
+
+    oneof Policy {
+      .NAlice.NAliceApi.TExecuteDirectiveChain.TResponsePolicy.TOnChainReceivedPolicy OnChainReceivedPolicy = 1;
+      .NAlice.NAliceApi.TExecuteDirectiveChain.TResponsePolicy.TOnChainCompletedPolicy OnChainCompletedPolicy = 2;
+    }
+  }
+
+  repeated .NAlice.NAliceApi.TDirective Directives = 1;
+  .NAlice.NAliceApi.TExecuteDirectiveChain.TResponsePolicy ResponsePolicy = 2;
+}
+

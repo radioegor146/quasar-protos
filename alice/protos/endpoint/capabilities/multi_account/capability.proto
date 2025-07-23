@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "MultiAccountCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/multi_account;multiaccountpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/protos/api/typed_callbacks/typed_callback_request.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TMultiAccountCapability {
+  message TParameters {
+    bool SupportsAddAccountDirective = 1;
+  }
+
+  message TAccount {
+    reserved "Puid";
+    reserved 2;
+    string Name = 1;
+    bool IsActive = 3;
+    bool IsChild = 4;
+    bool IsOwner = 5;
+    string PersonId = 6;
+  }
+
+  message TState {
+    repeated .NAlice.TMultiAccountCapability.TAccount Accounts = 1;
+    bool ChildAccountSwitchBlockEnabled = 2;
+    .NAlice.TMultiAccountCapability.TParentalControlsSettings ParentalControlsSettings = 3;
+  }
+
+  message TParentalControlsSettings {
+    bool Enabled = 1;
+    bool AppWhiteListEnabled = 2;
+    repeated string AppWhitelistPackageNames = 3;
+    bool VideoSearchProhibited = 4;
+    bool YoutubeProhibited = 5;
+    bool BrowserProhibited = 6;
+    bool HistoryRecordTrackingEnabled = 7;
+  }
+
+  message TSwitchAccountDirective {
+    string SelectedPersonId = 1;
+    string Name = 2;
+    bool ShouldCheckPIN = 3;
+  }
+
+  message TOpenAccountListDirective {
+    enum ESource {
+      Undefined = 0;
+      VoiceEnrollment = 1;
+    }
+
+    string Name = 1;
+    .NAlice.TMultiAccountCapability.TOpenAccountListDirective.ESource Source = 2;
+  }
+
+  message TRefreshAccountDirective {
+    string Name = 1;
+    string PersonId = 2;
+  }
+
+  message TAddAccountDirective {
+    string Name = 1;
+    string EncryptedCode = 2;
+    string Signature = 3;
+    string EncryptedSessionKey = 4;
+    string Puid = 5;
+    .NAlice.TTypedCallbackRequest OnSuccess = 6;
+    .NAlice.TTypedCallbackRequest OnFail = 7;
+  }
+
+  message TLocalAddAccountDirective {
+    string Code = 1;
+  }
+
+  message TExpandAccountListDirective {
+    string Name = 1;
+  }
+
+  message TShowLoginScreenDirective {
+    string Name = 1;
+  }
+
+  message TAuthorizePupaDirective {
+    string PupaPuid = 1;
+    string Name = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TMultiAccountCapability.TParameters Parameters = 2;
+  .NAlice.TMultiAccountCapability.TState State = 3;
+}
+
