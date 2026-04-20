@@ -7,6 +7,8 @@ option java_outer_classname = "ExecuteDirectiveChainResponse";
 option java_multiple_files = true;
 option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push_response/sync_response/execute_directive_chain_response";
 
+import "alice/protos/api/alicekit/events/sync_push_response/sync_response/execute_directive_error/execute_directive_error.proto";
+import "alice/protos/endpoint/any_capability.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TExecuteDirectiveChainResponse {
@@ -20,6 +22,7 @@ message TExecuteDirectiveChainResponse {
 
       message TFailed {
         string Error = 1;
+        .NAlice.NAliceApi.TExecuteDirectiveError.EErrorCode Code = 2;
       }
 
       string DirectiveId = 3;
@@ -28,6 +31,7 @@ message TExecuteDirectiveChainResponse {
         .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult.TCompleted.TSucceed Succeed = 1;
         .NAlice.NAliceApi.TExecuteDirectiveChainResponse.TExecutionResult.TCompleted.TFailed Failed = 2;
       }
+      optional .NAlice.TAnyCapabilityHolder AnyCapability = 5;
     }
 
     message TCompletedChain {

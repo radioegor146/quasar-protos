@@ -24,6 +24,7 @@ message TRestoreIotNetworksTypeSlot {
     SyncEndpoints = 1;
     RestoreMatterNetworks = 2;
     RestoreThreadNetworks = 3;
+    RestoreZenohNetworks = 4;
   }
 
   oneof Value {

@@ -39,6 +39,7 @@ message TPlayerPauseSemanticFrame {
   repeated .NAlice.TLocationSlot LocationGroup = 2;
   repeated .NAlice.TLocationSlot LocationDevice = 3;
   .NAlice.TLocationSlot LocationEverywhere = 4;
+  .NAlice.TBoolSlot IsOnlyAudio = 5;
 }
 
 message TPlayerContinueSemanticFrame {

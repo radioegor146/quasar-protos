@@ -11,5 +11,15 @@ enum EDialogType {
   DEDICATED_CHAT = 2;
   ENGLISH_TUTOR = 3;
   EXTERNAL_MODEL_PROXY = 4;
+  GO = 5;
+  PRO = 6;
+  WEATHER = 7;
+  EATS = 8;
+  BOOKS = 9;
+  CHERRY = 10;
+  NEUROEXPERT = 11;
+  MAPS = 12;
+  NOTA = 13;
+  CHARACTER = 14;
 }
 

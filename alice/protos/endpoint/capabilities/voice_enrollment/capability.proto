@@ -9,12 +9,14 @@ option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/voice_e
 import "google/protobuf/descriptor.proto";
 import "alice/library/censor/protos/extension.proto";
 import "alice/library/yt/extensions/alice_options.proto";
+import "alice/protos/data/scenario/voiceprint/personalization_data.proto";
 import "alice/protos/endpoint/capability.proto";
 import "alice/protos/extensions/extensions.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TVoiceEnrollmentCapability {
   message TParameters {
+    bool SupportsShareDirective = 1;
   }
 
   message TState {
@@ -31,6 +33,14 @@ message TVoiceEnrollmentCapability {
   }
 
   message TEnrollmentCancelDirective {
+  }
+
+  message TEnrollmentShareDirective {
+    string Name = 1000;
+    uint64 Puid = 1;
+    string UserName = 2;
+    .NAlice.NData.NVoiceprint.EGender Gender = 3;
+    repeated string DeviceIds = 4;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

@@ -17,11 +17,28 @@ import "yt/yt_proto/yt/formats/extension.proto";
 message TMotionCapability {
   message TParameters {
     .NAlice.TPositiveIntegerRange MotionDetectionIntervalRangeSec = 1;
+    repeated .NAlice.TMotionCapability.TSetting SupportedSettings = 2;
   }
 
   message TState {
     uint32 MotionDetectionIntervalSec = 1;
     .NAlice.TTypedCapabilityEvent LastEvent = 2;
+    repeated .NAlice.TMotionCapability.TSetting Settings = 3;
+  }
+
+  message TSetting {
+    message TAdvancedDetectionParams {
+      uint32 MotionEventCount = 1;
+      uint32 TimeWindowSec = 2;
+    }
+
+    oneof Setting {
+      uint32 MotionDetectionIntervalSec = 1;
+      uint32 OccupiedToUnoccupiedDelaySec = 2;
+      .NAlice.TMotionCapability.ESensitivityLevel SensitivityLevel = 3;
+      .NAlice.TMotionCapability.EDetectionRangeLevel RangeLevel = 4;
+      .NAlice.TMotionCapability.TSetting.TAdvancedDetectionParams AdvancedParameters = 10;
+    }
   }
 
   message TSetMotionDetectionInterval {
@@ -29,11 +46,36 @@ message TMotionCapability {
     uint32 MotionDetectionIntervalSec = 1;
   }
 
+  message TSetMotionSettingDirective {
+    string Name = 1000;
+    .NAlice.TMotionCapability.TSetting Setting = 1;
+  }
+
   message TMotionDetectedEvent {
+  }
+
+  message TMotionFinishedEvent {
+  }
+
+  message TNoMotionEvent {
   }
 
   message TCondition {
     repeated .NAlice.TCapability.EEventType Events = 1;
+  }
+
+  enum ESensitivityLevel {
+    SensitivityUnknown = 0;
+    SensitivityLow = 1;
+    SensitivityMedium = 2;
+    SensitivityHigh = 3;
+  }
+
+  enum EDetectionRangeLevel {
+    RangeUnknown = 0;
+    RangeNear = 1;
+    RangeMedium = 2;
+    RangeFar = 3;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

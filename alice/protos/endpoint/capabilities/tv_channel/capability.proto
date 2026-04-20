@@ -66,6 +66,9 @@ message TTvChannelCapability {
   message TParameters {
     bool IsFavoritesAvailable = 1;
     bool CentaurUseNativeChannelListSidebar = 2;
+    .NAlice.TTvChannelCapability.ETurnOnChannelDirectiveType DirectiveForTurningOnChannel = 3;
+    .NAlice.TTvChannelCapability.EUnpurchasedChannelReaction UnpurchasedChannelReaction = 4;
+    optional bool TariffOptionsSupported = 5;
   }
 
   message TState {
@@ -136,6 +139,17 @@ message TTvChannelCapability {
     CABLE = 2;
     SOFTWARE = 3;
     SATELLITE = 4;
+  }
+
+  enum ETurnOnChannelDirectiveType {
+    DIRECTIVE_NOT_SET = 0;
+    DIRECTIVE_OPEN_URI = 1;
+    DIRECTIVE_VIDEO_PLAY = 2;
+  }
+
+  enum EUnpurchasedChannelReaction {
+    REACTION_UNKNOWN = 0;
+    REACTION_AS_PURCHASED = 1;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

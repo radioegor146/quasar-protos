@@ -7,6 +7,7 @@ option java_outer_classname = "CapabilityUpdateState";
 option java_multiple_files = true;
 option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/capability_update_state";
 
+import "alice/protos/endpoint/any_capability.proto";
 import "alice/protos/endpoint/capability.proto";
 import "google/protobuf/any.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
@@ -15,6 +16,7 @@ message TCapabilityUpdateState {
   string RequestMessageId = 1;
   string EndpointId = 2;
   .google.protobuf.Any Capability = 3;
+  .NAlice.TAnyCapabilityHolder AnyCapability = 5;
   .NAlice.TCapability.ECapabilityType CapabilityType = 4;
 }
 

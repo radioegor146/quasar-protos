@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.sync_push_response.sync_response.execute_directive_error";
+option java_outer_classname = "SyncResponseDirectiveError";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/sync_push_response/sync_response/execute_directive_error;directiveerrorpb";
+
+message TExecuteDirectiveError {
+  enum EErrorCode {
+    UNKNOWN = 0;
+    PAYLOAD_TOO_LARGE = 1;
+    STORAGE_LIMIT_EXCEEDED = 2;
+  }
+
+}
+

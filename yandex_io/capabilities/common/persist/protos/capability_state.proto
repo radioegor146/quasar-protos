@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.quasar.protobuf";
+option java_outer_classname = "PersistedCapabilityStateProto";
+
+import "alice/protos/endpoint/any_capability.proto";
+
+message PersistedCapabilityState {
+  reserved "Capability";
+  reserved 1;
+  uint64 AccessTimeSec = 2;
+  .NAlice.TAnyCapabilityHolder AnyCapability = 3;
+}
+

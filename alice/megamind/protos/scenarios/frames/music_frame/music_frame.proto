@@ -43,6 +43,7 @@ message TMusicPlayObjectTypeSlot {
     Generative = 5;
     FmRadio = 6;
     ShowTail = 7;
+    GeneratedRecs = 8;
   }
 
   oneof Value {
@@ -155,6 +156,7 @@ message TMusicPlaySemanticFrame {
   .NAlice.TBoolSlot DisableAutoflowSoft = 43;
   .NAlice.TBoolSlot Karaoke = 44;
   .NAlice.TFiltrationModeSlot FiltrationMode = 45;
+  .NAlice.TBoolSlot AnnounceTrack = 46;
 }
 
 message TGetEqualizerSettingsSemanticFrame {

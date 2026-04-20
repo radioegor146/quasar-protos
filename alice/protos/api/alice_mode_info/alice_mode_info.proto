@@ -28,3 +28,10 @@ message TAlice2TrialState {
   uint32 TimeLimitSec = 3;
 }
 
+enum EUserPriorityType {
+  Undefined = 0;
+  Subscription = 1;
+  WithoutSubscription = 2;
+  NewWithoutSubscription = 3;
+}
+

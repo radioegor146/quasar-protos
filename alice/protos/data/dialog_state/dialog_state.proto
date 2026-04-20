@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.dialog_state";
+option go_package = "a.yandex-team.ru/alice/protos/data/dialog_state";
+
+import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
+import "alice/protos/data/dialog_type/dialog_type.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDialogState {
+  .NAlice.NApi.NAlice2Mode.TAlice2ModeInfo Alice2ModeInfo = 4;
+  optional string DialogId = 1;
+  optional string FolderId = 2;
+  optional .NAlice.NData.EDialogType DialogType = 3;
+}
+

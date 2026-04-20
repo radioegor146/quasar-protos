@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint";
+option java_outer_classname = "AnyCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint;endpointpb";
+
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAnyCapabilityHolder {
+  bytes RawCapability = 1;
+  .NAlice.TCapability.ECapabilityType CapabilityType = 2;
+}
+

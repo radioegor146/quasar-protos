@@ -20,10 +20,18 @@ message TEventHeader {
   reserved 7;
   reserved 9;
   reserved 10;
+  message TSubRequestRef {
+    string MessageId = 1;
+    string RequestId = 2;
+  }
+
   string MessageId = 1;
   string RefMessageId = 2;
+  .NAlice.NAliceApi.TEventHeader.TSubRequestRef SubRequestRef = 13;
   optional int64 StreamId = 4;
   optional int64 Ack = 5;
   optional string RtLogId = 8;
+  optional string SubRequestId = 11;
+  optional uint32 RetryNumber = 12;
 }
 

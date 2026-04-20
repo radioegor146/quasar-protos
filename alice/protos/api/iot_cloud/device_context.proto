@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice.NIotCloud;
+
+option go_package = "a.yandex-team.ru/alice/protos/api/iot_cloud;iotcloudpb";
+
+message TDeviceContext {
+  optional string DeviceId = 1;
+  optional string AppVersion = 2;
+  optional string Vid = 3;
+  optional string Pid = 4;
+  optional string FirmwareVersion = 5;
+  optional string QuasmodromGroup = 6;
+  optional string QuasmodromSubgroup = 7;
+}
+

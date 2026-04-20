@@ -14,6 +14,7 @@ import "yandex_io/protos/remoting.proto";
 import "yandex_io/sdk/private/endpoint_storage/protos/endpoint.proto";
 import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
 import "yandex_io/capabilities/config/sync_messages/sync_messages.proto";
+import "yandex_io/libs/metrica/db/protos/db_event.proto";
 import "google/protobuf/timestamp.proto";
 
 message WifiConnect {
@@ -126,6 +127,7 @@ message AuthEvent {
   optional string xtoken = 3;
   optional int64 tag = 4;
   optional .quasar.proto.AccountType type = 5;
+  optional bool is_active = 6;
 }
 
 message OwnerStartupInfo {
@@ -180,6 +182,7 @@ message MetricaMessage {
   optional bool need_network_status = 23;
   optional bool is_listening = 24;
   optional .google.protobuf.Timestamp timestamp = 25;
+  optional string passport_uid = 26;
 }
 
 message RecordingEvent {
@@ -338,11 +341,6 @@ message WebsocketClientState {
   optional .quasar.proto.WebsocketClientState.State state = 1 [default = DISCONNECTED];
 }
 
-message CalldRuntimeSettings {
-  optional bool allow_usual_calls = 1;
-  optional bool allow_other_user_calls = 2;
-}
-
 message XivaSubscriptions {
   repeated string xiva_subscriptions = 1;
 }
@@ -356,6 +354,7 @@ message LogMessage {
     optional string filename = 1;
     optional int32 line = 2;
     optional string funcname = 3;
+    optional string path = 4;
   }
 
   enum Level {
@@ -370,6 +369,8 @@ message LogMessage {
   optional int64 timestamp_ms = 2;
   optional .quasar.proto.LogMessage.Source source = 3;
   optional string msg = 4;
+  optional string device_id = 5;
+  optional string platform = 6;
 }
 
 message NsdEnable {
@@ -423,19 +424,56 @@ message NetworkStats {
 }
 
 message UpdateHealthCheck {
+  message UpdateHealthCheckStatus {
+    message RssStatuses {
+      message StatusesEntry {
+        optional string key = 1;
+        optional .quasar.proto.UpdateHealthCheck.UpdateHealthCheckStatus.RssStatuses.Status value = 2;
+      }
+
+      enum Status {
+        UNKNOWN = 0;
+        OK = 1;
+        EXCEEDED = 2;
+      }
+
+      repeated .quasar.proto.UpdateHealthCheck.UpdateHealthCheckStatus.RssStatuses.StatusesEntry statuses = 1;
+    }
+
+    optional bool is_alice_connected = 1;
+    optional bool is_mic_audio_detected = 2;
+    optional .quasar.proto.UpdateHealthCheck.UpdateHealthCheckStatus.RssStatuses rss_statuses = 3;
+    optional bool spotter_started = 4;
+  }
+
+  optional bool failed = 1;
+  optional .quasar.proto.UpdateHealthCheck.UpdateHealthCheckStatus status = 2;
+}
+
+message RssStatus {
+  optional string daemon = 1;
+  optional bool is_ok = 2;
 }
 
 message ForceCheckUpdates {
   optional uint64 timeout_seconds = 1;
 }
 
+message EqualizerParameters {
+  optional string json_data = 1;
+  optional string config_hash = 2;
+}
+
 message QuasarMessage {
+  reserved "current_weather";
   reserved "auth_failed";
   reserved "subscription_state";
   reserved "cached_user_config";
   reserved "do_not_disturb_event";
   reserved "account_devices_list";
   reserved "rerequest_devices_list";
+  reserved "features_config_message";
+  reserved "call_message";
   reserved "update_config_request";
   reserved "ab_testing_cookies";
   reserved 2;
@@ -503,6 +541,7 @@ message QuasarMessage {
   reserved 226;
   reserved 238;
   reserved 239;
+  reserved 53;
   reserved 59;
   reserved 65;
   reserved 106;
@@ -511,9 +550,15 @@ message QuasarMessage {
   reserved 137;
   reserved 138;
   reserved 223;
+  reserved 140;
+  reserved 141;
+  reserved 142;
+  reserved 139;
   reserved 145;
   reserved 179;
   reserved 189;
+  reserved 197;
+  reserved 205;
   reserved 206;
   reserved 209;
   reserved 231;
@@ -543,6 +588,7 @@ message QuasarMessage {
   optional .quasar.proto.WifiList wifi_list = 5;
   optional .quasar.proto.EmptyMessage wifi_networks_disable = 30;
   optional .quasar.proto.EmptyMessage wifi_networks_enable = 105;
+  optional .quasar.proto.EmptyMessage wifi_reassociate = 249;
   optional .quasar.proto.WifiConnect wifi_connect = 6;
   optional .quasar.proto.WifiConnect async_wifi_connect = 64;
   optional .quasar.proto.WifiConnectResponse wifi_connect_response = 7;
@@ -577,7 +623,6 @@ message QuasarMessage {
   optional .quasar.proto.AlarmsState alarms_state = 47;
   optional .quasar.proto.TimersState set_alarms_state = 208;
   optional .quasar.proto.WatchedVideoState watched_video = 51;
-  optional .quasar.proto.Weather current_weather = 53;
   optional .quasar.proto.Location current_location = 55;
   optional .quasar.proto.PushNotification push_notification = 57;
   optional .quasar.proto.EmptyMessage reset_wifi = 60;
@@ -620,10 +665,6 @@ message QuasarMessage {
   optional .quasar.proto.EmptyMessage confirm_update_apply = 131;
   optional .quasar.proto.EmptyMessage postpone_update_apply = 132;
   optional .quasar.proto.NotificationUpdateEvent notification_update_event = 134;
-  optional .quasar.proto.EmptyMessage messenger_send_heartbeat = 139;
-  optional .quasar.proto.EmptyMessage calld_state_request = 140;
-  optional .quasar.proto.CalldSessionState calld_state_response = 141;
-  optional .quasar.proto.CalldSessionState calld_state_changed = 142;
   optional .quasar.proto.NtpSyncEvent ntp_sync_event = 143;
   optional .quasar.proto.SetupCredentialsMessage setup_credentials_message = 146;
   optional .quasar.proto.MultiroomDirective multiroom_directive = 148;
@@ -667,12 +708,10 @@ message QuasarMessage {
   optional .quasar.proto.EmptyMessage nsd_disable_completed = 196;
   optional .quasar.proto.EmptyMessage nsd_guest_mode = 199;
   optional .quasar.proto.EmptyMessage nsd_stereo_pair_follower = 202;
-  optional .quasar.proto.FeaturesConfigMessage features_config_message = 197;
   optional .quasar.proto.StereoPair stereo_pair_message = 198;
   optional .quasar.proto.VolumeManager volume_manager_message = 200;
   optional .quasar.proto.SpectrogramAnimation spectrogram_animation_message = 201;
   optional .quasar.proto.Alice alice_message = 204;
-  optional .quasar.proto.Call call_message = 205;
   optional .quasar.proto.EnvironmentMessage environment_message = 207;
   optional .quasar.proto.Remoting remoting = 210;
   optional .quasar.proto.Directive directive = 211;
@@ -682,10 +721,15 @@ message QuasarMessage {
   optional .quasar.proto.BackendRequest backend_request = 229;
   optional .quasar.proto.BackendResponse backend_response = 230;
   optional .quasar.proto.VqeInfo vqe_info = 233;
+  optional string vqe_zone = 248;
   optional .quasar.proto.EmptyMessage audio_error = 234;
   optional .quasar.proto.ConfigCapabilityEvents config_capability_events = 236;
   optional .quasar.proto.ConfigCapabilitySubscriptions config_capability_subscriptions = 237;
   optional .quasar.proto.UpdateHealthCheck update_health_check = 244;
   optional .quasar.proto.ForceCheckUpdates force_check_updates = 245;
+  optional .quasar.proto.DatabaseMetricaEvent database_metrica_message = 246;
+  optional .quasar.proto.AudioStorageEvent audio_storage_event = 247;
+  optional .quasar.proto.RssStatus rss_status = 250;
+  optional .quasar.proto.EqualizerParameters equalizer_params = 251;
 }
 

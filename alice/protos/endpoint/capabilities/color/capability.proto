@@ -70,6 +70,27 @@ message TColorCapability {
     LavaLampScene = 1;
     CandleScene = 2;
     NightScene = 3;
+    FireScene = 4;
+    LavaScene = 5;
+    PolarLightsScene = 6;
+    ColorShineScene = 7;
+    SummerScene = 8;
+    SeasonsScene = 9;
+    RomanticScene = 10;
+    GameScene = 11;
+    PartyScene = 12;
+    RainbowScene = 13;
+    EqualizerScene = 14;
+    ReadingScene = 15;
+    PulseScene = 16;
+    BreathScene = 17;
+    PendulumScene = 18;
+    OceanScene = 19;
+    SparksScene = 20;
+    ChristmasTreeScene = 21;
+    MiracleScene = 22;
+    FairyLightsScene = 23;
+    ChristmasScene = 24;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

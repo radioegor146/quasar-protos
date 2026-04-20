@@ -11,7 +11,7 @@ import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
 import "alice/protos/api/alicekit/common/device_state/device_state.proto";
 import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
 import "alice/protos/api/alicekit/directives/directive.proto";
-import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
+import "alice/protos/api/alicekit/common/uniproxy_options/uniproxy_options.proto";
 import "alice/protos/data/dialog_type/dialog_type.proto";
 import "alice/protos/data/event_source/event_source.proto";
 import "alice/protos/data/music_provider/provider_meta.proto";
@@ -21,7 +21,7 @@ import "alice/protos/data/scenario/music/switching_streams_metadata.proto";
 import "alice/protos/endpoint/capabilities/audio_player/capability.proto";
 import "alice/protos/endpoint/capabilities/volume/capability.proto";
 import "alice/protos/endpoint/events/events.proto";
-import "yandex_io/protos/connection_type.proto";
+import "yandex_io/protos/connection_type/connection_type.proto";
 import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
 import "yandex_io/sdk/private/endpoint_storage/protos/endpoint.proto";
 import "google/protobuf/struct.proto";
@@ -151,6 +151,7 @@ message MultiroomBroadcast {
   message MasterHints {
     optional bool quiet_audio_focus = 1;
     repeated .quasar.proto.Directive directives = 2;
+    optional .quasar.proto.Audio next_audio = 3;
   }
 
   enum State {
@@ -172,6 +173,7 @@ message MultiroomBroadcast {
   optional .quasar.proto.MultiroomParams multiroom_params = 10;
   optional uint32 version = 100;
   optional string firmware = 101;
+  optional uint32 seqnum = 102;
 }
 
 message MultiroomDirective {
@@ -852,10 +854,6 @@ message UserConfig {
   optional string group_config = 3 [default = "{}"];
 }
 
-message FeaturesConfigMessage {
-  optional string config = 1;
-}
-
 message SubscriptionState {
   optional string passport_uid = 1;
   optional string subscription_info = 2;
@@ -948,10 +946,6 @@ message ExternalCommandMessage {
   }
 }
 
-message PauseConfig {
-  optional bool smooth = 1;
-}
-
 message GlagoldState {
   message Connection {
     optional .quasar.proto.GlagoldState.ConnectionType type = 1;
@@ -970,14 +964,6 @@ message GlagoldState {
   optional string public_ip = 8;
 }
 
-message GlagolRemoteEndpointState {
-  optional .quasar.proto.AppState app_state = 1;
-  optional .quasar.proto.WatchedVideoState video_state = 2;
-  optional .quasar.proto.EnvironmentMessage environment = 3;
-  repeated string experiments = 4;
-  repeated string supported_features = 5;
-}
-
 message GlagolClusterSign {
   optional string from_device_id = 1;
 }
@@ -991,11 +977,11 @@ message GlagolClusterMessage {
 }
 
 message GlagolDiscoveryRequest {
+  reserved 6;
   optional .quasar.proto.EmptyMessage non_yio_devices = 1;
   repeated string subscribe_services = 2;
   repeated string unsubscribe_services = 3;
   optional .quasar.proto.NsdInfo add_announce = 4;
-  repeated string add_announce_subtypes = 6;
   optional .quasar.proto.NsdInfo remove_announce = 5;
   optional string remove_announces_by_host = 7;
   optional .quasar.proto.EmptyMessage debug_connections = 8;
@@ -1076,6 +1062,7 @@ message Audio {
   reserved 24;
   reserved 31;
   reserved 33;
+  reserved 47;
   message MultiroomContext {
     optional string multiroom_mode = 1;
     optional string multiroom_session_id = 2;
@@ -1102,6 +1089,7 @@ message Audio {
   optional string type = 20;
   optional string url = 2;
   optional int64 initial_offset_ms = 3;
+  optional int64 final_offset_ms = 46;
   optional .quasar.proto.Audio.Format format = 4 [default = UNKNOWN];
   optional int64 position_time_point = 29;
   optional int64 position_ms = 28;
@@ -1138,34 +1126,13 @@ message Audio {
   optional .NAlice.TAudioPlayerCapability.TParameters.EQuality quality = 43;
   optional .NAlice.TAudioPlayerCapability.TParameters.ECodec codec = 44;
   optional uint32 bitrate = 45;
+  optional bool urls_reordered = 48 [default = false];
 }
 
 message AudioAnalyticsContext {
   optional string vins_request_id = 1;
   optional string name = 2;
   optional string vins_parent_request_id = 3;
-}
-
-message SwitchingStreamsMetadata {
-  message Crossfade {
-    reserved 4;
-    reserved 5;
-    reserved 6;
-    message Fade {
-      optional int64 in_start_ms = 1;
-      optional int64 in_stop_ms = 2;
-      optional int64 out_start_ms = 3;
-      optional int64 out_stop_ms = 4;
-    }
-
-    optional bool fade_in = 1;
-    optional bool fade_out = 2;
-    optional string finishing_player_id = 3;
-    optional int64 duration_sec = 7;
-    optional .quasar.proto.SwitchingStreamsMetadata.Crossfade.Fade fade = 8;
-  }
-
-  optional .quasar.proto.SwitchingStreamsMetadata.Crossfade crossfade = 1;
 }
 
 message AudioMetadata {
@@ -1189,6 +1156,7 @@ message AudioMetadata {
   optional string art_image_url = 3;
   optional .quasar.proto.AudioMetadata.MusicMeta music_metadata = 4;
   optional bool hide_progress_bar = 5 [default = false];
+  optional string radio_session_id = 6;
 }
 
 message AudioPlayerDescriptor {
@@ -1223,6 +1191,14 @@ message AudioClientEvent {
     optional string stream_id = 3;
     optional string aes128crt_key = 4;
     optional .NAlice.NData.NMusic.EKaraokeMode karaoke_mode = 5;
+    optional uint64 download_time_out_ms = 6;
+  }
+
+  message AltUrlChanged {
+    optional string previous_url = 1;
+    optional string current_url = 2;
+    optional uint32 current_url_idx = 3;
+    optional string reason = 4;
   }
 
   enum Event {
@@ -1231,6 +1207,8 @@ message AudioClientEvent {
     NEARLY_FINISHED = 3;
     BUFFERING = 4;
     DIAGNOSTICS = 5;
+    FOCUS_CHANGED = 6;
+    ALT_URL_CHANGED = 7;
   }
 
   optional .quasar.proto.AudioClientEvent.Event event = 1;
@@ -1248,6 +1226,25 @@ message AudioClientEvent {
   repeated .quasar.proto.AudioClientEvent.DiagnisticItem diagnostics = 14;
   optional .NAlice.NData.TPlaybackOptions playback_options = 15;
   optional .quasar.proto.AudioClientEvent.PrefetchContext prefetch_contex = 16;
+  optional bool has_audio_focus = 17;
+  optional .quasar.proto.AudioClientEvent.AltUrlChanged alt_url_changed = 18;
+}
+
+message AudioStorageEvent {
+  message DownloadResult {
+    optional string track_id = 1;
+    optional .quasar.proto.AudioStorageEvent.DownloadTrackStatus track_status = 2;
+  }
+
+  enum DownloadTrackStatus {
+    SUCCESS = 0;
+    CANCELED = 1;
+    REJECTED = 2;
+    FAILED = 3;
+    TIMEOUT = 4;
+  }
+
+  optional .quasar.proto.AudioStorageEvent.DownloadResult download_result = 1;
 }
 
 message LegacyPlayerStateChanged {
@@ -1443,11 +1440,28 @@ message MediaRequest {
   reserved 33;
   reserved 36;
   reserved 41;
+  reserved 15;
+  reserved 17;
   reserved 18;
+  reserved 32;
+  reserved 38;
+  reserved 43;
   reserved 46;
+  message PauseConfig {
+    optional bool smooth = 1;
+    optional bool wait_fade_out = 2;
+  }
+
+  message FadeOut {
+    optional int64 final_offset_ms = 1;
+    optional int64 out_start_ms = 2;
+    optional int64 out_stop_ms = 3;
+  }
+
   message Rewind {
     optional .quasar.proto.MediaRequest.RewindType type = 1;
     optional double amount = 2;
+    optional .quasar.proto.MediaRequest.FadeOut fade_out = 3;
   }
 
   message Next {
@@ -1457,6 +1471,10 @@ message MediaRequest {
   message Previous {
     optional bool forced = 2;
     optional bool set_pause = 3;
+  }
+
+  message CleanPlayers {
+    optional bool wait_fade_out = 1;
   }
 
   enum RewindType {
@@ -1471,46 +1489,44 @@ message MediaRequest {
     CURRENT = 2;
   }
 
+  optional .quasar.proto.AudioPlayerDescriptor player_descriptor = 22;
+  optional string reason_message = 52;
   optional .quasar.proto.Audio play_audio = 1;
-  optional .quasar.proto.Video play_video = 2;
+  optional .quasar.proto.EmptyMessage recreate_players = 45;
+  optional .quasar.proto.AudioClientEvent.PrefetchContext start_prefetch = 48;
+  optional .quasar.proto.AudioClientEvent.PrefetchContext stop_prefetch = 49;
+  optional .quasar.proto.MediaRequest.CleanPlayers clean_players = 31;
+  optional .quasar.proto.AudioChannel current_focused_channel = 39;
+  optional .quasar.proto.EqualizerConfig equalizer_config = 35;
+  optional int32 account_device_count = 42;
+  optional uint64 download_time_out_ms = 51;
+  optional bool is_prefetch = 27 [default = false];
+  optional bool is_download = 28 [default = false];
+  optional string playback_starter_user_id = 40;
+  optional .NAlice.NData.TPlaybackOptions playback_options = 47;
+  optional .quasar.proto.MediaRequest.PauseConfig pause = 4;
+  optional .quasar.proto.MediaRequest.PlayerType resume = 5;
+  optional .quasar.proto.EmptyMessage replay = 10;
+  optional .quasar.proto.MediaRequest.Rewind rewind = 13;
+  optional bytes stream_data = 29;
+  optional .quasar.proto.EmptyMessage stream_data_end = 30;
+  optional .quasar.proto.AudioMetadata metadata = 37;
+  optional double playback_speed = 44 [default = 1];
+  optional .quasar.proto.MediaRequest.FadeOut update_fade_out = 50;
   optional .quasar.proto.Radio play_radio = 16;
+  optional .quasar.proto.EmptyMessage free_audio_focus = 7;
+  optional .quasar.proto.EmptyMessage take_audio_focus = 8;
+  optional .quasar.proto.MediaRequest.Next next = 6;
+  optional .quasar.proto.MediaRequest.Previous previous = 9;
+  optional .quasar.proto.EmptyMessage like = 11;
+  optional .quasar.proto.EmptyMessage dislike = 12;
+  optional string vins_init_request_id = 19;
+  optional string vins_request_id = 34;
+  optional string uid = 14;
+  optional .quasar.proto.Video play_video = 2;
   optional .quasar.proto.AudioTrack change_audio = 20;
   optional .quasar.proto.Subtitles change_subtitles = 21;
   optional .quasar.proto.EmptyMessage show_video_settings = 23;
-  optional .quasar.proto.PauseConfig pause = 4;
-  optional .quasar.proto.MediaRequest.PlayerType resume = 5;
-  optional .quasar.proto.EmptyMessage toggle_play = 32;
-  optional .quasar.proto.MediaRequest.Next next = 6;
-  optional .quasar.proto.MediaRequest.Previous previous = 9;
-  optional .quasar.proto.EmptyMessage replay = 10;
-  optional .quasar.proto.EmptyMessage like = 11;
-  optional .quasar.proto.EmptyMessage dislike = 12;
-  optional .quasar.proto.MediaRequest.Rewind rewind = 13;
-  optional .quasar.proto.EmptyMessage free_audio_focus = 7;
-  optional .quasar.proto.EmptyMessage take_audio_focus = 8;
-  optional .quasar.proto.AudioChannel current_focused_channel = 39;
-  optional string uid = 14;
-  optional string session_id = 15;
-  optional double offset = 17;
-  optional string vins_init_request_id = 19;
-  optional string vins_request_id = 34;
-  optional .quasar.proto.AudioPlayerDescriptor player_descriptor = 22;
-  optional bool is_prefetch = 27 [default = false];
-  optional bool is_download = 28 [default = false];
-  optional bytes stream_data = 29;
-  optional .quasar.proto.EmptyMessage stream_data_end = 30;
-  optional .quasar.proto.EmptyMessage clean_players = 31;
-  optional .quasar.proto.EqualizerConfig equalizer_config = 35;
-  optional .quasar.proto.AudioMetadata metadata = 37;
-  optional bool is_legacy_player = 38;
-  optional string playback_starter_user_id = 40;
-  optional int32 account_device_count = 42;
-  optional .quasar.proto.SwitchingStreamsMetadata switching_streams_metadata = 43;
-  optional double playback_speed = 44 [default = 1];
-  optional .quasar.proto.EmptyMessage recreate_players = 45;
-  optional .NAlice.NData.TPlaybackOptions playback_options = 47;
-  optional .quasar.proto.AudioClientEvent.PrefetchContext start_prefetch = 48;
-  optional .quasar.proto.AudioClientEvent.PrefetchContext stop_prefetch = 49;
 }
 
 message VinsRequest {
@@ -1526,6 +1542,9 @@ message VinsRequest {
     VOCALIZE = 7;
     DATA_INPUT = 8;
     SPEECH_INPUT = 9;
+    RECORD_INPUT = 10;
+    FILE_UPLOAD = 11;
+    TRANSLATE_INPUT = 12;
   }
 
   optional string id = 1;
@@ -1542,7 +1561,7 @@ message VinsRequest {
   optional bool voice_session = 12 [default = false];
   optional int64 starting_silence_timeout_ms = 13;
   optional .NAlice.TGuestOptions guest_options = 15;
-  optional .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions uniproxy_options = 16;
+  optional .NAlice.NAliceApi.TUniproxyOptions uniproxy_options = 16;
   optional string dialog_id = 17;
   optional .quasar.proto.VinsRequest.RequestType request_type = 18;
   optional bool use_light_payload = 19;
@@ -1567,6 +1586,7 @@ message NsdInfo {
   optional string address = 3;
   optional uint32 port = 4;
   repeated .quasar.proto.NsdInfo.Attribute attrs = 5;
+  repeated string subtypes = 8;
 }
 
 message NsdInfoList {
@@ -1625,6 +1645,7 @@ message StereoPair {
   reserved 13;
   reserved 14;
   reserved 15;
+  reserved 16;
   message State {
     reserved 10;
     optional string device_id = 1;
@@ -1714,7 +1735,6 @@ message StereoPair {
   optional .quasar.proto.StereoPair.ConversationRequest stop_conversation_request = 9;
   optional .quasar.proto.StereoPair.ConversationRequest toggle_conversation_request = 10;
   optional .quasar.proto.StereoPair.ConversationRequest finish_conversation_request = 11;
-  optional .quasar.proto.StereoPair.UserEvent user_event_request = 16;
   optional .quasar.proto.StereoPair.UserEvent user_event_signal = 17;
   optional .quasar.proto.StereoPair.DumpClockObservations dump_clock_observations = 18;
   optional .quasar.proto.StereoPair.Syn syn = 101;
@@ -1794,15 +1814,6 @@ message Alice {
   optional .quasar.proto.Alice.FinishConversationSignal finish_conversation_signal = 10;
 }
 
-message Call {
-  message State {
-    optional bool is_enabled = 1;
-    optional bool is_running = 2;
-  }
-
-  optional .quasar.proto.Call.State state = 1;
-}
-
 message EnvironmentMessage {
   optional .NAlice.NAliceApi.TEnvironmentDeviceInfo device_info = 1;
 }
@@ -1848,6 +1859,10 @@ message BackendRequest {
 }
 
 message BackendResponse {
+  message Error {
+    optional int32 error_type = 1;
+  }
+
   optional int32 response_code = 1;
   optional string response_status = 2;
   optional string content_type = 3;
@@ -1855,7 +1870,7 @@ message BackendResponse {
   optional int64 content_length = 5;
   repeated .quasar.proto.BackendRequest.Header extra_headers = 6;
   optional bool send_body = 7;
-  optional string error = 8;
+  optional .quasar.proto.BackendResponse.Error error = 8;
 }
 
 message DirectiveSequencerState {

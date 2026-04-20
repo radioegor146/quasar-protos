@@ -145,6 +145,8 @@ message TAudioFilePlayerCapability {
     SearchingForWifi = 98;
     WifiNotFound = 99;
     StoppedSearchingForWifi = 100;
+    CO2CalibrationStarted = 101;
+    CO2CalibrationFinished = 102;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

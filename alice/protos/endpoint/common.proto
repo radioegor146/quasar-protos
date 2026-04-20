@@ -53,5 +53,6 @@ enum EProtocol {
   PROTOCOL_WIFI = 3;
   PROTOCOL_IR = 4;
   PROTOCOL_CRADLE = 5;
+  PROTOCOL_ZENOH = 6;
 }
 

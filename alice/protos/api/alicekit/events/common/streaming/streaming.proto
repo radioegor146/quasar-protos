@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.common.streaming";
+option java_outer_classname = "Streaming";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/common/streaming";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TStreaming {
+  message TRouting {
+    string DialogId = 1;
+  }
+
+  .NAlice.NAliceApi.TStreaming.TRouting Routing = 1;
+  .NAlice.NAliceApi.EStreamingSource Source = 2;
+}
+
+enum EStreamingSource {
+  Unknown = 0;
+  InitialRequest = 1;
+  BackgroundResponseStreaming = 2;
+  SubscriptionState = 3;
+  ReadDialog = 4;
+}
+

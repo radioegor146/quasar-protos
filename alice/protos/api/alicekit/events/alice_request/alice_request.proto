@@ -19,11 +19,12 @@ import "alice/library/client/protos/client_info.proto";
 import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
 import "alice/protos/api/alicekit/common/device_state/device_state.proto";
 import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
+import "alice/protos/api/alicekit/common/uniproxy_options/uniproxy_options.proto";
 import "alice/protos/api/biometry/options.proto";
 import "alice/protos/api/files/file_info.proto";
+import "alice/protos/api/speech_mode/session/speech_session.proto";
 import "alice/protos/data/dialog_type/dialog_type.proto";
 import "alice/protos/data/event_source/event_source.proto";
-import "alice/protos/endpoint/capability.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TAliceRequestProto {
@@ -41,6 +42,12 @@ message TAliceRequestProto {
   reserved "SubscriptionsInfo";
   reserved "ActiveUserData";
   reserved "Alice2Mode";
+  reserved "AccountConfig";
+  reserved "BlackBoxFullUserInfo";
+  reserved "QuasarDeviceConfigsProto";
+  reserved "RecentDialogs";
+  reserved "UserFacts";
+  reserved "FraudDetected";
   reserved 4;
   reserved 5;
   reserved 6;
@@ -55,6 +62,12 @@ message TAliceRequestProto {
   reserved 31;
   reserved 32;
   reserved 33;
+  reserved 35;
+  reserved 36;
+  reserved 37;
+  reserved 38;
+  reserved 39;
+  reserved 40;
   message THeader {
     reserved "RefMessageId";
     reserved "SessionId";
@@ -72,12 +85,14 @@ message TAliceRequestProto {
   }
 
   message TRequest {
+    reserved "StickinessOptions";
     reserved "TestIDs";
     reserved "LaasRegion";
     reserved "RawPersonalData";
     reserved "SmartHomeInfo";
     reserved "NotificationState";
     reserved "AsrOptions";
+    reserved 23;
     reserved 8;
     reserved 9;
     reserved 10;
@@ -153,39 +168,7 @@ message TAliceRequestProto {
       optional string DivKitVersion = 6;
       optional string ICookie = 15;
       optional int32 SpeakersCount = 23;
-    }
-
-    message TUniproxyOptions {
-      reserved "GuestContextLoadOptions";
-      reserved "LastChunksInfo";
-      reserved "FirstEventServerTimestamp";
-      reserved 3;
-      reserved 6;
-      reserved 7;
-      message TContextLoadOptions {
-        bool UseBlackbox = 1;
-        bool UseCachalotMMSession = 2;
-        bool UseContacts = 3;
-        bool UseDatasync = 4;
-        bool UseFlagsJson = 5;
-        bool UseIotUserInfo = 6;
-        bool UseLaas = 7;
-        bool UseMemento = 8;
-        bool UseNotifications = 9;
-      }
-
-      message TCapabilityUpdatesOptions {
-        message TCapabilityUpdateInfo {
-          .NAlice.TCapability.ECapabilityType CapabilityType = 1;
-        }
-
-        repeated .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions.TCapabilityUpdatesOptions.TCapabilityUpdateInfo WaitClientCapabilityUpdates = 1;
-      }
-
-      .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions.TContextLoadOptions OwnerContextLoadOptions = 2;
-      .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions.TCapabilityUpdatesOptions CapabilityUpdatesOptions = 8;
-      optional string MegamindUrl = 1;
-      optional bool WaitClientApproval = 4;
+      optional string OriginDomain = 26;
     }
 
     .NAlice.TEvent Event = 1;
@@ -193,7 +176,7 @@ message TAliceRequestProto {
     .NAlice.TExperimentsProto Experiments = 3;
     .NAlice.TAliceRequestProto.TRequest.TAdditionalOptions AdditionalOptions = 5;
     bool ResetSession = 7;
-    .NAlice.TAliceRequestProto.TRequest.TUniproxyOptions UniproxyOptions = 17;
+    .NAlice.NAliceApi.TUniproxyOptions UniproxyOptions = 17;
     .NAlice.TOndeviceBiometryOptions BiometryOptions = 21;
     oneof DeviceStateType {
       .NAlice.NAliceApi.TDeviceState DeviceState = 4;
@@ -236,6 +219,7 @@ message TAliceRequestProto {
       optional .NAlice.NApi.NFiles.TFileInfo.EFileType FileType = 10;
       optional .NAlice.NApi.NFiles.TFileInfo.TSource Source = 12;
       optional .NAlice.NApi.NFiles.TFileInfo.TSource Result = 13;
+      optional .NAlice.NApi.NFiles.TFileInfo.TFeatures Features = 14;
     }
 
     repeated .NAlice.TAliceRequestProto.TDialogHistoryBlock.TFileDescription ChatFiles = 2;
@@ -261,5 +245,6 @@ message TAliceRequestProto {
   optional string Format = 22;
   optional bool RecognizeMusicOnly = 23;
   optional string Tags = 24;
+  optional .NAlice.TSpeechSession SpeechSession = 41;
 }
 

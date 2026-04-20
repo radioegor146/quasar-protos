@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.finish_request";
+option java_outer_classname = "FinishRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/finish_request";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
+
+message TFinishRequest {
+  string RequestMessageId = 1;
+  .NAlice.TAliceRequestProto AliceRequest = 2;
+}
+

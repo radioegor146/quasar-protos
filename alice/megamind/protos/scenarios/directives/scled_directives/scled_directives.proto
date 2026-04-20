@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package NAlice.NScenarios;
+
+option java_package = "ru.yandex.alice.megamind.protos.scenarios.directives.scled_directives";
+option java_outer_classname = "ScledDirectivesProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/megamind/protos/scenarios/directives/scled_directives";
+
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDrawScledAnimationsDirective {
+  reserved "IsEndless";
+  reserved 3;
+  message TAnimation {
+    message TS3Directory {
+      string Bucket = 1;
+      string Path = 2;
+    }
+
+    enum ECompressionType {
+      Unknown = 0;
+      None = 1;
+      Gzip = 2;
+    }
+
+    string Name = 1;
+    .NAlice.NScenarios.TDrawScledAnimationsDirective.TAnimation.ECompressionType Compression = 2;
+    oneof Value {
+      string Base64EncodedValue = 3;
+      .NAlice.NScenarios.TDrawScledAnimationsDirective.TAnimation.TS3Directory S3Directory = 4;
+    }
+  }
+
+  enum EAnimationStopPolicy {
+    Unknown = 0;
+    PlayOnce = 1;
+    PlayOnceTillEndOfTTS = 2;
+    RepeatLastTillEndOfTTS = 3;
+    RepeatLastTillNextDirective = 4;
+  }
+
+  enum ESpeakingAnimationPolicy {
+    PlaySpeakingUnknown = 0;
+    PlaySpeakingEndOfTts = 1;
+    ShowClockImmediately = 2;
+  }
+
+  string Name = 1;
+  repeated .NAlice.NScenarios.TDrawScledAnimationsDirective.TAnimation Animations = 2;
+  .NAlice.NScenarios.TDrawScledAnimationsDirective.EAnimationStopPolicy AnimationStopPolicy = 4;
+  .NAlice.NScenarios.TDrawScledAnimationsDirective.ESpeakingAnimationPolicy SpeakingAnimationPolicy = 5;
+}
+

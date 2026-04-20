@@ -8,6 +8,7 @@ option java_multiple_files = true;
 option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/synchronize_state_request";
 
 import "alice/library/censor/protos/extension.proto";
+import "alice/library/client/protos/client_analytics_info.proto";
 import "alice/library/client/protos/client_info.proto";
 import "alice/megamind/protos/common/experiments/experiments.proto";
 import "alice/megamind/protos/user/options.proto";
@@ -23,6 +24,11 @@ message TSynchronizeStateRequest {
   .NAlice.TExperimentsProto Experiments = 6;
   repeated .NAlice.NAliceApi.EEventType SupportedServerEvents = 7;
   repeated .NAlice.TUserOptions UsersOptions = 8;
+  .NAlice.TClientAnalyticsInfoProto ClientAnalyticsInfo = 12;
   optional string ICookie = 9;
+  optional string YexpCookie = 10;
+  optional string SaeCookie = 11;
+  optional string YBrowserExperiments = 13;
+  optional string XYBrowserExperiments = 14;
 }
 

@@ -15,6 +15,7 @@ import "yandex_io/sdk/directive_sequencer/protos/directive.proto";
 import "alice/library/restriction_level/protos/content_settings.proto";
 import "alice/protos/api/alicekit/common/device_state/device_state.proto";
 import "alice/protos/api/alicekit/common/environment_state/environment_state.proto";
+import "alice/protos/api/alicekit/client/alice_request/alice_request.proto";
 import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
 import "alice/protos/api/alicekit/events/alice_response/alice_response.proto";
 import "alice/protos/data/dialog_type/dialog_type.proto";
@@ -22,7 +23,7 @@ import "alice/protos/api/biometry/options.proto";
 import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
 import "alice/protos/endpoint/capabilities/alice/capability.proto";
 import "alice/protos/endpoint/capabilities/audio_file_player/capability.proto";
-import "alice/protos/endpoint/capabilities/all/all.proto";
+import "alice/protos/endpoint/capabilities/file_upload/capability.proto";
 import "alice/protos/endpoint/events/events.proto";
 import "alice/protos/endpoint/endpoint.proto";
 import "alice/protos/data/event_source/event_source.proto";
@@ -30,6 +31,7 @@ import "alice/protos/data/external_entity_description.proto";
 import "alice/protos/data/scenario/reminders/device_state.proto";
 import "alice/megamind/protos/common/experiments/experiments.proto";
 import "alice/megamind/protos/guest/enrollment_headers/enrollment_headers.proto";
+import "google/protobuf/any.proto";
 import "google/protobuf/struct.proto";
 
 message SoundFormat {
@@ -39,6 +41,7 @@ message SoundFormat {
     OPUS = 2;
     RAW = 3;
     HEADERLESS_OPUS_STREAM = 4;
+    HEADERLESS_OPUS_STREAM_BYTE_SIZE = 5;
   }
 
 }
@@ -85,6 +88,8 @@ message Remoting {
   reserved 11;
   reserved 26;
   reserved 27;
+  reserved 28;
+  reserved 29;
   message DirectiveHandlerMethod {
     enum Method {
       HANDLE = 0;
@@ -166,6 +171,9 @@ message Remoting {
       SET_VINS_URL = 24;
       SET_FOLDER_ID = 25;
       START_SPEECH_INPUT = 26;
+      START_RECORD_INPUT = 27;
+      START_FILE_UPLOAD = 28;
+      START_TRANSLATE_INPUT = 29;
     }
 
     optional .quasar.proto.Remoting.AliceCapabilityMethod.Method method = 1;
@@ -187,10 +195,19 @@ message Remoting {
     optional .NAlice.TAliceCapability.TStartDataInputDirective start_data_input_directive = 17;
     optional string vins_url = 18;
     optional string folder_id = 19;
+    optional .NAlice.NAliceApi.TAliceRequest alice_request = 20;
+    optional bool force = 21;
+    optional .NAlice.TFileUploadCapability.TStartFileUploadDirective start_file_upload_directive = 22;
   }
 
   message AliceCapabilityListenerMethod {
     reserved 7;
+    reserved 9;
+    message TFileUploadEvent {
+      optional string interaction_id = 1;
+      optional string serialized_event = 2;
+    }
+
     enum Method {
       STATE_CHANGED = 0;
       TTS_COMPLETED = 1;
@@ -201,6 +218,7 @@ message Remoting {
       TTS_STARTED = 6;
       RECOGNITION_COMPLETED = 7;
       ON_ALICE_EVENT = 8;
+      ON_FILE_UPLOAD_EVENT = 9;
     }
 
     optional .quasar.proto.Remoting.AliceCapabilityListenerMethod.Method method = 1;
@@ -210,10 +228,10 @@ message Remoting {
     optional .quasar.proto.AliceState.Error error_code = 5;
     optional string error_text = 6;
     optional .quasar.proto.AllStartupSettings all_startup_settings = 8;
-    repeated string blocker_ids = 9;
     optional int64 speech_duration_ms = 10;
     optional string request_id = 11;
     optional .quasar.proto.TAliceEvent alice_event = 12;
+    optional .quasar.proto.Remoting.AliceCapabilityListenerMethod.TFileUploadEvent file_upload_event = 13;
   }
 
   message AliceRequestEventsMethod {
@@ -264,6 +282,8 @@ message Remoting {
   }
 
   message FilePlayerCapabilityMethod {
+    reserved "file_name";
+    reserved 7;
     message FilePlayerPlayParams {
       optional bool play_looped = 1;
       optional uint32 play_times = 2;
@@ -283,7 +303,6 @@ message Remoting {
     optional bool send_events = 5;
     oneof sound {
       string file_path = 2;
-      string file_name = 7;
       .NAlice.TAudioFilePlayerCapability.EStoredSound stored_sound = 6;
     }
   }
@@ -291,6 +310,7 @@ message Remoting {
   message FilePlayerCapabilityEventsMethod {
     optional .quasar.proto.DirectiveEvent directive_event = 1;
     optional .quasar.proto.EmptyMessage handshake_response = 2;
+    optional .quasar.proto.AudioClientEvent audio_client_event = 3;
   }
 
   message PlaybackControlCapabilityMethod {
@@ -353,6 +373,7 @@ message Remoting {
     optional .quasar.proto.Remoting.SpotterCapabilityListenerMethod.Method method = 1;
     repeated string spotter_type = 2;
     optional string spotted_phrase = 3;
+    repeated string spotter_model_path = 4;
   }
 
   message DeviceStateCapabilityMethod {
@@ -362,6 +383,8 @@ message Remoting {
     reserved 19;
     reserved 20;
     reserved 30;
+    reserved 25;
+    reserved 47;
     message SupportedFeatures {
       repeated string values = 1;
     }
@@ -420,7 +443,6 @@ message Remoting {
       .quasar.proto.Remoting.DeviceStateCapabilityMethod.VolumeState volume_state = 22;
       .NAlice.NAliceApi.TDeviceState.TBattery battery = 23;
       .NAlice.NAliceApi.TDeviceState.TClockDisplayState clock_display_state = 24;
-      .NAlice.NAliceApi.TDeviceState.TMessengerCall messenger_call = 25;
       .NAlice.NAliceApi.TDeviceState.TDeviceConfig device_config = 26;
       .quasar.proto.Remoting.DeviceStateCapabilityMethod.DeviceConfigContentSettings device_config_content_settings = 27;
       string device_config_spotter = 28;
@@ -518,25 +540,7 @@ message Remoting {
     optional .quasar.proto.Directive directive = 2;
     optional .quasar.proto.DirectiveEvent.Result result = 3;
     repeated .quasar.proto.Directive directives = 4;
-  }
-
-  message StereoPairCapabilityMethod {
-    enum Method {
-      ON_USER_EVENT = 0;
-    }
-
-    optional .quasar.proto.Remoting.StereoPairCapabilityMethod.Method method = 1;
-    optional string id = 2;
-    optional string payload_json = 3;
-  }
-
-  message LyricsCapabilityMethod {
-    enum Method {
-      SET_ENABLED = 0;
-    }
-
-    optional .quasar.proto.Remoting.LyricsCapabilityMethod.Method method = 1;
-    optional bool enabled_lyrics = 2;
+    optional string meta_data = 5;
   }
 
   message TandemCapabilityListenerMethod {
@@ -568,18 +572,35 @@ message Remoting {
 
     message Meta {
       optional string key = 1;
-      optional string value = 2;
+      optional string string_value = 2;
+      optional float float_value = 3;
+    }
+
+    message SubEvent {
+      required .quasar.proto.Remoting.TimingsManagerMethod.Event event = 1;
+      required int32 sub_id = 2;
+    }
+
+    message SubInfo {
+      required string key = 1;
+      required string parent_id = 2;
+      required int32 events_id = 3;
+      repeated .quasar.proto.Remoting.TimingsManagerMethod.Meta meta = 4;
     }
 
     enum Method {
       PUT_EVENT = 0;
       ADD_META = 1;
+      FLUSH_TIMELINE = 2;
     }
 
     optional .quasar.proto.Remoting.TimingsManagerMethod.Method method = 1;
     optional string log_id = 2;
     optional .quasar.proto.Remoting.TimingsManagerMethod.Event event = 3;
     optional .quasar.proto.Remoting.TimingsManagerMethod.Meta meta = 4;
+    repeated .quasar.proto.Remoting.TimingsManagerMethod.Meta all_meta = 5;
+    repeated .quasar.proto.Remoting.TimingsManagerMethod.SubEvent sub_events = 7;
+    repeated .quasar.proto.Remoting.TimingsManagerMethod.SubInfo sub_meta = 8;
   }
 
   optional string remote_object_id = 7;
@@ -604,8 +625,6 @@ message Remoting {
     .quasar.proto.Remoting.VocalizerCapabilityListenerMethod vocalizer_capability_listener_method = 22;
     .quasar.proto.Remoting.DirectiveSequencerMethod directive_sequencer_method = 23;
     .quasar.proto.Remoting.DirectiveSequencerListenerMethod directive_sequencer_listener_method = 24;
-    .quasar.proto.Remoting.StereoPairCapabilityMethod stereo_pair_capability_method = 28;
-    .quasar.proto.Remoting.LyricsCapabilityMethod lyrics_capability_method = 29;
     .quasar.proto.Remoting.TandemCapabilityListenerMethod tandem_capability_listener_method = 30;
     .quasar.proto.Remoting.ClockStorageMethod clock_storage_method = 31;
     .quasar.proto.Remoting.FastCommandRequesterMethod fast_command_requester_method = 32;

@@ -10,7 +10,9 @@ option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/protocol/server"
 import "alice/protos/api/alicekit/events/alice_response/alice_response.proto";
 import "alice/protos/api/alicekit/events/asr_music_result/asr_music_result.proto";
 import "alice/protos/api/alicekit/events/asr_result/asr_result.proto";
+import "alice/protos/api/alicekit/events/audio_transcription_input/audio_transcription_input_response.proto";
 import "alice/protos/api/alicekit/events/common/event_header/event_header.proto";
+import "alice/protos/api/alicekit/events/common/streaming/streaming.proto";
 import "alice/protos/api/alicekit/events/data_proxy_request/data_proxy_request.proto";
 import "alice/protos/api/alicekit/events/event_exception/event_exception.proto";
 import "alice/protos/api/alicekit/events/file_upload_response/file_upload_response.proto";
@@ -20,7 +22,9 @@ import "alice/protos/api/alicekit/events/invalid_auth/invalid_auth.proto";
 import "alice/protos/api/alicekit/events/log_ack/log_ack.proto";
 import "alice/protos/api/alicekit/events/ping/ping.proto";
 import "alice/protos/api/alicekit/events/push/push.proto";
+import "alice/protos/api/alicekit/events/request_stat_ack/request_stat_ack.proto";
 import "alice/protos/api/alicekit/events/server_request_ready/server_request_ready.proto";
+import "alice/protos/api/alicekit/events/server_subscription_state/server_subscription_state.proto";
 import "alice/protos/api/alicekit/events/speech_control/speech_control.proto";
 import "alice/protos/api/alicekit/events/spotter_validation/spotter_validation.proto";
 import "alice/protos/api/alicekit/events/stream_control/stream_control.proto";
@@ -40,12 +44,28 @@ message TServerMessage {
     reserved "DataProxyOutput";
     reserved "IotCloudTechnicalPushResponse";
     reserved "IotCloudEventsBatchResponse";
+    reserved "DebugLogs";
+    reserved "IotCloudLogBatchResponse";
+    reserved "IotCloudTelemetryBatchResponse";
+    reserved "DialogHistoryMessage";
+    reserved "IotCloudGeneralQuasarRequestResponse";
+    reserved "IotCloudOtaResponse";
+    reserved "DialogControl";
+    reserved "GeneralHttpRequestResponse";
     reserved 6;
     reserved 7;
     reserved 20;
     reserved 21;
     reserved 26;
     reserved 27;
+    reserved 28;
+    reserved 29;
+    reserved 30;
+    reserved 31;
+    reserved 33;
+    reserved 34;
+    reserved 35;
+    reserved 37;
     .NAlice.NAliceApi.TEventHeader Header = 1;
     oneof Event {
       .NAlice.NAliceApi.TAliceResponseProto AliceResponse = 2;
@@ -68,6 +88,9 @@ message TServerMessage {
       .NAlice.NAliceApi.TFileUploadResponse FileUploadResponse = 23;
       .NAlice.NAliceApi.TSynchronizeStateResponse SynchronizeStateResponse = 24;
       .NAlice.NAliceApi.TSpeechControl SpeechControl = 25;
+      .NAlice.NAliceApi.TServerSubscriptionState ServerSubscriptionState = 32;
+      .NAlice.NAliceApi.TRequestStatAck RequestStatAck = 36;
+      .NAlice.NAliceApi.TAudioTranscriptionInputResponse AudioTranscriptionInputResponse = 38;
     }
   }
 
@@ -76,6 +99,7 @@ message TServerMessage {
   }
 
   .NAlice.NAliceApi.TServerMessage.TTimings Timings = 3;
+  .NAlice.NAliceApi.TStreaming Streaming = 4;
   oneof Message {
     .NAlice.NAliceApi.TServerMessage.TEvent Event = 1;
     .NAlice.NAliceApi.TStreamControl StreamControl = 2;

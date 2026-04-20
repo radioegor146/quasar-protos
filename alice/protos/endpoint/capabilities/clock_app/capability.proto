@@ -75,6 +75,7 @@ message TClockAppCapability {
   message TOpenScreenAlarmListDirective {
     string Name = 1;
     repeated string TargetAlarmIds = 2;
+    bool ForceAutoClose = 3;
   }
 
   message TOpenScreenAlarmEditDirective {
@@ -90,6 +91,7 @@ message TClockAppCapability {
     string Name = 1;
     repeated string TargetTimerIds = 2;
     .NAlice.TClockAppCapability.TTimerListScreenState.ESectionOfListScreen TargetSection = 3;
+    bool ForceAutoClose = 4;
   }
 
   message TOpenScreenTimerInfoDirective {

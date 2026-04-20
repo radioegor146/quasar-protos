@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package iot.zenoh.proto;
+
+import "alice/protos/api/iot_device/device.proto";
+
+message TPskPair {
+  string Id = 1;
+  string Psk = 2;
+}
+
+message TDeviceDescriptor {
+  string DeviceId = 1;
+  .NAlice.NIot.TDeviceDescription DeviceDescription = 2;
+  .iot.zenoh.proto.TPskPair PskPair = 3;
+}
+
+message TNetwork {
+  repeated .iot.zenoh.proto.TDeviceDescriptor Devices = 1;
+}
+

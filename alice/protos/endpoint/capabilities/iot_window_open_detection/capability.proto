@@ -29,6 +29,15 @@ message TIotWindowOpenDetectionCapability {
     .NAlice.TIotWindowOpenDetectionCapability Capability = 1;
   }
 
+  message TCondition {
+    enum EState {
+      OpenCondition = 0;
+      CloseCondition = 1;
+    }
+
+    .NAlice.TIotWindowOpenDetectionCapability.TCondition.EState State = 1;
+  }
+
   .NAlice.TCapability.TMeta Meta = 1;
   .NAlice.TIotWindowOpenDetectionCapability.TParameters Parameters = 2;
   .NAlice.TIotWindowOpenDetectionCapability.TState State = 3;

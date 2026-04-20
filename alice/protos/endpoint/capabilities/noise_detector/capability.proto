@@ -42,6 +42,7 @@ message TNoiseDetectorCapability {
     MEOW = 10;
     SNEEZING = 11;
     UNIDENTIFIED = 12;
+    DOUBLE_CLAP = 13;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

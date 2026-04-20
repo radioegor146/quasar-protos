@@ -32,6 +32,17 @@ message TFmRadioInfoSlot {
   }
 }
 
+message TFmRadioPlaybackSourceSlot {
+  enum EValue {
+    Unknown = 0;
+    AliceShow = 1;
+  }
+
+  oneof Value {
+    .NAlice.TFmRadioPlaybackSourceSlot.EValue EnumValue = 1;
+  }
+}
+
 message TRadioPlaySemanticFrame {
   .NAlice.TFmRadioStationSlot FmRadioStation = 1;
   .NAlice.TFmRadioFreqSlot FmRadioFreq = 2;
@@ -43,5 +54,6 @@ message TFmRadioPlaySemanticFrame {
   .NAlice.TFmRadioStationSlot FmRadioStation = 1;
   .NAlice.TFmRadioFreqSlot FmRadioFreq = 2;
   .NAlice.TBoolSlot DisableNlg = 3;
+  .NAlice.TFmRadioPlaybackSourceSlot PlaybackSource = 4;
 }
 

@@ -20,6 +20,13 @@ message TClientInfoProto {
     optional string ObjectResponseClient = 5;
   }
 
+  enum EClientType {
+    Undefined = 0;
+    IOSDK = 1;
+    AliceKitJs = 2;
+    SpeechKit = 3;
+  }
+
   optional string AppId = 1;
   optional string AppVersion = 2;
   optional string OsVersion = 3;
@@ -41,5 +48,9 @@ message TClientInfoProto {
   optional string MetricaDeviceId = 20;
   optional string WifiModel = 21;
   optional string IntegrationType = 22;
+  optional .NAlice.TClientInfoProto.EClientType ClientType = 23;
+  optional string Vid = 24;
+  optional string Pid = 25;
+  optional string FirmwareVersion = 26;
 }
 

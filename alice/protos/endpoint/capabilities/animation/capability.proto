@@ -40,6 +40,9 @@ message TAnimationCapability {
       Bergamot = 5;
       Pickle = 6;
       Mango = 7;
+      Orion = 8;
+      Repa = 9;
+      Brukva = 10;
     }
 
     string Guid = 1;
@@ -174,6 +177,9 @@ message TAnimationCapability {
     ShowCO2Level = 8;
     ShowHumidityLevel = 9;
     ShowTemperatureLevel = 10;
+    PlayerNext = 11;
+    EmotionalWink = 12;
+    EmotionalLove = 13;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

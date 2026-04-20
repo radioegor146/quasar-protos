@@ -76,12 +76,23 @@ message TIotDiscoveryCapability {
       repeated .NAlice.TIotDiscoveryCapability.TProtocolParameters.TTransportParameters TransportsParameters = 2;
     }
 
+    message TZenohParameters {
+      string PeerDeviceID = 1;
+      .NAlice.TIotDiscoveryCapability.TProtocolParameters.TSecurity Security = 2;
+    }
+
+    message TSecurity {
+      string PSKID = 1;
+      string PSK = 2;
+    }
+
     .NAlice.TIotDiscoveryCapability.TProtocol Protocol = 1;
     oneof Parameters {
       .NAlice.TIotDiscoveryCapability.TProtocolParameters.TZigbeeParameters ZigbeeParameters = 2;
       .NAlice.TIotDiscoveryCapability.TProtocolParameters.TMatterParameters MatterParameters = 3;
       .NAlice.TIotDiscoveryCapability.TProtocolParameters.TMatterBulkParameters MatterBulkParameters = 4;
       .NAlice.TIotDiscoveryCapability.TProtocolParameters.TMatterParametersV3 MatterParametersV3 = 5;
+      .NAlice.TIotDiscoveryCapability.TProtocolParameters.TZenohParameters ZenohParameters = 6;
     }
   }
 
@@ -95,6 +106,7 @@ message TIotDiscoveryCapability {
     .google.protobuf.StringValue ZigbeeNetworkBase64 = 2;
     .google.protobuf.StringValue MatterNetworkBase64 = 3;
     .google.protobuf.StringValue ThreadNetworkBase64 = 4;
+    .google.protobuf.StringValue ZenohNetworkBase64 = 6;
     repeated .NAlice.TIotDiscoveryCapability.TNetwork Networks = 5;
   }
 
@@ -112,6 +124,7 @@ message TIotDiscoveryCapability {
     uint32 DeviceLimit = 4;
     repeated .NAlice.TIotDiscoveryCapability.TProtocolParameters ProtocolParameters = 5;
     string SessionId = 6;
+    .NAlice.TIotDiscoveryCapability.EMode Mode = 7;
   }
 
   message TCancelDiscoveryDirective {
@@ -189,6 +202,7 @@ message TIotDiscoveryCapability {
 
     uint32 FoundDevicesCount = 1;
     string SessionId = 3;
+    .NAlice.TIotDiscoveryCapability.EMode Mode = 4;
     oneof Result {
       .NAlice.TIotDiscoveryCapability.TIotDiscoveryCompleteEvent.TMatterDiscoveryResult Matter = 2;
     }
@@ -213,11 +227,13 @@ message TIotDiscoveryCapability {
     WiFi = 1;
     Matter = 2;
     Thread = 3;
+    Zenoh = 4;
   }
 
   enum TMatterTransport {
-    WIFI = 0;
-    THREAD = 1;
+    MATTER_TRANSPORT_UNKNOWN = 0;
+    WIFI = 1;
+    THREAD = 2;
   }
 
   enum EStatus {
@@ -228,6 +244,13 @@ message TIotDiscoveryCapability {
     DISABLED = 4;
     FAILURE = 5;
     WIPED = 6;
+    DISCOVERING_IN_BACKGROUND = 7;
+  }
+
+  enum EMode {
+    MODE_UNKNOWN = 0;
+    INTERACTIVE = 1;
+    BACKGROUND = 2;
   }
 
   enum EMatterDiscoveryStage {

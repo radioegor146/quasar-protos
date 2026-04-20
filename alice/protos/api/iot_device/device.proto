@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package NAlice.NIot;
+
+option go_package = "a.yandex-team.ru/alice/protos/api/iot_device";
+
+import "alice/protos/endpoint/aggregate.proto";
+import "alice/protos/endpoint/endpoint.proto";
+
+message TDevice {
+  repeated .NAlice.TEndpoint Endpoints = 1;
+  repeated .NAlice.TAggregate Aggregates = 2;
+}
+
+message TDeviceDescription {
+  .NAlice.NIot.TDevice Device = 1;
+  bytes HashSum = 2;
+}
+

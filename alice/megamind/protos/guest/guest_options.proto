@@ -41,5 +41,6 @@ message TGuestOptions {
   optional string RefMessageId = 8;
   optional .NAlice.THashPuids HashPuids = 9;
   optional .NAlice.TGuestOptions.EMatchConfidence MatchConfidence = 10;
+  optional uint32 ConfidenceLevel10 = 11;
 }
 

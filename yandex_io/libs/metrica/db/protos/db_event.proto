@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package quasar.proto;
 
-import "yandex_io/protos/connection_type.proto";
+import "yandex_io/protos/connection_type/connection_type.proto";
 
 message DatabaseMetricaEvent {
   message NewEnvironment {

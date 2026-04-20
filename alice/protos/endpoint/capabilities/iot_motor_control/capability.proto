@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotMotorControlCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_motor_control;iotmotorcontrolpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotMotorControlCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TIotMotorControlCapability.EState State = 1;
+  }
+
+  message TMotorControlOpenDirective {
+    string Name = 1000;
+  }
+
+  message TMotorControlCloseDirective {
+    string Name = 1000;
+  }
+
+  message TMotorControlStopDirective {
+    string Name = 1000;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotMotorControlCapability Capability = 1;
+  }
+
+  enum EState {
+    UNKNOWN = 0;
+    OPENED = 1;
+    INTERMEDIATE = 2;
+    CLOSED = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotMotorControlCapability.TParameters Parameters = 2;
+  .NAlice.TIotMotorControlCapability.TState State = 3;
+}
+

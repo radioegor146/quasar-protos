@@ -55,6 +55,7 @@ message TAudioPlayerCapability {
     .NAlice.TAudioPlayerCapability.TParameters.EQuality Quality = 5;
     bool AutoQualityEnabled = 8;
     .NAlice.TAudioPlayerCapability.TParameters.TSequenceStateConditionalSupportParams SequenceStateConditionalSupportParams = 7;
+    bool MusicSetSupport = 9;
   }
 
   message TState {

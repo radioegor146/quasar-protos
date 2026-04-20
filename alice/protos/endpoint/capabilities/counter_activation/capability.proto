@@ -16,6 +16,7 @@ message TCounterActivationCapability {
 
   message TState {
     bool Enabled = 1;
+    repeated string AvailableModels = 2;
   }
 
   message TCounterActivationStartedEvent {
@@ -26,14 +27,17 @@ message TCounterActivationCapability {
 
     string Phrase = 1;
     repeated .NAlice.TCounterActivationCapability.TCounterActivationStartedEvent.ModelResult ModelResults = 2;
+    string SessionId = 3;
   }
 
   message TCounterActivationPriorityEvent {
     enum EType {
       PhraseSpotted = 0;
+      IrrelevantRequest = 1;
     }
 
     .NAlice.TCounterActivationCapability.TCounterActivationPriorityEvent.EType Event = 1;
+    string SessionId = 2;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

@@ -22,12 +22,6 @@ message TOpeningSensorCapability {
   message TOpeningSensorOpenedEvent {
   }
 
-  message TOpeningSensorAjarEvent {
-  }
-
-  message TOpeningSensorLockedEvent {
-  }
-
   message TOpeningSensorClosedEvent {
   }
 

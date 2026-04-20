@@ -27,6 +27,10 @@ message TIotPlanarViewCapability {
     .NAlice.NIot.TBasis Basis = 1;
   }
 
+  message TIotSetPlanarViewGridDirective {
+    .NAlice.NIot.TGrid Grid = 1;
+  }
+
   message TUpdateStateEvent {
     .NAlice.TIotPlanarViewCapability Capability = 1;
   }

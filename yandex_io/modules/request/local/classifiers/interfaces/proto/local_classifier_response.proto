@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package NAlice;
+
+import "alice/protos/api/alicekit/scenarios/frames/frame.proto";
+
+message TLocalClassifierResponse {
+  repeated .NAlice.NAliceApi.TSemanticFrame Frames = 1;
+}
+

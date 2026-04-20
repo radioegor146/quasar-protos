@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package NAlice.NIotCloud;
+
+option java_package = "ru.yandex.alice.protos.api.iot_cloud.events.log_batch";
+option java_outer_classname = "IotCloudLogBatchRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/iot_cloud/events/log_batch";
+
+import "google/protobuf/timestamp.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotCloudLogBatchRequest {
+  .NAlice.NIotCloud.TIotCloudLogBatch LogBatch = 1;
+}
+
+message TIotCloudLogMessage {
+  message TField {
+    string Key = 1;
+    oneof Value {
+      string StringValue = 2;
+    }
+  }
+
+  enum ELogLevel {
+    UNKNOWN = 0;
+    DEBUG = 1;
+    INFO = 2;
+    WARN = 3;
+    ERROR = 4;
+    FATAL = 5;
+  }
+
+  .NAlice.NIotCloud.TIotCloudLogMessage.ELogLevel Level = 1;
+  string Message = 2;
+  repeated .NAlice.NIotCloud.TIotCloudLogMessage.TField Fields = 3;
+  optional .google.protobuf.Timestamp Timestamp = 4;
+}
+
+message TIotCloudLogBatch {
+  repeated .NAlice.NIotCloud.TIotCloudLogMessage Messages = 1;
+}
+

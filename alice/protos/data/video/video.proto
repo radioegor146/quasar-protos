@@ -6,6 +6,7 @@ option java_package = "ru.yandex.alice.protos.data.video";
 option java_outer_classname = "VideoProto";
 option go_package = "a.yandex-team.ru/alice/protos/data/video";
 
+import "alice/library/yt/extensions/alice_options.proto";
 import "alice/protos/data/action/tv_action.proto";
 import "alice/protos/data/avatar/avatar.proto";
 import "alice/protos/data/app_metrika/metrika.proto";
@@ -157,8 +158,10 @@ message TVHLicenceInfo {
 }
 
 message TVideoItem {
+  reserved "EventNotStarted";
   reserved 29;
   reserved 39;
+  reserved 84;
   message TNestedVideoItem {
     string Type = 1;
     string ProviderName = 2;
@@ -433,6 +436,8 @@ message TOttVideoItem {
     optional string FullSubscriptionName = 1;
     optional string ButtonText = 2;
     optional string ButtonTextWithDetails = 3;
+    optional bool SilentPurchaseAvailable = 4;
+    optional string LegalText = 5;
   }
 
   message TPrice {
@@ -449,20 +454,32 @@ message TOttVideoItem {
 
   message TViewOptions {
     message TCardDetailsButton {
+      message TOpenAppAction {
+        string PackageName = 1;
+        string Deeplink = 2;
+      }
+
       enum EActionType {
         AT_PLAY = 0;
         AT_BUY_SUBSCRIPTION = 1;
         AT_SERIAL_NAVIGATOR = 2;
+        AT_OPEN_APP = 3;
       }
 
       enum EBackgroundType {
         BT_DEFAULT = 0;
         BT_PLUS = 1;
+        BT_KP = 2;
       }
 
       .NAlice.TOttVideoItem.TViewOptions.TCardDetailsButton.EActionType Type = 1;
       string Text = 2;
       .NAlice.TOttVideoItem.TViewOptions.TCardDetailsButton.EBackgroundType Background = 3;
+      string ButtonSubText = 4;
+      oneof Action {
+        .NAlice.TOttVideoItem.TViewOptions.TCardDetailsButton.TOpenAppAction OpenAppAction = 6;
+      }
+      optional .NAlice.TAvatarMdsImage Icon = 5;
     }
 
     string Type = 1;
@@ -486,15 +503,19 @@ message TOttVideoItem {
     optional string FullSubscriptionName = 17;
     optional .NAlice.TOttVideoItem.TDiscount Discount = 19;
     optional string BillingProductId = 20;
+    optional bool SilentPurchaseAvailable = 24;
     optional string SubscriptionBadge = 22;
+    optional .NAlice.TAvatarMdsImage SubscriptionBadgeMds = 23;
   }
 
   message TEpisodeInfo {
+    .NAlice.TAvatarMdsImage Thumbnail = 7;
     optional int32 SeasonNumber = 1;
     optional int32 EpisodeNumber = 2;
     optional string EpisodeTitle = 3;
     optional bool Seen = 4;
     optional bool Watching = 5;
+    optional string ContentId = 6;
   }
 
   message TUgcFlags {
@@ -521,6 +542,12 @@ message TOttVideoItem {
     AS_DISABLED = 1;
     AS_NOT_RELEASED = 2;
     AS_RELEASED = 3;
+  }
+
+  enum ESerialStructureType {
+    SS_UNAVAILABLE = 0;
+    SS_CINEMA = 1;
+    SS_FREE = 2;
   }
 
   string Id = 1;
@@ -569,6 +596,7 @@ message TOttVideoItem {
   repeated .NAlice.TPersonItem ActorItems = 53;
   uint32 SeasonsCount = 54;
   string ShortDisplayName = 55;
+  .NAlice.TOttVideoItem.ESerialStructureType SerialStructureType = 56;
   optional .NAlice.TAvatarMdsImage HorizontalPoster = 39;
   optional bool IsInKPTop10 = 41;
   optional bool IsInKPTop250 = 42;
@@ -578,6 +606,7 @@ message TOttVideoItem {
   optional .NAlice.TAdConfig AdConfig = 48;
   optional uint64 LastInteractionTime = 51;
   optional string PromoCinema = 52;
+  optional .NAlice.TAvatarMdsImage SubscriptionBadgeMds = 57;
 }
 
 message TThinOttVideoItem {
@@ -605,6 +634,7 @@ message TWebVideoPreview {
 message TWebVideoItem {
   message TFeature {
     optional bool IsPorn = 1;
+    optional bool IsShockVideo = 2;
   }
 
   message TEpisodeInfo {
@@ -641,6 +671,7 @@ message TWebVideoItem {
   optional .NAlice.TAdConfig AdConfig = 16;
   optional string Doc2docUrl = 18;
   optional uint64 ViewsCount = 19;
+  optional .NAlice.TAvatarMdsImage BadgeMds = 29;
 }
 
 message TExternalCinemaRequest {
@@ -680,5 +711,29 @@ message TYangoVideoItem {
   string Id = 2;
   string OttStatus = 3;
   repeated .NAlice.TYangoVideoItem.Title Titles = 4;
+}
+
+message TWebVideoInfo {
+  string PlayerId = 1;
+  string Url = 2;
+  string Id = 3;
+  string Hosting = 4;
+  string Title = 5;
+  string Doc2docUrl = 6;
+}
+
+message TSubscriptionPaySdk {
+  repeated string Features = 1;
+  string TitleVideo = 2;
+}
+
+message TVideoPaySdk {
+  string ProviderItemId = 1;
+  string Title = 2;
+  string ContentType = 3;
+  string ViewOptionsType = 4;
+  string BillingFeatureName = 5;
+  .NAlice.TAvatarMdsImage Poster = 6;
+  .NAlice.TAvatarMdsImage Thumbnail = 7;
 }
 

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.location";
+option java_outer_classname = "Room";
+option go_package = "a.yandex-team.ru/alice/protos/data/location";
+
+import "alice/protos/data/device/info.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUserRoom {
+  string Id = 1;
+  string Name = 2;
+  string HouseholdId = 3;
+  .NAlice.TUserSharingInfo SharingInfo = 4;
+  repeated string Aliases = 5;
+  repeated string Permissions = 6;
+}
+

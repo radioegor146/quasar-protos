@@ -10,11 +10,16 @@ option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/spotter_v
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TSpotterValidation {
+  reserved "Valid";
+  reserved "MultiactivationId";
+  reserved 2;
+  reserved 4;
   enum EResult {
     SpottingRejected = 0;
     Ok = 1;
   }
 
   .NAlice.NAliceApi.TSpotterValidation.EResult Result = 1;
+  optional bool CanceledCauseOfMultiactivation = 3;
 }
 

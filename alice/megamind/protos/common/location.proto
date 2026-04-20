@@ -7,6 +7,7 @@ option java_outer_classname = "LocationProto";
 option go_package = "a.yandex-team.ru/alice/megamind/protos/common";
 
 import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
 
 message TLocation {
   optional double Lat = 1;

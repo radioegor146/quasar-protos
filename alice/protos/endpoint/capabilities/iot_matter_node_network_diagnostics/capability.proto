@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotMatterNodeNetworkDiagnosticsCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_matter_node_network_diagnostics;iotmatternodenetworkdiagnosticspb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotMatterNodeNetworkDiagnosticsCapability {
+  message TWiFiDiagnostics {
+    bytes Bssid = 1;
+    .NAlice.TIotMatterNodeNetworkDiagnosticsCapability.EWiFiSecurityType SecurityType = 2;
+    .NAlice.TIotMatterNodeNetworkDiagnosticsCapability.EWiFiVersion WiFiVersion = 3;
+    uint32 ChannelNumber = 4;
+    int32 Rssi = 5;
+  }
+
+  message TNetworkDiagnostics {
+    oneof NetworkInfo {
+      .NAlice.TIotMatterNodeNetworkDiagnosticsCapability.TWiFiDiagnostics WiFi = 1;
+    }
+  }
+
+  message TParameters {
+    .NAlice.TIotMatterNodeNetworkDiagnosticsCapability.EInterfaceType InterfaceType = 1;
+  }
+
+  message TState {
+    .NAlice.TIotMatterNodeNetworkDiagnosticsCapability.TNetworkDiagnostics NetworkDiagnostics = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotMatterNodeNetworkDiagnosticsCapability Capability = 1;
+  }
+
+  enum EInterfaceType {
+    InterfaceTypeUnspecified = 0;
+    InterfaceTypeWifi = 1;
+    InterfaceTypeEthernet = 2;
+    InterfaceTypeCellular = 3;
+    InterfaceTypeThread = 4;
+  }
+
+  enum EWiFiSecurityType {
+    WifiSecurityTypeUnspecified = 0;
+    WifiSecurityTypeNone = 1;
+    WifiSecurityTypeWep = 2;
+    WifiSecurityTypeWpa = 3;
+    WifiSecurityTypeWpa2 = 4;
+    WifiSecurityTypeWpa3 = 5;
+  }
+
+  enum EWiFiVersion {
+    WiFiVersionUnknown = 0;
+    WiFiVersionA = 1;
+    WiFiVersionB = 2;
+    WiFiVersionG = 3;
+    WiFiVersionN = 4;
+    WiFiVersionAC = 5;
+    WiFiVersionAX = 6;
+    WiFiVersionAH = 7;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotMatterNodeNetworkDiagnosticsCapability.TParameters Parameters = 2;
+  .NAlice.TIotMatterNodeNetworkDiagnosticsCapability.TState State = 3;
+}
+

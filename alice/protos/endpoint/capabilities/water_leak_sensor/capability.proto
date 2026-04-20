@@ -9,6 +9,7 @@ option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/water_l
 import "google/protobuf/descriptor.proto";
 import "alice/protos/endpoint/capability.proto";
 import "alice/protos/endpoint/events/events.proto";
+import "alice/protos/extensions/extensions.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TWaterLeakSensorCapability {
@@ -17,6 +18,14 @@ message TWaterLeakSensorCapability {
 
   message TState {
     .NAlice.TTypedCapabilityEvent LastEvent = 1;
+  }
+
+  message TResetLeakDirective {
+    string Name = 1000;
+  }
+
+  message TTriggerLeakDirective {
+    string Name = 1000;
   }
 
   message TWaterLeakSensorLeakEvent {

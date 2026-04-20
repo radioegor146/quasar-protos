@@ -8,7 +8,9 @@ option go_package = "a.yandex-team.ru/alice/protos/endpoint;endpointpb";
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
+import "alice/library/client/protos/client_info.proto";
 import "alice/protos/data/color/color.proto";
+import "alice/protos/endpoint/any_capability.proto";
 import "alice/protos/endpoint/common.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
@@ -35,6 +37,7 @@ message TEndpoint {
     .NAlice.TEndpoint.TDeviceInfo DeviceInfo = 2;
     .NAlice.TEndpoint.EAccessType AccessType = 3;
     repeated .NAlice.TEndpoint.TMeta.TTag Tags = 4;
+    .NAlice.TClientInfoProto ClientInfo = 5;
   }
 
   message TStatus {
@@ -85,6 +88,13 @@ message TEndpoint {
     PresenceSensorZoneDeviceType = 22;
     BridgeDeviceType = 23;
     IrRemoteDeviceType = 24;
+    EarbudsEndpointType = 25;
+    EarbudDeviceType = 26;
+    EarbudsCaseDeviceType = 27;
+    WaterGuardSystemDeviceType = 28;
+    WaterValveDeviceType = 29;
+    WaterMeterDeviceType = 30;
+    RelayDeviceType = 31;
   }
 
   enum EAccessType {
@@ -92,11 +102,13 @@ message TEndpoint {
     Local = 1;
     Embedded = 2;
     Remote = 3;
+    Virtual = 4;
   }
 
   string Id = 1;
   .NAlice.TEndpoint.TMeta Meta = 2;
   repeated .google.protobuf.Any Capabilities = 3;
+  repeated .NAlice.TAnyCapabilityHolder AnyCapabilities = 5;
   .NAlice.TEndpoint.TStatus Status = 4;
 }
 

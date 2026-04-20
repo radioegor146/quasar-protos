@@ -10,9 +10,7 @@ import "google/protobuf/descriptor.proto";
 enum EOutputFormat {
   OutputFormatDefault = 0;
   OutputFormatAsYson = 1;
-  OutputFormatAsBinary = 2;
   OutputFormatExpandAny = 3;
-  OutputFormatAsDict = 4;
   OutputFormatSaveAsNumber = 5;
   OutputFormatStringTimestamp = 6;
   OutputFormatNativeStruct = 7;
@@ -25,5 +23,6 @@ enum EPrivateGroup {
   PrivateGroupClose = 2;
   PrivateGroupLevel1 = 3;
   PrivateGroupLevel2 = 4;
+  PrivateGroupSkipValidation = 5;
 }
 

@@ -6,6 +6,7 @@ option java_package = "ru.yandex.alice.megamind.protos.quasar";
 option java_outer_classname = "AuxiliaryConfig";
 option go_package = "a.yandex-team.ru/alice/megamind/protos/quasar";
 
+import "alice/library/yt/extensions/alice_options.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TAuxiliaryConfig {

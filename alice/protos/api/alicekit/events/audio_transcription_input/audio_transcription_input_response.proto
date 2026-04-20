@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.audio_transcription_input";
+option java_outer_classname = "AudioTranscriptionInputResponse";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/audio_transcription_input";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAudioTranscriptionInputResponse {
+  message TStartStream {
+  }
+
+  message TAck {
+    optional uint64 AudioEndTimestampMs = 1;
+  }
+
+  oneof Response {
+    .NAlice.NAliceApi.TAudioTranscriptionInputResponse.TStartStream StartStream = 1;
+    .NAlice.NAliceApi.TAudioTranscriptionInputResponse.TAck Ack = 2;
+  }
+}
+

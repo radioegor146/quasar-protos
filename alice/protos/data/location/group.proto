@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.location";
+option java_outer_classname = "Group";
+option go_package = "a.yandex-team.ru/alice/protos/data/location";
+
+import "alice/protos/data/device/info.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUserGroup {
+  string Id = 1;
+  string Name = 2;
+  .NAlice.EUserDeviceType Type = 3;
+  repeated string Aliases = 4;
+  string HouseholdId = 5;
+  string AnalyticsType = 6;
+  string AnalyticsName = 7;
+  .NAlice.TUserSharingInfo SharingInfo = 8;
+  repeated string Permissions = 9;
+}
+

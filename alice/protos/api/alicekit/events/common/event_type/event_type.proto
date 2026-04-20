@@ -53,5 +53,28 @@ enum EEventType {
   IotCloudTechnicalPushResponse = 43;
   IotCloudEventsBatchResponse = 44;
   RecordInput = 45;
+  DebugLogs = 46;
+  IotCloudLogBatchResponse = 47;
+  IotCloudTelemetryBatchResponse = 48;
+  DialogHistoryMessage = 49;
+  ClientSubscriptionState = 50;
+  ServerSubscriptionState = 51;
+  IotCloudGeneralQuasarRequestRequest = 52;
+  IotCloudOtaRequest = 53;
+  IotCloudTechnicalPushRequest = 54;
+  IotCloudEventsBatchRequest = 55;
+  IotCloudLogBatchRequest = 56;
+  IotCloudTelemetryBatchRequest = 57;
+  IotCloudGeneralQuasarRequestResponse = 58;
+  IotCloudOtaResponse = 59;
+  DialogControl = 60;
+  RequestStat = 61;
+  RequestStatAck = 62;
+  TranslateInput = 63;
+  GeneralHttpRequestRequest = 64;
+  GeneralHttpRequestResponse = 65;
+  AudioTranscriptionInputRequest = 66;
+  AudioTranscriptionInputResponse = 67;
+  FinishRequest = 68;
 }
 

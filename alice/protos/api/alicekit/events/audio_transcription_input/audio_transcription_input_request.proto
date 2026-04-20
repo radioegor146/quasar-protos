@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.audio_transcription_input";
+option java_outer_classname = "AudioTranscriptionInputRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/audio_transcription_input";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TAudioTranscriptionInputRequest {
+  message TEncodingParams {
+    message TOpusParams {
+    }
+
+    oneof Params {
+      .NAlice.NAliceApi.TAudioTranscriptionInputRequest.TEncodingParams.TOpusParams Opus = 1;
+    }
+  }
+
+  message TStartStream {
+    reserved "SessionId";
+    reserved 2;
+    message PersonIdToPuidMappingEntry {
+      string key = 1;
+      string value = 2;
+    }
+
+    repeated .NAlice.NAliceApi.TAudioTranscriptionInputRequest.TStartStream.PersonIdToPuidMappingEntry PersonIdToPuidMapping = 3;
+    optional .NAlice.NAliceApi.TAudioTranscriptionInputRequest.TEncodingParams EncodingParams = 1;
+    optional string DeviceId = 4;
+  }
+
+  message TGracefulStop {
+    optional uint64 AudioEndTimestampMs = 1;
+  }
+
+  oneof Request {
+    .NAlice.NAliceApi.TAudioTranscriptionInputRequest.TStartStream StartStream = 1;
+    .NAlice.NAliceApi.TAudioTranscriptionInputRequest.TGracefulStop GracefulStop = 2;
+  }
+}
+

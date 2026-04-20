@@ -92,8 +92,8 @@ message TDeviceState {
   reserved "TvSet";
   reserved "CarOptions";
   reserved "Browser";
-  reserved "Tanker";
   reserved "InstalledApps";
+  reserved "MessengerCall";
   reserved "UniversalMediaApp";
   reserved "SubscriptionState";
   reserved "EndpointId";
@@ -105,8 +105,8 @@ message TDeviceState {
   reserved 15;
   reserved 16;
   reserved 18;
-  reserved 19;
   reserved 20;
+  reserved 21;
   reserved 29;
   reserved 31;
   reserved 34;
@@ -342,18 +342,6 @@ message TDeviceState {
     optional int32 Percent = 1;
   }
 
-  message TMessengerCall {
-    message TCall {
-      optional string CallId = 1;
-      optional string RecipientId = 2;
-      optional string CallerName = 3;
-      optional bool IsNannyMode = 4;
-    }
-
-    optional .NAlice.NAliceApi.TDeviceState.TMessengerCall.TCall Incoming = 1;
-    optional .NAlice.NAliceApi.TDeviceState.TMessengerCall.TCall Current = 2;
-  }
-
   message TMultiroom {
     enum EMultiroomMode {
       Unknown = 0;
@@ -399,6 +387,8 @@ message TDeviceState {
       optional int32 Channel = 3;
       optional int32 Rssi = 4;
       optional string Flags = 5;
+      optional .NAlice.NAliceApi.TDeviceState.TInternetConnection.ENetworkSecurityType NetworkSecurityType = 6;
+      optional bool IsCorporate = 7;
     }
 
     enum EType {
@@ -406,6 +396,14 @@ message TDeviceState {
       Wifi_2_4GHz = 1;
       Wifi_5GHz = 2;
       Ethernet = 3;
+    }
+
+    enum ENetworkSecurityType {
+      NetworkSecurityTypeUnknown = 0;
+      NetworkSecurityTypeNone = 1;
+      NetworkSecurityTypeWep = 2;
+      NetworkSecurityTypeWpa = 3;
+      NetworkSecurityTypeOpen = 4;
     }
 
     enum EStatus {
@@ -516,6 +514,13 @@ message TDeviceState {
     optional string PartnerDeviceId = 5;
   }
 
+  message TTanker {
+    optional string GasStationId = 1;
+    optional string FuelType = 2;
+    optional bool CreditCard = 3;
+    optional string XPayment = 4;
+  }
+
   optional string DeviceId = 1;
   optional uint32 SoundLevel = 2;
   optional bool SoundMuted = 3;
@@ -530,7 +535,7 @@ message TDeviceState {
   optional .NAlice.NAliceApi.TNavigator Navigator = 12;
   optional .NAlice.NAliceApi.TDeviceState.TLastWatched LastWatched = 14;
   optional .NAlice.NAliceApi.TDeviceState.TBattery Battery = 17;
-  optional .NAlice.NAliceApi.TDeviceState.TMessengerCall MessengerCall = 21;
+  optional .NAlice.NAliceApi.TDeviceState.TTanker Tanker = 19;
   optional .NAlice.NAliceApi.TDeviceState.TAudioPlayer AudioPlayer = 22;
   optional .NAlice.NAliceApi.TDeviceState.TMultiroom Multiroom = 23;
   optional .NAlice.NAliceApi.TDeviceState.TBluetooth Bluetooth = 24;

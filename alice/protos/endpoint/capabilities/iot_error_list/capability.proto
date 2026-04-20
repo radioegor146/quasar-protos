@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotErrorListCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_error_list;ioterrorlistpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotErrorListCapability {
+  message TParameters {
+  }
+
+  message TState {
+    repeated .NAlice.TIotErrorListCapability.EError Errors = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotErrorListCapability Capability = 1;
+  }
+
+  enum EError {
+    UNKNOWN = 0;
+    SHORT_OR_OPEN_CIRCUIT = 1;
+    RADIATOR_VALVE_BLOCKAGE = 2;
+    RADIATOR_VALVE_TOO_LONG = 3;
+    RADIATOR_VALVE_TOO_SHORT = 4;
+    RADIATOR_VALVE_HAVE_NOT_RESISTANCE = 5;
+    BUTTON_PRESSED_FOR_LONG_TIME = 6;
+    SHORT_CIRCUIT = 7;
+    OPEN_CIRCUIT = 8;
+    TAP_SOURING = 9;
+    CIRCUIT_INTERRUPTER_FAIL = 10;
+    RADIO_UNAVAILABLE = 11;
+    STORAGE_UNAVAILABLE = 12;
+    OPEN_CIRCUIT_GND = 13;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotErrorListCapability.TParameters Parameters = 2;
+  .NAlice.TIotErrorListCapability.TState State = 3;
+}
+

@@ -9,6 +9,7 @@ option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/directives";
 
 import "alice/library/censor/protos/extension.proto";
 import "alice/protos/api/source/source.proto";
+import "alice/protos/endpoint/capability.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 import "alice/library/yt/extensions/alice_options.proto";
 import "google/protobuf/struct.proto";
@@ -16,8 +17,10 @@ import "google/protobuf/wrappers.proto";
 
 message TDirective {
   reserved "UniproxyDirectiveMeta";
+  reserved "TypedPayload";
   reserved 56788;
   reserved 10;
+  reserved 19;
   message TOnFinishEvent {
     oneof Event {
       .google.protobuf.Struct TypedCallbackRequest = 1;
@@ -36,6 +39,7 @@ message TDirective {
   .NAlice.NAliceApi.TDirective.TOnFinishEvent OnFinish = 14;
   .NAlice.NAliceApi.TSourceInfo SourceInfo = 17;
   bool AttachToMultiroom = 18;
+  .NAlice.TCapability.EDirectiveType DirectiveType = 20;
   oneof PayloadType {
     .google.protobuf.Struct Payload = 5;
     bytes PayloadRaw = 15;

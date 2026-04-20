@@ -6,6 +6,7 @@ option java_package = "ru.yandex.alice.protos.data.tv.channels";
 option java_multiple_files = true;
 option go_package = "a.yandex-team.ru/alice/protos/data/tv/channels";
 
+import "alice/protos/data/avatar/avatar.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TTvChannelId {
@@ -41,6 +42,7 @@ message TChannel {
   .NAlice.NTv.TViewOptions ViewOptions = 22;
   bool IsMultiplex = 23;
   string LogoUrl = 24;
+  optional .NAlice.TAvatarMdsImage BadgeMds = 25;
 }
 
 message TWatchingOption {

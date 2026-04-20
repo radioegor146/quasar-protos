@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.device";
+option java_outer_classname = "Info";
+option go_package = "a.yandex-team.ru/alice/protos/data/device";
+
+import "alice/protos/data/color/color.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TDeviceStatusInfo {
+  .NAlice.EDeviceState Status = 1;
+  double Updated = 2;
+  bool Reportable = 3;
+  double Changed = 4;
+  .NAlice.EDeviceState ParentStatus = 5;
+}
+
+message TUserDeviceInfo {
+  string Manufacturer = 1;
+  string Model = 2;
+  string HwVersion = 3;
+  string SwVersion = 4;
+  uint32 ProductID = 5;
+  uint32 VendorID = 6;
+  string SerialNumber = 7;
+}
+
+message TUserQuasarInfo {
+  string DeviceId = 1;
+  string Platform = 2;
+  .NAlice.NData.EColor QuasarColor = 4;
+}
+
+message TUserSharingInfo {
+  reserved "Roles";
+  reserved 4;
+  uint64 OwnerID = 1;
+  uint64 GuestID = 3;
+  string HouseholdID = 2;
+  repeated .NAlice.TUserSharingInfoRole SubjectRoles = 5;
+}
+
+message TUserSharingInfoRole {
+  string Type = 1;
+  optional string SubjectID = 2;
+  optional string Subject = 3;
+}
+
+enum EDeviceState {
+  UnknownDeviceState = 0;
+  OnlineDeviceState = 1;
+  OfflineDeviceState = 2;
+  NotFoundDeviceState = 3;
+  SplitState = 4;
+}
+
+enum EUserDeviceType {
+  UnknownDeviceType = 0;
+  LightDeviceType = 1;
+  SocketDeviceType = 2;
+  SwitchDeviceType = 3;
+  HubDeviceType = 4;
+  PurifierDeviceType = 5;
+  HumidifierDeviceType = 6;
+  VacuumCleanerDeviceType = 7;
+  CookingDeviceType = 8;
+  KettleDeviceType = 9;
+  CoffeeMakerDeviceType = 10;
+  ThermostatDeviceType = 11;
+  AcDeviceType = 12;
+  MediaDeviceDeviceType = 13;
+  TvDeviceDeviceType = 14;
+  ReceiverDeviceType = 15;
+  TvBoxDeviceType = 16;
+  WashingMachineDeviceType = 17;
+  OpenableDeviceType = 18;
+  CurtainDeviceType = 19;
+  SmartSpeakerDeviceType = 20;
+  YandexStationDeviceType = 21;
+  YandexStation2DeviceType = 22;
+  YandexStationMiniDeviceType = 23;
+  DexpSmartBoxDeviceType = 24;
+  IrbisADeviceType = 25;
+  ElariSmartBeatDeviceType = 26;
+  LGXBoomDeviceType = 27;
+  JetSmartMusicDeviceType = 28;
+  PrestigioSmartMateDeviceType = 29;
+  DigmaDiHomeDeviceType = 30;
+  JBLLinkPortableDeviceType = 31;
+  JBLLinkMusicDeviceType = 32;
+  YandexModuleDeviceType = 33;
+  RemoteCarDeviceType = 34;
+  RemoteCarSeatDeviceType = 112;
+  RemoteCarAcDeviceType = 116;
+  RemoteCarSteeringWheelDeviceType = 117;
+  RemoteCarWindowDeviceType = 118;
+  RemoteCarTrunkDeviceType = 119;
+  OtherDeviceType = 35;
+  YandexStationMini2DeviceType = 36;
+  DishwasherDeviceType = 37;
+  MulticookerDeviceType = 38;
+  RefrigeratorDeviceType = 39;
+  FanDeviceType = 40;
+  IronDeviceType = 41;
+  SensorDeviceType = 42;
+  YandexModule2DeviceType = 43;
+  YandexStationMicroDeviceType = 44;
+  PetFeederDeviceType = 45;
+  YandexStationCentaurDeviceType = 46;
+  LightCeilingDeviceType = 47;
+  LightLampDeviceType = 48;
+  LightStripDeviceType = 49;
+  YandexStationMidiDeviceType = 50;
+  YandexStationMini2NoClockDeviceType = 51;
+  CameraDeviceType = 52;
+  YandexStationChironDeviceType = 53;
+  YandexStationPholDeviceType = 54;
+  YandexSaturnDeviceType = 55;
+  PetDrinkingFountainDeviceType = 56;
+  MotionSensorDeviceType = 57;
+  VibrationSensorDeviceType = 58;
+  IlluminationSensorDeviceType = 59;
+  OpenSensorDeviceType = 60;
+  ClimateSensorDeviceType = 61;
+  WaterLeakSensorDeviceType = 62;
+  ButtonSensorDeviceType = 63;
+  GasSensorDeviceType = 64;
+  SmokeSensorDeviceType = 65;
+  YandexStationQuinglongDeviceType = 66;
+  YandexStationCucumberDeviceType = 67;
+  YandexTvGoyaDeviceType = 68;
+  YandexTvMagritteDeviceType = 69;
+  YandexStationPlumDeviceType = 70;
+  ColdWaterMeterDeviceType = 71;
+  HotWaterMeterDeviceType = 72;
+  GasMeterDeviceType = 73;
+  HeatMeterDeviceType = 74;
+  ElectricityMeterDeviceType = 75;
+  MeterDeviceType = 76;
+  FieroBlackThornDeviceType = 77;
+  YandexTvMonetDeviceType = 78;
+  ValveDeviceType = 79;
+  DoorLockDeviceType = 80;
+  VentilationDeviceType = 81;
+  RelayDeviceType = 82;
+  FanDeviceTypeV2 = 83;
+  YandexStationBergamotDeviceType = 84;
+  YandexStationPickleDeviceType = 85;
+  YandexStationMangoDeviceType = 86;
+  YandexTvMagritte2DeviceType = 87;
+  YandexCameraMikeDeviceType = 88;
+  LightGarlandDeviceType = 89;
+  YandexTvMalevichDeviceType = 90;
+  YandexStationOrionDeviceType = 91;
+  CherryDeviceType = 92;
+  CherryLeftHeadphoneDeviceType = 93;
+  CherryRightHeadphoneDeviceType = 94;
+  CherryCaseDeviceType = 95;
+  ThermostatHeaterDeviceType = 96;
+  YandexTvMonet2DeviceType = 97;
+  YandexStationPruneDeviceType = 98;
+  IntercomDeviceType = 99;
+  LightTorchereDeviceType = 100;
+  LightSconceDeviceType = 101;
+  LightDimmableDeviceType = 102;
+  YandexStationPotatoDeviceType = 103;
+  PresenceSensorDeviceType = 104;
+  PresenceSensorZoneDeviceType = 105;
+  BarrierDeviceType = 106;
+  BridgeDeviceType = 107;
+  IrRemoteDeviceType = 108;
+  YandexKuiperDeviceType = 109;
+  YandexStationNebulaDeviceType = 110;
+  YandexTvLevitanDeviceType = 111;
+  YandexStationBrukvaDeviceType = 113;
+  YandexStationRepaDeviceType = 114;
+  YandexNotaDeviceType = 115;
+}
+

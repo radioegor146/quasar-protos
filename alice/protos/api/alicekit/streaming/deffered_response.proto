@@ -16,6 +16,11 @@ import "alice/protos/api/alicekit/suggests/suggest.proto";
 message TDeferedAliceResponseProto {
   reserved "Sessions";
   reserved 5;
+  message TChatHistoryResponseKey {
+    optional string HistoryMessageId = 1;
+    optional uint64 Timestamp = 2;
+  }
+
   message TBaseResponse {
     reserved "Voice";
     reserved "EmotionDirectives";
@@ -41,6 +46,7 @@ message TDeferedAliceResponseProto {
   uint32 ResponsePartialNum = 3;
   bool IsLast = 4;
   string RequestId = 6;
+  repeated .NAlice.NAliceApi.TDeferedAliceResponseProto.TChatHistoryResponseKey ChatHistoryResponseKeys = 15;
   oneof TDeferredResponse {
     .NAlice.NAliceApi.TDeferedAliceResponseProto.TBaseResponse BaseResponse = 1;
     .NAlice.NAliceApi.TDeferedAliceResponseProto.TCancelResponse CancelResponse = 2;

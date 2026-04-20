@@ -7,6 +7,7 @@ option java_outer_classname = "StereoPairCapabilityProto";
 option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/stereo_pair;stereo_pairpb";
 
 import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
 import "google/protobuf/descriptor.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
@@ -20,6 +21,38 @@ message TStereoPairCapability {
     .NAlice.TStereoPairCapability.EConnectivity Connectivity = 3;
     .NAlice.TStereoPairCapability.EStatus Status = 4;
     string PartnerEndpointId = 5;
+  }
+
+  message TStereoPairNoConnectionNotificationDirective {
+  }
+
+  message TStereoPairPlayerNotReadyNotificationDirective {
+  }
+
+  message TExecuteActionOnLeaderDirective {
+    message TStartConversationOnLeader {
+    }
+
+    message TStopConversationOnLeader {
+    }
+
+    message TToggleConversationOnLeader {
+    }
+
+    message TFinishConversationOnLeader {
+    }
+
+    message TCustomEventOnLeader {
+      string Name = 1;
+    }
+
+    oneof Action {
+      .NAlice.TStereoPairCapability.TExecuteActionOnLeaderDirective.TStartConversationOnLeader StartConversationOnLeader = 1;
+      .NAlice.TStereoPairCapability.TExecuteActionOnLeaderDirective.TStopConversationOnLeader StopConversationOnLeader = 2;
+      .NAlice.TStereoPairCapability.TExecuteActionOnLeaderDirective.TToggleConversationOnLeader ToggleConversationOnLeader = 3;
+      .NAlice.TStereoPairCapability.TExecuteActionOnLeaderDirective.TFinishConversationOnLeader FinishConversationOnLeader = 4;
+      .NAlice.TStereoPairCapability.TExecuteActionOnLeaderDirective.TCustomEventOnLeader CustomEventOnLeader = 5;
+    }
   }
 
   message TStereoPairUserEvent {

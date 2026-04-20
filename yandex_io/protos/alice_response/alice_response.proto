@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package quasar.proto;
+
+import "yandex_io/protos/alice_state.proto";
+
+message TAliceResponseDirective {
+  .quasar.proto.AliceState.ResponseState AliceResponseState = 1;
+  .quasar.proto.VinsResponse VinsResponse = 2;
+}
+

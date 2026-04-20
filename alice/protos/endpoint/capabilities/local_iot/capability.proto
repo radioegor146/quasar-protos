@@ -8,6 +8,7 @@ option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/local_i
 
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/timestamp.proto";
+import "alice/megamind/protos/common/iot_client.proto";
 import "alice/protos/endpoint/capability.proto";
 import "alice/protos/extensions/extensions.proto";
 import "alice/protos/api/alicekit/directives/directive.proto";
@@ -19,8 +20,10 @@ message TLocalIoTCapability {
   }
 
   message TState {
-    bytes IoTUserInfoSerialized = 1;
+    reserved "IoTUserInfoSerialized";
+    reserved 1;
     .NAlice.TLocalIoTCapability.TIoTAccountSettings IoTAccountSettings = 2;
+    .NAlice.TIoTClientUserInfo IoTUserInfo = 3;
   }
 
   message TIoTAccountSettings {
@@ -33,12 +36,17 @@ message TLocalIoTCapability {
   }
 
   message TSyncIoTUserInfoDirective {
+    reserved "IoTUserInfoType";
+    reserved 2;
     string Name = 1;
   }
 
   message TSetIoTUserInfoDirective {
+    reserved "IoTUserInfoType";
+    reserved 3;
     string Name = 1;
     bytes IoTUserInfoSerialized = 2;
+    .NAlice.TIoTClientUserInfo IoTClientUserInfo = 4;
   }
 
   message TSetIoTAccountSettingsDirective {
@@ -114,6 +122,8 @@ message TLocalIoTCapability {
   }
 
   message TSyncIoTUserInfoEvent {
+    reserved "IoTUserInfoType";
+    reserved 1;
   }
 
   message TScenarioVoiceTriggerEvent {
@@ -140,6 +150,12 @@ message TLocalIoTCapability {
 
     string ActionID = 1;
     .NAlice.TLocalIoTCapability.TCompleteScheduledActionEvent.EStatus Status = 2;
+  }
+
+  enum TIoTUserInfoType {
+    USER_INFO_UNKNOWN = 0;
+    USER_INFO_FULL = 1;
+    USER_INFO_CLIENT = 2;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

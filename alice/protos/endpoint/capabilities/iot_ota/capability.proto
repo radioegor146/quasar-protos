@@ -32,6 +32,7 @@ message TOtaCapability {
     string Name = 1000;
     uint32 SoftwareVersion = 1;
     string DownloadUrl = 2;
+    .NAlice.TOtaCapability.EUpdateLevel UpdateLevel = 3;
   }
 
   message TForceOtaRequestDirective {
@@ -63,6 +64,13 @@ message TOtaCapability {
     UPDATE_STATUS_APPLYING = 4;
     UPDATE_STATUS_SUCCESS = 5;
     UPDATE_STATUS_FAILURE = 6;
+    UPDATE_STATUS_INTERRUPTED = 7;
+  }
+
+  enum EUpdateLevel {
+    UPDATE_LEVEL_UNKNOWN = 0;
+    UPDATE_LEVEL_NORMAL = 1;
+    UPDATE_LEVEL_CRIT = 2;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

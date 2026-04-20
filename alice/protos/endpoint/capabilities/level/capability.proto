@@ -19,10 +19,12 @@ message TLevelCapability {
     .NAlice.TLevelCapability.EInstance Instance = 1;
     .NAlice.TRange Range = 2;
     .NAlice.EUnit Unit = 3;
+    bool SupportsCalibration = 4;
   }
 
   message TState {
     double Level = 1;
+    bool Calibrating = 2;
   }
 
   message TSetAbsoluteLevelDirective {
@@ -48,6 +50,10 @@ message TLevelCapability {
   }
 
   message TStopTransitionLevelDirective {
+    string Name = 1000;
+  }
+
+  message TStartCalibrationDirective {
     string Name = 1000;
   }
 

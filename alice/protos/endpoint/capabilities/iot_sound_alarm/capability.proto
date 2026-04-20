@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "SoundAlarmCapabilityProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_sound_alarm;iotsoundalarmpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSoundAlarmCapability {
+  message TParameters {
+    reserved "TimeoutUnit";
+    reserved "TimeoutRange";
+    reserved 1;
+    reserved 2;
+    .NAlice.TRange TimeoutRangeSec = 3;
+  }
+
+  message TDisablePolicy {
+  }
+
+  message TInfinityPolicy {
+  }
+
+  message TTimeoutPolicy {
+    reserved "Time";
+    reserved 1;
+    double TimeoutSec = 2;
+  }
+
+  message TStrategy {
+    oneof Policy {
+      .NAlice.TSoundAlarmCapability.TDisablePolicy Disable = 1;
+      .NAlice.TSoundAlarmCapability.TInfinityPolicy Infinity = 2;
+      .NAlice.TSoundAlarmCapability.TTimeoutPolicy Timeout = 3;
+    }
+  }
+
+  message TState {
+    .NAlice.TSoundAlarmCapability.TStrategy Strategy = 1;
+    bool IsAlarmActive = 2;
+  }
+
+  message TSetStrategyDirective {
+    .NAlice.TSoundAlarmCapability.TStrategy Strategy = 1;
+    string Name = 1000;
+  }
+
+  message TStopCurrentSoundAlarmDirective {
+    string Name = 1000;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TSoundAlarmCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TSoundAlarmCapability.TParameters Parameters = 2;
+  .NAlice.TSoundAlarmCapability.TState State = 3;
+}
+

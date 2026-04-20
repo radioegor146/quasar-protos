@@ -11,15 +11,30 @@ import "yt/yt_proto/yt/formats/extension.proto";
 
 message TSpeechControl {
   message TBegin {
+    uint64 ChunkId = 1;
   }
 
   message TResult {
     bool EndOfUtt = 1;
+    uint64 ChunkId = 2;
+  }
+
+  message TRecognition {
+    string Text = 1;
+  }
+
+  message TCancel {
+  }
+
+  message TFinish {
   }
 
   oneof Message {
     .NAlice.NAliceApi.TSpeechControl.TBegin Begin = 1;
     .NAlice.NAliceApi.TSpeechControl.TResult Result = 2;
+    .NAlice.NAliceApi.TSpeechControl.TRecognition Recognition = 3;
+    .NAlice.NAliceApi.TSpeechControl.TCancel Cancel = 4;
+    .NAlice.NAliceApi.TSpeechControl.TFinish Finish = 5;
   }
 }
 

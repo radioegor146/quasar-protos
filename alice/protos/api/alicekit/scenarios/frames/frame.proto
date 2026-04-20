@@ -18,6 +18,7 @@ import "alice/megamind/protos/scenarios/frames/radio_frame/radio_frame.proto";
 import "alice/megamind/protos/scenarios/frames/sound_commands_frame/sound_commands_frame.proto";
 import "alice/megamind/protos/scenarios/frames/speech_activity_frame/speech_activity_frame.proto";
 import "alice/protos/api/request_parts/atm.proto";
+import "alice/protos/api/request_parts/request_params.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TSemanticFrame {
@@ -81,13 +82,12 @@ message TTypedSemanticFrame {
 message TSemanticFrameRequestData {
   reserved "Origin";
   reserved "Params";
-  reserved "RequestParams";
   reserved "OnChainFinish";
   reserved 3;
   reserved 4;
-  reserved 5;
   reserved 6;
   .NAlice.NAliceApi.TTypedSemanticFrame TypedSemanticFrame = 1;
   .NAlice.TAnalyticsTrackingModule Analytics = 2;
+  .NAlice.TRequestParams RequestParams = 5;
 }
 

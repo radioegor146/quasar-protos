@@ -35,6 +35,8 @@ message TEventSource {
     RcuHold = 21;
     RcuClick = 22;
     LazyAutoListen = 23;
+    BotQuery = 24;
+    BotInlineQuery = 25;
   }
 
   enum ESource {
@@ -43,6 +45,7 @@ message TEventSource {
     Hardware = 2;
     Software = 3;
     TWS = 4;
+    OverlayedUI = 5;
   }
 
   enum EType {
@@ -54,6 +57,7 @@ message TEventSource {
     Recognize = 5;
     Vocalize = 6;
     DataInput = 7;
+    SpeechInput = 8;
   }
 
   .NAlice.TEventSource.EEvent Event = 1;

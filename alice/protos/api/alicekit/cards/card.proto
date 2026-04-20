@@ -28,7 +28,13 @@ message TDivCard {
 message TTextWithButtonsCard {
   message TButton {
     message TTheme {
+      enum EPlacement {
+        UnknownPlacement = 0;
+        NewLine = 1;
+      }
+
       string ImageUrl = 1;
+      .NAlice.NAliceApi.TTextWithButtonsCard.TButton.TTheme.EPlacement Placement = 2;
     }
 
     string Type = 1;
@@ -54,10 +60,13 @@ message TNeuroStructuredBlocksCard {
   reserved 1;
   string PlainText = 2;
   string JsonStructuredData = 3;
+  string JsonRephraseItems = 4;
+  string JsonSourceData = 5;
 }
 
 message TSourcesCard {
   repeated string Sources = 1;
+  optional string JsonSourceData = 2;
 }
 
 message TModeCard {
@@ -75,6 +84,20 @@ message TModeCard {
   }
 }
 
+message TRichUICard {
+  message TRenderData {
+    string JsonData = 1;
+  }
+
+  message TState {
+    string JsonData = 1;
+  }
+
+  string UIComponentName = 1;
+  .NAlice.NAliceApi.TRichUICard.TRenderData Data = 2;
+  .NAlice.NAliceApi.TRichUICard.TState State = 3;
+}
+
 message TCard {
   string CardId = 1;
   oneof Card {
@@ -86,6 +109,7 @@ message TCard {
     .NAlice.NAliceApi.TSourcesCard SourcesCard = 7;
     .NAlice.NAliceApi.TModeCard ModeCard = 9;
     .NAlice.NAliceApi.TNeuroStructuredBlocksCard NeuroStructuredBlocksCard = 10;
+    .NAlice.NAliceApi.TRichUICard RichUICard = 11;
   }
   optional bool DontAddToChatHistory = 8;
 }

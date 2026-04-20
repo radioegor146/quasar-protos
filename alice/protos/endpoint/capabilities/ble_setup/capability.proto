@@ -24,6 +24,11 @@ message TBleSetupCapability {
     string Platform = 2;
   }
 
+  message TStartBleAdvertisingDirective {
+    string Name = 1000;
+    uint32 TimeoutMs = 1;
+  }
+
   message TStartBleDiscoveryDirective {
     string Name = 1000;
     string DiscoveryId = 1;

@@ -7,28 +7,31 @@ option java_outer_classname = "LocalAnalyticsInfoProto";
 option java_multiple_files = true;
 option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/analytics/local_analytics_info";
 
-import "alice/library/client/protos/client_info.proto";
 import "alice/protos/api/alicekit/events/alice_request/alice_request.proto";
 import "alice/protos/api/alicekit/events/alice_response/alice_response.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TLocalAnalyticsInfo {
-  message TResponseAnalytics {
-    .NAlice.TAliceRequestProto AliceRequest = 1;
-    .NAlice.NAliceApi.TAliceResponseProto AliceResponse = 2;
+  reserved "ErrorAnalytics";
+  reserved "ResponseAnalytics";
+  reserved 1;
+  reserved 2;
+  message TRequest {
+    .NAlice.TAliceRequestProto Payload = 1;
   }
 
-  message TErrorAnalytics {
-    string ErrorMessage = 1;
-    string RequestId = 2;
-    bool IsHybridRequest = 3;
-    string ChosenUtterance = 4;
-    .NAlice.TClientInfoProto Application = 5;
+  message TResponse {
+    .NAlice.NAliceApi.TAliceResponseProto Payload = 1;
   }
 
-  oneof Analytics {
-    .NAlice.NAliceApi.TLocalAnalyticsInfo.TResponseAnalytics ResponseAnalytics = 1;
-    .NAlice.NAliceApi.TLocalAnalyticsInfo.TErrorAnalytics ErrorAnalytics = 2;
+  message TError {
+    string Message = 1;
   }
+
+  .NAlice.NAliceApi.TLocalAnalyticsInfo.TRequest LocalRequest = 3;
+  .NAlice.NAliceApi.TLocalAnalyticsInfo.TResponse LocalResponse = 4;
+  .NAlice.NAliceApi.TLocalAnalyticsInfo.TError LocalError = 5;
+  bool UsedLocalResponse = 6;
+  bool IsHybridRequest = 7;
 }
 

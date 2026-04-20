@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "NavigatorProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/navigator;navigatorspb";
+
+import "alice/library/censor/protos/extension.proto";
+import "alice/library/yt/extensions/alice_options.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TNavigatorCapability {
+  message TParameters {
+  }
+
+  message TState {
+    message TPoint {
+      optional float Lat = 1;
+      optional float Lon = 2;
+    }
+
+    message TFavorite {
+      repeated .NAlice.TNavigatorCapability.TState.TPoint ArrivalPoints = 4;
+      optional string Name = 1;
+      optional float Lat = 2;
+      optional float Lon = 3;
+    }
+
+    message TLocation {
+      repeated .NAlice.TNavigatorCapability.TState.TPoint ArrivalPoints = 3;
+      optional float Lat = 1;
+      optional float Lon = 2;
+    }
+
+    message TMapView {
+      optional float BottomRightLon = 1;
+      optional float TopRightLon = 2;
+      optional float TopLeftLon = 3;
+      optional float BottomLeftLon = 4;
+      optional float TopLeftLat = 5;
+      optional float BottomLeftLat = 6;
+      optional float BottomRightLat = 7;
+      optional float TopRightLat = 8;
+    }
+
+    message TRoute {
+      repeated .NAlice.TNavigatorCapability.TState.TPoint Points = 1;
+      optional float DistanceToDestination = 2;
+      optional int64 RawTimeToDestination = 3;
+      optional int64 ArrivalTimestamp = 4;
+      optional int64 TimeToDestination = 5;
+      optional int64 TimeInTrafficJam = 6;
+      optional float DistanceInTrafficJam = 7;
+    }
+
+    message TSpan {
+      optional .NAlice.TNavigatorCapability.TState.TPoint SouthWest = 1;
+      optional .NAlice.TNavigatorCapability.TState.TPoint NorthEast = 2;
+    }
+
+    message TSearchOptions {
+      optional .NAlice.TNavigatorCapability.TState.TSpan Span = 1;
+    }
+
+    repeated .NAlice.TNavigatorCapability.TState.TFavorite UserFavorites = 1;
+    repeated string AvailableVoiceIds = 5;
+    repeated string States = 8;
+    optional .NAlice.TNavigatorCapability.TState.TLocation HomeLocation = 2;
+    optional .NAlice.TNavigatorCapability.TState.TLocation WorkLocation = 3;
+    optional .NAlice.TNavigatorCapability.TState.TMapView MapView = 4;
+    optional bool ProjectedMode = 6;
+    optional .NAlice.TNavigatorCapability.TState.TRoute CurrentRoute = 7;
+    optional .NAlice.TNavigatorCapability.TState.TSearchOptions SearchOptions = 9;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TNavigatorCapability.TParameters Parameters = 2;
+  .NAlice.TNavigatorCapability.TState State = 3;
+}
+

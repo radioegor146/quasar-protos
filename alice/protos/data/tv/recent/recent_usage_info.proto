@@ -9,6 +9,7 @@ option go_package = "a.yandex-team.ru/alice/protos/data/tv/recent";
 import "alice/protos/data/tv/recent/application.proto";
 import "alice/protos/data/tv/recent/channel.proto";
 import "alice/protos/data/tv/recent/source.proto";
+import "alice/protos/data/tv/recent/recent_external_app_video.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TRecentUsageInfo {
@@ -17,6 +18,7 @@ message TRecentUsageInfo {
     .NAlice.NTv.TRecentApplicationItem RecentApplicationItem = 101;
     .NAlice.NTv.TRecentChannelItem RecentChannelItem = 102;
     .NAlice.NTv.TRecentSourceItem RecentSourceItem = 103;
+    .NAlice.NTv.TRecentExternalAppVideoItem RecentExternalAppVideoItem = 104;
   }
   optional int32 PinnedPosition = 2;
   optional int32 ColdPinnedPosition = 3;

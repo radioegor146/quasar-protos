@@ -23,6 +23,7 @@ message TLocalScenarioCondition {
   message TCapabilityEventCondition {
     string EndpointID = 1;
     .google.protobuf.Any EventCondition = 2;
+    .google.protobuf.Any TriggeredEvent = 3;
   }
 
   message TActiveForCondition {

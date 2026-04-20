@@ -25,5 +25,6 @@ message TTtsUpdateState {
   string RequestMessageId = 1;
   .NAlice.NAliceApi.TTtsUpdateState.TTsState State = 2;
   .NAlice.NAliceApi.TTtsUpdateState.EReportReason ReportReason = 3;
+  uint32 SubStreamId = 4;
 }
 

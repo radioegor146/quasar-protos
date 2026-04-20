@@ -24,6 +24,11 @@ message TStreamControl {
 }
 
 message TMessageHeader {
+  message TSubRequestRef {
+    optional string MessageId = 1;
+    optional string RequestId = 2;
+  }
+
   optional string MessageId = 1;
   optional string RefMessageId = 2;
   optional string EventId = 3;
@@ -34,6 +39,9 @@ message TMessageHeader {
   optional string RtLogId = 8;
   optional string Namespace = 9;
   optional string Name = 10;
+  optional string SubRequestId = 11;
+  optional uint32 RetryNumber = 12;
+  optional .NSpeechkitProtocol.TMessageHeader.TSubRequestRef SubRequestRef = 13;
 }
 
 message THttpHeader {

@@ -93,6 +93,17 @@ message TMultiAccountCapability {
     string Name = 2;
   }
 
+  message TAddGuestUserDirective {
+    string Name = 1;
+    string JwtToken = 2;
+  }
+
+  message TClearGuestUserDirective {
+    string Name = 1;
+    string UserId = 2;
+    string OwnerId = 3;
+  }
+
   .NAlice.TCapability.TMeta Meta = 1;
   .NAlice.TMultiAccountCapability.TParameters Parameters = 2;
   .NAlice.TMultiAccountCapability.TState State = 3;

@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "LightingReactionCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/lighting_reaction_capability;lightingreactioncapabilitypb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TLightingReactionCapability {
+  message TSetting {
+    message TDndRespectSetting {
+      bool Enabled = 1;
+    }
+
+    oneof Setting {
+      .NAlice.TLightingReactionCapability.TSetting.TDndRespectSetting DndRespect = 1;
+    }
+  }
+
+  message TParameters {
+    repeated .NAlice.TLightingReactionCapability.EWeather SupportedWeather = 1;
+    repeated .NAlice.TLightingReactionCapability.TSetting SupportedSettings = 2;
+  }
+
+  message TReactionEvent {
+    .NAlice.TLightingReactionCapability.EEvent Event = 1;
+    bool Enabled = 2;
+  }
+
+  message TState {
+    repeated .NAlice.TLightingReactionCapability.EEvent EnabledEvents = 1;
+    repeated .NAlice.TLightingReactionCapability.TReactionEvent Events = 2;
+    repeated .NAlice.TLightingReactionCapability.TSetting Settings = 3;
+  }
+
+  message TSetEventsDirective {
+    string Name = 1000;
+    repeated .NAlice.TLightingReactionCapability.EEvent Events = 1;
+  }
+
+  message TSetReactionEventsDirective {
+    string Name = 1000;
+    repeated .NAlice.TLightingReactionCapability.TReactionEvent ReactionEvents = 1;
+  }
+
+  message TPlayWeatherDirective {
+    string Name = 1000;
+    .NAlice.TLightingReactionCapability.EWeather Weather = 1;
+  }
+
+  message TSetReactionSettingDirective {
+    string Name = 1000;
+    .NAlice.TLightingReactionCapability.TSetting Setting = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TLightingReactionCapability Capability = 1;
+  }
+
+  enum EWeather {
+    RAIN = 0;
+    SNOW = 1;
+    CLOUDY = 2;
+    CLEAR = 3;
+  }
+
+  enum EEvent {
+    EVENT_TIMER = 0;
+    EVENT_TIMER_ALARM = 1;
+    EVENT_TTS = 2;
+    EVENT_NOTIFY = 3;
+    EVENT_REMINDER = 4;
+    EVENT_CALL = 5;
+    EVENT_ALARM = 6;
+    EVENT_WEATHER = 7;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TLightingReactionCapability.TParameters Parameters = 2;
+  .NAlice.TLightingReactionCapability.TState State = 3;
+}
+

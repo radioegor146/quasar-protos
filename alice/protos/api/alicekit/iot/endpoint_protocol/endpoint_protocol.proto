@@ -7,6 +7,7 @@ option java_outer_classname = "EndpointsProtocolProto";
 option java_multiple_files = true;
 option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/iot/endpoint_protocol;endpointprotocolpb";
 
+import "alice/protos/endpoint/any_capability.proto";
 import "alice/protos/endpoint/endpoint.proto";
 import "google/protobuf/any.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
@@ -19,33 +20,49 @@ message TSubscriptionStatus {
   }
 
   string EndpointId = 1;
+  string SmartHomeId = 4;
   .NAlice.NAliceApi.TSubscriptionStatus.EStatus Status = 2;
   string Message = 3;
 }
 
 message TEndpointSubscription {
+  reserved "ListenerId";
+  reserved "ExternalId";
+  reserved 3;
+  reserved 4;
   message TCapability {
     reserved "Id";
+    reserved "ListenerId";
     reserved 1;
+    reserved 4;
     .google.protobuf.Any Capability = 2;
+    .NAlice.TAnyCapabilityHolder AnyCapability = 3;
   }
 
   string EndpointId = 1;
+  string SmartHomeId = 5;
   repeated .NAlice.NAliceApi.TEndpointSubscription.TCapability Capabilities = 2;
 }
 
 message TUniversalEndpointSubscription {
+  reserved "ExternalId";
+  reserved 4;
   message TCapability {
     string Id = 1;
     .google.protobuf.Any Capability = 2;
+    .NAlice.TAnyCapabilityHolder AnyCapability = 3;
+    string ListenerId = 4;
   }
 
   string EndpointId = 1;
+  string ListenerId = 3;
+  string SmartHomeId = 5;
   repeated .NAlice.NAliceApi.TUniversalEndpointSubscription.TCapability Capabilities = 2;
 }
 
 message TEndpointState {
   .NAlice.TEndpoint Endpoint = 1;
+  string SmartHomeId = 2;
 }
 
 message TEndpointsStateChanged {
@@ -54,6 +71,7 @@ message TEndpointsStateChanged {
 
 message TEndpointsRemoved {
   repeated string EndpointIds = 1;
+  repeated string SmartHomeIds = 2;
 }
 
 message TSubscriptionResponse {
@@ -64,8 +82,10 @@ message TSubscriptionResponse {
 
   message TEndpointStatus {
     string EndpointId = 1;
+    string SmartHomeId = 4;
     .NAlice.NAliceApi.TSubscriptionStatus.EStatus BackendStatus = 2;
     repeated .NAlice.NAliceApi.TSubscriptionResponse.TCapabilityStatus Capabilities = 3;
+    string DirectiveHandlerEndpointId = 5;
   }
 
   enum EClientStatus {

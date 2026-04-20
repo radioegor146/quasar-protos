@@ -18,6 +18,7 @@ message TContentId {
     Generative = 5;
     FmRadio = 6;
     ShowTail = 7;
+    GeneratedRecs = 8;
   }
 
   .NAlice.NData.NMusic.TContentId.EContentType Type = 1;

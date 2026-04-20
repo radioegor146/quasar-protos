@@ -37,6 +37,7 @@ message TBlackBoxUserInfo {
   .NAlice.TBlackBoxUserInfo.TKpSubscriptions KpSubscriptions = 21;
   bool HavePassword = 22;
   bool IsFederal = 24;
+  repeated string Organizations = 25;
   optional string MusicRestriction = 15;
   optional string VideoRestriction = 16;
   optional string StaffLogin = 18;

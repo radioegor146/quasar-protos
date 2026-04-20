@@ -13,6 +13,7 @@ message TCapabilityInfo {
   string CapabilityId = 1;
   .NAlice.TCapability.ECapabilityType CapabilityType = 2;
   .google.protobuf.Any Parameters = 3;
+  .NAlice.TCapability.TMeta CapabilityMeta = 4;
 }
 
 message TEndpointCapabilitiesInfo {

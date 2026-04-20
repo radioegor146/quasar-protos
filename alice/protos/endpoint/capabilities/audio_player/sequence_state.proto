@@ -38,12 +38,28 @@ message TSequenceItem {
     optional uint32 FinishPosition = 4;
   }
 
+  message TTrackParameters {
+    uint32 Bpm = 1;
+    uint32 Hue = 2;
+    float Energy = 3;
+    uint32 UserCollectionHue = 4;
+  }
+
+  message TDerivedColors {
+    string Accent = 1;
+    string Average = 2;
+    string MiniPlayer = 3;
+    string WaveText = 4;
+  }
+
   message TTrack {
     string Id = 1;
     string Uuid = 2;
     .Alice.Music.LikeStatus LikeStatus = 3;
     .Alice.Music.RepeatType RepeatType = 4;
     bool HasAvailableLyrics = 5;
+    optional .NAlice.TSequenceItem.TTrackParameters TrackParameters = 6;
+    optional .NAlice.TSequenceItem.TDerivedColors DerivedColors = 7;
   }
 
   message TAlbum {

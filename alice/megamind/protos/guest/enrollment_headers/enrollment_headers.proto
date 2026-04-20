@@ -13,6 +13,7 @@ message TEnrollmentHeader {
   string Version = 2;
   .NAlice.EUserType UserType = 3;
   bool EnrollmentSoundIsPresent = 4;
+  bool SupportsSharing = 5;
 }
 
 message TEnrollmentHeaders {

@@ -87,6 +87,12 @@ message TAliceResponseProto {
     reserved 12;
     message TButton {
       message TTheme {
+        enum EPlacement {
+          UnknownPlacement = 0;
+          NewLine = 1;
+        }
+
+        .NAlice.NAliceApi.TAliceResponseProto.TResponse.TButton.TTheme.EPlacement Placement = 2;
         optional string ImageUrl = 1;
       }
 

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package NAlice;
+
+option go_package = "a.yandex-team.ru/alice/protos/api/speech_mode/session";
+
+import "alice/protos/api/speech_mode/mode/speech_mode.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSpeechSession {
+  .NAlice.TSpeechMode SpeechMode = 1;
+}
+

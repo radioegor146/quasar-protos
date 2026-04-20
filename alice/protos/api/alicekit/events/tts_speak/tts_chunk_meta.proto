@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.tts_speak";
+option java_outer_classname = "TtsChunkMeta";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/tts_speak";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTtsChunkMeta {
+  optional uint32 SubStreamId = 1;
+}
+

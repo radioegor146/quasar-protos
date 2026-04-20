@@ -31,6 +31,7 @@ message TFinishDiscoveryCallback {
   uint32 CallbackId = 5;
   string SessionId = 6;
   repeated .NAlice.TAggregate DiscoveredAggregates = 7;
+  .NAlice.TIotDiscoveryCapability.EMode Mode = 8;
 }
 
 message TFinishSystemDiscoveryCallback {

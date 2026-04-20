@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.megamind.protos.common";
+option java_outer_classname = "IoTClientUserInfo";
+option go_package = "a.yandex-team.ru/alice/megamind/protos/common";
+
+import "alice/protos/data/device/info.proto";
+import "alice/protos/data/location/group.proto";
+import "alice/protos/data/location/room.proto";
+import "alice/protos/endpoint/aggregate.proto";
+import "alice/protos/endpoint/endpoint.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIoTClientUserInfo {
+  message TDevice {
+    string Id = 1;
+    string Name = 2;
+    repeated string Aliases = 3;
+    .NAlice.EUserDeviceType Type = 4;
+    string ExternalId = 6;
+    string SkillId = 8;
+    string RoomId = 9;
+    repeated string GroupIds = 10;
+    .NAlice.TUserDeviceInfo DeviceInfo = 13;
+    string HouseholdId = 18;
+    .NAlice.TDeviceStatusInfo StatusInfo = 29;
+    .NAlice.TEndpoint Endpoint = 30;
+  }
+
+  message THousehold {
+    string Id = 1;
+    string Name = 2;
+    .NAlice.TUserSharingInfo SharingInfo = 6;
+  }
+
+  repeated .NAlice.TUserRoom Rooms = 1;
+  repeated .NAlice.TUserGroup Groups = 2;
+  repeated .NAlice.TIoTClientUserInfo.TDevice Devices = 3;
+  repeated .NAlice.TIoTClientUserInfo.THousehold Households = 4;
+  repeated .NAlice.TAggregate Aggregates = 5;
+}
+

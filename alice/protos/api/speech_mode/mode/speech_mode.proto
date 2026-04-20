@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package NAlice;
+
+option go_package = "a.yandex-team.ru/alice/protos/api/speech_mode/mode";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSpeechMode {
+  message TNote {
+  }
+
+  message TMic {
+  }
+
+  message TTranslate {
+  }
+
+  message TVoice {
+  }
+
+  oneof Mode {
+    .NAlice.TSpeechMode.TNote Note = 1;
+    .NAlice.TSpeechMode.TMic Mic = 2;
+    .NAlice.TSpeechMode.TTranslate Translate = 3;
+    .NAlice.TSpeechMode.TVoice Voice = 4;
+  }
+}
+

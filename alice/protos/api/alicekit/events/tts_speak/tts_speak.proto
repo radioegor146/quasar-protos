@@ -10,7 +10,20 @@ option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/tts_speak
 import "yt/yt_proto/yt/formats/extension.proto";
 
 message TTtsSpeak {
+  reserved "EnableBargin";
+  reserved "FromCache";
+  reserved "DisableInterruptionSpotter";
+  reserved 3;
+  reserved 4;
+  reserved 5;
+  enum ESoundChunkType {
+    CHUNK_DEFAULT = 0;
+    CHUNK_WITH_META = 1;
+  }
+
   string Format = 1;
   bool LazyTtsStreaming = 2;
+  .NAlice.NAliceApi.TTtsSpeak.ESoundChunkType SoundChunkType = 6;
+  optional uint32 SubStreamId = 7;
 }
 

@@ -63,5 +63,6 @@ message TestpointMessage {
   optional .quasar.proto.AudioSenderMode audiosender_mode = 10;
   optional .quasar.proto.AsrResult asr_result = 11;
   optional .quasar.proto.EmptyMessage request_config_update = 12;
+  optional .quasar.proto.EmptyMessage revoke_user_account_info = 14;
 }
 

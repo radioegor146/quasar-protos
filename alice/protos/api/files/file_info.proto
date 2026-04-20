@@ -6,6 +6,7 @@ option java_package = "ru.yandex.alice.protos.api.files";
 option go_package = "a.yandex-team.ru/alice/protos/api/files";
 
 import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/data/scenario/draw_picture/generation_mode.proto";
 
 message TFileInfo {
   message TSource {
@@ -31,6 +32,28 @@ message TFileInfo {
     }
   }
 
+  message TFeatures {
+    message TBinaryClassifierResult {
+      string Id = 1;
+      bool Result = 2;
+    }
+
+    message TImageClassifiersResult {
+      repeated .NAlice.NApi.NFiles.TFileInfo.TFeatures.TBinaryClassifierResult BinaryClassifiersResults = 1;
+    }
+
+    message TDrawPictureFeatures {
+      .NAlice.TDrawPicture.EGenerationMode GenerationMode = 1;
+    }
+
+    bool IsEcomUrl = 1;
+    .NAlice.NApi.NFiles.TFileInfo.EParsedResultFormat ParsedResultFormat = 2;
+    .NAlice.NApi.NFiles.TFileInfo.TFeatures.TImageClassifiersResult ImageClassifiersResult = 3;
+    bool IsParsedByClient = 5;
+    .NAlice.NApi.NFiles.TFileInfo.TFeatures.TDrawPictureFeatures DrawPictureFeatures = 6;
+    optional string OriginalUrl = 4;
+  }
+
   enum EFileType {
     UnknownFileType = 0;
     Text = 1;
@@ -40,6 +63,21 @@ message TFileInfo {
     Audio = 5;
   }
 
+  enum EOrigin {
+    UndefinedOrigin = 0;
+    Chat = 1;
+    Chatbot = 2;
+    DrawPicture = 3;
+    SplitView = 4;
+    SmartCamera = 5;
+  }
+
+  enum EParsedResultFormat {
+    ParsedResultFormatUnknown = 0;
+    ParsedResultFormatText = 1;
+    ParsedResultFormatAsrJson = 2;
+  }
+
   enum EFileServiceStatus {
     UnknownFileServiceStatus = 0;
     Processed = 1;
@@ -47,6 +85,11 @@ message TFileInfo {
     UnsupportedFormat = 3;
     InvalidFile = 4;
     InternalError = 5;
+    EmptyBroVideoCache = 6;
+    TooSmallFile = 7;
+    TooSmallVideo = 8;
+    TooLongVideo = 9;
+    UnsupportedLang = 10;
   }
 
 }

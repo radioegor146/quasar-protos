@@ -18,6 +18,9 @@ message TScreensaverCapability {
   message TParameters {
     .NAlice.TScreensaverCapability.EResolution Resolution = 1;
     .NAlice.TDivExtensions SupportedDivExtensions = 2;
+    bool IsLottieAnimatedClockSupported = 3;
+    bool IsMusicWidgetSupported = 4;
+    bool IsRequestingLightweightThemes = 5;
   }
 
   message TScreensaverContentMeta {
@@ -60,6 +63,7 @@ message TScreensaverCapability {
       .NAlice.TScreensaverCapability.TLoadScreensaversDirective.TMediaItem MediaItem = 2;
       repeated .NAlice.TVoiceControl VoiceControls = 3;
       .NAlice.TScreensaverCapability.TScreensaverContentMeta ContentMeta = 4;
+      uint64 ShowDurationSeconds = 5;
     }
 
     string Name = 1;
@@ -84,6 +88,7 @@ message TScreensaverCapability {
     UnknownType = 0;
     Image = 1;
     Video = 2;
+    LottieAnimatedClockArchive = 3;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

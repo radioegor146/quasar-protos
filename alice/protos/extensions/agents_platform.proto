@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package AgentsPlatform;
+
+option java_package = "ru.yandex.alice.protos.extensions";
+option java_outer_classname = "AgentsPlatformProto";
+option go_package = "a.yandex-team.ru/alice/protos/extensions;extensionspb";
+
+import "google/protobuf/descriptor.proto";
+

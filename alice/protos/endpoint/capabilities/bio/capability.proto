@@ -69,17 +69,6 @@ message TBioCapability {
     bool SendGuestEnrollmentFinishFrame = 2;
   }
 
-  message TFetchEnrollmentAudioDirective {
-    string Name = 1000;
-    string PersId = 1;
-    repeated string RequestIds = 2;
-  }
-
-  message TCalculateVoiceprintDirective {
-    string Name = 1000;
-    string PersId = 1;
-  }
-
   message TShareEnrolledPersonDirective {
     string Name = 1000;
     uint64 Puid = 1;

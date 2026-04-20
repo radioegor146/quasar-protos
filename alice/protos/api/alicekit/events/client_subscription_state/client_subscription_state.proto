@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.client_subscription_state";
+option java_outer_classname = "ClientSubscriptionStateProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/client_subscription_state";
+
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TClientSubscriptionState {
+  message TSubscription {
+    message TState {
+      message TPing {
+      }
+
+      message TFullContent {
+      }
+
+      oneof State {
+        .NAlice.NAliceApi.TClientSubscriptionState.TSubscription.TState.TPing Ping = 1;
+        .NAlice.NAliceApi.TClientSubscriptionState.TSubscription.TState.TFullContent FullContent = 2;
+      }
+    }
+
+    string Id = 1;
+    .NAlice.NAliceApi.TClientSubscriptionState.TSubscription.TState State = 2;
+  }
+
+  repeated .NAlice.NAliceApi.TClientSubscriptionState.TSubscription Subscriptions = 1;
+}
+

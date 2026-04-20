@@ -12,5 +12,6 @@ message TSwitchingStreamsMetadata {
   bool CrossfadeAllowed = 1;
   .Alice.Music.Fade Fade = 2;
   .Alice.Music.Fade NextFade = 3;
+  optional bool CrossfadeForced = 4;
 }
 

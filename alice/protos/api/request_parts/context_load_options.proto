@@ -20,5 +20,7 @@ message TContextLoadOptions {
   optional bool UseNotifications = 9;
   optional bool UseMatrixOnlineDevices = 10;
   optional bool UseDatumAddresses = 11;
+  optional bool DisableRecentDialogs = 12;
+  optional bool DisableUserFacts = 13;
 }
 

@@ -41,5 +41,7 @@ message TLogSpotter {
   optional string BtDeviceName = 9;
   optional string BtDeviceClass = 10;
   optional bool ExternalSoundAccess = 11;
+  optional string EndpointId = 12;
+  optional bool IsServiceRawData = 13;
 }
 

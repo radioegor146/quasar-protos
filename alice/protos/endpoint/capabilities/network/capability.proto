@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "NetworkCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/network;networkpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TNetworkCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool IsInternetReachable = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TNetworkCapability Capability = 1;
+  }
+
+  message TInternetConnectionCondition {
+    enum EState {
+      ConnectedCondition = 0;
+      NotConnectedCondition = 1;
+    }
+
+    .NAlice.TNetworkCapability.TInternetConnectionCondition.EState State = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TNetworkCapability.TParameters Parameters = 2;
+  .NAlice.TNetworkCapability.TState State = 3;
+}
+

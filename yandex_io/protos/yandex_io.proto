@@ -308,6 +308,12 @@ message VqeInfo {
   optional string full_config_hash = 4;
 }
 
+message SoundBufferTag {
+  optional string event = 1;
+  optional string source_id = 2;
+  optional string phrase_id = 3;
+}
+
 message IOAudioChannelData {
   reserved 5;
   optional .voicetech.AudioInputChannelType type = 1;
@@ -319,6 +325,7 @@ message IOAudioChannelData {
   optional .quasar.proto.SoundFormat.Type format = 8;
   optional int64 record_start_timepoint_ms = 9;
   optional uint32 duration_ms = 10;
+  repeated .quasar.proto.SoundBufferTag tags = 11;
 }
 
 message IOAudioChannelsData {

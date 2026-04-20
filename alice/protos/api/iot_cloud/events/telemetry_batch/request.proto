@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package NAlice.NIotCloud;
+
+option java_package = "ru.yandex.alice.protos.api.iot_cloud.events.telemetry_batch";
+option java_outer_classname = "IotCloudTelemetryBatchRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/iot_cloud/events/telemetry_batch";
+
+import "google/protobuf/timestamp.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotCloudTelemetryBatchRequest {
+  .NAlice.NIotCloud.TIotCloudTelemetryBatch TelemetryBatch = 1;
+}
+
+message TIotCloudTelemetryEvent {
+  message TField {
+    string Key = 1;
+    oneof Value {
+      string StringValue = 2;
+    }
+  }
+
+  message TValue {
+    oneof Value {
+      double CounterValue = 1;
+      string StringValue = 2;
+    }
+  }
+
+  string Name = 1;
+  .NAlice.NIotCloud.TIotCloudTelemetryEvent.TValue Value = 2;
+  repeated .NAlice.NIotCloud.TIotCloudTelemetryEvent.TField Fields = 3;
+  optional .google.protobuf.Timestamp Timestamp = 4;
+}
+
+message TIotCloudTelemetryBatch {
+  repeated .NAlice.NIotCloud.TIotCloudTelemetryEvent Events = 1;
+}
+

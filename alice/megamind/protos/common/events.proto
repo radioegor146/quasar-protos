@@ -9,10 +9,12 @@ option go_package = "a.yandex-team.ru/alice/megamind/protos/common";
 import "alice/library/censor/protos/extension.proto";
 import "alice/library/yt/extensions/alice_options.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
+import "alice/protos/api/files/image_crop.proto";
 import "google/protobuf/struct.proto";
 
 message TFileDescription {
   optional string Guid = 1;
+  optional .NAlice.TImageCrop ImageCrop = 2;
 }
 
 message TAsrResult {
@@ -110,7 +112,6 @@ message TEvent {
   optional string Text = 5;
   optional .NAlice.TImageInputData Data = 6;
   optional .NAlice.TMusicResult MusicResult = 7;
-  optional .google.protobuf.Struct Payload = 8;
   optional string Name = 9;
   optional bool IgnoreAnswer = 10;
   optional .NAlice.TBiometryScoring BiometryScoring = 11;
@@ -124,6 +125,10 @@ message TEvent {
   repeated .NAlice.TFileDescription AttachedFiles = 21;
   optional .NAlice.TFilesInput FilesInput = 22;
   optional .NAlice.TPreEouInfo PreEouInfo = 23;
+  oneof PayloadType {
+    .google.protobuf.Struct Payload = 8;
+    bytes PayloadRaw = 24;
+  }
 }
 
 enum EEventType {
@@ -135,5 +140,6 @@ enum EEventType {
   server_action = 6;
   hybrid_asr_partial_result = 7;
   file_input = 8;
+  speech_input = 9;
 }
 

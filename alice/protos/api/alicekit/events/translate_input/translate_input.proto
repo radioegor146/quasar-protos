@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.events.translate_input";
+option java_outer_classname = "TranslateInput";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/events/translate_input";
+
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TTranslateInput {
+  .NAlice.TExperimentsProto Experiments = 1;
+}
+

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.data.scenario.draw_picture";
+option go_package = "a.yandex-team.ru/alice/protos/data/scenario/draw_picture";
+
+message TDrawPicture {
+  enum EGenerationMode {
+    Generate = 0;
+    Remix = 1;
+    Editing = 2;
+    Combining = 3;
+  }
+
+}
+

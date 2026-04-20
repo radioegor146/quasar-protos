@@ -13,7 +13,13 @@ import "yt/yt_proto/yt/formats/extension.proto";
 
 message TSuggest {
   message TTheme {
+    enum EPlacement {
+      UnknownPlacement = 0;
+      NewLine = 1;
+    }
+
     string ImageUrl = 1;
+    .NAlice.NAliceApi.TSuggest.TTheme.EPlacement Placement = 2;
   }
 
   string SuggestId = 1;

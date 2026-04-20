@@ -8,6 +8,7 @@ option java_multiple_files = true;
 option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_occupancy;occupancypb";
 
 import "google/protobuf/descriptor.proto";
+import "google/protobuf/wrappers.proto";
 import "alice/protos/endpoint/capability.proto";
 import "yt/yt_proto/yt/formats/extension.proto";
 
@@ -19,9 +20,14 @@ message TIotOccupancyCapability {
     double DistanceMeters = 1;
   }
 
+  message TRadarDetection {
+    uint32 ID = 1;
+  }
+
   message TDetection {
     oneof Detection {
       .NAlice.TIotOccupancyCapability.TSonarDetection SonarDetection = 1;
+      .NAlice.TIotOccupancyCapability.TRadarDetection RadarDetection = 2;
     }
   }
 
@@ -41,6 +47,16 @@ message TIotOccupancyCapability {
   }
 
   message TIotOccupancyLeaveEvent {
+  }
+
+  message TCondition {
+    reserved "Events";
+    reserved 1;
+    oneof Condition {
+      .google.protobuf.DoubleValue LowerBound = 2;
+      .google.protobuf.DoubleValue UpperBound = 3;
+      .google.protobuf.DoubleValue Delta = 4;
+    }
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

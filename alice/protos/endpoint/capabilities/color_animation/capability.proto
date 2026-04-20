@@ -1,0 +1,177 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "ColorAnimationCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/color_animation;coloranimationpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TColorAnimationCapability {
+  message AnimationSetting {
+    message TRgbColorSetting {
+      uint32 Red = 1;
+      uint32 Green = 2;
+      uint32 Blue = 3;
+    }
+
+    message TTemperatureKColorSetting {
+      uint64 TemperatureK = 1;
+    }
+
+    message TBackgroundSoundSetting {
+      bool Enabled = 1;
+    }
+
+    message TAutoPlaySetting {
+      bool Enabled = 1;
+    }
+
+    message TAutoRunSetting {
+      bool Enabled = 1;
+    }
+
+    message TSpeedSetting {
+      float Value = 1;
+    }
+
+    message TVisualEffectSetting {
+      .NAlice.TColorAnimationCapability.EVisualEffect Effect = 1;
+    }
+
+    oneof TSetting {
+      .NAlice.TColorAnimationCapability.AnimationSetting.TRgbColorSetting RgbColor = 1;
+      .NAlice.TColorAnimationCapability.AnimationSetting.TTemperatureKColorSetting TemperatureKColor = 2;
+      .NAlice.TColorAnimationCapability.AnimationSetting.TBackgroundSoundSetting BackgroundSound = 3;
+      .NAlice.TColorAnimationCapability.AnimationSetting.TAutoPlaySetting AutoPlay = 4;
+      .NAlice.TColorAnimationCapability.AnimationSetting.TAutoRunSetting AutoRun = 5;
+      .NAlice.THueAndSaturation HsvColor = 6;
+      .NAlice.TColorAnimationCapability.AnimationSetting.TSpeedSetting Speed = 7;
+      .NAlice.TColorAnimationCapability.AnimationSetting.TVisualEffectSetting VisualEffect = 8;
+    }
+  }
+
+  message TAnimationState {
+    .NAlice.TColorAnimationCapability.EAnimationType Type = 1;
+    string LastAnimationId = 2;
+    repeated .NAlice.TColorAnimationCapability.AnimationSetting CommonSettings = 3;
+    repeated .NAlice.TColorAnimationCapability.TAnimation Animations = 4;
+    uint32 LastAnimationIndex = 5;
+  }
+
+  message TAnimation {
+    string AnimationId = 1;
+    repeated .NAlice.TColorAnimationCapability.AnimationSetting Settings = 2;
+    uint32 AnimationIndex = 3;
+  }
+
+  message TAnimationParameters {
+    message TParameter {
+      reserved "SupportedAnimationsParameter";
+      reserved 1;
+      message TSupportedAnimationsParameter {
+        reserved "Animations";
+        reserved 1;
+      }
+
+      message TColorMusicAutoplayParameter {
+      }
+
+      message TColorMusicAutorunParameter {
+      }
+
+      message TColorModelHSVParameter {
+      }
+
+      message TColorModelRGBParameter {
+      }
+
+      message TColorModelTemperatureKParameter {
+        uint64 Min = 1;
+        uint64 Max = 2;
+      }
+
+      message TCustomSceneSpeedParameter {
+        float Min = 1;
+        float Max = 2;
+      }
+
+      message TCustomSceneVisualEffectParameter {
+        message TVisualEffect {
+          .NAlice.TColorAnimationCapability.EVisualEffect Effect = 1;
+        }
+
+        repeated .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TCustomSceneVisualEffectParameter.TVisualEffect SupportedEffects = 1;
+      }
+
+      oneof Parameter {
+        .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TColorMusicAutoplayParameter ColorMusicAutoplayParameter = 2;
+        .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TColorModelHSVParameter ColorModelHSVParameter = 3;
+        .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TColorModelRGBParameter ColorModelRGBParameter = 4;
+        .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TColorModelTemperatureKParameter ColorModelTemperatureKParameter = 5;
+        .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TColorMusicAutorunParameter ColorMusicAutorunParameter = 6;
+        .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TCustomSceneSpeedParameter CustomSceneSpeedParameter = 7;
+        .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter.TCustomSceneVisualEffectParameter CustomSceneVisualEffectParameter = 8;
+      }
+    }
+
+    .NAlice.TColorAnimationCapability.EAnimationType Type = 1;
+    repeated .NAlice.TColorAnimationCapability.TAnimationParameters.TParameter Parameters = 2;
+    repeated .NAlice.TColorAnimationCapability.TAnimation SupportedAnimations = 3;
+  }
+
+  message TParameters {
+    repeated .NAlice.TColorAnimationCapability.TAnimationParameters AnimationParameters = 1;
+  }
+
+  message TState {
+    .NAlice.TColorAnimationCapability.EAnimationType CurrentAnimationType = 1;
+    repeated .NAlice.TColorAnimationCapability.TAnimationState AnimationStates = 2;
+  }
+
+  message TSetAnimationTypeCommonSettingDirective {
+    string Name = 1000;
+    .NAlice.TColorAnimationCapability.EAnimationType AnimationType = 1;
+    .NAlice.TColorAnimationCapability.AnimationSetting Setting = 2;
+  }
+
+  message TSetAnimationColorAnimationDirective {
+    string Name = 1000;
+    string AnimationId = 1;
+    bool AutoEnable = 2;
+    repeated .NAlice.TColorAnimationCapability.AnimationSetting Settings = 3;
+    .NAlice.TColorAnimationCapability.EAnimationType AnimationType = 5;
+    optional uint32 AnimationIndex = 4;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TColorAnimationCapability Capability = 1;
+  }
+
+  enum EVisualEffect {
+    Unknown = 0;
+    Pulse = 1;
+    Breath = 2;
+    Mirror = 3;
+    Heart = 4;
+    Sparks = 5;
+  }
+
+  enum EAnimationType {
+    None = 0;
+    Color = 1;
+    Scene = 2;
+    ColorMusic = 3;
+    CustomScene = 4;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TColorAnimationCapability.TParameters Parameters = 2;
+  .NAlice.TColorAnimationCapability.TState State = 3;
+}
+

@@ -25,6 +25,7 @@ message AccountInfo {
 message AccountStorage {
   repeated .quasar.proto.AccountInfo accounts = 1;
   optional uint64 current_account_id = 2;
+  optional uint64 active_account_id = 3;
 }
 
 enum AccountType {

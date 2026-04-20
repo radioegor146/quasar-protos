@@ -35,6 +35,7 @@ message TState {
     repeated string OriginPlatformFeatures = 9;
     .NAlice.ELang Language = 11;
     optional .NAlice.NData.NReminders.TState.TTriggerPolicy TriggerPolicy = 10;
+    optional bool IsXiva = 12;
   }
 
   message TSurfaceSyncState {
@@ -69,5 +70,6 @@ message TRemindersSettings {
   bool SendMobileNotification = 1;
   .NAlice.NData.NReminders.TRemindersSettings.EPlayOn PlayOn = 2;
   repeated string DeviceIds = 3;
+  int32 OrmMigrationVersion = 4;
 }
 

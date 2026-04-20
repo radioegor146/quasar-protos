@@ -17,6 +17,8 @@ message TIrCapability {
   }
 
   message TState {
+    reserved "RemoteEndpointIDs";
+    reserved 1;
   }
 
   message TTryIrCommandDirective {
@@ -102,6 +104,13 @@ message TIrRemoteCapability {
     string Name = 1000;
     repeated uint32 KeyIds = 1;
     uint32 CommandIntervalMs = 2;
+  }
+
+  message TSendIrCustomCommandDirective {
+    string Name = 1000;
+    repeated uint32 KeyIds = 1;
+    .NAlice.NIr.TRemoteData Data = 2;
+    uint32 CommandIntervalMs = 3;
   }
 
   message TSendIrAcCommandDirective {

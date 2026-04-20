@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.common.uniproxy_options";
+option java_outer_classname = "UniproxyOptionsProto";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/common/uniproxy_options";
+
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TUniproxyOptions {
+  reserved "GuestContextLoadOptions";
+  reserved "LastChunksInfo";
+  reserved "FirstEventServerTimestamp";
+  reserved 3;
+  reserved 6;
+  reserved 7;
+  message TContextLoadOptions {
+    bool UseBlackbox = 1;
+    bool UseCachalotMMSession = 2;
+    bool UseContacts = 3;
+    bool UseDatasync = 4;
+    bool UseFlagsJson = 5;
+    bool UseIotUserInfo = 6;
+    bool UseLaas = 7;
+    bool UseMemento = 8;
+    bool UseNotifications = 9;
+  }
+
+  message TCapabilityUpdatesOptions {
+    message TCapabilityUpdateInfo {
+      .NAlice.TCapability.ECapabilityType CapabilityType = 1;
+    }
+
+    repeated .NAlice.NAliceApi.TUniproxyOptions.TCapabilityUpdatesOptions.TCapabilityUpdateInfo WaitClientCapabilityUpdates = 1;
+  }
+
+  message TBackgroundResponseStreamingOptions {
+    message TRequestWithShownNewDialog {
+    }
+
+    .NAlice.NAliceApi.TUniproxyOptions.TBackgroundResponseStreamingOptions.TRequestWithShownNewDialog RequestWithShownNewDialog = 1;
+  }
+
+  .NAlice.NAliceApi.TUniproxyOptions.TContextLoadOptions OwnerContextLoadOptions = 2;
+  .NAlice.NAliceApi.TUniproxyOptions.TCapabilityUpdatesOptions CapabilityUpdatesOptions = 8;
+  .NAlice.NAliceApi.TUniproxyOptions.TBackgroundResponseStreamingOptions BackgroundResponseStreamingOptions = 9;
+  optional string MegamindUrl = 1;
+  optional bool WaitClientApproval = 4;
+}
+

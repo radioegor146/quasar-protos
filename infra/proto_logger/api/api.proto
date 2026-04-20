@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package NProtoLogger.NApi;
 
+import "alice/protos/api/iot_cloud/device_context.proto";
+import "alice/protos/api/iot_cloud/events/log_batch/request.proto";
+import "alice/protos/api/iot_cloud/events/telemetry_batch/request.proto";
+
 message TReqWrite2LogQuasar {
   uint64 Timestamp = 1;
   string Path = 2;
@@ -114,6 +118,21 @@ message TQuasarTvLabels {
   string Handler = 5;
 }
 
+message TQuasarIotCloudLabels {
+  string Vid = 1;
+  string Pid = 2;
+  string FirmwareVersion = 3;
+  string QuasmodromGroup = 4;
+  string QuasmodromSubgroup = 5;
+}
+
+message TQuasarYandexAutoLabels {
+  string Platform = 1;
+  string QuasmodromGroup = 2;
+  string QuasmodromSubgroup = 3;
+  string PackageName = 4;
+}
+
 message TReqWriteSmartDisplayMetrics2LogQuasar {
   uint64 Timestamp = 1;
   string Platform = 2;
@@ -150,11 +169,59 @@ message TReqWriteSmartDisplayErrorsMetrics2LogQuasar {
   uint64 ServerTimestampMicroSeconds = 14;
 }
 
+message TReqWriteIotCloudMetrics2LogQuasar {
+  .NAlice.NIotCloud.TIotCloudTelemetryEvent IotCloudTelemetryEvent = 1;
+  .NAlice.NIotCloud.TDeviceContext DeviceContext = 2;
+  uint64 ServerTimestamp = 1001;
+  uint64 ServerTimestampMicroSeconds = 1002;
+  string DeviceId = 1003;
+  string AppVersion = 1004;
+  string Vid = 1005;
+  string Pid = 1006;
+  string FirmwareVersion = 1007;
+  string QuasmodromGroup = 1008;
+  string QuasmodromSubgroup = 1009;
+  string SetraceReqId = 1010;
+}
+
+message TReqWriteIotCloudLogs2LogQuasar {
+  .NAlice.NIotCloud.TIotCloudLogMessage TIotCloudLogMessage = 1;
+  .NAlice.NIotCloud.TDeviceContext DeviceContext = 2;
+  uint64 ServerTimestamp = 1001;
+  uint64 ServerTimestampMicroSeconds = 1002;
+  string DeviceId = 1003;
+  string AppVersion = 1004;
+  string Vid = 1005;
+  string Pid = 1006;
+  string FirmwareVersion = 1007;
+  string QuasmodromGroup = 1008;
+  string QuasmodromSubgroup = 1009;
+}
+
+message TReqWriteYandexAutoErrorsMetrics2LogQuasar {
+  uint64 Timestamp = 1;
+  string Platform = 2;
+  string QuasmodromGroup = 3;
+  string DeviceId = 4;
+  string SoftwareVersion = 5;
+  string MetricName = 6;
+  string MetricValue = 7;
+  string Environment = 8;
+  string QuasmodromSubgroup = 9;
+  uint64 ServerTimestamp = 10;
+  string UUID = 11;
+  string PackageName = 12;
+  string FirmwareVersion = 13;
+  uint64 ServerTimestampMicroSeconds = 14;
+}
+
 message TQuasarRealtimeMetrics {
   repeated .NProtoLogger.NApi.TQuasarRateMetric RateMetrics = 3;
   oneof Labels {
     .NProtoLogger.NApi.TQuasarLabels QuasarLabels = 1;
     .NProtoLogger.NApi.TQuasarTvLabels QuasarTvLabels = 2;
+    .NProtoLogger.NApi.TQuasarIotCloudLabels QuasarIotCloudLabels = 4;
+    .NProtoLogger.NApi.TQuasarYandexAutoLabels QuasarYandexAutoLabels = 5;
   }
 }
 
@@ -186,5 +253,20 @@ message TReqWriteBatchSmartDisplayMetrics2LogQuasar {
 message TReqWriteBatchSmartDisplayErrorsMetrics2LogQuasar {
   repeated .NProtoLogger.NApi.TReqWriteSmartDisplayErrorsMetrics2LogQuasar Requests = 1;
   optional .NProtoLogger.NApi.TReqWriteSmartDisplayErrorsMetrics2LogQuasar CommonData = 2;
+}
+
+message TReqWriteBatchIotCloudMetrics2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteIotCloudMetrics2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWriteIotCloudMetrics2LogQuasar CommonData = 2;
+}
+
+message TReqWriteBatchYandexAutoErrorsMetrics2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteYandexAutoErrorsMetrics2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWriteYandexAutoErrorsMetrics2LogQuasar CommonData = 2;
+}
+
+message TReqWriteBatchIotCloudLogs2LogQuasar {
+  repeated .NProtoLogger.NApi.TReqWriteIotCloudLogs2LogQuasar Requests = 1;
+  optional .NProtoLogger.NApi.TReqWriteIotCloudLogs2LogQuasar CommonData = 2;
 }
 

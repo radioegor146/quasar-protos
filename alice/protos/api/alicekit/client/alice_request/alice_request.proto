@@ -1,0 +1,192 @@
+syntax = "proto3";
+
+package NAlice.NAliceApi;
+
+option java_package = "ru.yandex.alice.protos.api.alicekit.client.alice_request";
+option java_outer_classname = "AliceRequest";
+option java_multiple_files = true;
+option go_package = "a.yandex-team.ru/alice/protos/api/alicekit/client/alice_request;alicerequestpb";
+
+import "alice/protos/api/alice_mode_info/alice_mode_info.proto";
+import "alice/protos/api/alicekit/common/uniproxy_options/uniproxy_options.proto";
+import "alice/protos/api/speech_mode/client_options/client_options.proto";
+import "alice/protos/api/speech_mode/session/speech_session.proto";
+import "alice/protos/data/dialog_type/dialog_type.proto";
+import "alice/protos/data/event_source/event_source.proto";
+import "alice/megamind/protos/common/events.proto";
+import "alice/megamind/protos/common/experiments/experiments.proto";
+import "alice/megamind/protos/guest/guest_options.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TClientAliceRequestProto {
+  reserved "Application";
+  reserved "Session";
+  reserved "MementoData";
+  reserved "IoTUserInfoData";
+  reserved "Contacts";
+  reserved "ContactsProto";
+  reserved "GuestData";
+  reserved "GuestUserData";
+  reserved "EnrollmentHeaders";
+  reserved "Firmware";
+  reserved "VoiceInputMessageId";
+  reserved "EnableSpotterValidation";
+  reserved "SpotterPhrase";
+  reserved "EmbeddedSpotterInfo";
+  reserved "Lang";
+  reserved "DisableAntimat";
+  reserved "Punctuation";
+  reserved "Format";
+  reserved "RecognizeMusicOnly";
+  reserved "Tags";
+  reserved "AdvancedAsrOptions";
+  reserved "OnlineDevices";
+  reserved "QuasarDeviceConfigs";
+  reserved "BlackBoxUserInfo";
+  reserved "EmergencyContacts";
+  reserved "DialogHistoryBlock";
+  reserved "SubscriptionsInfo";
+  reserved "ActiveUserData";
+  reserved "Alice2Mode";
+  reserved 2;
+  reserved 4;
+  reserved 5;
+  reserved 6;
+  reserved 7;
+  reserved 8;
+  reserved 9;
+  reserved 10;
+  reserved 12;
+  reserved 13;
+  reserved 14;
+  reserved 15;
+  reserved 16;
+  reserved 17;
+  reserved 18;
+  reserved 20;
+  reserved 21;
+  reserved 22;
+  reserved 23;
+  reserved 24;
+  reserved 25;
+  reserved 26;
+  reserved 27;
+  reserved 28;
+  reserved 29;
+  reserved 30;
+  reserved 31;
+  reserved 32;
+  reserved 33;
+  message THeader {
+    reserved "PrevReqId";
+    reserved "SequenceNumber";
+    reserved "RefMessageId";
+    reserved "SessionId";
+    reserved "RandomSeed";
+    reserved "DialogShareId";
+    reserved 2;
+    reserved 3;
+    reserved 5;
+    reserved 6;
+    reserved 7;
+    reserved 9;
+    optional string RequestId = 1;
+    optional string DialogId = 4;
+    optional .NAlice.NData.EDialogType DialogType = 8;
+    optional string FolderId = 10;
+  }
+
+  message TRequest {
+    reserved "Location";
+    reserved "DeviceState";
+    reserved "ResetSession";
+    reserved "TestIDs";
+    reserved "LaasRegion";
+    reserved "RawPersonalData";
+    reserved "SmartHomeInfo";
+    reserved "NotificationState";
+    reserved "ActivationType";
+    reserved "MegamindCookies";
+    reserved "EnvironmentState";
+    reserved "DeviceStateRaw";
+    reserved "EnvironmentStateRaw";
+    reserved "AsrOptions";
+    reserved "BiometryOptions";
+    reserved "LaasRealLocation";
+    reserved "StickinessOptions";
+    reserved 2;
+    reserved 4;
+    reserved 7;
+    reserved 8;
+    reserved 9;
+    reserved 10;
+    reserved 11;
+    reserved 12;
+    reserved 14;
+    reserved 15;
+    reserved 16;
+    reserved 18;
+    reserved 19;
+    reserved 20;
+    reserved 21;
+    reserved 22;
+    reserved 23;
+    message TAdditionalOptions {
+      message TBassOptions {
+        optional string UserAgent = 1;
+        optional double ScreenScaleFactor = 5;
+      }
+
+      .NAlice.NAliceApi.TClientAliceRequestProto.TRequest.TAdditionalOptions.TBassOptions BassOptions = 3;
+      .NAlice.TGuestOptions GuestUserOptions = 19;
+      optional string OriginDomain = 26;
+    }
+
+    .NAlice.TEvent Event = 1;
+    .NAlice.TExperimentsProto Experiments = 3;
+    .NAlice.NAliceApi.TClientAliceRequestProto.TRequest.TAdditionalOptions AdditionalOptions = 5;
+    .NAlice.NAliceApi.TUniproxyOptions UniproxyOptions = 17;
+    optional bool VoiceSession = 6;
+  }
+
+  .NAlice.NAliceApi.TClientAliceRequestProto.THeader Header = 1;
+  .NAlice.NAliceApi.TClientAliceRequestProto.TRequest Request = 3;
+  .NAlice.TEventSource EventSource = 11;
+  .NAlice.NApi.NAlice2Mode.TAlice2ModeInfo Alice2Settings = 34;
+  optional string Topic = 19;
+}
+
+message TVoiceInput {
+  message TClientOptions {
+    bool DisableJingle = 1;
+    bool IsMusic = 2;
+  }
+
+  .NAlice.NAliceApi.TClientAliceRequestProto RequestPayload = 1;
+  .NAlice.NAliceApi.TVoiceInput.TClientOptions ClientOptions = 2;
+}
+
+message TTextInput {
+  message TClientOptions {
+    bool Silent = 1;
+    bool Parallel = 2;
+    bool IgnoreAnswer = 3;
+    string PersId = 4;
+    bool IgnoreCriticalUpdate = 5;
+  }
+
+  .NAlice.NAliceApi.TClientAliceRequestProto RequestPayload = 1;
+  .NAlice.NAliceApi.TTextInput.TClientOptions ClientOptions = 2;
+}
+
+message TAliceRequest {
+  oneof Request {
+    .NAlice.NAliceApi.TVoiceInput VoiceInput = 1;
+  }
+}
+
+message TSpeechInput {
+  .NAlice.TSpeechSession SpeechSession = 1;
+  .NAlice.TSpeechModeClientOptions SpeechModeClientOptions = 2;
+}
+

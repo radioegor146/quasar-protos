@@ -142,6 +142,7 @@ message TLayeredDivUICapability {
   enum ENavigationType {
     Vertical = 0;
     Horizontal = 1;
+    Backward = 2;
   }
 
   .NAlice.TCapability.TMeta Meta = 1;

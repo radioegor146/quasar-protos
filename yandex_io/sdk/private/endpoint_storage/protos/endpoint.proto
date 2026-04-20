@@ -6,7 +6,7 @@ option java_package = "ru.yandex.quasar.protobuf";
 option java_outer_classname = "EndpointSdkProto";
 
 import "alice/protos/data/event_source/event_source.proto";
-import "alice/protos/endpoint/capabilities/all/all.proto";
+import "alice/protos/endpoint/any_capability.proto";
 import "alice/protos/endpoint/endpoint.proto";
 import "google/protobuf/any.proto";
 
@@ -17,10 +17,14 @@ message DirectiveHandler {
 }
 
 message Capability {
+  reserved "capability";
+  reserved "packed_capability";
+  reserved 3;
+  reserved 4;
   optional string id = 1;
   optional .quasar.proto.DirectiveHandler directive_handler = 2;
-  optional .NAlice.TCapabilityHolder capability = 3;
-  optional .google.protobuf.Any packed_capability = 4;
+  optional bool is_private = 5;
+  optional .NAlice.TAnyCapabilityHolder any_capability = 6;
 }
 
 message Endpoint {

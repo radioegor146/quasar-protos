@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "SignalLevelCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_signal_level;iotsignallevelpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TSignalLevelCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TSignalLevelCapability.ESignalQualityStatus Status = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TSignalLevelCapability Capability = 1;
+  }
+
+  enum ESignalQualityStatus {
+    UNKNOWN = 0;
+    BAD = 1;
+    WEAK = 2;
+    OK = 3;
+    GOOD = 4;
+    EXCELLENT = 5;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TSignalLevelCapability.TParameters Parameters = 2;
+  .NAlice.TSignalLevelCapability.TState State = 3;
+}
+

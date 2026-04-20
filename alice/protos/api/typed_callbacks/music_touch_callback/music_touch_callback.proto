@@ -84,6 +84,8 @@ message TMusicTouchTypedCallback {
     .NAlice.NData.NMusic.EKaraokeMode KaraokeMode = 10;
     bool DisableAutoflowSoft = 11;
     bool IsStashUpdate = 12;
+    string Offset = 13;
+    uint32 TrackOffsetIndex = 14;
   }
 
   message TMoveToTrackIdCommand {

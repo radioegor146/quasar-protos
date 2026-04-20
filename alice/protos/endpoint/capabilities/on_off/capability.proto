@@ -15,6 +15,7 @@ import "yt/yt_proto/yt/formats/extension.proto";
 message TOnOffCapability {
   message TParameters {
     bool Split = 1;
+    .NAlice.TOnOffCapability.EInstance Instance = 2;
   }
 
   message TState {
@@ -55,6 +56,11 @@ message TOnOffCapability {
 
   message TOnOffFilter {
     .NAlice.TOnOffCapability.EOnOffConditionState OnOffState = 1;
+  }
+
+  enum EInstance {
+    UnknownInstance = 0;
+    BacklightInstance = 1;
   }
 
   enum EStartupMode {
