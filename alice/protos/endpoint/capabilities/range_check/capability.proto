@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "RangeCheckProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/range_check;rangecheckpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/events/events.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TRangeCheckCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TTypedCapabilityEvent LastEvent = 1;
+  }
+
+  message TRangeCheckEvent {
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TRangeCheckCapability.TParameters Parameters = 2;
+  .NAlice.TRangeCheckCapability.TState State = 3;
+}
+

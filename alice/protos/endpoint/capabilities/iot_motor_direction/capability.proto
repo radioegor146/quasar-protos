@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotMotorDirectionCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_motor_direction;iotmotordirectionpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotMotorDirectionCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TIotMotorDirectionCapability.EDirection Direction = 1;
+  }
+
+  message TSetMotorDirectionDirective {
+    string Name = 1000;
+    .NAlice.TIotMotorDirectionCapability.EDirection Direction = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotMotorDirectionCapability Capability = 1;
+  }
+
+  enum EDirection {
+    UNKNOWN = 0;
+    NORMAL = 1;
+    REVERSED = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotMotorDirectionCapability.TParameters Parameters = 2;
+  .NAlice.TIotMotorDirectionCapability.TState State = 3;
+}
+

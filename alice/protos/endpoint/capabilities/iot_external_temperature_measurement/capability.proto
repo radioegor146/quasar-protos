@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotExternalTemperatureMeasurementCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_external_temperature_measurement;iotexternaltemperaturemeasurementpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/endpoint/common.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotExternalTemperatureMeasurementCapability {
+  message TParameters {
+    .NAlice.EUnit Unit = 1;
+  }
+
+  message TState {
+    bool IsEnabled = 1;
+    double MeasuredValue = 2;
+  }
+
+  message TSetEnabledExternalTemperatureMeasurementDirective {
+    string Name = 1000;
+    bool IsEnabled = 1;
+  }
+
+  message TSetMeasuredValueDirective {
+    string Name = 1000;
+    double MeasuredValue = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotExternalTemperatureMeasurementCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotExternalTemperatureMeasurementCapability.TParameters Parameters = 2;
+  .NAlice.TIotExternalTemperatureMeasurementCapability.TState State = 3;
+}
+

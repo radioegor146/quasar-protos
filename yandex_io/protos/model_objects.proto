@@ -1490,7 +1490,6 @@ message MediaRequest {
   }
 
   optional .quasar.proto.AudioPlayerDescriptor player_descriptor = 22;
-  optional string reason_message = 52;
   optional .quasar.proto.Audio play_audio = 1;
   optional .quasar.proto.EmptyMessage recreate_players = 45;
   optional .quasar.proto.AudioClientEvent.PrefetchContext start_prefetch = 48;

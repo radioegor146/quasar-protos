@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package proto;
+
+import "smart_devices/libs/zigbee/model/proto/device.proto";
+
+message ServerContainer {
+  message DevicesEntry {
+    string key = 1;
+    .proto.ZigbeeDevice value = 2;
+  }
+
+  enum NetworkType {
+    UNKNOWN = 0;
+    PLAIN = 1;
+    DEVICE_KEY_ENCRYPTED = 2;
+  }
+
+  .proto.ServerContainer.NetworkType network_type = 1;
+  bytes network_data = 2;
+  repeated .proto.ServerContainer.DevicesEntry devices = 3;
+}
+

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotMotorLimitsCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_motor_limits;iotmotorlimitspb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotMotorLimitsCapability {
+  message TParameters {
+  }
+
+  message TState {
+    double OpenLimit = 1;
+    double CloseLimit = 2;
+  }
+
+  message TSetMotorLimitsDirective {
+    string Name = 1000;
+    double OpenLimit = 1;
+    double CloseLimit = 2;
+  }
+
+  message TSetMotorOpenLimitDirective {
+    string Name = 1000;
+    double Limit = 1;
+  }
+
+  message TSetMotorCloseLimitDirective {
+    string Name = 1000;
+    double Limit = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotMotorLimitsCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotMotorLimitsCapability.TParameters Parameters = 2;
+  .NAlice.TIotMotorLimitsCapability.TState State = 3;
+}
+

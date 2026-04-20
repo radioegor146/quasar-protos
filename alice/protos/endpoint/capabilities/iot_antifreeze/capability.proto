@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotAntifreezeCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_antifreeze;iotantifreezepb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotAntifreezeCapability {
+  message TParameters {
+  }
+
+  message TState {
+    bool Enabled = 1;
+  }
+
+  message TSetIotAntifreezeDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotAntifreezeCapability Capability = 1;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotAntifreezeCapability.TParameters Parameters = 2;
+  .NAlice.TIotAntifreezeCapability.TState State = 3;
+}
+

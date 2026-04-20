@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotWorkSpeedCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_work_speed;iotworkspeedpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotWorkSpeedCapability {
+  message TParameters {
+  }
+
+  message TState {
+    .NAlice.TIotWorkSpeedCapability.ESpeed Speed = 1;
+  }
+
+  message TSetWorkSpeedDirective {
+    string Name = 1000;
+    .NAlice.TIotWorkSpeedCapability.ESpeed Speed = 1;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotWorkSpeedCapability Capability = 1;
+  }
+
+  enum ESpeed {
+    UNKNOWN = 0;
+    LOW = 1;
+    MEDIUM = 2;
+    HIGH = 3;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotWorkSpeedCapability.TParameters Parameters = 2;
+  .NAlice.TIotWorkSpeedCapability.TState State = 3;
+}
+

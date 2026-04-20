@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package NAlice;
+
+option java_package = "ru.yandex.alice.protos.endpoint.capabilities";
+option java_outer_classname = "IotAutoCalibrationCapabilityProto";
+option go_package = "a.yandex-team.ru/alice/protos/endpoint/capabilities/iot_auto_calibration;iotautocalibrationpb";
+
+import "google/protobuf/descriptor.proto";
+import "alice/protos/endpoint/capability.proto";
+import "alice/protos/extensions/extensions.proto";
+import "yt/yt_proto/yt/formats/extension.proto";
+
+message TIotAutoCalibrationCapability {
+  message TParameters {
+    bool BlocksInterface = 1;
+  }
+
+  message TState {
+    .NAlice.TIotAutoCalibrationCapability.EState State = 1;
+    bool RecalibrationEnabled = 2;
+  }
+
+  message TStartIotAutoCalibrationDirective {
+    string Name = 1000;
+  }
+
+  message TSetRecalibrationEnabledDirective {
+    string Name = 1000;
+    bool Enabled = 1;
+  }
+
+  message TResetCalibrationDirective {
+    string Name = 1000;
+  }
+
+  message TUpdateStateEvent {
+    .NAlice.TIotAutoCalibrationCapability Capability = 1;
+  }
+
+  enum EState {
+    UNKNOWN = 0;
+    NOT_CALIBRATED = 1;
+    CALIBRATED = 2;
+  }
+
+  .NAlice.TCapability.TMeta Meta = 1;
+  .NAlice.TIotAutoCalibrationCapability.TParameters Parameters = 2;
+  .NAlice.TIotAutoCalibrationCapability.TState State = 3;
+}
+
